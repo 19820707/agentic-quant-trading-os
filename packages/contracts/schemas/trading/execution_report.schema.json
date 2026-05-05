@@ -1,0 +1,271 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/trading/execution_report.schema.json",
+  "$comment": "ExecutionReport records execution or paper execution events. It must not contain credentials. This schema does not implement broker submission.",
+  "title": "ExecutionReport",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "execution_report_id",
+    "approved_order_id",
+    "execution_order_id",
+    "execution_mode",
+    "venue",
+    "symbol",
+    "status",
+    "event_type",
+    "reported_at",
+    "reported_by",
+    "reconciliation_required"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "execution_report_id": {
+      "type": "string",
+      "pattern": "^exec_report_[A-Za-z0-9_\\-]+$"
+    },
+    "approved_order_id": {
+      "type": "string",
+      "pattern": "^approved_[A-Za-z0-9_\\-]+$"
+    },
+    "execution_order_id": {
+      "type": "string",
+      "pattern": "^exec_order_[A-Za-z0-9_\\-]+$"
+    },
+    "client_order_id": {
+      "type": "string",
+      "pattern": "^client_[A-Za-z0-9_\\-]+$",
+      "description": "Internal idempotency key. Not a broker credential."
+    },
+    "broker_order_id": {
+      "type": "string",
+      "description": "Optional external broker/exchange order identifier. Must not contain credentials."
+    },
+    "order_intent_id": {
+      "type": "string",
+      "pattern": "^intent_[A-Za-z0-9_\\-]+$"
+    },
+    "risk_decision_id": {
+      "type": "string",
+      "pattern": "^risk_[A-Za-z0-9_\\-]+$"
+    },
+    "strategy_id": {
+      "type": "string"
+    },
+    "model_version": {
+      "type": "string"
+    },
+    "portfolio_id": {
+      "type": "string"
+    },
+    "account_id": {
+      "type": "string"
+    },
+    "execution_mode": {
+      "type": "string",
+      "enum": [
+        "PAPER",
+        "CONTROLLED_LIVE"
+      ]
+    },
+    "venue": {
+      "type": "string",
+      "minLength": 1
+    },
+    "symbol": {
+      "type": "string",
+      "minLength": 1
+    },
+    "side": {
+      "type": "string",
+      "enum": [
+        "BUY",
+        "SELL"
+      ]
+    },
+    "order_type": {
+      "type": "string",
+      "enum": [
+        "MARKET",
+        "LIMIT",
+        "STOP",
+        "STOP_LIMIT",
+        "TAKE_PROFIT",
+        "TAKE_PROFIT_LIMIT"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "RECEIVED",
+        "QUEUED",
+        "SUBMITTED",
+        "ACKNOWLEDGED",
+        "PARTIALLY_FILLED",
+        "FILLED",
+        "CANCEL_REQUESTED",
+        "CANCELLED",
+        "REJECTED",
+        "FAILED",
+        "RECONCILED",
+        "PAPER_FILLED",
+        "PAPER_REJECTED"
+      ]
+    },
+    "event_type": {
+      "type": "string",
+      "enum": [
+        "ORDER_RECEIVED",
+        "ORDER_QUEUED",
+        "ORDER_SUBMITTED",
+        "BROKER_ACK",
+        "BROKER_REJECT",
+        "FILL",
+        "PARTIAL_FILL",
+        "CANCEL_REQUESTED",
+        "CANCELLED",
+        "EXECUTION_FAILED",
+        "RECONCILIATION",
+        "PAPER_EXECUTION"
+      ]
+    },
+    "requested_quantity": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "filled_quantity": {
+      "type": "number",
+      "minimum": 0
+    },
+    "remaining_quantity": {
+      "type": "number",
+      "minimum": 0
+    },
+    "average_fill_price": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "last_fill_price": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "last_fill_quantity": {
+      "type": "number",
+      "minimum": 0
+    },
+    "fees": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "amount": {
+          "type": "number",
+          "minimum": 0
+        },
+        "currency": {
+          "type": "string"
+        }
+      }
+    },
+    "slippage_bps": {
+      "type": "number"
+    },
+    "latency_ms": {
+      "type": "number",
+      "minimum": 0
+    },
+    "reject_reason": {
+      "type": "string"
+    },
+    "error_code": {
+      "type": "string"
+    },
+    "error_message": {
+      "type": "string",
+      "description": "Must not contain secrets or credentials."
+    },
+    "reconciliation_required": {
+      "type": "boolean"
+    },
+    "reconciliation_status": {
+      "type": "string",
+      "enum": [
+        "NOT_REQUIRED",
+        "PENDING",
+        "MATCHED",
+        "MISMATCH",
+        "FAILED"
+      ]
+    },
+    "reported_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "reported_by": {
+      "type": "string",
+      "description": "execution-engine or paper-trading-engine service/version."
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": {
+        "type": [
+          "string",
+          "number",
+          "boolean",
+          "null"
+        ]
+      }
+    }
+  },
+  "examples": [
+    {
+      "schema_version": "0.1.0",
+      "trace_id": "trace_execution_report_001",
+      "correlation_id": "corr_execution_report_001",
+      "execution_report_id": "exec_report_paper_btc_001",
+      "approved_order_id": "approved_paper_btc_001",
+      "execution_order_id": "exec_order_paper_btc_001",
+      "client_order_id": "client_paper_btc_001",
+      "order_intent_id": "intent_example_001",
+      "risk_decision_id": "risk_example_001",
+      "strategy_id": "paper_strategy",
+      "model_version": "model.paper.0",
+      "execution_mode": "PAPER",
+      "venue": "paper",
+      "symbol": "BTC/USDT",
+      "side": "BUY",
+      "order_type": "LIMIT",
+      "status": "PAPER_FILLED",
+      "event_type": "PAPER_EXECUTION",
+      "requested_quantity": 0.01,
+      "filled_quantity": 0.01,
+      "remaining_quantity": 0,
+      "average_fill_price": 50000,
+      "last_fill_price": 50000,
+      "last_fill_quantity": 0.01,
+      "fees": {
+        "amount": 0,
+        "currency": "USD"
+      },
+      "slippage_bps": 0,
+      "latency_ms": 0,
+      "reconciliation_required": false,
+      "reconciliation_status": "NOT_REQUIRED",
+      "reported_at": "2026-01-01T00:00:02Z",
+      "reported_by": "paper-trading-engine"
+    }
+  ]
+}
