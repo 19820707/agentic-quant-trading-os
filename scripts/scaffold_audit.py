@@ -60,11 +60,6 @@ PROHIBITED_MARKERS = [
     "withdraw(",
 ]
 
-ALLOWED_PROHIBITIVE_DOC_PHRASES = [
-    "withdrawal",
-    "withdraw",
-]
-
 
 def read_text(path: Path) -> str:
     return path.read_text(encoding="utf-8", errors="ignore")
@@ -117,12 +112,19 @@ def check_prohibited_markers() -> None:
         for marker in PROHIBITED_MARKERS:
             if marker.lower() not in text.lower():
                 continue
-            if marker.lower().strip("()") in ALLOWED_PROHIBITIVE_DOC_PHRASES:
-                continue
             fail(f"prohibited marker {marker!r} found in {path.relative_to(ROOT)}")
 
 
+def check_auditor_guardrails() -> None:
+    marker_hits = [
+        marker for marker in PROHIBITED_MARKERS if marker.lower() in "withdraw(amount)"
+    ]
+    if "withdraw(" not in marker_hits:
+        fail("auditor guardrail failed: withdraw calls are not detected")
+
+
 def main() -> None:
+    check_auditor_guardrails()
     check_required_paths()
     check_services()
     check_prohibited_markers()
