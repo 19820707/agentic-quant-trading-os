@@ -1,0 +1,308 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/trading/approved_order.schema.json",
+  "$comment": "ApprovedOrder is the only trading contract that execution-engine may accept in a future controlled-live implementation. It is not a broker credential, not a withdrawal instruction, and not proof of live approval.",
+  "title": "ApprovedOrder",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "approved_order_id",
+    "risk_decision_id",
+    "order_intent_id",
+    "decision",
+    "symbol",
+    "venue",
+    "asset_class",
+    "instrument_type",
+    "side",
+    "order_type",
+    "approved_quantity",
+    "time_in_force",
+    "approved_at",
+    "approved_by",
+    "risk_gateway_version",
+    "risk_policy_version",
+    "execution_allowed",
+    "status"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "approved_order_id": {
+      "type": "string",
+      "pattern": "^approved_[A-Za-z0-9_\\-]+$"
+    },
+    "risk_decision_id": {
+      "type": "string",
+      "pattern": "^risk_[A-Za-z0-9_\\-]+$"
+    },
+    "order_intent_id": {
+      "type": "string",
+      "pattern": "^intent_[A-Za-z0-9_\\-]+$"
+    },
+    "signal_id": {
+      "type": "string",
+      "pattern": "^sig_[A-Za-z0-9_\\-]+$"
+    },
+    "strategy_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "model_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "portfolio_id": {
+      "type": "string"
+    },
+    "account_id": {
+      "type": "string"
+    },
+    "decision": {
+      "type": "string",
+      "enum": [
+        "APPROVE",
+        "RESIZE"
+      ],
+      "description": "ApprovedOrder may only be produced from an APPROVE or RESIZE RiskDecision."
+    },
+    "symbol": {
+      "type": "string",
+      "minLength": 1
+    },
+    "venue": {
+      "type": "string",
+      "minLength": 1
+    },
+    "asset_class": {
+      "type": "string",
+      "enum": [
+        "crypto",
+        "equity",
+        "forex",
+        "futures",
+        "options",
+        "fixed_income",
+        "other"
+      ]
+    },
+    "instrument_type": {
+      "type": "string",
+      "enum": [
+        "spot",
+        "margin",
+        "perpetual",
+        "future",
+        "option",
+        "equity",
+        "forex",
+        "other"
+      ]
+    },
+    "side": {
+      "type": "string",
+      "enum": [
+        "BUY",
+        "SELL"
+      ]
+    },
+    "position_effect": {
+      "type": "string",
+      "enum": [
+        "OPEN",
+        "CLOSE",
+        "REDUCE",
+        "FLIP",
+        "UNKNOWN"
+      ]
+    },
+    "order_type": {
+      "type": "string",
+      "enum": [
+        "MARKET",
+        "LIMIT",
+        "STOP",
+        "STOP_LIMIT",
+        "TAKE_PROFIT",
+        "TAKE_PROFIT_LIMIT"
+      ]
+    },
+    "approved_quantity": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "approved_notional": {
+      "type": "number",
+      "minimum": 0
+    },
+    "limit_price": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "stop_price": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "max_slippage_bps": {
+      "type": "number",
+      "minimum": 0
+    },
+    "time_in_force": {
+      "type": "string",
+      "enum": [
+        "GTC",
+        "IOC",
+        "FOK",
+        "DAY",
+        "GTD"
+      ]
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "leverage": {
+      "type": "number",
+      "minimum": 1
+    },
+    "reduce_only": {
+      "type": "boolean"
+    },
+    "post_only": {
+      "type": "boolean"
+    },
+    "client_tag": {
+      "type": "string"
+    },
+    "approved_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "approved_by": {
+      "type": "string",
+      "description": "Service or actor that produced the ApprovedOrder."
+    },
+    "risk_gateway_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "risk_policy_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "limit_profile_id": {
+      "type": "string"
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": true,
+      "description": "True only after deterministic-risk-gateway emits an ApprovedOrder."
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "APPROVED",
+        "EXPIRED",
+        "CANCELLED"
+      ],
+      "description": "Only APPROVED is eligible for future execution-engine intake; EXPIRED and CANCELLED must not execute."
+    },
+    "approval_reason": {
+      "type": "string",
+      "minLength": 1
+    },
+    "risk_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "hard_limits_triggered": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "soft_limits_triggered": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "kill_switch_triggered": {
+          "type": "boolean",
+          "const": false
+        },
+        "kill_switch_scope": {
+          "type": "string",
+          "enum": [
+            "NONE"
+          ]
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": {
+        "type": [
+          "string",
+          "number",
+          "boolean",
+          "null"
+        ]
+      }
+    }
+  },
+  "examples": [
+    {
+      "schema_version": "0.1.0",
+      "trace_id": "trace_approved_order_001",
+      "correlation_id": "corr_approved_order_001",
+      "approved_order_id": "approved_paper_btc_001",
+      "risk_decision_id": "risk_example_001",
+      "order_intent_id": "intent_example_001",
+      "signal_id": "sig_example_001",
+      "strategy_id": "paper_strategy",
+      "model_version": "model.paper.0",
+      "decision": "RESIZE",
+      "symbol": "BTC/USDT",
+      "venue": "paper",
+      "asset_class": "crypto",
+      "instrument_type": "perpetual",
+      "side": "BUY",
+      "position_effect": "OPEN",
+      "order_type": "LIMIT",
+      "approved_quantity": 0.01,
+      "approved_notional": 500,
+      "limit_price": 50000,
+      "max_slippage_bps": 25,
+      "time_in_force": "GTC",
+      "approved_at": "2026-01-01T00:00:01Z",
+      "approved_by": "deterministic-risk-gateway",
+      "risk_gateway_version": "risk-gateway.0.1.0",
+      "risk_policy_version": "risk-policy.0.1.0",
+      "execution_allowed": true,
+      "status": "APPROVED",
+      "approval_reason": "ApprovedOrder created from resized paper RiskDecision.",
+      "risk_summary": {
+        "hard_limits_triggered": [],
+        "soft_limits_triggered": [
+          "liquidity_depth_guard"
+        ],
+        "kill_switch_triggered": false,
+        "kill_switch_scope": "NONE"
+      }
+    }
+  ]
+}
