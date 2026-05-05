@@ -1,0 +1,300 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/trading/risk_decision.schema.json",
+  "$comment": "RiskDecision is the final pre-trade risk decision. It is not a broker order. execution-engine must accept only ApprovedOrder, not raw RiskDecision.",
+  "title": "RiskDecision",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "risk_decision_id",
+    "order_intent_id",
+    "decision",
+    "risk_gateway_version",
+    "evaluated_at",
+    "evaluated_by",
+    "checks",
+    "final_reason",
+    "approved_for_execution"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "risk_decision_id": {
+      "type": "string",
+      "pattern": "^risk_[A-Za-z0-9_\\-]+$"
+    },
+    "order_intent_id": {
+      "type": "string",
+      "pattern": "^intent_[A-Za-z0-9_\\-]+$"
+    },
+    "signal_id": {
+      "type": "string",
+      "pattern": "^sig_[A-Za-z0-9_\\-]+$"
+    },
+    "strategy_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "model_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "portfolio_id": {
+      "type": "string"
+    },
+    "account_id": {
+      "type": "string"
+    },
+    "symbol": {
+      "type": "string",
+      "minLength": 1
+    },
+    "venue": {
+      "type": "string",
+      "minLength": 1
+    },
+    "decision": {
+      "type": "string",
+      "enum": [
+        "APPROVE",
+        "REJECT",
+        "RESIZE",
+        "CANCEL_ALL",
+        "REQUIRE_MANUAL_APPROVAL"
+      ]
+    },
+    "approved_for_execution": {
+      "type": "boolean",
+      "description": "true only when decision is APPROVE or RESIZE and all hard checks pass."
+    },
+    "original_quantity": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "approved_quantity": {
+      "type": "number",
+      "minimum": 0
+    },
+    "original_notional": {
+      "type": "number",
+      "minimum": 0
+    },
+    "approved_notional": {
+      "type": "number",
+      "minimum": 0
+    },
+    "max_allowed_notional": {
+      "type": "number",
+      "minimum": 0
+    },
+    "risk_gateway_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "risk_policy_version": {
+      "type": "string"
+    },
+    "limit_profile_id": {
+      "type": "string"
+    },
+    "checks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "check_name",
+          "result",
+          "severity"
+        ],
+        "properties": {
+          "check_name": {
+            "type": "string",
+            "enum": [
+              "max_order_notional",
+              "max_position_notional",
+              "max_total_gross_exposure",
+              "max_net_exposure",
+              "max_leverage",
+              "max_daily_loss",
+              "max_intraday_drawdown",
+              "max_order_rate",
+              "max_open_orders",
+              "fat_finger_price",
+              "price_band_check",
+              "spread_guard",
+              "liquidity_depth_guard",
+              "slippage_tolerance",
+              "stale_market_data_guard",
+              "duplicate_order_guard",
+              "self_trade_prevention",
+              "trading_session_guard",
+              "no_trade_window",
+              "model_confidence_floor",
+              "model_drift_guard",
+              "symbol_kill_switch",
+              "account_kill_switch",
+              "global_kill_switch"
+            ]
+          },
+          "result": {
+            "type": "string",
+            "enum": [
+              "PASS",
+              "WARN",
+              "FAIL",
+              "NOT_APPLICABLE"
+            ]
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "INFO",
+              "WARNING",
+              "HIGH",
+              "CRITICAL"
+            ]
+          },
+          "reason": {
+            "type": "string"
+          },
+          "observed_value": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "limit_value": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          }
+        }
+      }
+    },
+    "hard_limits_triggered": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "soft_limits_triggered": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "manual_approval_required": {
+      "type": "boolean"
+    },
+    "manual_approval_reason": {
+      "type": "string"
+    },
+    "kill_switch_triggered": {
+      "type": "boolean"
+    },
+    "kill_switch_scope": {
+      "type": "string",
+      "enum": [
+        "NONE",
+        "SYMBOL",
+        "ACCOUNT",
+        "GLOBAL"
+      ]
+    },
+    "final_reason": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evaluated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "evaluated_by": {
+      "type": "string",
+      "description": "Service or actor that evaluated the risk decision."
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": {
+        "type": [
+          "string",
+          "number",
+          "boolean",
+          "null"
+        ]
+      }
+    }
+  },
+  "examples": [
+    {
+      "schema_version": "0.1.0",
+      "trace_id": "trace_risk_decision_001",
+      "correlation_id": "corr_risk_decision_001",
+      "risk_decision_id": "risk_example_001",
+      "order_intent_id": "intent_example_001",
+      "signal_id": "sig_example_001",
+      "strategy_id": "paper_strategy",
+      "model_version": "model.paper.0",
+      "symbol": "BTC/USDT",
+      "venue": "paper",
+      "decision": "RESIZE",
+      "approved_for_execution": true,
+      "original_quantity": 0.05,
+      "approved_quantity": 0.01,
+      "original_notional": 2500,
+      "approved_notional": 500,
+      "max_allowed_notional": 500,
+      "risk_gateway_version": "risk-gateway.0.1.0",
+      "risk_policy_version": "risk-policy.0.1.0",
+      "limit_profile_id": "paper_default",
+      "checks": [
+        {
+          "check_name": "liquidity_depth_guard",
+          "result": "WARN",
+          "severity": "WARNING",
+          "reason": "Paper liquidity depth warning reduced quantity.",
+          "observed_value": 0.05,
+          "limit_value": 0.01
+        },
+        {
+          "check_name": "max_order_notional",
+          "result": "PASS",
+          "severity": "INFO",
+          "reason": "Approved notional is within the paper limit.",
+          "observed_value": 500,
+          "limit_value": 500
+        }
+      ],
+      "hard_limits_triggered": [],
+      "soft_limits_triggered": [
+        "liquidity_depth_guard"
+      ],
+      "manual_approval_required": false,
+      "kill_switch_triggered": false,
+      "kill_switch_scope": "NONE",
+      "final_reason": "OrderIntent resized by deterministic risk checks before execution eligibility.",
+      "evaluated_at": "2026-01-01T00:00:00Z",
+      "evaluated_by": "deterministic-risk-gateway"
+    }
+  ]
+}
