@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://schemas.agentic-quant-trading-os.local/trading/order_intent.schema.json",
+  "$id": "https://agentic-quant-trading-os.local/schemas/trading/order_intent.schema.json",
+  "$comment": "OrderIntent is not executable. It must be reviewed by deterministic-risk-gateway. execution-engine must reject raw OrderIntent.",
   "title": "OrderIntent",
-  "description": "Non-executable trading intent created before deterministic risk review. This contract must never be sent directly to a broker or exchange.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -11,241 +11,243 @@
     "correlation_id",
     "order_intent_id",
     "signal_id",
-    "created_at",
-    "instrument",
+    "strategy_id",
+    "model_version",
+    "symbol",
+    "venue",
+    "asset_class",
+    "instrument_type",
     "side",
-    "intent_type",
+    "order_type",
     "quantity",
     "time_in_force",
-    "execution_constraints",
-    "risk_context",
-    "metadata"
+    "created_at",
+    "status",
+    "risk_required"
   ],
   "properties": {
     "schema_version": {
       "type": "string",
-      "const": "1.0.0"
+      "const": "0.1.0"
     },
     "trace_id": {
       "type": "string",
-      "minLength": 8,
-      "maxLength": 128
+      "minLength": 1
     },
     "correlation_id": {
       "type": "string",
-      "minLength": 8,
-      "maxLength": 128
+      "minLength": 1
     },
     "order_intent_id": {
       "type": "string",
-      "minLength": 8,
-      "maxLength": 128
+      "pattern": "^intent_[A-Za-z0-9_\\-]+$"
     },
     "signal_id": {
       "type": "string",
-      "minLength": 8,
-      "maxLength": 128
+      "pattern": "^sig_[A-Za-z0-9_\\-]+$"
     },
     "strategy_id": {
       "type": "string",
-      "minLength": 1,
-      "maxLength": 128
+      "minLength": 1
+    },
+    "model_version": {
+      "type": "string",
+      "minLength": 1
     },
     "portfolio_id": {
+      "type": "string"
+    },
+    "account_id": {
+      "type": "string"
+    },
+    "symbol": {
       "type": "string",
       "minLength": 1,
-      "maxLength": 128
+      "examples": [
+        "BTC/USDT",
+        "ETH-PERP"
+      ]
     },
-    "created_at": {
+    "venue": {
       "type": "string",
-      "format": "date-time"
+      "minLength": 1,
+      "examples": [
+        "binance_futures",
+        "okx",
+        "paper"
+      ]
+    },
+    "asset_class": {
+      "type": "string",
+      "enum": [
+        "crypto",
+        "equity",
+        "forex",
+        "futures",
+        "options",
+        "fixed_income",
+        "other"
+      ]
+    },
+    "instrument_type": {
+      "type": "string",
+      "enum": [
+        "spot",
+        "margin",
+        "perpetual",
+        "future",
+        "option",
+        "equity",
+        "forex",
+        "other"
+      ]
+    },
+    "side": {
+      "type": "string",
+      "enum": [
+        "BUY",
+        "SELL"
+      ]
+    },
+    "position_effect": {
+      "type": "string",
+      "enum": [
+        "OPEN",
+        "CLOSE",
+        "REDUCE",
+        "FLIP",
+        "UNKNOWN"
+      ]
+    },
+    "order_type": {
+      "type": "string",
+      "enum": [
+        "MARKET",
+        "LIMIT",
+        "STOP",
+        "STOP_LIMIT",
+        "TAKE_PROFIT",
+        "TAKE_PROFIT_LIMIT"
+      ]
+    },
+    "quantity": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "limit_price": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "stop_price": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "max_slippage_bps": {
+      "type": "number",
+      "minimum": 0
+    },
+    "time_in_force": {
+      "type": "string",
+      "enum": [
+        "GTC",
+        "IOC",
+        "FOK",
+        "DAY",
+        "GTD"
+      ]
     },
     "expires_at": {
       "type": "string",
       "format": "date-time"
     },
-    "instrument": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "symbol",
-        "asset_class"
-      ],
-      "properties": {
-        "symbol": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 64
-        },
-        "venue": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 64
-        },
-        "asset_class": {
-          "type": "string",
-          "enum": [
-            "equity",
-            "future",
-            "option",
-            "fx",
-            "crypto",
-            "fixed_income",
-            "commodity",
-            "fund",
-            "other"
-          ]
-        },
-        "instrument_id": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 128
-        }
-      }
+    "leverage": {
+      "type": "number",
+      "minimum": 1
     },
-    "side": {
+    "reduce_only": {
+      "type": "boolean"
+    },
+    "post_only": {
+      "type": "boolean"
+    },
+    "client_tag": {
+      "type": "string"
+    },
+    "rationale": {
+      "type": "string",
+      "description": "Human-readable reason or model/strategy rationale. Must not contain secrets."
+    },
+    "features_snapshot_id": {
+      "type": "string"
+    },
+    "dataset_snapshot_id": {
+      "type": "string"
+    },
+    "regime_id": {
+      "type": "string"
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "expected_return": {
+      "type": "number"
+    },
+    "risk_required": {
+      "type": "boolean",
+      "const": true
+    },
+    "status": {
       "type": "string",
       "enum": [
-        "buy",
-        "sell"
-      ]
+        "CREATED",
+        "PENDING_RISK",
+        "CANCELLED"
+      ],
+      "description": "OrderIntent cannot be executable. It must be reviewed by deterministic-risk-gateway."
     },
-    "intent_type": {
+    "created_at": {
       "type": "string",
-      "enum": [
-        "target_position",
-        "rebalance",
-        "open",
-        "close",
-        "reduce"
-      ]
+      "format": "date-time"
     },
-    "quantity": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "amount",
-        "unit"
-      ],
-      "properties": {
-        "amount": {
-          "type": "string",
-          "pattern": "^-?\\d+(\\.\\d+)?$"
-        },
-        "unit": {
-          "type": "string",
-          "enum": [
-            "shares",
-            "contracts",
-            "base_units",
-            "notional"
-          ]
-        },
-        "currency": {
-          "type": "string",
-          "pattern": "^[A-Z]{3}$"
-        }
-      }
-    },
-    "limit_price": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "amount",
-        "currency"
-      ],
-      "properties": {
-        "amount": {
-          "type": "string",
-          "pattern": "^\\d+(\\.\\d+)?$"
-        },
-        "currency": {
-          "type": "string",
-          "pattern": "^[A-Z]{3}$"
-        }
-      }
-    },
-    "time_in_force": {
+    "created_by": {
       "type": "string",
-      "enum": [
-        "day",
-        "gtc",
-        "ioc",
-        "fok"
-      ]
-    },
-    "execution_constraints": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "allow_partial_fill",
-        "max_slippage_bps"
-      ],
-      "properties": {
-        "allow_partial_fill": {
-          "type": "boolean"
-        },
-        "max_slippage_bps": {
-          "type": "integer",
-          "minimum": 0,
-          "maximum": 10000
-        },
-        "preferred_venue": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 64
-        }
-      }
-    },
-    "risk_context": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "requires_risk_gateway",
-        "is_executable"
-      ],
-      "properties": {
-        "requires_risk_gateway": {
-          "type": "boolean",
-          "const": true
-        },
-        "is_executable": {
-          "type": "boolean",
-          "const": false
-        },
-        "model_confidence": {
-          "type": "number",
-          "minimum": 0,
-          "maximum": 1
-        },
-        "risk_notes": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "maxLength": 512
-          },
-          "maxItems": 20
-        }
-      }
+      "description": "Service or actor that created the intent."
     },
     "metadata": {
       "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "source": {
-          "type": "string",
-          "enum": [
-            "signal-engine",
-            "strategy",
-            "agentic-review",
-            "manual-research"
-          ]
-        },
-        "notes": {
-          "type": "string",
-          "maxLength": 1024
-        }
+      "additionalProperties": {
+        "type": [
+          "string",
+          "number",
+          "boolean",
+          "null"
+        ]
       }
     }
-  }
+  },
+  "examples": [
+    {
+      "schema_version": "0.1.0",
+      "trace_id": "trace_order_intent_001",
+      "correlation_id": "corr_order_intent_001",
+      "order_intent_id": "intent_paper_btc_001",
+      "signal_id": "sig_paper_btc_001",
+      "strategy_id": "paper_strategy",
+      "model_version": "model.paper.0",
+      "symbol": "BTC/USDT",
+      "venue": "paper",
+      "asset_class": "crypto",
+      "instrument_type": "perpetual",
+      "side": "BUY",
+      "order_type": "LIMIT",
+      "quantity": 0.01,
+      "limit_price": 50000,
+      "time_in_force": "GTC",
+      "created_at": "2026-01-01T00:00:00Z",
+      "status": "PENDING_RISK",
+      "risk_required": true
+    }
+  ]
 }
