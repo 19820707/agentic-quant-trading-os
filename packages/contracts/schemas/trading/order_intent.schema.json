@@ -1,0 +1,253 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/trading/order_intent.schema.json",
+  "$comment": "OrderIntent is not executable. It must be reviewed by deterministic-risk-gateway. execution-engine must reject raw OrderIntent.",
+  "title": "OrderIntent",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "order_intent_id",
+    "signal_id",
+    "strategy_id",
+    "model_version",
+    "symbol",
+    "venue",
+    "asset_class",
+    "instrument_type",
+    "side",
+    "order_type",
+    "quantity",
+    "time_in_force",
+    "created_at",
+    "status",
+    "risk_required"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "order_intent_id": {
+      "type": "string",
+      "pattern": "^intent_[A-Za-z0-9_\\-]+$"
+    },
+    "signal_id": {
+      "type": "string",
+      "pattern": "^sig_[A-Za-z0-9_\\-]+$"
+    },
+    "strategy_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "model_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "portfolio_id": {
+      "type": "string"
+    },
+    "account_id": {
+      "type": "string"
+    },
+    "symbol": {
+      "type": "string",
+      "minLength": 1,
+      "examples": [
+        "BTC/USDT",
+        "ETH-PERP"
+      ]
+    },
+    "venue": {
+      "type": "string",
+      "minLength": 1,
+      "examples": [
+        "binance_futures",
+        "okx",
+        "paper"
+      ]
+    },
+    "asset_class": {
+      "type": "string",
+      "enum": [
+        "crypto",
+        "equity",
+        "forex",
+        "futures",
+        "options",
+        "fixed_income",
+        "other"
+      ]
+    },
+    "instrument_type": {
+      "type": "string",
+      "enum": [
+        "spot",
+        "margin",
+        "perpetual",
+        "future",
+        "option",
+        "equity",
+        "forex",
+        "other"
+      ]
+    },
+    "side": {
+      "type": "string",
+      "enum": [
+        "BUY",
+        "SELL"
+      ]
+    },
+    "position_effect": {
+      "type": "string",
+      "enum": [
+        "OPEN",
+        "CLOSE",
+        "REDUCE",
+        "FLIP",
+        "UNKNOWN"
+      ]
+    },
+    "order_type": {
+      "type": "string",
+      "enum": [
+        "MARKET",
+        "LIMIT",
+        "STOP",
+        "STOP_LIMIT",
+        "TAKE_PROFIT",
+        "TAKE_PROFIT_LIMIT"
+      ]
+    },
+    "quantity": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "limit_price": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "stop_price": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "max_slippage_bps": {
+      "type": "number",
+      "minimum": 0
+    },
+    "time_in_force": {
+      "type": "string",
+      "enum": [
+        "GTC",
+        "IOC",
+        "FOK",
+        "DAY",
+        "GTD"
+      ]
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "leverage": {
+      "type": "number",
+      "minimum": 1
+    },
+    "reduce_only": {
+      "type": "boolean"
+    },
+    "post_only": {
+      "type": "boolean"
+    },
+    "client_tag": {
+      "type": "string"
+    },
+    "rationale": {
+      "type": "string",
+      "description": "Human-readable reason or model/strategy rationale. Must not contain secrets."
+    },
+    "features_snapshot_id": {
+      "type": "string"
+    },
+    "dataset_snapshot_id": {
+      "type": "string"
+    },
+    "regime_id": {
+      "type": "string"
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "expected_return": {
+      "type": "number"
+    },
+    "risk_required": {
+      "type": "boolean",
+      "const": true
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "CREATED",
+        "PENDING_RISK",
+        "CANCELLED"
+      ],
+      "description": "OrderIntent cannot be executable. It must be reviewed by deterministic-risk-gateway."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "created_by": {
+      "type": "string",
+      "description": "Service or actor that created the intent."
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": {
+        "type": [
+          "string",
+          "number",
+          "boolean",
+          "null"
+        ]
+      }
+    }
+  },
+  "examples": [
+    {
+      "schema_version": "0.1.0",
+      "trace_id": "trace_order_intent_001",
+      "correlation_id": "corr_order_intent_001",
+      "order_intent_id": "intent_paper_btc_001",
+      "signal_id": "sig_paper_btc_001",
+      "strategy_id": "paper_strategy",
+      "model_version": "model.paper.0",
+      "symbol": "BTC/USDT",
+      "venue": "paper",
+      "asset_class": "crypto",
+      "instrument_type": "perpetual",
+      "side": "BUY",
+      "order_type": "LIMIT",
+      "quantity": 0.01,
+      "limit_price": 50000,
+      "time_in_force": "GTC",
+      "created_at": "2026-01-01T00:00:00Z",
+      "status": "PENDING_RISK",
+      "risk_required": true
+    }
+  ]
+}
