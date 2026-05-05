@@ -1,0 +1,9 @@
+{
+  "name": "agentic-quant-trading-os",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Safe scaffold for a governed AI-native quantitative trading platform.",
+  "scripts": {
+    "scaffold:check": "python scripts/scaffold_audit.py"
+  }
+}

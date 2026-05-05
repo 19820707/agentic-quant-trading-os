@@ -1,0 +1,11 @@
+[project]
+name = "agentic-quant-trading-os"
+version = "0.0.0"
+description = "Safe scaffold for a governed AI-native quantitative trading platform."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = []
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "services"]
+
