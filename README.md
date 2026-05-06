@@ -51,3 +51,9 @@ python scripts/scaffold_audit.py
 ```
 
 The auditor checks expected placeholder structure and scans for prohibited implementation markers. It does not call external services.
+
+## CI Quality Gates
+
+Pull requests and pushes to `main` run CI quality gates for scaffold audit, contract tests and adapter interface tests.
+
+CI must not use secrets, perform live trading, call broker/exchange APIs or run network-dependent trading integrations.
