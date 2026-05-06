@@ -35,8 +35,21 @@ class ContractValidator:
         self.schema_root = Path(schema_root).resolve()
 
     def schema_path(self, domain: str, name: str) -> Path:
+        domain_path = Path(domain)
+        name_path = Path(name)
+        if domain_path.is_absolute() or name_path.is_absolute():
+            raise SchemaNotFoundError("schema domain and name must be relative")
+        if ".." in domain_path.parts or ".." in name_path.parts:
+            raise SchemaNotFoundError("schema domain and name must not contain traversal segments")
+
         schema_name = name if name.endswith(".schema.json") else f"{name}.schema.json"
-        return self.schema_root / domain / schema_name
+        candidate = (self.schema_root / domain / schema_name).resolve()
+        try:
+            candidate.relative_to(self.schema_root)
+        except ValueError as exc:
+            raise SchemaNotFoundError("schema path must stay within schema root") from exc
+
+        return candidate
 
     def load_schema(self, domain: str, name: str) -> dict[str, Any]:
         path = self.schema_path(domain, name)

@@ -55,6 +55,29 @@ class ContractValidatorTests(unittest.TestCase):
         schema = self.validator.load_schema("trading", "order_intent")
         self.assertEqual(schema["title"], "OrderIntent")
 
+    def test_rejects_traversal_in_domain(self):
+        with self.assertRaises(SchemaNotFoundError):
+            self.validator.schema_path("../..", "some_file")
+
+        with self.assertRaises(SchemaNotFoundError):
+            self.validator.schema_path("trading/../../audit", "audit_event")
+
+    def test_rejects_traversal_in_name(self):
+        with self.assertRaises(SchemaNotFoundError):
+            self.validator.schema_path("trading", "../audit/audit_event")
+
+        with self.assertRaises(SchemaNotFoundError):
+            self.validator.schema_path("trading", "../../outside")
+
+    def test_rejects_absolute_domain_or_name(self):
+        absolute_schema_root = self.validator.schema_root
+
+        with self.assertRaises(SchemaNotFoundError):
+            self.validator.schema_path(str(absolute_schema_root), "order_intent")
+
+        with self.assertRaises(SchemaNotFoundError):
+            self.validator.schema_path("trading", str(absolute_schema_root / "trading" / "order_intent"))
+
     def test_validates_safe_order_intent_payload(self):
         result = self.validator.validate("trading", "order_intent", ORDER_INTENT_PAYLOAD)
         self.assertTrue(result.valid)
