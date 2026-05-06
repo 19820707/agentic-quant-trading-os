@@ -76,3 +76,8 @@ Limitations:
 - It does not read secrets.
 - It does not require broker/exchange API keys.
 
+## Schema Registry Index
+
+`packages.contracts.registry.SchemaRegistry` lists and resolves local schemas under `packages/contracts/schemas/`.
+
+The registry does not validate payloads; use `ContractValidator` for validation. It does not interpret trading semantics, decide risk, approve execution, call the network, import services, access broker/exchange code, access credentials, or read secrets.
