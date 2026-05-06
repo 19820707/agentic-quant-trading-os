@@ -106,6 +106,10 @@ class ContractValidatorTests(unittest.TestCase):
         schema = self.validator.load_schema("audit", "audit_event")
         self.assertEqual(schema["title"], "AuditEvent")
 
+    def test_loads_audit_event_schema_with_suffix(self):
+        schema = self.validator.load_schema("audit", "audit_event.schema.json")
+        self.assertEqual(schema["title"], "AuditEvent")
+
     def test_validates_safe_audit_event_payload(self):
         result = self.validator.validate("audit", "audit_event", AUDIT_EVENT_PAYLOAD)
         self.assertTrue(result.valid)
