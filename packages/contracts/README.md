@@ -17,3 +17,49 @@ Required lifecycle identifiers should be preserved where relevant:
 - `fill_id`
 - `audit_id`
 
+## Local Validation Utility
+
+`packages.contracts` provides a small local loader and validator for schemas under `packages/contracts/schemas/`.
+
+The utility validates contract format only. It does not know trading semantics, approve risk, approve execution, call services, call the network, or access broker/exchange code.
+
+Example:
+
+```python
+from packages.contracts import ContractValidator
+
+payload = {
+    "schema_version": "0.1.0",
+    "trace_id": "trace_order_intent_001",
+    "correlation_id": "corr_order_intent_001",
+    "order_intent_id": "intent_example_001",
+    "signal_id": "sig_example_001",
+    "strategy_id": "mean_reversion_paper",
+    "model_version": "model_v0_1_0",
+    "symbol": "BTC/USDT",
+    "venue": "paper",
+    "asset_class": "crypto",
+    "instrument_type": "perpetual",
+    "side": "BUY",
+    "order_type": "LIMIT",
+    "quantity": 0.5,
+    "time_in_force": "GTC",
+    "created_at": "2026-01-01T00:00:00Z",
+    "status": "PENDING_RISK",
+    "risk_required": True,
+}
+
+result = ContractValidator().validate("trading", "order_intent", payload)
+assert result.valid
+```
+
+If `jsonschema` is available in the environment, the validator uses it. If not, it falls back to conservative local checks for object payloads, required fields, top-level forbidden additional properties, and top-level const values.
+
+Limitations:
+
+- It validates JSON-compatible payload shape, not trading intent.
+- It does not decide risk.
+- It does not approve orders.
+- It does not approve execution.
+- It does not call external services.
+
