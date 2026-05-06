@@ -1,0 +1,294 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/audit/audit_event.schema.json",
+  "$comment": "AuditEvent is append-only and must not contain secrets or credentials. It records critical lifecycle events for traceability and governance.",
+  "title": "AuditEvent",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "audit_id",
+    "event_type",
+    "event_category",
+    "occurred_at",
+    "actor_type",
+    "actor_id",
+    "action",
+    "entity_type",
+    "entity_id",
+    "outcome",
+    "append_only",
+    "contains_secrets"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "audit_id": {
+      "type": "string",
+      "pattern": "^audit_[A-Za-z0-9_\\-]+$"
+    },
+    "event_type": {
+      "type": "string",
+      "enum": [
+        "DATASET_SNAPSHOT_CREATED",
+        "POINT_IN_TIME_VALIDATION_PASSED",
+        "POINT_IN_TIME_VALIDATION_FAILED",
+        "LEAKAGE_AUDIT_PASSED",
+        "LEAKAGE_AUDIT_FAILED",
+        "MODEL_TRAINED",
+        "MODEL_REGISTERED",
+        "MODEL_PROMOTED",
+        "MODEL_DRIFT_ALERT",
+        "SIGNAL_GENERATED",
+        "ORDER_INTENT_CREATED",
+        "RISK_DECISION_CREATED",
+        "ORDER_APPROVED",
+        "ORDER_REJECTED",
+        "ORDER_RESIZED",
+        "APPROVED_ORDER_CREATED",
+        "EXECUTION_REPORT_CREATED",
+        "PAPER_FILL_RECORDED",
+        "FILL_RECORDED",
+        "POSITION_UPDATED",
+        "PORTFOLIO_RECONCILED",
+        "KILL_SWITCH_TRIGGERED",
+        "KILL_SWITCH_RESET_REQUESTED",
+        "MANUAL_APPROVAL_GRANTED",
+        "MANUAL_APPROVAL_DENIED",
+        "CONTROLLED_LIVE_REQUESTED",
+        "CONTROLLED_LIVE_APPROVED",
+        "CONTROLLED_LIVE_REJECTED",
+        "SECRET_ACCESSED",
+        "SECRET_ROTATED",
+        "SECRET_REVOKED",
+        "SECRET_LEAK_DETECTED",
+        "POLICY_DECISION_RECORDED",
+        "INCIDENT_CREATED",
+        "INCIDENT_UPDATED",
+        "POSTMORTEM_CREATED"
+      ]
+    },
+    "event_category": {
+      "type": "string",
+      "enum": [
+        "DATA",
+        "MODEL",
+        "SIGNAL",
+        "RISK",
+        "EXECUTION",
+        "PAPER_TRADING",
+        "PORTFOLIO",
+        "SECURITY",
+        "GOVERNANCE",
+        "OBSERVABILITY",
+        "INCIDENT"
+      ]
+    },
+    "action": {
+      "type": "string",
+      "minLength": 1
+    },
+    "outcome": {
+      "type": "string",
+      "enum": [
+        "SUCCESS",
+        "FAILURE",
+        "DENIED",
+        "WARNING",
+        "INFO"
+      ]
+    },
+    "actor_type": {
+      "type": "string",
+      "enum": [
+        "SERVICE",
+        "HUMAN",
+        "AGENT",
+        "SYSTEM",
+        "CI"
+      ]
+    },
+    "actor_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "entity_type": {
+      "type": "string",
+      "enum": [
+        "DATASET_SNAPSHOT",
+        "FEATURE_VIEW",
+        "MODEL",
+        "MODEL_VERSION",
+        "SIGNAL",
+        "ORDER_INTENT",
+        "RISK_DECISION",
+        "APPROVED_ORDER",
+        "EXECUTION_REPORT",
+        "FILL",
+        "PORTFOLIO",
+        "POSITION",
+        "SECRET",
+        "POLICY",
+        "INCIDENT",
+        "GOVERNANCE_APPROVAL",
+        "KILL_SWITCH",
+        "OTHER"
+      ]
+    },
+    "entity_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "dataset_snapshot_id": {
+      "type": "string"
+    },
+    "model_version": {
+      "type": "string"
+    },
+    "prediction_id": {
+      "type": "string"
+    },
+    "signal_id": {
+      "type": "string",
+      "pattern": "^sig_[A-Za-z0-9_\\-]+$"
+    },
+    "order_intent_id": {
+      "type": "string",
+      "pattern": "^intent_[A-Za-z0-9_\\-]+$"
+    },
+    "risk_decision_id": {
+      "type": "string",
+      "pattern": "^risk_[A-Za-z0-9_\\-]+$"
+    },
+    "approved_order_id": {
+      "type": "string",
+      "pattern": "^approved_[A-Za-z0-9_\\-]+$"
+    },
+    "execution_order_id": {
+      "type": "string",
+      "pattern": "^exec_order_[A-Za-z0-9_\\-]+$"
+    },
+    "execution_report_id": {
+      "type": "string",
+      "pattern": "^exec_report_[A-Za-z0-9_\\-]+$"
+    },
+    "fill_id": {
+      "type": "string"
+    },
+    "portfolio_update_id": {
+      "type": "string"
+    },
+    "policy_decision_id": {
+      "type": "string"
+    },
+    "incident_id": {
+      "type": "string"
+    },
+    "reason": {
+      "type": "string",
+      "description": "Human-readable reason. Must not contain secrets or credentials."
+    },
+    "before": {
+      "type": "object",
+      "description": "Optional redacted previous state. Must not contain secrets.",
+      "additionalProperties": {
+        "type": [
+          "string",
+          "number",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "after": {
+      "type": "object",
+      "description": "Optional redacted resulting state. Must not contain secrets.",
+      "additionalProperties": {
+        "type": [
+          "string",
+          "number",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "redaction_applied": {
+      "type": "boolean"
+    },
+    "contains_secrets": {
+      "type": "boolean",
+      "const": false
+    },
+    "append_only": {
+      "type": "boolean",
+      "const": true
+    },
+    "hash": {
+      "type": "string",
+      "description": "Optional hash of this event for append-only audit chaining."
+    },
+    "previous_hash": {
+      "type": "string",
+      "description": "Optional previous event hash for hash chaining."
+    },
+    "occurred_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "recorded_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source_service": {
+      "type": "string"
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": {
+        "type": [
+          "string",
+          "number",
+          "boolean",
+          "null"
+        ]
+      }
+    }
+  },
+  "examples": [
+    {
+      "schema_version": "0.1.0",
+      "trace_id": "trace_audit_risk_001",
+      "correlation_id": "corr_audit_risk_001",
+      "audit_id": "audit_risk_decision_001",
+      "event_type": "RISK_DECISION_CREATED",
+      "event_category": "RISK",
+      "occurred_at": "2026-01-01T00:00:03Z",
+      "recorded_at": "2026-01-01T00:00:03Z",
+      "actor_type": "SERVICE",
+      "actor_id": "deterministic-risk-gateway",
+      "action": "record_risk_decision",
+      "entity_type": "RISK_DECISION",
+      "entity_id": "risk_example_001",
+      "outcome": "SUCCESS",
+      "append_only": true,
+      "contains_secrets": false,
+      "order_intent_id": "intent_example_001",
+      "risk_decision_id": "risk_example_001",
+      "reason": "Recorded deterministic risk decision for paper lifecycle.",
+      "redaction_applied": false,
+      "source_service": "observability-audit-service"
+    }
+  ]
+}
