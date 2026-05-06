@@ -1,0 +1,41 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_fixture_execution_report_001",
+  "correlation_id": "corr_fixture_lifecycle_001",
+  "execution_report_id": "exec_report_fixture_001",
+  "approved_order_id": "approved_fixture_001",
+  "execution_order_id": "exec_order_fixture_001",
+  "client_order_id": "client_fixture_001",
+  "order_intent_id": "intent_fixture_001",
+  "risk_decision_id": "risk_fixture_001",
+  "strategy_id": "fixture_paper_strategy",
+  "model_version": "fixture_model_v0_1_0",
+  "portfolio_id": "portfolio_fixture_paper",
+  "account_id": "account_fixture_paper",
+  "execution_mode": "PAPER",
+  "venue": "paper",
+  "symbol": "BTC/USDT",
+  "side": "BUY",
+  "order_type": "LIMIT",
+  "status": "PAPER_FILLED",
+  "event_type": "PAPER_EXECUTION",
+  "requested_quantity": 0.1,
+  "filled_quantity": 0.1,
+  "remaining_quantity": 0,
+  "average_fill_price": 30000.0,
+  "last_fill_price": 30000.0,
+  "last_fill_quantity": 0.1,
+  "fees": {
+    "amount": 0,
+    "currency": "USDT"
+  },
+  "slippage_bps": 0,
+  "latency_ms": 0,
+  "reconciliation_required": false,
+  "reconciliation_status": "NOT_REQUIRED",
+  "reported_at": "2026-01-01T00:00:03Z",
+  "reported_by": "paper-trading-engine-fixture",
+  "metadata": {
+    "environment": "paper"
+  }
+}

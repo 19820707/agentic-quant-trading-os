@@ -81,3 +81,7 @@ Limitations:
 `packages.contracts.registry.SchemaRegistry` lists and resolves local schemas under `packages/contracts/schemas/`.
 
 The registry does not validate payloads; use `ContractValidator` for validation. It does not interpret trading semantics, decide risk, approve execution, call the network, import services, access broker/exchange code, access credentials, or read secrets.
+
+## Contract Fixtures
+
+Safe JSON fixtures live under `tests/fixtures/contracts/`. They are paper-only examples for contract validation tests and must not contain credentials, live trading configuration, or real broker/exchange identifiers.

@@ -1,0 +1,44 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_fixture_approved_order_001",
+  "correlation_id": "corr_fixture_lifecycle_001",
+  "approved_order_id": "approved_fixture_001",
+  "order_intent_id": "intent_fixture_001",
+  "risk_decision_id": "risk_fixture_001",
+  "signal_id": "sig_fixture_001",
+  "strategy_id": "fixture_paper_strategy",
+  "model_version": "fixture_model_v0_1_0",
+  "portfolio_id": "portfolio_fixture_paper",
+  "account_id": "account_fixture_paper",
+  "symbol": "BTC/USDT",
+  "venue": "paper",
+  "asset_class": "crypto",
+  "instrument_type": "perpetual",
+  "side": "BUY",
+  "position_effect": "OPEN",
+  "order_type": "LIMIT",
+  "approved_quantity": 0.1,
+  "limit_price": 30000.0,
+  "max_slippage_bps": 5,
+  "time_in_force": "GTC",
+  "reduce_only": false,
+  "post_only": false,
+  "client_order_id": "client_fixture_001",
+  "execution_allowed": true,
+  "execution_mode": "PAPER",
+  "status": "QUEUED_FOR_PAPER",
+  "risk_summary": {
+    "decision": "RESIZE",
+    "hard_limits_triggered": [],
+    "soft_limits_triggered": [
+      "liquidity_depth_guard"
+    ],
+    "final_reason": "Paper fixture resized before approval."
+  },
+  "approved_at": "2026-01-01T00:00:02Z",
+  "approved_by": "deterministic-risk-gateway-fixture",
+  "created_at": "2026-01-01T00:00:02Z",
+  "metadata": {
+    "environment": "paper"
+  }
+}
