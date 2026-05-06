@@ -4,6 +4,8 @@ Cross-service payloads must be defined here before implementation.
 
 JSON Schemas are the source of truth for service boundaries. No service should exchange undocumented payloads.
 
+See `docs/architecture/schema_registry.md` for schema domains, naming, versioning, and registry rules.
+
 Required lifecycle identifiers should be preserved where relevant:
 
 - `trace_id`
@@ -16,6 +18,14 @@ Required lifecycle identifiers should be preserved where relevant:
 - `execution_order_id`
 - `fill_id`
 - `audit_id`
+
+Core lifecycle contracts currently follow:
+
+```text
+OrderIntent -> RiskDecision -> ApprovedOrder -> ExecutionReport -> AuditEvent
+```
+
+The validator can verify contract shape, but it does not decide risk, approve orders, approve execution, submit orders, call services, call the network, or access broker/exchange code.
 
 ## Local Validation Utility
 
