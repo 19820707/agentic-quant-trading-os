@@ -6,6 +6,7 @@ Current scope:
 
 - read-only market data adapter interface
 - in-memory registry for read-only market data adapter factories
+- in-memory read-only fixture adapter for tests and local development
 - no execution adapters
 - no external integrations
 - no network implementation
