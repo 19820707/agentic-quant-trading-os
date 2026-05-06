@@ -25,7 +25,7 @@ Core lifecycle contracts currently follow:
 OrderIntent -> RiskDecision -> ApprovedOrder -> ExecutionReport -> AuditEvent
 ```
 
-The validator can verify contract shape, but it does not decide risk, approve orders, approve execution, submit orders, call services, call the network, or access broker/exchange code.
+The validator can verify contract shape, but it does not decide risk, approve orders, approve execution, submit orders, call services, call the network, access broker/exchange code, access credentials, read secrets, or require broker/exchange API keys.
 
 ## Local Validation Utility
 
@@ -72,4 +72,7 @@ Limitations:
 - It does not approve orders.
 - It does not approve execution.
 - It does not call external services.
+- It does not access credentials.
+- It does not read secrets.
+- It does not require broker/exchange API keys.
 
