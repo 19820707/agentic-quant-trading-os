@@ -118,5 +118,8 @@ The validator does not:
 - call services
 - call the network
 - access broker or exchange code
+- access credentials
+- read secrets
+- require broker or exchange API keys
 
 Use it for local contract validation only.
