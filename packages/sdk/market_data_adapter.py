@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Sequence
-from typing import Protocol
+from typing import Protocol, runtime_checkable
 
 from packages.common import (
     EconomicCalendarEvent,
@@ -23,6 +23,7 @@ External adapters must be implemented in future PRs behind this interface.
 """
 
 
+@runtime_checkable
 class ReadOnlyMarketDataAdapter(Protocol):
     def adapter_name(self) -> str:
         raise NotImplementedError
