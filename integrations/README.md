@@ -6,3 +6,5 @@ Do not clone, vendor, install or execute external projects from this directory u
 
 No integration may bypass the Deterministic Risk Gateway. No integration may access live broker or exchange credentials except future approved execution-engine adapters.
 
+Future integrations must pass the [External Adapter Safety Policy](../docs/architecture/external_adapter_safety_policy.md) before implementation.
+
