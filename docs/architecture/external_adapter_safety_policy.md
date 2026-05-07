@@ -6,6 +6,8 @@ External repositories are integrated through governed adapters. No external code
 
 The adapter boundary protects the critical system by forcing each integration through documented review, internal contracts, local tests and CI gates before implementation.
 
+The reusable [External Adapter Review Checklist](../integrations/external_adapter_review_checklist.md) must be completed before implementing any external adapter.
+
 This policy applies to:
 
 - market data adapters
@@ -176,6 +178,7 @@ These names are only allowed in future execution-engine adapters after explicit 
 
 Before any external adapter is merged, reviewers must confirm:
 
+- external adapter review checklist completed
 - safety boundary documented
 - tests local-only
 - credentials absent

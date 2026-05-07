@@ -12,3 +12,5 @@ Cataloging a repository does not mean it is trusted, approved or production-read
 
 Future integrations must use internal contracts and governed adapters before they can interact with the platform.
 
+Every future integration folder should include a completed [External Adapter Review Checklist](../docs/integrations/external_adapter_review_checklist.md) or a link to the approved checklist record.
+
