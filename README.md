@@ -52,6 +52,10 @@ python scripts/scaffold_audit.py
 
 The auditor checks expected placeholder structure and scans for prohibited implementation markers. It does not call external services.
 
+## Development Environment
+
+For local interpreter setup, dependency expectations and editor troubleshooting, see [Development Environment](docs/onboarding/dev_environment.md).
+
 ## CI Quality Gates
 
 Pull requests and pushes to `main` run CI quality gates for scaffold audit, contract tests and adapter interface tests.
