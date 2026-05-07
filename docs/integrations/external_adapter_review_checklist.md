@@ -16,6 +16,8 @@ It applies to:
 - MCP / agentic adapters
 - future execution adapters
 
+Example market-data candidates include CCXT, OpenBB and Trading Economics. Each candidate must complete this checklist before implementation.
+
 ## 2. Adapter Identity
 
 Complete these fields before implementation:
