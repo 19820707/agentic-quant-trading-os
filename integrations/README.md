@@ -14,3 +14,5 @@ Future integrations must use internal contracts and governed adapters before the
 
 Every future integration folder should include a completed [External Adapter Review Checklist](../docs/integrations/external_adapter_review_checklist.md) or a link to the approved checklist record.
 
+The CCXT path must start with the [CCXT Read-Only Adapter Safety Harness](../docs/integrations/ccxt_readonly_adapter_safety_harness.md) before any dependency or adapter code is added.
+
