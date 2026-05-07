@@ -13,10 +13,12 @@ class RedactionAuditPayloadTests(unittest.TestCase):
             "contains_secrets": False,
             "before": {
                 "api_key": "example-api-key",
+                "secret": "fake-secret-value",
                 "status": "unredacted",
             },
             "after": {
                 "api_key": REDACTED_VALUE,
+                "secret": REDACTED_VALUE,
                 "status": "redacted",
             },
             "metadata": {
@@ -24,11 +26,15 @@ class RedactionAuditPayloadTests(unittest.TestCase):
                 "source": "local-test",
             },
         }
+        original = copy.deepcopy(payload)
 
         redacted = redact_secrets(payload)
 
+        self.assertEqual(payload, original)
         self.assertEqual(redacted["before"]["api_key"], REDACTED_VALUE)
+        self.assertEqual(redacted["before"]["secret"], REDACTED_VALUE)
         self.assertEqual(redacted["after"]["api_key"], REDACTED_VALUE)
+        self.assertEqual(redacted["after"]["secret"], REDACTED_VALUE)
         self.assertEqual(redacted["metadata"]["authorization"], REDACTED_VALUE)
         self.assertEqual(redacted["metadata"]["source"], "local-test")
 
