@@ -1,0 +1,60 @@
+name: CI Quality Gates
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  scaffold-audit:
+    name: Scaffold audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run scaffold audit
+        run: python scripts/scaffold_audit.py
+
+  contract-tests:
+    name: Contract tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run core contract schema tests
+        run: python -m unittest discover -s tests -p "test_core_contract_schemas.py"
+      - name: Run contract validator tests
+        run: python -m unittest discover -s tests -p "test_contract_validator.py"
+      - name: Run contract registry tests
+        run: python -m unittest discover -s tests -p "test_contract_registry.py"
+      - name: Run contract fixture tests
+        run: python -m unittest discover -s tests -p "test_contract_fixtures.py"
+
+  adapter-interface-tests:
+    name: Adapter interface tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run market data adapter interface tests
+        run: python -m unittest discover -s tests -p "test_market_data_adapter_interfaces.py"
+      - name: Run market data adapter registry tests
+        run: python -m unittest discover -s tests -p "test_market_data_adapter_registry.py"
+      - name: Run in-memory market data adapter tests
+        run: python -m unittest discover -s tests -p "test_in_memory_market_data_adapter.py"
