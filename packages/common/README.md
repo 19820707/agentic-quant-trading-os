@@ -34,19 +34,22 @@ Use `redact_secrets()` on structured audit-like, execution-report-like, error an
 
 Current redaction is key-based. Sensitive values must be carried in structured fields such as `api_key`, `token`, `authorization`, `broker_key`, `exchange_key`, `credentials` or `withdrawal_key` so they can be redacted deterministically. Free-form strings are not parsed for secret patterns in this scaffold phase.
 
-## Audit Event Emitter Interface
+## Structured Audit Event Builder
 
-`packages.common.audit` provides a local interface for preparing redacted AuditEvent-like payloads before a future audit sink receives them.
+`packages.common.audit` provides a local-only builder for structured, redacted AuditEvent-like payloads before a future audit sink receives them.
 
 The audit helpers:
 
+- build dictionaries compatible in shape with the AuditEvent contract
 - redact structured sensitive fields before emission
 - require `append_only` to be true
 - require `contains_secrets` to be false
 - do not persist audit events
+- do not replace JSON Schema validation
+- do not produce messages for a queue or bus
 - do not call network
 - do not import services
 - do not access credentials
 - do not decide risk, approve execution or interpret trading semantics
 
-This is not an audit service implementation. It is a local interface for safe payload preparation only.
+This is not a persistence layer, audit service implementation or message bus producer. It is a local interface for safe payload preparation only.
