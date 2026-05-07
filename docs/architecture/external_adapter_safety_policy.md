@@ -15,19 +15,24 @@ This policy applies to:
 - security adapters
 - paper trading adapters
 - future execution adapters
+- MCP / agentic adapters
+
+External integrations must never bypass internal contracts.
 
 ## 2. Integration Lifecycle
 
 Every external integration must follow this lifecycle:
 
-1. Catalog the external project.
-2. Review license, security posture and maintenance status.
-3. Define the internal contract or interface.
-4. Create the adapter interface.
-5. Write local tests.
-6. Add CI coverage.
-7. Implement read-only first where possible.
-8. Promote only after review.
+External project identified
+-> catalog entry created
+-> license/security/maintenance review
+-> internal contract selected or created
+-> adapter interface defined
+-> local fake/in-memory tests
+-> CI coverage
+-> read-only implementation first where possible
+-> review
+-> promotion
 
 ## 3. Universal Adapter Rules
 
@@ -45,6 +50,7 @@ All adapters must follow these rules:
 - redaction before reporting errors
 - local-only tests by default
 - no bypassing deterministic-risk-gateway
+- no broker/exchange credentials outside approved execution-engine adapters
 
 ## 4. Market Data Adapter Rules
 
@@ -56,6 +62,7 @@ They may fetch:
 - trades
 - order book snapshots
 - funding rates
+- open interest
 - news
 - market calendars
 - economic calendars
@@ -71,7 +78,39 @@ They must not:
 - withdraw funds
 - transfer funds
 
-## 5. Paper Trading Adapter Rules
+## 5. Feature Store Adapter Rules
+
+Feature store adapters must preserve point-in-time correctness.
+
+They must:
+
+- preserve event_timestamp
+- preserve created_timestamp
+- preserve available_timestamp
+- prevent future data leakage into training datasets
+- version dataset snapshots
+- support leakage audit workflows
+- avoid broker credentials
+
+## 6. Model Monitoring Adapter Rules
+
+Model monitoring adapters may report model health, but they are not execution controls.
+
+They may:
+
+- report drift
+- report anomalies
+- report degradation
+- produce monitoring alerts
+- inform Risk Gateway inputs
+
+They must not:
+
+- directly change execution state
+- directly place orders
+- override deterministic risk checks
+
+## 7. Paper Trading Adapter Rules
 
 Paper trading adapters provide simulated execution only.
 
@@ -81,9 +120,10 @@ They must follow these rules:
 - no real order submission
 - clear separation from execution-engine
 - cannot promote to live trading
-- cannot bypass deterministic-risk-gateway
+- cannot promote strategy to live trading
+- cannot bypass governance gates
 
-## 6. Future Execution Adapter Rules
+## 8. Future Execution Adapter Rules
 
 Future execution adapters may exist only inside execution-engine.
 
@@ -93,23 +133,26 @@ They must:
 - reject raw OrderIntent
 - respect kill switch state
 - enforce idempotency
+- maintain order state machine
 - emit ExecutionReport
 - emit AuditEvent
 - never use withdrawal permissions
 - never bypass deterministic-risk-gateway
 
-## 7. MCP / Agentic Adapter Rules
+## 9. MCP / Agentic Adapter Rules
 
 MCP tools and agentic adapters must follow these rules:
 
 - MCP tools cannot access broker credentials
 - MCP tools cannot execute trades
+- MCP tools cannot submit orders
 - MCP tools cannot change risk limits
+- MCP tools cannot disable kill switches
 - MCP tools may only analyze, summarize, propose or report
 - agentic adapters cannot approve execution
 - agentic adapters cannot bypass deterministic-risk-gateway
 
-## 8. Prohibited Names and Behaviors
+## 10. Prohibited Names and Behaviors
 
 Future non-execution adapters must not expose methods named:
 
@@ -119,6 +162,7 @@ Future non-execution adapters must not expose methods named:
 - create_order
 - submit_order
 - cancel_order
+- modify_order
 - withdraw
 - transfer
 - execute
@@ -126,7 +170,9 @@ Future non-execution adapters must not expose methods named:
 
 Future non-execution adapters must not implement order submission, order cancellation, fund movement, execution approval, risk approval or live trading behavior.
 
-## 9. Required Review Checklist
+These names are only allowed in future execution-engine adapters after explicit approval, and even then only behind ApprovedOrder flow.
+
+## 11. Required Review Checklist
 
 Before any external adapter is merged, reviewers must confirm:
 
@@ -138,3 +184,17 @@ Before any external adapter is merged, reviewers must confirm:
 - redaction used for errors
 - CI passes
 - AGENTS.md followed
+- no bypass of deterministic-risk-gateway
+- no broker credentials outside execution-engine
+- no live trading behavior
+
+## 12. Failure Posture
+
+Adapters must fail closed under uncertainty.
+
+If adapter safety is unclear:
+
+- reject unsafe adapter behavior
+- prefer read-only behavior
+- prefer paper-only behavior
+- disable the adapter until the safety boundary is clear

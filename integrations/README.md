@@ -8,3 +8,7 @@ No integration may bypass the Deterministic Risk Gateway. No integration may acc
 
 Future integrations must pass the [External Adapter Safety Policy](../docs/architecture/external_adapter_safety_policy.md) before implementation.
 
+Cataloging a repository does not mean it is trusted, approved or production-ready.
+
+Future integrations must use internal contracts and governed adapters before they can interact with the platform.
+

@@ -18,11 +18,14 @@ class ExternalAdapterSafetyPolicyTests(unittest.TestCase):
             "## 2. Integration Lifecycle",
             "## 3. Universal Adapter Rules",
             "## 4. Market Data Adapter Rules",
-            "## 5. Paper Trading Adapter Rules",
-            "## 6. Future Execution Adapter Rules",
-            "## 7. MCP / Agentic Adapter Rules",
-            "## 8. Prohibited Names and Behaviors",
-            "## 9. Required Review Checklist",
+            "## 5. Feature Store Adapter Rules",
+            "## 6. Model Monitoring Adapter Rules",
+            "## 7. Paper Trading Adapter Rules",
+            "## 8. Future Execution Adapter Rules",
+            "## 9. MCP / Agentic Adapter Rules",
+            "## 10. Prohibited Names and Behaviors",
+            "## 11. Required Review Checklist",
+            "## 12. Failure Posture",
         ):
             self.assertIn(section, text)
 
@@ -36,6 +39,7 @@ class ExternalAdapterSafetyPolicyTests(unittest.TestCase):
             "create_order",
             "submit_order",
             "cancel_order",
+            "modify_order",
             "withdraw",
             "transfer",
             "execute",
@@ -51,6 +55,7 @@ class ExternalAdapterSafetyPolicyTests(unittest.TestCase):
         self.assertIn("never use withdrawal permissions", text)
         self.assertIn("no bypassing deterministic-risk-gateway", text)
         self.assertIn("never bypass deterministic-risk-gateway", text)
+        self.assertIn("no broker/exchange credentials outside approved execution-engine adapters", text)
 
     def test_policy_mentions_approved_order_only_execution_adapters(self):
         text = _policy_text()
@@ -65,18 +70,38 @@ class ExternalAdapterSafetyPolicyTests(unittest.TestCase):
         self.assertIn("market data adapters are read-only only", text)
         self.assertIn("ohlcv", text)
         self.assertIn("order book snapshots", text)
+        self.assertIn("open interest", text)
+
+    def test_policy_mentions_point_in_time_feature_store_rules(self):
+        text = _policy_text().lower()
+
+        self.assertIn("point-in-time correctness", text)
+        self.assertIn("event_timestamp", text)
+        self.assertIn("created_timestamp", text)
+        self.assertIn("available_timestamp", text)
+        self.assertIn("future data leakage", text)
 
     def test_policy_mentions_mcp_tools_cannot_execute_trades(self):
         text = _policy_text().lower()
 
         self.assertIn("mcp tools cannot execute trades", text)
+        self.assertIn("mcp tools cannot submit orders", text)
         self.assertIn("mcp tools cannot access broker credentials", text)
+        self.assertIn("mcp tools cannot disable kill switches", text)
 
     def test_policy_mentions_no_vendoring_or_submodules_without_approval(self):
         text = _policy_text().lower()
 
         self.assertIn("no external repo vendoring", text)
         self.assertIn("no git submodule without explicit approval", text)
+
+    def test_policy_mentions_fail_closed_behavior(self):
+        text = _policy_text().lower()
+
+        self.assertIn("fail closed under uncertainty", text)
+        self.assertIn("reject unsafe adapter behavior", text)
+        self.assertIn("prefer read-only behavior", text)
+        self.assertIn("prefer paper-only behavior", text)
 
     def test_policy_test_is_local_only(self):
         self.assertTrue(POLICY_PATH.is_file())
