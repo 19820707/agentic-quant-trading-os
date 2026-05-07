@@ -1,11 +1,24 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "agentic-quant-trading-os"
 version = "0.0.0"
 description = "Safe scaffold for a governed AI-native quantitative trading platform."
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.10"
 dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    "fastapi>=0.110,<1.0",
+    "uvicorn>=0.27,<1.0",
+    "jsonschema>=4.0,<5.0",
+]
+
+[tool.setuptools]
+packages = ["packages.common", "packages.contracts", "packages.sdk"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests", "services"]
-

@@ -42,6 +42,44 @@ Every service exposes only:
 
 These endpoints are static placeholders and do not perform external calls.
 
+## Local development environment
+
+Placeholder apps import **FastAPI**. Editors and type checkers need those packages in the active Python environment (they are not trading or broker integrations).
+
+1. Create a virtual environment (from the repository root):
+
+   ```bash
+   python -m venv .venv
+   ```
+
+2. Activate it (Windows PowerShell):
+
+   ```powershell
+   .\.venv\Scripts\Activate.ps1
+   ```
+
+   On macOS/Linux:
+
+   ```bash
+   source .venv/bin/activate
+   ```
+
+3. Install scaffold **dev** dependencies (editable install of `packages/` plus dev extras):
+
+   ```bash
+   pip install -e ".[dev]"
+   ```
+
+   If editable install is not available in your environment, use the flat list instead:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. In Cursor or VS Code, choose the interpreter: **Python: Select Interpreter** → `.venv` (or `python` from that venv).
+
+This does not start servers, call the network, or add broker credentials. To run a placeholder locally if needed: `uvicorn` against a specific `app` module is optional and not required for tests.
+
 ## Safe Checks
 
 Run the scaffold auditor with:
