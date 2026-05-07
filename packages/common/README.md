@@ -27,3 +27,9 @@ The redaction helpers:
 - do not replace Vault, Infisical, SOPS or another managed secret system
 
 Withdrawal keys must never be used. If a withdrawal-related key appears in diagnostic data, it must be redacted before the data reaches logs, reports, audit events or prompts.
+
+### Redaction Before Audit and Reports
+
+Use `redact_secrets()` on structured audit-like, execution-report-like, error and report payloads before they reach logs, audit sinks, reports or debugging output.
+
+Current redaction is key-based. Sensitive values must be carried in structured fields such as `api_key`, `token`, `authorization`, `broker_key`, `exchange_key`, `credentials` or `withdrawal_key` so they can be redacted deterministically. Free-form strings are not parsed for secret patterns in this scaffold phase.
