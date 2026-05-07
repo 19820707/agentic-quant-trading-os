@@ -9,18 +9,19 @@ credentials.
 from __future__ import annotations
 
 from collections.abc import Mapping
-from dataclasses import dataclass
 from datetime import datetime, timezone
+from typing import Final
 from uuid import uuid4
 
 from packages.common.security import redact_secrets
 
+SCHEMA_VERSION: Final[str] = "0.1.0"
 
-class AuditEventBuildError(ValueError):
-    """Raised when a structured audit event cannot be safely built."""
+ALLOWED_OUTCOMES: Final[frozenset[str]] = frozenset(
+    {"APPROVED", "REJECTED", "ERROR", "INFO", "WARN", "SKIPPED", "SUCCESS"}
+)
 
-
-ALLOWED_LIFECYCLE_ID_KEYS = frozenset(
+ALLOWED_LIFECYCLE_ID_KEYS: Final[frozenset[str]] = frozenset(
     {
         "dataset_snapshot_id",
         "model_version",
@@ -39,16 +40,22 @@ ALLOWED_LIFECYCLE_ID_KEYS = frozenset(
 )
 
 
-@dataclass(frozen=True)
-class AuditEventDraft:
-    """Structured local AuditEvent-like payload prepared in memory."""
-
-    payload: dict[str, object]
+class AuditEventBuildError(ValueError):
+    """Raised when a structured audit event cannot be safely built."""
 
 
 def _require_non_empty(name: str, value: str) -> str:
     if not isinstance(value, str) or not value.strip():
         raise AuditEventBuildError(f"{name} must be a non-empty string")
+    return value
+
+
+def _require_allowed(name: str, value: str, allowed: frozenset[str]) -> str:
+    _require_non_empty(name, value)
+    if value not in allowed:
+        raise AuditEventBuildError(
+            f"{name} must be one of {sorted(allowed)!r}; got {value!r}"
+        )
     return value
 
 
@@ -72,8 +79,9 @@ def _redact_optional_mapping(data: Mapping[str, object] | None) -> dict[str, obj
 class AuditEventEmitter:
     """Local-only builder for redacted AuditEvent-like dictionaries."""
 
-    def __init__(self, source_service: str):
+    def __init__(self, source_service: str, environment: str | None = None) -> None:
         self.source_service = _require_non_empty("source_service", source_service)
+        self.environment = environment
 
     def build_event(
         self,
@@ -99,7 +107,7 @@ class AuditEventEmitter:
         """Build a redacted AuditEvent-like payload without side effects."""
 
         payload: dict[str, object] = {
-            "schema_version": "0.1.0",
+            "schema_version": SCHEMA_VERSION,
             "trace_id": _require_non_empty("trace_id", trace_id),
             "correlation_id": _require_non_empty("correlation_id", correlation_id),
             "audit_id": audit_id or f"audit_{uuid4().hex}",
@@ -111,12 +119,15 @@ class AuditEventEmitter:
             "action": _require_non_empty("action", action),
             "entity_type": _require_non_empty("entity_type", entity_type),
             "entity_id": _require_non_empty("entity_id", entity_id),
-            "outcome": _require_non_empty("outcome", outcome),
+            "outcome": _require_allowed("outcome", outcome, ALLOWED_OUTCOMES),
             "append_only": True,
             "contains_secrets": False,
             "source_service": self.source_service,
             "redaction_applied": any(item is not None for item in (metadata, before, after)),
         }
+
+        if self.environment is not None:
+            payload["environment"] = self.environment
 
         if reason is not None:
             payload["reason"] = reason
