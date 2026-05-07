@@ -39,7 +39,7 @@ python -m unittest discover -s tests -p "test_market_data_adapter_registry.py"
 python -m unittest discover -s tests -p "test_in_memory_market_data_adapter.py"
 ```
 
-These checks ensure market data adapter boundaries remain read-only, local-only, and do not expose execution behavior.
+These checks ensure market data adapter boundaries remain read-only, local-only, and do not expose execution behavior. The in-memory adapter tests use static local data only; they do not call the network, use credentials, or connect to brokers/exchanges.
 
 ## Security Policy
 
