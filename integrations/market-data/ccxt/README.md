@@ -2,9 +2,9 @@
 
 ## Status
 
-Current status: safety harness only.
+Current status: read-only skeleton only.
 
-This directory does not implement a CCXT adapter, does not install `ccxt`, does not import `ccxt`, does not call exchanges and does not contain credentials.
+This directory documents the CCXT integration boundary. The current Python skeleton uses injected fake/in-memory clients only. It does not install `ccxt`, does not import `ccxt`, does not call exchanges and does not contain credentials.
 
 ## Adapter Identity
 
@@ -62,3 +62,5 @@ It must never create `OrderIntent`, create `ApprovedOrder`, submit orders, cance
 A future adapter must implement only `ReadOnlyMarketDataAdapter`.
 
 It must return internal market data value objects, register through the internal adapter registry, avoid dangerous method names, avoid hidden side effects and preserve the deterministic-risk-gateway boundary.
+
+The current skeleton lives at `packages/sdk/market_data_adapters/ccxt_readonly.py` and remains read-only. It converts fake OHLCV rows, trade dictionaries and order book dictionaries into internal market data value objects.
