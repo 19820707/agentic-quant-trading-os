@@ -4,7 +4,11 @@ version = "0.0.0"
 description = "Safe scaffold for a governed AI-native quantitative trading platform."
 readme = "README.md"
 requires-python = ">=3.11"
-dependencies = []
+dependencies = [
+    "fastapi>=0.110,<1",
+    "jsonschema>=4.21,<5",
+    "uvicorn>=0.27,<1",
+]
 
 [tool.pytest.ini_options]
 testpaths = ["tests", "services"]
