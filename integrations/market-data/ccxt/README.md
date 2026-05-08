@@ -14,6 +14,8 @@ See [CCXT Optional Dependency Approval Gate](../../../docs/integrations/ccxt_app
 
 CCXT optional dependency remains not approved. Dependency, runtime and production flags remain false. Future changes require explicit approval in a separate PR.
 
+See [CCXT Import Guard Design](../../../docs/integrations/ccxt_import_guard_design.md) for the design-only future import guard. The guard is not implemented, `ccxt` remains uninstalled, no real import exists, no real exchange access exists and fake/mocked behavior remains the only tested mode.
+
 ## Adapter Identity
 
 - upstream project: https://github.com/ccxt/ccxt
