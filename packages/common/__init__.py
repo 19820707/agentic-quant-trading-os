@@ -1,9 +1,12 @@
 from .market_data import (
+    ALLOWED_HEALTH_STATUSES,
+    ALLOWED_TRADE_SIDES,
     EconomicCalendarEvent,
     FundingRate,
     MarketCalendarEvent,
     MarketDataHealth,
     MarketDataRequest,
+    MarketDataValidationError,
     NewsEvent,
     OHLCVBar,
     OrderBookLevel,
@@ -12,11 +15,14 @@ from .market_data import (
 )
 
 __all__ = [
+    "ALLOWED_HEALTH_STATUSES",
+    "ALLOWED_TRADE_SIDES",
     "EconomicCalendarEvent",
     "FundingRate",
     "MarketCalendarEvent",
     "MarketDataHealth",
     "MarketDataRequest",
+    "MarketDataValidationError",
     "NewsEvent",
     "OHLCVBar",
     "OrderBookLevel",
