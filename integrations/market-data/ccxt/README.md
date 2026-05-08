@@ -6,6 +6,8 @@ Current status: read-only skeleton only.
 
 This directory documents the CCXT integration boundary. The current Python skeleton uses injected fake/in-memory clients only. It does not install `ccxt`, does not import `ccxt`, does not call exchanges and does not contain credentials.
 
+See [CCXT Dependency Review And Production Readiness](../../../docs/integrations/ccxt_dependency_review.md) before any future real dependency declaration or integration work. The real integration is not approved yet.
+
 ## Adapter Identity
 
 - upstream project: https://github.com/ccxt/ccxt
@@ -62,6 +64,8 @@ It must never create `OrderIntent`, create `ApprovedOrder`, submit orders, cance
 The skeleton may be registered in `MarketDataAdapterRegistry` only with an injected fake/in-memory client.
 
 Registry coverage does not install `ccxt`, create a real exchange client, use API keys, call private endpoints, expose execution methods or enable live trading.
+
+Current status remains skeleton plus fake registry coverage only: no dependency installed, no real exchange client, no API keys and no private endpoints.
 
 ## Future Implementation Rules
 
