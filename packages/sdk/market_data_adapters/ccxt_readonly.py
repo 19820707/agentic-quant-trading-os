@@ -1,8 +1,15 @@
+"""Read-only CCXT-shaped market data adapter skeleton.
+
+This adapter does not import ccxt, install dependencies, call network, or access
+credentials. Tests must use injected fake/in-memory clients only. Conversion from
+raw CCXT-format data to internal domain types is guarded at the field level.
+"""
+
 from __future__ import annotations
 
 from datetime import datetime, timezone
-from decimal import Decimal
-from typing import Any
+from decimal import Decimal, InvalidOperation
+from typing import Any, Final
 
 from packages.common import (
     MarketDataHealth,
@@ -13,8 +20,14 @@ from packages.common import (
     TradeTick,
 )
 
+__all__ = [
+    "CcxtConversionError",
+    "CcxtReadOnlyMarketDataAdapter",
+    "PROHIBITED_CLIENT_METHODS",
+    "UnsafeCcxtClientError",
+]
 
-PROHIBITED_CLIENT_METHODS = frozenset(
+PROHIBITED_CLIENT_METHODS: Final[frozenset[str]] = frozenset(
     {
         "create_order",
         "cancel_order",
@@ -34,6 +47,10 @@ class UnsafeCcxtClientError(ValueError):
     """Raised when an injected client exposes execution-like methods."""
 
 
+class CcxtConversionError(ValueError):
+    """Raised when a CCXT raw data field cannot be converted to a domain type."""
+
+
 class CcxtReadOnlyMarketDataAdapter:
     """Read-only CCXT-shaped market data adapter skeleton.
 
@@ -41,7 +58,7 @@ class CcxtReadOnlyMarketDataAdapter:
     access credentials. Tests must use injected fake/in-memory clients only.
     """
 
-    def __init__(self, client: object, name: str = "ccxt-readonly"):
+    def __init__(self, client: object, name: str = "ccxt-readonly") -> None:
         exposed = set(dir(client))
         prohibited = sorted(exposed & PROHIBITED_CLIENT_METHODS)
         if prohibited:
@@ -95,32 +112,40 @@ class CcxtReadOnlyMarketDataAdapter:
     def fetch_news(self, request: MarketDataRequest) -> list:
         return []
 
-    def _ohlcv_row_to_bar(self, request: MarketDataRequest, row: list[Any] | tuple[Any, ...]) -> OHLCVBar:
+    # ── conversion helpers ────────────────────────────────────────────────────
+
+    def _ohlcv_row_to_bar(
+        self, request: MarketDataRequest, row: list[Any] | tuple[Any, ...]
+    ) -> OHLCVBar:
         timestamp, open_, high, low, close, volume = row
         return OHLCVBar(
             symbol=request.symbol,
             venue=request.venue,
             timestamp=self._timestamp(timestamp),
-            open=self._decimal(open_),
-            high=self._decimal(high),
-            low=self._decimal(low),
-            close=self._decimal(close),
-            volume=self._decimal(volume),
+            open=self._decimal("open", open_),
+            high=self._decimal("high", high),
+            low=self._decimal("low", low),
+            close=self._decimal("close", close),
+            volume=self._decimal("volume", volume),
         )
 
     def _trade_to_tick(self, request: MarketDataRequest, trade: dict[str, Any]) -> TradeTick:
+        side = self._normalize_side(trade.get("side"))
         return TradeTick(
             symbol=request.symbol,
             venue=request.venue,
             timestamp=self._timestamp(trade.get("timestamp")),
-            price=self._decimal(trade["price"]),
-            quantity=self._decimal(trade["amount"]),
-            side=trade.get("side"),
+            price=self._decimal("price", trade["price"]),
+            quantity=self._decimal("amount", trade["amount"]),
+            side=side,
         )
 
     def _level(self, row: list[Any] | tuple[Any, ...]) -> OrderBookLevel:
         price, quantity = row[:2]
-        return OrderBookLevel(price=self._decimal(price), quantity=self._decimal(quantity))
+        return OrderBookLevel(
+            price=self._decimal("price", price),
+            quantity=self._decimal("quantity", quantity),
+        )
 
     def _timestamp(self, value: Any) -> datetime:
         if value is None:
@@ -130,5 +155,25 @@ class CcxtReadOnlyMarketDataAdapter:
         seconds = float(Decimal(str(value)) / Decimal("1000"))
         return datetime.fromtimestamp(seconds, tz=timezone.utc)
 
-    def _decimal(self, value: Any) -> Decimal:
-        return Decimal(str(value))
+    def _decimal(self, field_name: str, value: Any) -> Decimal:
+        if value is None:
+            raise CcxtConversionError(
+                f"cannot convert None to Decimal: field {field_name!r} is missing from raw data"
+            )
+        try:
+            return Decimal(str(value))
+        except InvalidOperation as exc:
+            raise CcxtConversionError(
+                f"cannot convert {value!r} to Decimal for field {field_name!r}"
+            ) from exc
+
+    @staticmethod
+    def _normalize_side(raw: Any) -> str | None:
+        """Normalize CCXT trade side to canonical lowercase 'buy'/'sell' or None."""
+        if raw is None:
+            return None
+        if isinstance(raw, str):
+            normalized = raw.strip().lower()
+            if normalized in ("buy", "sell"):
+                return normalized
+        return None
