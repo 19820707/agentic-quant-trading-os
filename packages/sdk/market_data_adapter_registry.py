@@ -26,6 +26,7 @@ class MarketDataAdapterInfo:
 
 
 AdapterFactory = Callable[[], ReadOnlyMarketDataAdapter]
+CCXT_READONLY_ADAPTER_NAME = "ccxt-readonly"
 
 
 class MarketDataAdapterRegistry:
@@ -71,3 +72,24 @@ class MarketDataAdapterRegistry:
             raise MarketDataAdapterRegistryError("adapter name is required")
         if "/" in name or "\\" in name or ".." in name:
             raise MarketDataAdapterRegistryError("adapter name must be a simple identifier")
+
+
+def register_ccxt_readonly_adapter(
+    registry: MarketDataAdapterRegistry,
+    client: object,
+    name: str = CCXT_READONLY_ADAPTER_NAME,
+) -> None:
+    """Register the CCXT read-only skeleton with an injected fake/client object.
+
+    This helper does not import ccxt, create exchange clients, call network, or
+    access credentials. The injected client is validated by the skeleton.
+    """
+
+    from .market_data_adapters.ccxt_readonly import CcxtReadOnlyMarketDataAdapter
+
+    CcxtReadOnlyMarketDataAdapter(client, name=name)
+    registry.register(
+        name,
+        lambda: CcxtReadOnlyMarketDataAdapter(client, name=name),
+        "CCXT read-only adapter skeleton using an injected fake/in-memory client",
+    )

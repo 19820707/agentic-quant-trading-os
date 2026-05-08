@@ -1,7 +1,8 @@
 import unittest
 from datetime import datetime, timezone
+from decimal import Decimal
 
-from packages.common import MarketDataHealth, MarketDataRequest, OrderBookSnapshot
+from packages.common import MarketDataHealth, MarketDataRequest, OHLCVBar, OrderBookSnapshot, TradeTick
 from packages.sdk import (
     DuplicateMarketDataAdapterError,
     MarketDataAdapterRegistry,
@@ -9,6 +10,7 @@ from packages.sdk import (
     ReadOnlyMarketDataAdapter,
     UnknownMarketDataAdapterError,
 )
+from packages.sdk.market_data_adapter_registry import register_ccxt_readonly_adapter
 
 
 NOW = datetime(2026, 1, 1, tzinfo=timezone.utc)
@@ -47,6 +49,21 @@ class RegistryFixtureAdapter:
 
     def fetch_news(self, request: MarketDataRequest) -> tuple:
         return ()
+
+
+class FakeCcxtRegistryClient:
+    def fetch_ohlcv(self, symbol: str, limit: int | None = None):
+        return [[1710000000000, "100", "110", "90", "105", "12.5"]]
+
+    def fetch_trades(self, symbol: str, limit: int | None = None):
+        return [{"timestamp": 1710000001000, "price": "105.25", "amount": "0.5", "side": "buy"}]
+
+    def fetch_order_book(self, symbol: str, limit: int | None = None):
+        return {
+            "timestamp": 1710000002000,
+            "bids": [["105.0", "1.0"]],
+            "asks": [["106.0", "2.0"]],
+        }
 
 
 class MarketDataAdapterRegistryTests(unittest.TestCase):
@@ -111,12 +128,70 @@ class MarketDataAdapterRegistryTests(unittest.TestCase):
             "order",
             "submit_order",
             "cancel_order",
+            "edit_order",
             "withdraw",
             "transfer",
             "execute",
         }
 
         self.assertTrue(forbidden.isdisjoint(dir(self.registry)))
+
+    def test_registers_ccxt_readonly_adapter_with_fake_client_only(self):
+        register_ccxt_readonly_adapter(self.registry, FakeCcxtRegistryClient())
+
+        self.assertTrue(self.registry.exists("ccxt-readonly"))
+        info = self.registry.get_info("ccxt-readonly")
+        self.assertTrue(info.read_only)
+
+        adapter = self.registry.create("ccxt-readonly")
+
+        self.assertIsInstance(adapter, ReadOnlyMarketDataAdapter)
+        self.assertEqual(adapter.adapter_name(), "ccxt-readonly")
+
+    def test_registered_ccxt_readonly_adapter_fetches_fake_market_data(self):
+        register_ccxt_readonly_adapter(self.registry, FakeCcxtRegistryClient())
+        adapter = self.registry.create("ccxt-readonly")
+        request = MarketDataRequest(
+            symbol="BTC/USDT",
+            venue="ccxt:fake",
+            asset_class="crypto",
+            instrument_type="spot",
+            limit=1,
+        )
+
+        bars = adapter.fetch_ohlcv(request)
+        trades = adapter.fetch_trades(request)
+        order_book = adapter.fetch_order_book(request)
+
+        self.assertIsInstance(bars[0], OHLCVBar)
+        self.assertEqual(bars[0].close, Decimal("105"))
+        self.assertIsInstance(trades[0], TradeTick)
+        self.assertEqual(trades[0].price, Decimal("105.25"))
+        self.assertIsInstance(order_book, OrderBookSnapshot)
+        self.assertEqual(order_book.bids[0].quantity, Decimal("1.0"))
+
+    def test_registered_ccxt_readonly_adapter_exposes_no_execution_methods(self):
+        register_ccxt_readonly_adapter(self.registry, FakeCcxtRegistryClient())
+        adapter = self.registry.create("ccxt-readonly")
+        forbidden = {
+            "buy",
+            "sell",
+            "order",
+            "submit_order",
+            "cancel_order",
+            "edit_order",
+            "withdraw",
+            "transfer",
+            "execute",
+        }
+
+        self.assertTrue(forbidden.isdisjoint(dir(adapter)))
+
+    def test_ccxt_readonly_registration_still_rejects_duplicates(self):
+        register_ccxt_readonly_adapter(self.registry, FakeCcxtRegistryClient())
+
+        with self.assertRaises(DuplicateMarketDataAdapterError):
+            register_ccxt_readonly_adapter(self.registry, FakeCcxtRegistryClient())
 
 
 if __name__ == "__main__":
