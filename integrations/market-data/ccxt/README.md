@@ -89,6 +89,12 @@ Mocked integration tests define the expected read-only behavior before any real 
 
 They use fake/in-memory clients only. They do not install `ccxt`, import `ccxt`, access real exchanges, call network, use credentials, private endpoints or live trading paths.
 
+## Import Guard Safety Tests
+
+The local import guard placeholder is fail-closed by design.
+
+It does not install `ccxt`, import `ccxt`, create a real exchange client, call network, read credentials, enable runtime behavior or approve production use. Current tests verify only local fail-closed safety behavior.
+
 ## Future Implementation Rules
 
 A future adapter must implement only `ReadOnlyMarketDataAdapter`.
