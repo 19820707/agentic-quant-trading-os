@@ -1,0 +1,30 @@
+# ADR 0016: CCXT Optional Read-Only Dependency Gate
+
+Status: Proposed
+
+## Context
+
+CCXT may be useful for public crypto market data.
+
+The platform currently has only skeleton/fake/mocked behavior.
+
+Adding a real dependency can expand attack surface and operational risk.
+
+## Decision
+
+CCXT is not approved for installation yet.
+
+CCXT is not approved for runtime use yet.
+
+Any future dependency addition requires the approval gate in `docs/integrations/ccxt_approval_gate.md`.
+
+Any future integration must remain public-read-only unless a separate ADR changes that.
+
+No private endpoints, credentials or trading methods are allowed.
+
+## Consequences
+
+- Slower dependency adoption.
+- Stronger security and reliability posture.
+- Clear approval trail.
+- Prevents accidental transition from fake adapter to real exchange access.

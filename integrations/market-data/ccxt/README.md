@@ -10,6 +10,10 @@ See [CCXT Dependency Review And Production Readiness](../../../docs/integrations
 
 See [CCXT Optional Dependency Proposal](../../../docs/integrations/ccxt_optional_dependency_proposal.md) for the proposed optional dependency gate. The optional dependency is proposed but not approved; `ccxt` is still not installed, real exchange access remains disabled and fake/mocked behavior is the only tested mode.
 
+See [CCXT Optional Dependency Approval Gate](../../../docs/integrations/ccxt_approval_gate.md) and [ADR 0016](../../../docs/adr/0016-ccxt-optional-readonly-dependency-gate.md) for the formal approval record.
+
+CCXT optional dependency remains not approved. Dependency, runtime and production flags remain false. Future changes require explicit approval in a separate PR.
+
 ## Adapter Identity
 
 - upstream project: https://github.com/ccxt/ccxt
