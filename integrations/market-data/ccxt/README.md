@@ -8,6 +8,8 @@ This directory documents the CCXT integration boundary. The current Python skele
 
 See [CCXT Dependency Review And Production Readiness](../../../docs/integrations/ccxt_dependency_review.md) before any future real dependency declaration or integration work. The real integration is not approved yet.
 
+See [CCXT Optional Dependency Proposal](../../../docs/integrations/ccxt_optional_dependency_proposal.md) for the proposed optional dependency gate. The optional dependency is proposed but not approved; `ccxt` is still not installed, real exchange access remains disabled and fake/mocked behavior is the only tested mode.
+
 ## Adapter Identity
 
 - upstream project: https://github.com/ccxt/ccxt
