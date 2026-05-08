@@ -6,6 +6,8 @@ Current status: read-only skeleton only.
 
 This directory documents the CCXT integration boundary. The current Python skeleton uses injected fake/in-memory clients only. It does not install `ccxt`, does not import `ccxt`, does not call exchanges and does not contain credentials.
 
+Current control-plane status: design docs exist, mocked/fail-closed tests exist, `ccxt` remains uninstalled, `ccxt` remains unimported, `pyproject.toml` remains unchanged for `ccxt`, real client factory remains disallowed and production use remains disallowed.
+
 See [CCXT Dependency Review And Production Readiness](../../../docs/integrations/ccxt_dependency_review.md) before any future real dependency declaration or integration work. The real integration is not approved yet.
 
 See [CCXT Optional Dependency Proposal](../../../docs/integrations/ccxt_optional_dependency_proposal.md) for the proposed optional dependency gate. The optional dependency is proposed but not approved; `ccxt` is still not installed, real exchange access remains disabled and fake/mocked behavior is the only tested mode.

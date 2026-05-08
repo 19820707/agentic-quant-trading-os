@@ -146,6 +146,8 @@ manual_smoke_test_allowed: false
 production_use_allowed: false
 ```
 
+Import guard design/tests exist, but implementation remains not allowed until a separate approval PR changes `import_guard_change_allowed` to true.
+
 ## Non-Goals
 
 - no live trading
