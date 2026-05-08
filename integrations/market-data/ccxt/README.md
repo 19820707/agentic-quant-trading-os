@@ -16,6 +16,10 @@ CCXT optional dependency remains not approved. Dependency, runtime and productio
 
 See [CCXT Import Guard Design](../../../docs/integrations/ccxt_import_guard_design.md) for the design-only future import guard. The guard is not implemented, `ccxt` remains uninstalled, no real import exists, no real exchange access exists and fake/mocked behavior remains the only tested mode.
 
+See [CCXT Implementation Gate Checklist](../../../docs/integrations/ccxt_implementation_gate_checklist.md) before any future implementation PR.
+
+The implementation gate is not approval. `pyproject.toml` must not be changed until the gate is explicitly approved. `ccxt` remains uninstalled and unimported, and fake/mocked clients remain the only approved test mode.
+
 ## Adapter Identity
 
 - upstream project: https://github.com/ccxt/ccxt
