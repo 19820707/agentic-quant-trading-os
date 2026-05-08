@@ -20,6 +20,10 @@ See [CCXT Implementation Gate Checklist](../../../docs/integrations/ccxt_impleme
 
 The implementation gate is not approval. `pyproject.toml` must not be changed until the gate is explicitly approved. `ccxt` remains uninstalled and unimported, and fake/mocked clients remain the only approved test mode.
 
+See [CCXT Import Guard Test Plan](../../../docs/integrations/ccxt_import_guard_test_plan.md) for the future test design.
+
+The test plan is documentation-only. No import guard tests are implemented by that plan, `ccxt` remains uninstalled and unimported, and fake/mocked behavior remains the only approved tested mode.
+
 ## Adapter Identity
 
 - upstream project: https://github.com/ccxt/ccxt
