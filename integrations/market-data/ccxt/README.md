@@ -67,6 +67,12 @@ Registry coverage does not install `ccxt`, create a real exchange client, use AP
 
 Current status remains skeleton plus fake registry coverage only: no dependency installed, no real exchange client, no API keys and no private endpoints.
 
+## Mocked Integration Tests
+
+Mocked integration tests define the expected read-only behavior before any real dependency is approved.
+
+They use fake/in-memory clients only. They do not install `ccxt`, import `ccxt`, access real exchanges, call network, use credentials, private endpoints or live trading paths.
+
 ## Future Implementation Rules
 
 A future adapter must implement only `ReadOnlyMarketDataAdapter`.
