@@ -1,9 +1,30 @@
+"""Thread-safe in-memory registry for read-only market data adapter factories."""
+
 from __future__ import annotations
 
+import re
+import threading
 from dataclasses import dataclass
 from typing import Callable
 
 from .market_data_adapter import ReadOnlyMarketDataAdapter
+
+__all__ = [
+    "AdapterFactory",
+    "CCXT_READONLY_ADAPTER_NAME",
+    "DuplicateMarketDataAdapterError",
+    "MarketDataAdapterInfo",
+    "MarketDataAdapterRegistry",
+    "MarketDataAdapterRegistryError",
+    "UnknownMarketDataAdapterError",
+    "register_ccxt_readonly_adapter",
+]
+
+# Adapter names must start with a letter and contain only letters, digits,
+# hyphens, or underscores — no path separators, dots, or whitespace.
+_ADAPTER_NAME_RE: re.Pattern[str] = re.compile(r"^[a-zA-Z][a-zA-Z0-9_-]*$")
+
+CCXT_READONLY_ADAPTER_NAME = "ccxt-readonly"
 
 
 class MarketDataAdapterRegistryError(Exception):
@@ -26,52 +47,71 @@ class MarketDataAdapterInfo:
 
 
 AdapterFactory = Callable[[], ReadOnlyMarketDataAdapter]
-CCXT_READONLY_ADAPTER_NAME = "ccxt-readonly"
 
 
 class MarketDataAdapterRegistry:
-    """In-memory registry for read-only market data adapter factories."""
+    """Thread-safe in-memory registry for read-only market data adapter factories.
+
+    All public methods acquire an internal RLock so concurrent registration and
+    lookup from multiple threads is safe. The factory callable is invoked outside
+    the lock so that slow or blocking constructors do not hold the registry lock
+    for extended periods.
+    """
 
     def __init__(self) -> None:
         self._factories: dict[str, AdapterFactory] = {}
         self._metadata: dict[str, MarketDataAdapterInfo] = {}
+        self._lock = threading.RLock()
 
     def register(self, name: str, factory: AdapterFactory, description: str = "") -> None:
-        self._validate_name(name)
-        if name in self._factories:
-            raise DuplicateMarketDataAdapterError(f"market data adapter already registered: {name}")
-
-        self._factories[name] = factory
-        self._metadata[name] = MarketDataAdapterInfo(
-            name=name,
-            description=description,
-            read_only=True,
-        )
+        _validate_adapter_name(name)
+        with self._lock:
+            if name in self._factories:
+                raise DuplicateMarketDataAdapterError(
+                    f"market data adapter already registered: {name}"
+                )
+            self._factories[name] = factory
+            self._metadata[name] = MarketDataAdapterInfo(
+                name=name,
+                description=description,
+                read_only=True,
+            )
 
     def list_adapters(self) -> tuple[MarketDataAdapterInfo, ...]:
-        return tuple(self._metadata[name] for name in sorted(self._metadata))
+        with self._lock:
+            return tuple(self._metadata[name] for name in sorted(self._metadata))
 
     def exists(self, name: str) -> bool:
-        return name in self._factories
+        with self._lock:
+            return name in self._factories
 
     def get_info(self, name: str) -> MarketDataAdapterInfo:
-        try:
-            return self._metadata[name]
-        except KeyError as exc:
-            raise UnknownMarketDataAdapterError(f"market data adapter is not registered: {name}") from exc
+        with self._lock:
+            try:
+                return self._metadata[name]
+            except KeyError as exc:
+                raise UnknownMarketDataAdapterError(
+                    f"market data adapter is not registered: {name}"
+                ) from exc
 
     def create(self, name: str) -> ReadOnlyMarketDataAdapter:
-        try:
-            factory = self._factories[name]
-        except KeyError as exc:
-            raise UnknownMarketDataAdapterError(f"market data adapter is not registered: {name}") from exc
+        with self._lock:
+            try:
+                factory = self._factories[name]
+            except KeyError as exc:
+                raise UnknownMarketDataAdapterError(
+                    f"market data adapter is not registered: {name}"
+                ) from exc
+        # Factory called outside the lock: slow/blocking constructors must not
+        # hold the registry lock during their execution.
         return factory()
 
-    def _validate_name(self, name: str) -> None:
-        if not name:
-            raise MarketDataAdapterRegistryError("adapter name is required")
-        if "/" in name or "\\" in name or ".." in name:
-            raise MarketDataAdapterRegistryError("adapter name must be a simple identifier")
+
+def _validate_adapter_name(name: str) -> None:
+    if not _ADAPTER_NAME_RE.fullmatch(name or ""):
+        raise MarketDataAdapterRegistryError(
+            f"adapter name must match [a-zA-Z][a-zA-Z0-9_-]*; got {name!r}"
+        )
 
 
 def register_ccxt_readonly_adapter(
@@ -84,7 +124,6 @@ def register_ccxt_readonly_adapter(
     This helper does not import ccxt, create exchange clients, call network, or
     access credentials. The injected client is validated by the skeleton.
     """
-
     from .market_data_adapters.ccxt_readonly import CcxtReadOnlyMarketDataAdapter
 
     CcxtReadOnlyMarketDataAdapter(client, name=name)
