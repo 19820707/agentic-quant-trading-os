@@ -23,6 +23,48 @@ private_endpoints_allowed: false
 trading_methods_allowed: false
 ```
 
+## Decision Update: Import-Guard Groundwork
+
+The import guard design document has been reviewed.
+
+The import guard test plan has been reviewed.
+
+The fail-closed import guard safety skeleton exists.
+
+This does not approve installing `ccxt`.
+
+This does not approve modifying `pyproject.toml`.
+
+This does not approve real runtime use.
+
+This does not approve production use.
+
+This does not approve network access.
+
+This does not approve credentials.
+
+This does not approve a real exchange client factory.
+
+The only proposed next step is a further import-guard control-plane refinement, if separately reviewed.
+
+```yaml
+approved: false
+dependency_allowed: false
+runtime_enabled: false
+production_enabled: false
+network_access_allowed: false
+credentials_allowed: false
+private_endpoints_allowed: false
+trading_methods_allowed: false
+pyproject_change_allowed: false
+import_guard_design_approved: true
+import_guard_tests_approved: true
+import_guard_implementation_proposed: true
+import_guard_change_allowed: false
+real_client_factory_allowed: false
+manual_smoke_test_allowed: false
+```
+
 ## Required Approvals Before Changing pyproject.toml
 
 - dependency review approval

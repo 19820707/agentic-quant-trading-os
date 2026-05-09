@@ -22,6 +22,16 @@ Any future integration must remain public-read-only unless a separate ADR change
 
 No private endpoints, credentials or trading methods are allowed.
 
+## Current Decision Update
+
+- design approved: yes
+- tests approved: yes
+- dependency approved: no
+- pyproject change approved: no
+- import guard implementation approved: no
+- real client factory approved: no
+- production use approved: no
+
 ## Consequences
 
 - Slower dependency adoption.
