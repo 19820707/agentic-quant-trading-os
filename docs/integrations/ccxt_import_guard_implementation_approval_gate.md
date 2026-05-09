@@ -32,8 +32,21 @@ manual_smoke_test_allowed: false
 import_guard_design_approved: true
 import_guard_tests_approved: true
 import_guard_implementation_proposed: true
-import_guard_change_allowed: false
+import_guard_change_allowed: true
 ```
+
+## Approved Narrow Next Step
+
+- Only local fail-closed import-guard refinement is allowed.
+- The future PR may refine `packages/sdk/market_data_adapters/ccxt_factory.py`.
+- The future PR may improve local errors, feature flag checks, allowlist checks and no-import/no-network tests.
+- The future PR must not install `ccxt`.
+- The future PR must not import `ccxt`.
+- The future PR must not modify `pyproject.toml`.
+- The future PR must not create real clients.
+- The future PR must not call network.
+- The future PR must not read credentials.
+- The future PR must remain fail-closed.
 
 ## What This Gate May Approve Later
 
@@ -94,7 +107,7 @@ import_guard_change_allowed: false
 ## Decision State
 
 ```yaml
-import_guard_change_allowed: false
+import_guard_change_allowed: true
 pyproject_change_allowed: false
 dependency_allowed: false
 real_client_factory_allowed: false

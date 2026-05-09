@@ -36,6 +36,17 @@ Import-guard implementation requires its own approval gate in `docs/integrations
 
 That gate does not approve dependency installation, `pyproject.toml` changes, real client factory work or production use.
 
+## Current Import-Guard Refinement Decision
+
+- import guard refinement approved: yes
+- dependency approved: no
+- pyproject change approved: no
+- real import approved: no
+- real client factory approved: no
+- network access approved: no
+- credentials approved: no
+- production use approved: no
+
 ## Consequences
 
 - Slower dependency adoption.

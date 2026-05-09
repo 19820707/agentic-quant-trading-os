@@ -49,7 +49,11 @@ The only proposed next step is a further import-guard control-plane refinement, 
 
 See `docs/integrations/ccxt_import_guard_implementation_approval_gate.md` for the narrower gate that would be required before allowing any import-guard implementation refinement.
 
-`import_guard_implementation_proposed` remains true, but `import_guard_change_allowed` remains false.
+`import_guard_implementation_proposed` remains true, and `import_guard_change_allowed` is true only for narrow fail-closed import-guard refinement.
+
+Import-guard refinement is now allowed only for local fail-closed control-plane code and tests.
+
+This does not approve dependency installation, real imports, `pyproject.toml` changes, real client factories, network access, credentials or production use.
 
 ```yaml
 approved: false
@@ -64,7 +68,7 @@ pyproject_change_allowed: false
 import_guard_design_approved: true
 import_guard_tests_approved: true
 import_guard_implementation_proposed: true
-import_guard_change_allowed: false
+import_guard_change_allowed: true
 real_client_factory_allowed: false
 manual_smoke_test_allowed: false
 ```
