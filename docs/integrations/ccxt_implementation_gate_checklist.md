@@ -141,15 +141,15 @@ trading_methods_allowed: false
 ```yaml
 implementation_ready: false
 pyproject_change_allowed: false
-import_guard_change_allowed: false
+import_guard_change_allowed: true
 real_client_factory_allowed: false
 manual_smoke_test_allowed: false
 production_use_allowed: false
 ```
 
-Import guard design/tests exist, but implementation remains not allowed until a separate approval PR changes `import_guard_change_allowed` to true.
+Import-guard refinement is allowed only as fail-closed local code and tests. Dependency and real runtime remain forbidden.
 
-The narrower import-guard implementation approval gate in `docs/integrations/ccxt_import_guard_implementation_approval_gate.md` must be reviewed before any such change.
+The narrower import-guard implementation approval gate in `docs/integrations/ccxt_import_guard_implementation_approval_gate.md` governs this limited approval.
 
 ## Non-Goals
 
