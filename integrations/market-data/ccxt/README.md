@@ -26,6 +26,10 @@ See [CCXT Import Guard Test Plan](../../../docs/integrations/ccxt_import_guard_t
 
 The test plan is documentation-only. No import guard tests are implemented by that plan, `ccxt` remains uninstalled and unimported, and fake/mocked behavior remains the only approved tested mode.
 
+See [CCXT Import Guard Implementation Approval Gate](../../../docs/integrations/ccxt_import_guard_implementation_approval_gate.md) before any future import-guard implementation refinement.
+
+That gate is narrower than dependency approval. `ccxt` remains uninstalled and unimported, `pyproject.toml` remains unchanged, real exchange clients remain disallowed and production use remains disallowed.
+
 ## Adapter Identity
 
 - upstream project: https://github.com/ccxt/ccxt

@@ -47,6 +47,10 @@ This does not approve a real exchange client factory.
 
 The only proposed next step is a further import-guard control-plane refinement, if separately reviewed.
 
+See `docs/integrations/ccxt_import_guard_implementation_approval_gate.md` for the narrower gate that would be required before allowing any import-guard implementation refinement.
+
+`import_guard_implementation_proposed` remains true, but `import_guard_change_allowed` remains false.
+
 ```yaml
 approved: false
 dependency_allowed: false

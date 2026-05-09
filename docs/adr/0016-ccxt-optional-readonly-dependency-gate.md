@@ -32,6 +32,10 @@ No private endpoints, credentials or trading methods are allowed.
 - real client factory approved: no
 - production use approved: no
 
+Import-guard implementation requires its own approval gate in `docs/integrations/ccxt_import_guard_implementation_approval_gate.md`.
+
+That gate does not approve dependency installation, `pyproject.toml` changes, real client factory work or production use.
+
 ## Consequences
 
 - Slower dependency adoption.

@@ -32,6 +32,7 @@ trading_methods_allowed: false
 - `docs/integrations/ccxt_optional_dependency_proposal.md`
 - `docs/integrations/ccxt_approval_gate.md`
 - `docs/integrations/ccxt_import_guard_design.md`
+- `docs/integrations/ccxt_import_guard_implementation_approval_gate.md`
 - `docs/adr/0016-ccxt-optional-readonly-dependency-gate.md`
 
 ## Required Technical Baseline
@@ -147,6 +148,8 @@ production_use_allowed: false
 ```
 
 Import guard design/tests exist, but implementation remains not allowed until a separate approval PR changes `import_guard_change_allowed` to true.
+
+The narrower import-guard implementation approval gate in `docs/integrations/ccxt_import_guard_implementation_approval_gate.md` must be reviewed before any such change.
 
 ## Non-Goals
 
