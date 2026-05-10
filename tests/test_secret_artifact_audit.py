@@ -19,11 +19,11 @@ class SecretArtifactAuditTests(unittest.TestCase):
 
     def test_secret_patterns_detect_representative_values(self) -> None:
         samples = {
-            "private_key_block": "-----BEGIN PRIVATE KEY-----\nabc\n-----END PRIVATE KEY-----",
-            "aws_access_key_id": "AKIAABCDEFGHIJKLMNOP",
-            "github_token": "ghp_abcdefghijklmnopqrstuvwxyz1234567890",
-            "openrouter_api_key": "sk-or-v1-abcdefghijklmnopqrstuvwxyz1234567890",
-            "generic_secret_assignment": "API_KEY=abcdefghijklmnopqrstuvwxyz123456",
+            "private_key_block": "-----BEGIN " + "PRIVATE KEY-----\nabc\n-----END PRIVATE KEY-----",
+            "aws_access_key_id": "AKIA" + "ABCDEFGHIJKLMNOP",
+            "github_token": "gh" + "p_abcdefghijklmnopqrstuvwxyz1234567890",
+            "openrouter_api_key": "sk" + "-or-v1-abcdefghijklmnopqrstuvwxyz1234567890",
+            "generic_secret_assignment": "API" + "_KEY=abcdefghijklmnopqrstuvwxyz123456",
         }
         for name, sample in samples.items():
             self.assertRegex(sample, secret_artifact_audit.SECRET_PATTERNS[name])
