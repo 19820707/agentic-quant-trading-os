@@ -14,11 +14,13 @@ The CodeQL workflow is allowed to run in GitHub Actions on pull requests, pushes
 
 CodeQL is advisory until GitHub Code Scanning is enabled for the repository. The workflow may run analysis without blocking merges while SARIF upload support is unavailable. Promoting CodeQL to a hard merge gate requires a separate PR after repository-level Code Scanning support is enabled.
 
+Local secret and artifact hygiene auditing is approved as a standard-library CI gate. It blocks real `.env` files, private-key material, token-like values, local databases, model checkpoints and generated data artifacts without calling external services.
+
 ## Tool Classes
 
 | Tool category | Default state | Approval required | Secrets required | Runtime environment |
 | --- | --- | --- | --- | --- |
-| Production CI candidates | CodeQL enabled; others disabled | Yes for non-CodeQL tools | No by default | GitHub Actions |
+| Production CI candidates | CodeQL and local hygiene audit enabled; others disabled | Yes for non-baseline tools | No by default | GitHub Actions |
 | Advisory review candidates | Disabled | Yes | Possible; must be reviewed | Pull request review only |
 | Research-only candidates | Disabled | Yes | No | Local research only |
 | Isolated lab only | Disabled | Yes | No production secrets | Isolated authorized lab |
@@ -29,6 +31,7 @@ CodeQL is advisory until GitHub Code Scanning is enabled for the repository. The
 These tools may be proposed for CI/CD after explicit review:
 
 - GitHub CodeQL for semantic SAST and code scanning
+- local standard-library secret and artifact hygiene auditing
 - Snyk for dependency, container and IaC review
 - SonarQube or SonarCloud for quality, bugs, security hotspots and code smells
 
@@ -88,6 +91,9 @@ Aderyn or similar Solidity analyzers are relevant only if the project adds Solid
 - no external security service tokens without approval
 - no GitHub App installation without approval
 - no generated findings treated as final approval
+- no model checkpoints committed to the repository
+- no local databases or market-data entitlement dumps committed to the repository
+- no real `.env` files committed to the repository
 
 ## Integration Gates
 
@@ -112,6 +118,7 @@ Tools requiring external accounts, paid services, organization settings, GitHub 
 codeql_enabled: true
 codeql_hard_gate_enabled: false
 codeql_requires_code_scanning_enabled: true
+local_secret_artifact_audit_enabled: true
 snyk_enabled: false
 sonarqube_enabled: false
 coderabbit_enabled: false
