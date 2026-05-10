@@ -1,6 +1,6 @@
 # External Projects Catalog
 
-This catalog is a placeholder for documenting external projects, tools and libraries considered for future integration.
+This catalog documents external projects, tools and libraries considered for future integration.
 
 ## Rules
 
@@ -10,6 +10,12 @@ This catalog is a placeholder for documenting external projects, tools and libra
 - FIX engines belong only inside execution-engine adapters.
 - Backtesting tools cannot promote strategies directly to live trading.
 - MCP tools must never receive broker credentials.
+- Prediction-market trading bots require an intake audit, source quarantine plan, dependency/SBOM review, and explicit risk approval before any runtime installation.
+- Repositories with order execution, wallet signing, private-key handling, copy trading, autonomous arbitrage, or live exchange/API credentials must remain disabled until deterministic-risk-gateway and execution-engine controls exist.
+
+## Active Intake Audits
+
+- [Prediction Market Repository Intake Audit](../security/prediction_market_repo_intake_audit.md)
 
 ## Candidate Record Template
 
@@ -22,4 +28,3 @@ This catalog is a placeholder for documenting external projects, tools and libra
 - Integration pattern:
 - Risk boundary:
 - Approval status:
-
