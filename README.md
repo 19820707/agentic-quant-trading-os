@@ -64,6 +64,21 @@ CI must not use secrets, perform live trading, call broker/exchange APIs or run 
 
 ## Security Tooling
 
-CodeQL security analysis is enabled for Python code scanning. Other tools such as Snyk, SonarQube, CodeRabbit, LLM Council or offensive-security agents require separate approval before installation, tokens, GitHub Apps or runtime use.
+Active baseline:
+
+- CodeQL security analysis for Python code scanning
+
+Documented but not active:
+
+- Snyk
+- SonarQube
+- CodeRabbit
+- LLM Council
+- PentestGPT
+- Xalgorix
+- HackCode
+- Aderyn
+
+Documented tools are not installed, enabled or approved for runtime use by default. Tools that require tokens, GitHub Apps, external accounts, offensive capability or Web3 scope require separate approval before installation or use.
 
 See [Security Tooling Integration Policy](docs/security/security_tooling_integration_policy.md).
