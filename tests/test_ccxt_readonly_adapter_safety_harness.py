@@ -78,11 +78,11 @@ class CcxtReadOnlyAdapterSafetyHarnessTests(unittest.TestCase):
     def test_future_adapter_must_not_bypass_risk_gateway(self):
         self.assertIn("bypass deterministic-risk-gateway", _readme_text())
 
-    def test_current_status_is_safety_harness_only(self):
+    def test_current_status_is_read_only_skeleton_only(self):
         text = _readme_text().lower()
 
-        self.assertIn("current status: safety harness only", text)
-        self.assertIn("does not implement a ccxt adapter", text)
+        self.assertIn("current status: read-only skeleton only", text)
+        self.assertIn("uses injected fake/in-memory clients only", text)
         self.assertIn("does not import `ccxt`", text)
 
     def test_checklist_has_required_review_items(self):

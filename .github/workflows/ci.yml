@@ -22,6 +22,8 @@ jobs:
           python-version: "3.11"
       - name: Run scaffold audit
         run: python scripts/scaffold_audit.py
+      - name: Run scaffold audit unit tests
+        run: python -m unittest discover -s tests -p "test_scaffold_audit.py"
 
   contract-tests:
     name: Contract tests

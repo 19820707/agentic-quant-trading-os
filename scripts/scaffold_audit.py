@@ -60,6 +60,18 @@ PROHIBITED_MARKERS = [
     "withdraw(",
 ]
 
+SKIPPED_DIRECTORY_NAMES = {
+    ".git",
+    ".pytest_cache",
+    "__pycache__",
+    "agentic_quant_trading_os.egg-info",
+}
+
+SKIPPED_FILE_SUFFIXES = {
+    ".pyc",
+    ".pyo",
+}
+
 
 def read_text(path: Path) -> str:
     return path.read_text(encoding="utf-8", errors="ignore")
@@ -67,6 +79,16 @@ def read_text(path: Path) -> str:
 
 def fail(message: str) -> None:
     raise SystemExit(f"scaffold audit failed: {message}")
+
+
+def should_scan_file(path: Path) -> bool:
+    if not path.is_file():
+        return False
+    if any(part in SKIPPED_DIRECTORY_NAMES for part in path.parts):
+        return False
+    if path.suffix in SKIPPED_FILE_SUFFIXES:
+        return False
+    return True
 
 
 def check_required_paths() -> None:
@@ -102,11 +124,9 @@ def check_services() -> None:
 def check_prohibited_markers() -> None:
     self_path = Path(__file__).resolve()
     for path in ROOT.rglob("*"):
-        if not path.is_file():
-            continue
         if path.resolve() == self_path:
             continue
-        if ".git" in path.parts:
+        if not should_scan_file(path):
             continue
         text = read_text(path)
         for marker in PROHIBITED_MARKERS:
