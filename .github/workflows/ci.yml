@@ -81,6 +81,14 @@ jobs:
           python-version: "3.11"
       - name: Run security tooling policy tests
         run: python -m unittest discover -s tests -p "test_security_tooling_policy.py"
+      - name: Run prediction market repository audit tests
+        run: python -m unittest discover -s tests -p "test_prediction_market_repo_audit.py"
+      - name: Run market-edge reference review tests
+        run: python -m unittest discover -s tests -p "test_market_edge_reference_review.py"
+      - name: Run polymarket-skills reference review tests
+        run: python -m unittest discover -s tests -p "test_polymarket_skills_reference_review.py"
+      - name: Run Trading-Agent-Polymarket reference review tests
+        run: python -m unittest discover -s tests -p "test_trading_agent_polymarket_reference_review.py"
 
   secret-artifact-audit:
     name: Secret and artifact hygiene audit

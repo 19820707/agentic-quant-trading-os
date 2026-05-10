@@ -14,3 +14,13 @@ Future integrations must use internal contracts and governed adapters before the
 
 Every future integration folder should include a completed [External Adapter Review Checklist](../docs/integrations/external_adapter_review_checklist.md) or a link to the approved checklist record.
 
+Prediction-market repositories are cataloged in the [Prediction Market Repository Audit](../docs/integrations/prediction_market_repo_audit.md).
+
+That audit is reference-only. It does not approve cloning, installing, vendoring, MCP activation, live trading, wallet access, broker/exchange credentials or runtime coupling.
+
+The `datori/market-edge` repository has a separate [market-edge Reference Review](../docs/integrations/market_edge_reference_review.md). Reusable ideas are captured in the [Prediction Market Research Pipeline](../docs/architecture/prediction_market_research_pipeline.md) without importing its dependencies or runtime behavior.
+
+The `mjunaidca/polymarket-skills` repository has a separate [polymarket-skills Reference Review](../docs/integrations/polymarket_skills_reference_review.md). Reusable ideas are captured in the [Agentic Tool Safety Taxonomy](../docs/architecture/agentic_tool_safety_taxonomy.md) without installing skills, enabling MCP runtimes, using `py-clob-client`, wallet credentials or live-executor behavior.
+
+The `InjayTseng/Trading-Agent-Polymarket` repository has a separate [Trading-Agent-Polymarket Reference Review](../docs/integrations/trading_agent_polymarket_reference_review.md). Reusable ideas are captured in the [Multi-Agent Research Graph](../docs/architecture/multi_agent_research_graph.md) without installing LangGraph, LangChain, provider SDKs, API keys, Polymarket runtime calls or trading-decision authority.
+
