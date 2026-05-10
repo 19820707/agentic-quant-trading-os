@@ -20,3 +20,5 @@ That audit is reference-only. It does not approve cloning, installing, vendoring
 
 The `datori/market-edge` repository has a separate [market-edge Reference Review](../docs/integrations/market_edge_reference_review.md). Reusable ideas are captured in the [Prediction Market Research Pipeline](../docs/architecture/prediction_market_research_pipeline.md) without importing its dependencies or runtime behavior.
 
+The `mjunaidca/polymarket-skills` repository has a separate [polymarket-skills Reference Review](../docs/integrations/polymarket_skills_reference_review.md). Reusable ideas are captured in the [Agentic Tool Safety Taxonomy](../docs/architecture/agentic_tool_safety_taxonomy.md) without installing skills, enabling MCP runtimes, using `py-clob-client`, wallet credentials or live-executor behavior.
+
