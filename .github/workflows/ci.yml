@@ -58,3 +58,16 @@ jobs:
         run: python -m unittest discover -s tests -p "test_market_data_adapter_registry.py"
       - name: Run in-memory market data adapter tests
         run: python -m unittest discover -s tests -p "test_in_memory_market_data_adapter.py"
+
+  security-policy-tests:
+    name: Security policy tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run security tooling policy tests
+        run: python -m unittest discover -s tests -p "test_security_tooling_policy.py"
