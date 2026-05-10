@@ -18,3 +18,5 @@ Prediction-market repositories are cataloged in the [Prediction Market Repositor
 
 That audit is reference-only. It does not approve cloning, installing, vendoring, MCP activation, live trading, wallet access, broker/exchange credentials or runtime coupling.
 
+The `datori/market-edge` repository has a separate [market-edge Reference Review](../docs/integrations/market_edge_reference_review.md). Reusable ideas are captured in the [Prediction Market Research Pipeline](../docs/architecture/prediction_market_research_pipeline.md) without importing its dependencies or runtime behavior.
+
