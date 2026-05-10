@@ -91,6 +91,10 @@ jobs:
         run: python -m unittest discover -s tests -p "test_polymarket_skills_reference_review.py"
       - name: Run Trading-Agent-Polymarket reference review tests
         run: python -m unittest discover -s tests -p "test_trading_agent_polymarket_reference_review.py"
+      - name: Run PMXT MCP reference review tests
+        run: python -m unittest discover -s tests -p "test_pmxt_mcp_reference_review.py"
+      - name: Run prediction market MCP tool policy tests
+        run: python -m unittest discover -s tests -p "test_prediction_market_mcp_tool_policy.py"
 
   secret-artifact-audit:
     name: Secret and artifact hygiene audit
