@@ -2,7 +2,9 @@ from __future__ import annotations
 
 import copy
 import json
+import re
 from dataclasses import dataclass
+from datetime import datetime
 from pathlib import Path
 from typing import Any
 
@@ -95,22 +97,120 @@ class ContractValidator:
 
     def _minimal_validate(self, schema: dict[str, Any], payload: Any) -> list[str]:
         errors: list[str] = []
+        self._minimal_validate_value(schema, payload, "$", errors)
+        return errors
 
-        if not isinstance(payload, dict):
-            return ["payload must be an object"]
+    def _minimal_validate_value(self, schema: dict[str, Any], value: Any, path: str, errors: list[str]) -> None:
+        if "const" in schema and value != schema["const"]:
+            errors.append(f"{path}: expected const {schema['const']!r}")
 
+        if "enum" in schema and value not in schema["enum"]:
+            errors.append(f"{path}: value {value!r} is not in enum")
+
+        expected_type = schema.get("type")
+        if expected_type is not None and not self._minimal_matches_type(value, expected_type):
+            errors.append(f"{path}: expected type {expected_type!r}")
+            return
+
+        if isinstance(value, dict):
+            self._minimal_validate_object(schema, value, path, errors)
+        elif isinstance(value, list):
+            self._minimal_validate_array(schema, value, path, errors)
+        elif isinstance(value, str):
+            self._minimal_validate_string(schema, value, path, errors)
+        elif isinstance(value, (int, float)) and not isinstance(value, bool):
+            self._minimal_validate_number(schema, value, path, errors)
+
+    def _minimal_validate_object(
+        self,
+        schema: dict[str, Any],
+        payload: dict[str, Any],
+        path: str,
+        errors: list[str],
+    ) -> None:
         properties = schema.get("properties", {})
         for field in schema.get("required", []):
             if field not in payload:
-                errors.append(f"missing required field: {field}")
+                errors.append(f"{path}: missing required field: {field}")
 
         if schema.get("additionalProperties") is False:
             for field in payload:
                 if field not in properties:
-                    errors.append(f"additional property is not allowed: {field}")
+                    errors.append(f"{path}.{field}: additional property is not allowed")
 
         for field, field_schema in properties.items():
-            if field in payload and "const" in field_schema and payload[field] != field_schema["const"]:
-                errors.append(f"field {field} must equal {field_schema['const']!r}")
+            if field in payload and isinstance(field_schema, dict):
+                self._minimal_validate_value(field_schema, payload[field], f"{path}.{field}", errors)
 
-        return errors
+    def _minimal_validate_array(
+        self,
+        schema: dict[str, Any],
+        value: list[Any],
+        path: str,
+        errors: list[str],
+    ) -> None:
+        min_items = schema.get("minItems")
+        if isinstance(min_items, int) and len(value) < min_items:
+            errors.append(f"{path}: expected at least {min_items} items")
+
+        item_schema = schema.get("items")
+        if isinstance(item_schema, dict):
+            for index, item in enumerate(value):
+                self._minimal_validate_value(item_schema, item, f"{path}[{index}]", errors)
+
+    def _minimal_validate_string(
+        self,
+        schema: dict[str, Any],
+        value: str,
+        path: str,
+        errors: list[str],
+    ) -> None:
+        min_length = schema.get("minLength")
+        if isinstance(min_length, int) and len(value) < min_length:
+            errors.append(f"{path}: shorter than minLength {min_length}")
+
+        pattern = schema.get("pattern")
+        if isinstance(pattern, str) and not re.match(pattern, value):
+            errors.append(f"{path}: value does not match required pattern")
+
+        if schema.get("format") == "date-time":
+            try:
+                datetime.fromisoformat(value.replace("Z", "+00:00"))
+            except ValueError:
+                errors.append(f"{path}: invalid date-time")
+
+    def _minimal_validate_number(
+        self,
+        schema: dict[str, Any],
+        value: int | float,
+        path: str,
+        errors: list[str],
+    ) -> None:
+        minimum = schema.get("minimum")
+        if isinstance(minimum, (int, float)) and value < minimum:
+            errors.append(f"{path}: below minimum {minimum}")
+
+        maximum = schema.get("maximum")
+        if isinstance(maximum, (int, float)) and value > maximum:
+            errors.append(f"{path}: above maximum {maximum}")
+
+        exclusive_minimum = schema.get("exclusiveMinimum")
+        if isinstance(exclusive_minimum, (int, float)) and value <= exclusive_minimum:
+            errors.append(f"{path}: not above exclusiveMinimum {exclusive_minimum}")
+
+    def _minimal_matches_type(self, value: Any, expected_type: str | list[str]) -> bool:
+        if isinstance(expected_type, list):
+            return any(self._minimal_matches_type(value, item) for item in expected_type)
+
+        checks = {
+            "object": lambda candidate: isinstance(candidate, dict),
+            "array": lambda candidate: isinstance(candidate, list),
+            "string": lambda candidate: isinstance(candidate, str),
+            "number": lambda candidate: isinstance(candidate, (int, float)) and not isinstance(candidate, bool),
+            "boolean": lambda candidate: isinstance(candidate, bool),
+            "null": lambda candidate: candidate is None,
+        }
+        check = checks.get(expected_type)
+        if check is None:
+            return True
+        return check(value)

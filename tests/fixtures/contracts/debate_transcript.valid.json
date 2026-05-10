@@ -1,0 +1,28 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "debate_transcript_id": "dt_fixture_001",
+  "research_dossier_id": "rd_fixture_001",
+  "debate_type": "YES_NO",
+  "created_at": "2026-01-01T00:04:00Z",
+  "turns": [
+    {
+      "role": "yes_researcher",
+      "position": "YES",
+      "content": "Synthetic YES argument based on fixture evidence."
+    },
+    {
+      "role": "no_researcher",
+      "position": "NO",
+      "content": "Synthetic NO argument based on fixture uncertainty."
+    },
+    {
+      "role": "research_manager",
+      "position": "MANAGER",
+      "content": "Synthetic summary keeps uncertainty explicit."
+    }
+  ],
+  "summary": "Synthetic debate transcript for local contract validation.",
+  "execution_allowed": false
+}

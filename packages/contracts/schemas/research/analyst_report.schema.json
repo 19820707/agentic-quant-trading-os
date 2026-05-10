@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/analyst_report.schema.json",
+  "$comment": "AnalystReport is evidence only and must not be treated as trading authority.",
+  "title": "AnalystReport",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "analyst_report_id",
+    "research_dossier_id",
+    "analyst_role",
+    "created_at",
+    "summary",
+    "findings",
+    "confidence",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "analyst_report_id": {
+      "type": "string",
+      "pattern": "^ar_[A-Za-z0-9_\\-]+$"
+    },
+    "research_dossier_id": {
+      "type": "string",
+      "pattern": "^rd_[A-Za-z0-9_\\-]+$"
+    },
+    "analyst_role": {
+      "type": "string",
+      "enum": [
+        "EVENT",
+        "ODDS",
+        "INFORMATION",
+        "SENTIMENT",
+        "OTHER"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "caveats": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}

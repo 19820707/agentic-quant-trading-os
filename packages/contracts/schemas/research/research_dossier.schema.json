@@ -1,0 +1,139 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/research_dossier.schema.json",
+  "$comment": "ResearchDossier is non-executable. It may inform analysis but must not create OrderIntent, ApprovedOrder or execution approval.",
+  "title": "ResearchDossier",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "research_dossier_id",
+    "subject",
+    "market_category",
+    "created_at",
+    "data_as_of",
+    "sources",
+    "summary",
+    "key_findings",
+    "uncertainties",
+    "contains_untrusted_market_metadata",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "research_dossier_id": {
+      "type": "string",
+      "pattern": "^rd_[A-Za-z0-9_\\-]+$"
+    },
+    "subject": {
+      "type": "string",
+      "minLength": 1
+    },
+    "market_id": {
+      "type": "string"
+    },
+    "market_category": {
+      "type": "string",
+      "enum": [
+        "prediction_market",
+        "macro",
+        "news",
+        "crypto",
+        "equity",
+        "rates",
+        "other"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "data_as_of": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "source_id",
+          "source_type",
+          "retrieved_at"
+        ],
+        "properties": {
+          "source_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source_type": {
+            "type": "string",
+            "enum": [
+              "fixture",
+              "document",
+              "market_metadata",
+              "news",
+              "research_note",
+              "other"
+            ]
+          },
+          "retrieved_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "trust_level": {
+            "type": "string",
+            "enum": [
+              "trusted_internal",
+              "public_untrusted",
+              "synthetic_fixture"
+            ]
+          }
+        }
+      }
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "key_findings": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "uncertainties": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "contains_untrusted_market_metadata": {
+      "type": "boolean"
+    },
+    "prompt_injection_reviewed": {
+      "type": "boolean"
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}

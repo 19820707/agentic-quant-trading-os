@@ -1,0 +1,20 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "signal_candidate_id": "sigcand_fixture_001",
+  "probability_estimate_id": "pe_fixture_001",
+  "created_at": "2026-01-01T00:05:00Z",
+  "signal": "PASS",
+  "estimated_probability": 0.62,
+  "market_price": 0.6,
+  "edge": 0.02,
+  "confidence": 0.55,
+  "rationale": "Synthetic signal candidate remains non-executable.",
+  "risk_flags": [
+    "fixture_only",
+    "requires_deterministic_risk_gateway_before_any_future_order_intent"
+  ],
+  "order_intent_allowed": false,
+  "execution_allowed": false
+}

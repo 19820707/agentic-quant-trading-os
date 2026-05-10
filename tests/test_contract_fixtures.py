@@ -13,6 +13,13 @@ FIXTURES = {
     "approved_order.valid.json": ("trading", "approved_order"),
     "execution_report.valid.json": ("trading", "execution_report"),
     "audit_event.valid.json": ("audit", "audit_event"),
+    "research_dossier.valid.json": ("research", "research_dossier"),
+    "probability_estimate.valid.json": ("research", "probability_estimate"),
+    "hypothesis_record.valid.json": ("research", "hypothesis_record"),
+    "analyst_report.valid.json": ("research", "analyst_report"),
+    "debate_transcript.valid.json": ("research", "debate_transcript"),
+    "signal_candidate.valid.json": ("research", "signal_candidate"),
+    "risk_review_input.valid.json": ("research", "risk_review_input"),
 }
 
 FORBIDDEN_KEYS = {
@@ -60,7 +67,23 @@ class ContractFixtureTests(unittest.TestCase):
             for fixture_name in FIXTURES
         }
 
-        self.assertEqual(correlation_ids, {"corr_fixture_lifecycle_001"})
+        self.assertEqual(
+            correlation_ids,
+            {"corr_fixture_lifecycle_001", "corr_research_contracts_001"},
+        )
+
+    def test_research_fixtures_are_non_executable(self):
+        for fixture_name, (domain, _) in FIXTURES.items():
+            if domain != "research":
+                continue
+            with self.subTest(fixture=fixture_name):
+                payload = self._load_fixture(fixture_name)
+                if "execution_allowed" in payload:
+                    self.assertFalse(payload["execution_allowed"])
+                if "order_intent_allowed" in payload:
+                    self.assertFalse(payload["order_intent_allowed"])
+                if "risk_approval_allowed" in payload:
+                    self.assertFalse(payload["risk_approval_allowed"])
 
     def _load_fixture(self, fixture_name):
         with (FIXTURE_ROOT / fixture_name).open(encoding="utf-8") as fixture_file:

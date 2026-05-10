@@ -1,0 +1,17 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "risk_review_input_id": "rri_fixture_001",
+  "signal_candidate_id": "sigcand_fixture_001",
+  "created_at": "2026-01-01T00:06:00Z",
+  "risk_flags": [
+    "fixture_only",
+    "stale_data_check_required",
+    "correlation_review_required"
+  ],
+  "review_notes": "Advisory risk-review input only; not a risk decision.",
+  "deterministic_gateway_required": true,
+  "risk_approval_allowed": false,
+  "execution_allowed": false
+}

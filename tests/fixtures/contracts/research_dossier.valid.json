@@ -1,0 +1,30 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "research_dossier_id": "rd_fixture_001",
+  "subject": "Example prediction market research subject",
+  "market_id": "fixture_market_001",
+  "market_category": "prediction_market",
+  "created_at": "2026-01-01T00:00:00Z",
+  "data_as_of": "2026-01-01T00:00:00Z",
+  "sources": [
+    {
+      "source_id": "fixture_source_001",
+      "source_type": "fixture",
+      "retrieved_at": "2026-01-01T00:00:00Z",
+      "trust_level": "synthetic_fixture"
+    }
+  ],
+  "summary": "Synthetic local-only dossier for contract validation.",
+  "key_findings": [
+    "Market metadata is treated as untrusted data.",
+    "No execution action is encoded in this dossier."
+  ],
+  "uncertainties": [
+    "This fixture does not use external data."
+  ],
+  "contains_untrusted_market_metadata": true,
+  "prompt_injection_reviewed": true,
+  "execution_allowed": false
+}

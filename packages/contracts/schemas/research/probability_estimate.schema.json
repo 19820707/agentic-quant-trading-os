@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/probability_estimate.schema.json",
+  "$comment": "ProbabilityEstimate is non-executable model/research output. It must not approve risk or execution.",
+  "title": "ProbabilityEstimate",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "probability_estimate_id",
+    "research_dossier_id",
+    "subject",
+    "estimated_probability",
+    "confidence",
+    "estimated_at",
+    "method",
+    "rationale",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "probability_estimate_id": {
+      "type": "string",
+      "pattern": "^pe_[A-Za-z0-9_\\-]+$"
+    },
+    "research_dossier_id": {
+      "type": "string",
+      "pattern": "^rd_[A-Za-z0-9_\\-]+$"
+    },
+    "subject": {
+      "type": "string",
+      "minLength": 1
+    },
+    "estimated_probability": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "uncertainty_interval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lower",
+        "upper"
+      ],
+      "properties": {
+        "lower": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "upper": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "estimated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "method": {
+      "type": "string",
+      "enum": [
+        "base_rate",
+        "evidence_update",
+        "adversarial_review",
+        "calibrated",
+        "ensemble",
+        "manual_research"
+      ]
+    },
+    "model_id": {
+      "type": "string"
+    },
+    "calibration_version": {
+      "type": "string"
+    },
+    "rationale": {
+      "type": "string",
+      "minLength": 1
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}

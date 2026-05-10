@@ -10,8 +10,15 @@ Required lifecycle identifiers should be preserved where relevant:
 
 - `trace_id`
 - `correlation_id`
+- `research_dossier_id`
+- `probability_estimate_id`
+- `hypothesis_id`
+- `analyst_report_id`
+- `debate_transcript_id`
 - `prediction_id`
 - `signal_id`
+- `signal_candidate_id`
+- `risk_review_input_id`
 - `order_intent_id`
 - `risk_decision_id`
 - `approved_order_id`
@@ -22,8 +29,11 @@ Required lifecycle identifiers should be preserved where relevant:
 Core lifecycle contracts currently follow:
 
 ```text
+ResearchDossier -> ProbabilityEstimate -> SignalCandidate -> RiskReviewInput
 OrderIntent -> RiskDecision -> ApprovedOrder -> ExecutionReport -> AuditEvent
 ```
+
+Research contracts are non-executable. `SignalCandidate` is not `OrderIntent`, and `RiskReviewInput` is not `RiskDecision`.
 
 The validator can verify contract shape, but it does not decide risk, approve orders, approve execution, submit orders, call services, call the network, access broker/exchange code, access credentials, read secrets, or require broker/exchange API keys.
 
