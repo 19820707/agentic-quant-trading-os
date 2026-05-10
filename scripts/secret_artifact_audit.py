@@ -46,6 +46,11 @@ ALLOWED_FILE_NAMES = {
     ".env.example",
 }
 
+ALLOWED_SECRET_PATTERN_PATHS = {
+    "scripts/secret_artifact_audit.py",
+    "tests/test_secret_artifact_audit.py",
+}
+
 BLOCKED_FILE_SUFFIXES = {
     ".key",
     ".pem",
@@ -122,6 +127,10 @@ def relative(path: Path) -> Path:
     return path.relative_to(ROOT)
 
 
+def relative_text(path: Path) -> str:
+    return relative(path).as_posix()
+
+
 def iter_repository_paths() -> Iterable[Path]:
     for path in ROOT.rglob("*"):
         if any(part in SKIPPED_DIRECTORY_NAMES for part in path.relative_to(ROOT).parts):
@@ -135,6 +144,10 @@ def is_text_candidate(path: Path) -> bool:
     if path.suffix in SKIPPED_FILE_SUFFIXES:
         return False
     return path.suffix in TEXT_FILE_SUFFIX_ALLOWLIST
+
+
+def is_secret_pattern_allowlisted(path: Path) -> bool:
+    return relative_text(path) in ALLOWED_SECRET_PATTERN_PATHS
 
 
 def read_text(path: Path) -> str:
@@ -162,9 +175,8 @@ def find_blocked_artifact_paths() -> list[str]:
 
 def find_secret_patterns() -> list[str]:
     findings: list[str] = []
-    self_path = Path(__file__).resolve()
     for path in iter_repository_paths():
-        if path.resolve() == self_path:
+        if is_secret_pattern_allowlisted(path):
             continue
         if not is_text_candidate(path):
             continue
