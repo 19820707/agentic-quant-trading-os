@@ -12,6 +12,8 @@ CodeQL is approved as the first repository-native security scanner.
 
 The CodeQL workflow is allowed to run in GitHub Actions on pull requests, pushes to `main` and a weekly schedule. It must use repository code only, must not require project secrets and must not call broker, exchange or trading APIs.
 
+CodeQL is advisory until GitHub Code Scanning is enabled for the repository. The workflow may run analysis without blocking merges while SARIF upload support is unavailable. Promoting CodeQL to a hard merge gate requires a separate PR after repository-level Code Scanning support is enabled.
+
 ## Tool Classes
 
 | Tool category | Default state | Approval required | Secrets required | Runtime environment |
@@ -108,6 +110,8 @@ Tools requiring external accounts, paid services, organization settings, GitHub 
 
 ```yaml
 codeql_enabled: true
+codeql_hard_gate_enabled: false
+codeql_requires_code_scanning_enabled: true
 snyk_enabled: false
 sonarqube_enabled: false
 coderabbit_enabled: false

@@ -66,6 +66,8 @@ class SecurityToolingPolicyTests(unittest.TestCase):
         self.assertIn("packages: read", text)
         self.assertIn("workflow_dispatch:", text)
         self.assertIn("concurrency:", text)
+        self.assertIn("continue-on-error: true", text)
+        self.assertIn("Advisory until GitHub Code Scanning is enabled", text)
         self.assertNotIn("secrets.", text)
 
     def test_sensitive_tools_require_explicit_policy_changes(self) -> None:
@@ -81,6 +83,8 @@ class SecurityToolingPolicyTests(unittest.TestCase):
             "snyk_enabled: false",
             "sonarqube_enabled: false",
             "coderabbit_enabled: false",
+            "codeql_hard_gate_enabled: false",
+            "codeql_requires_code_scanning_enabled: true",
             "offensive_lab_tools_enabled: false",
             "web3_static_analysis_enabled: false",
         )

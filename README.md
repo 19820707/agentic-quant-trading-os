@@ -81,4 +81,6 @@ Documented but not active:
 
 Documented tools are not installed, enabled or approved for runtime use by default. Tools that require tokens, GitHub Apps, external accounts, offensive capability or Web3 scope require separate approval before installation or use.
 
+CodeQL is currently advisory until GitHub Code Scanning is enabled for the repository. Promoting it to a hard merge gate requires a separate approval PR after repository-level support is available.
+
 See [Security Tooling Integration Policy](docs/security/security_tooling_integration_policy.md).
