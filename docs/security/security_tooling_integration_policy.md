@@ -14,6 +14,14 @@ The CodeQL workflow is allowed to run in GitHub Actions on pull requests, pushes
 
 ## Tool Classes
 
+| Tool category | Default state | Approval required | Secrets required | Runtime environment |
+| --- | --- | --- | --- | --- |
+| Production CI candidates | CodeQL enabled; others disabled | Yes for non-CodeQL tools | No by default | GitHub Actions |
+| Advisory review candidates | Disabled | Yes | Possible; must be reviewed | Pull request review only |
+| Research-only candidates | Disabled | Yes | No | Local research only |
+| Isolated lab only | Disabled | Yes | No production secrets | Isolated authorized lab |
+| Web3 only | Disabled | Yes | No | Web3/Solidity scope only |
+
 ### Production CI Candidates
 
 These tools may be proposed for CI/CD after explicit review:
@@ -54,6 +62,8 @@ Offensive or dual-use tooling is allowed only in isolated, authorized lab enviro
 
 These tools must not run against third-party targets without written authorization. They must not connect to production, brokers, exchanges, wallets, banks, real secrets or trading infrastructure.
 
+No offensive or autonomous security tool may run against external targets unless the scope is documented, authorized and isolated.
+
 ### Web3 Only
 
 Aderyn or similar Solidity analyzers are relevant only if the project adds Solidity, DeFi or smart-contract scope through a separate approved PR.
@@ -63,6 +73,10 @@ Aderyn or similar Solidity analyzers are relevant only if the project adds Solid
 - no broker credentials
 - no exchange trade credentials
 - no withdrawal keys
+- no wallet keys
+- no trading secrets
+- no production market data entitlements
+- no live execution infrastructure access
 - no production secrets
 - no live trading paths
 - no order submission

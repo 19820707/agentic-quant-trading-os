@@ -1,7 +1,10 @@
 name: CodeQL Security Analysis
 
 on:
+  workflow_dispatch:
   pull_request:
+    branches:
+      - main
   push:
     branches:
       - main
@@ -11,7 +14,12 @@ on:
 permissions:
   actions: read
   contents: read
+  packages: read
   security-events: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   analyze:
@@ -20,6 +28,8 @@ jobs:
     timeout-minutes: 20
 
     steps:
+      # Baseline defensive SAST only. Additional external/security tools require
+      # separate approval per docs/security/security_tooling_integration_policy.md.
       - name: Checkout repository
         uses: actions/checkout@v4
 
