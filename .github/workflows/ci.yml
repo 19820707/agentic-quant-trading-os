@@ -9,10 +9,15 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   scaffold-audit:
     name: Scaffold audit
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -28,6 +33,7 @@ jobs:
   contract-tests:
     name: Contract tests
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -47,6 +53,7 @@ jobs:
   adapter-interface-tests:
     name: Adapter interface tests
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -64,6 +71,7 @@ jobs:
   security-policy-tests:
     name: Security policy tests
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -73,3 +81,19 @@ jobs:
           python-version: "3.11"
       - name: Run security tooling policy tests
         run: python -m unittest discover -s tests -p "test_security_tooling_policy.py"
+
+  secret-artifact-audit:
+    name: Secret and artifact hygiene audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run secret and artifact hygiene tests
+        run: python -m unittest discover -s tests -p "test_secret_artifact_audit.py"
+      - name: Run secret and artifact hygiene audit
+        run: python scripts/secret_artifact_audit.py
