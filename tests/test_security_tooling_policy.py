@@ -60,6 +60,8 @@ class SecurityToolingPolicyTests(unittest.TestCase):
         self.assertIn("github/codeql-action/init@v4", text)
         self.assertIn("github/codeql-action/analyze@v4", text)
         self.assertIn("languages: python", text)
+        self.assertIn("queries: security-extended", text)
+        self.assertNotIn("security-and-quality", text)
         self.assertIn("security-events: write", text)
         self.assertIn("packages: read", text)
         self.assertIn("workflow_dispatch:", text)
@@ -67,9 +69,9 @@ class SecurityToolingPolicyTests(unittest.TestCase):
         self.assertNotIn("secrets.", text)
 
     def test_sensitive_tools_require_explicit_policy_changes(self) -> None:
-        searchable_text = "\n".join(
+        policy_text = POLICY.read_text(encoding="utf-8").lower()
+        activation_text = "\n".join(
             (
-                POLICY.read_text(encoding="utf-8"),
                 CODEQL_WORKFLOW.read_text(encoding="utf-8"),
                 CI_WORKFLOW.read_text(encoding="utf-8"),
             )
@@ -83,18 +85,23 @@ class SecurityToolingPolicyTests(unittest.TestCase):
             "web3_static_analysis_enabled: false",
         )
         for marker in disabled_markers:
-            self.assertIn(marker, searchable_text)
+            self.assertIn(marker, policy_text)
 
         forbidden_activation_markers = (
             "snyk/actions",
             "sonarsource/sonarqube-scan-action",
+            "coderabbit",
             "coderabbitai",
+            "pentestgpt",
+            "xalgorix",
+            "hackcode",
+            "aderyn",
             "openrouter_api_key",
             "snyk_token",
             "sonar_token",
         )
         for marker in forbidden_activation_markers:
-            self.assertNotIn(marker, searchable_text)
+            self.assertNotIn(marker, activation_text)
 
 
 if __name__ == "__main__":
