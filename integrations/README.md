@@ -22,3 +22,5 @@ The `datori/market-edge` repository has a separate [market-edge Reference Review
 
 The `mjunaidca/polymarket-skills` repository has a separate [polymarket-skills Reference Review](../docs/integrations/polymarket_skills_reference_review.md). Reusable ideas are captured in the [Agentic Tool Safety Taxonomy](../docs/architecture/agentic_tool_safety_taxonomy.md) without installing skills, enabling MCP runtimes, using `py-clob-client`, wallet credentials or live-executor behavior.
 
+The `InjayTseng/Trading-Agent-Polymarket` repository has a separate [Trading-Agent-Polymarket Reference Review](../docs/integrations/trading_agent_polymarket_reference_review.md). Reusable ideas are captured in the [Multi-Agent Research Graph](../docs/architecture/multi_agent_research_graph.md) without installing LangGraph, LangChain, provider SDKs, API keys, Polymarket runtime calls or trading-decision authority.
+
