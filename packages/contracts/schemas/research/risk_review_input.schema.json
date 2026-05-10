@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/risk_review_input.schema.json",
+  "$comment": "RiskReviewInput is advisory input only. It is not a deterministic-risk-gateway decision.",
+  "title": "RiskReviewInput",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "risk_review_input_id",
+    "signal_candidate_id",
+    "created_at",
+    "risk_flags",
+    "review_notes",
+    "deterministic_gateway_required",
+    "risk_approval_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "risk_review_input_id": {
+      "type": "string",
+      "pattern": "^rri_[A-Za-z0-9_\\-]+$"
+    },
+    "signal_candidate_id": {
+      "type": "string",
+      "pattern": "^sigcand_[A-Za-z0-9_\\-]+$"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "risk_flags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "review_notes": {
+      "type": "string",
+      "minLength": 1
+    },
+    "deterministic_gateway_required": {
+      "type": "boolean",
+      "const": true
+    },
+    "risk_approval_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}

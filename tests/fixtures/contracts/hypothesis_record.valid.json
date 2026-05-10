@@ -1,0 +1,19 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "hypothesis_id": "hyp_fixture_001",
+  "title": "Niche markets may require category-specific calibration.",
+  "status": "TESTING",
+  "created_at": "2026-01-01T00:02:00Z",
+  "updated_at": "2026-01-01T00:02:00Z",
+  "confidence": 0.4,
+  "evidence_refs": [
+    "rd_fixture_001",
+    "pe_fixture_001"
+  ],
+  "test_plan": "Validate against local synthetic fixtures before any real dataset use.",
+  "decay_policy": "review_after_30_days",
+  "next_review_at": "2026-01-31T00:00:00Z",
+  "execution_allowed": false
+}

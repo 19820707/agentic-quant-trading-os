@@ -1,0 +1,20 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "probability_estimate_id": "pe_fixture_001",
+  "research_dossier_id": "rd_fixture_001",
+  "subject": "Example prediction market research subject",
+  "estimated_probability": 0.62,
+  "confidence": 0.55,
+  "uncertainty_interval": {
+    "lower": 0.5,
+    "upper": 0.72
+  },
+  "estimated_at": "2026-01-01T00:01:00Z",
+  "method": "calibrated",
+  "model_id": "fixture_model_stub",
+  "calibration_version": "calibration_fixture_001",
+  "rationale": "Synthetic local-only probability estimate for contract validation.",
+  "execution_allowed": false
+}

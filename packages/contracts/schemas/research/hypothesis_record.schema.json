@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/hypothesis_record.schema.json",
+  "$comment": "HypothesisRecord tracks research lifecycle only. Confirmed hypotheses do not approve live trading.",
+  "title": "HypothesisRecord",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "hypothesis_id",
+    "title",
+    "status",
+    "created_at",
+    "updated_at",
+    "confidence",
+    "evidence_refs",
+    "next_review_at",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "hypothesis_id": {
+      "type": "string",
+      "pattern": "^hyp_[A-Za-z0-9_\\-]+$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "PROPOSED",
+        "TESTING",
+        "CONFIRMED",
+        "REJECTED",
+        "RETEST_REQUIRED"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "test_plan": {
+      "type": "string"
+    },
+    "decay_policy": {
+      "type": "string"
+    },
+    "next_review_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}
