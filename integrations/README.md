@@ -14,3 +14,7 @@ Future integrations must use internal contracts and governed adapters before the
 
 Every future integration folder should include a completed [External Adapter Review Checklist](../docs/integrations/external_adapter_review_checklist.md) or a link to the approved checklist record.
 
+Prediction-market repositories are cataloged in the [Prediction Market Repository Audit](../docs/integrations/prediction_market_repo_audit.md).
+
+That audit is reference-only. It does not approve cloning, installing, vendoring, MCP activation, live trading, wallet access, broker/exchange credentials or runtime coupling.
+

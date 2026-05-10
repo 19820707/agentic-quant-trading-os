@@ -81,6 +81,8 @@ jobs:
           python-version: "3.11"
       - name: Run security tooling policy tests
         run: python -m unittest discover -s tests -p "test_security_tooling_policy.py"
+      - name: Run prediction market repository audit tests
+        run: python -m unittest discover -s tests -p "test_prediction_market_repo_audit.py"
 
   secret-artifact-audit:
     name: Secret and artifact hygiene audit
