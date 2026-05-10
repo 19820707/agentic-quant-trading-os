@@ -6,6 +6,7 @@ ROOT = Path(__file__).resolve().parents[1]
 POLICY = ROOT / "docs" / "security" / "security_tooling_integration_policy.md"
 CODEQL_WORKFLOW = ROOT / ".github" / "workflows" / "codeql.yml"
 CI_WORKFLOW = ROOT / ".github" / "workflows" / "ci.yml"
+SECRET_ARTIFACT_AUDIT = ROOT / "scripts" / "secret_artifact_audit.py"
 
 
 class SecurityToolingPolicyTests(unittest.TestCase):
@@ -50,6 +51,9 @@ class SecurityToolingPolicyTests(unittest.TestCase):
             "no live trading paths",
             "no order submission",
             "no bypass of deterministic-risk-gateway",
+            "no model checkpoints committed to the repository",
+            "no local databases or market-data entitlement dumps committed to the repository",
+            "no real `.env` files committed to the repository",
             "no offensive or autonomous security tool may run against external targets",
         ):
             self.assertIn(phrase, text)
@@ -69,6 +73,20 @@ class SecurityToolingPolicyTests(unittest.TestCase):
         self.assertIn("continue-on-error: true", text)
         self.assertIn("Advisory until GitHub Code Scanning is enabled", text)
         self.assertNotIn("secrets.", text)
+
+    def test_local_secret_artifact_audit_is_enabled_without_external_tools(self) -> None:
+        policy_text = POLICY.read_text(encoding="utf-8")
+        ci_text = CI_WORKFLOW.read_text(encoding="utf-8")
+        audit_text = SECRET_ARTIFACT_AUDIT.read_text(encoding="utf-8")
+
+        self.assertIn("local_secret_artifact_audit_enabled: true", policy_text)
+        self.assertIn("secret-artifact-audit:", ci_text)
+        self.assertIn("python scripts/secret_artifact_audit.py", ci_text)
+        self.assertIn("BLOCKED_FILE_SUFFIXES", audit_text)
+        self.assertIn("SECRET_PATTERNS", audit_text)
+        self.assertNotIn("requests", audit_text)
+        self.assertNotIn("urllib", audit_text)
+        self.assertNotIn("subprocess", audit_text)
 
     def test_sensitive_tools_require_explicit_policy_changes(self) -> None:
         policy_text = POLICY.read_text(encoding="utf-8").lower()
