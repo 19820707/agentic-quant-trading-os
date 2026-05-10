@@ -184,6 +184,14 @@ The graph must:
 - detect instruction-like payloads
 - keep system/developer prompts separate from retrieved market content
 
+## Local Fake Graph Safety Harness
+
+`packages/sdk/prediction_research_fake_graph.py` provides a deterministic local harness for this graph boundary.
+
+It is scaffold-only and uses no LangGraph, LangChain, LLM provider SDK, network access, credentials or external prediction-market API. It produces only local research contracts: `ResearchDossier`, `AnalystReport`, `DebateTranscript`, `ProbabilityEstimate`, `SignalCandidate` and `RiskReviewInput`.
+
+The harness treats market metadata as untrusted data, delimits sanitized metadata and fails closed when metadata contains instruction-like or execution-like text. It must not create `OrderIntent`, create `ApprovedOrder`, approve risk, approve execution or emit live trading behavior.
+
 ## Non-Goals
 
 - no LangGraph runtime
@@ -196,4 +204,3 @@ The graph must:
 - no trading commands
 - no live execution
 - no production deployment
-
