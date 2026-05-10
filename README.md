@@ -50,7 +50,13 @@ Run the scaffold auditor with:
 python scripts/scaffold_audit.py
 ```
 
-The auditor checks expected placeholder structure and scans for prohibited implementation markers. It does not call external services.
+Run the secret and artifact hygiene auditor with:
+
+```bash
+python scripts/secret_artifact_audit.py
+```
+
+The scaffold auditor checks expected placeholder structure and scans for prohibited implementation markers. The secret and artifact hygiene auditor blocks real `.env` files, private-key material, token-like values, local databases, model checkpoints and generated data artifacts. Both auditors are local-only and do not call external services.
 
 ## Development Environment
 
@@ -58,7 +64,7 @@ For local interpreter setup, dependency expectations and editor troubleshooting,
 
 ## CI Quality Gates
 
-Pull requests and pushes to `main` run CI quality gates for scaffold audit, contract tests and adapter interface tests.
+Pull requests and pushes to `main` run CI quality gates for scaffold audit, contract tests, adapter interface tests, security policy tests, and secret/artifact hygiene tests.
 
 CI must not use secrets, perform live trading, call broker/exchange APIs or run network-dependent trading integrations.
 
@@ -67,6 +73,7 @@ CI must not use secrets, perform live trading, call broker/exchange APIs or run 
 Active baseline:
 
 - CodeQL security analysis for Python code scanning
+- local secret and artifact hygiene audit
 
 Documented but not active:
 
