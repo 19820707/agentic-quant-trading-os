@@ -1,0 +1,47 @@
+name: CodeQL Security Analysis
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: "24 3 * * 1"
+
+permissions:
+  actions: read
+  contents: read
+  packages: read
+  security-events: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  analyze:
+    name: CodeQL Python
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      # Baseline defensive SAST only. Additional external/security tools require
+      # separate approval per docs/security/security_tooling_integration_policy.md.
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v4
+        with:
+          languages: python
+          queries: security-extended
+
+      - name: Perform CodeQL analysis
+        # Advisory until GitHub Code Scanning is enabled for this repository.
+        # Remove continue-on-error in a separate approval PR once upload support
+        # is available and CodeQL is promoted to a hard merge gate.
+        continue-on-error: true
+        uses: github/codeql-action/analyze@v4
