@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/research_retrieval_result.schema.json",
+  "$comment": "ResearchRetrievalResult returns local research-memory matches only. It must not approve risk or execution.",
+  "title": "ResearchRetrievalResult",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "retrieval_result_id",
+    "retrieval_query_id",
+    "created_at",
+    "matches",
+    "result_count",
+    "local_only",
+    "network_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "retrieval_result_id": {
+      "type": "string",
+      "pattern": "^rr_[A-Za-z0-9_\\-]+$"
+    },
+    "retrieval_query_id": {
+      "type": "string",
+      "pattern": "^rq_[A-Za-z0-9_\\-]+$"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "matches": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "memory_record_id",
+          "score",
+          "summary",
+          "evidence_refs"
+        ],
+        "properties": {
+          "memory_record_id": {
+            "type": "string",
+            "pattern": "^mem_[A-Za-z0-9_\\-]+$"
+          },
+          "score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "result_count": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 50
+    },
+    "retrieval_notes": {
+      "type": "string"
+    },
+    "local_only": {
+      "type": "boolean",
+      "const": true
+    },
+    "network_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}

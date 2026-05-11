@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/research_memory_record.schema.json",
+  "$comment": "ResearchMemoryRecord stores local research memory only. It must not approve risk or execution.",
+  "title": "ResearchMemoryRecord",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "memory_record_id",
+    "memory_type",
+    "subject",
+    "created_at",
+    "updated_at",
+    "source_refs",
+    "summary",
+    "evidence_refs",
+    "confidence",
+    "local_only",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "memory_record_id": {
+      "type": "string",
+      "pattern": "^mem_[A-Za-z0-9_\\-]+$"
+    },
+    "memory_type": {
+      "type": "string",
+      "enum": [
+        "SIMILAR_MARKET",
+        "CALIBRATION_NOTE",
+        "HYPOTHESIS_NOTE",
+        "POSTMORTEM",
+        "DEBATE_SUMMARY",
+        "RESEARCH_NOTE"
+      ]
+    },
+    "subject": {
+      "type": "string",
+      "minLength": 1
+    },
+    "market_category": {
+      "type": "string",
+      "enum": [
+        "prediction_market",
+        "macro",
+        "news",
+        "crypto",
+        "equity",
+        "rates",
+        "other"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "decay_after": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "local_only": {
+      "type": "boolean",
+      "const": true
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}

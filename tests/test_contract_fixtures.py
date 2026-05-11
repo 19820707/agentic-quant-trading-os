@@ -20,6 +20,9 @@ FIXTURES = {
     "debate_transcript.valid.json": ("research", "debate_transcript"),
     "signal_candidate.valid.json": ("research", "signal_candidate"),
     "risk_review_input.valid.json": ("research", "risk_review_input"),
+    "research_memory_record.valid.json": ("research", "research_memory_record"),
+    "research_retrieval_query.valid.json": ("research", "research_retrieval_query"),
+    "research_retrieval_result.valid.json": ("research", "research_retrieval_result"),
 }
 
 FORBIDDEN_KEYS = {
@@ -69,7 +72,7 @@ class ContractFixtureTests(unittest.TestCase):
 
         self.assertEqual(
             correlation_ids,
-            {"corr_fixture_lifecycle_001", "corr_research_contracts_001"},
+            {"corr_fixture_lifecycle_001", "corr_research_contracts_001", "corr_research_memory_001"},
         )
 
     def test_research_fixtures_are_non_executable(self):
@@ -84,6 +87,10 @@ class ContractFixtureTests(unittest.TestCase):
                     self.assertFalse(payload["order_intent_allowed"])
                 if "risk_approval_allowed" in payload:
                     self.assertFalse(payload["risk_approval_allowed"])
+                if "network_allowed" in payload:
+                    self.assertFalse(payload["network_allowed"])
+                if "local_only" in payload:
+                    self.assertTrue(payload["local_only"])
 
     def _load_fixture(self, fixture_name):
         with (FIXTURE_ROOT / fixture_name).open(encoding="utf-8") as fixture_file:
