@@ -17,6 +17,9 @@ The `research` schema domain contains:
 - `DebateTranscript`: YES/NO, advisory risk or governance debate record
 - `SignalCandidate`: non-executable candidate signal
 - `RiskReviewInput`: advisory input for later deterministic risk review
+- `ResearchMemoryRecord`: local-only reusable research memory
+- `ResearchRetrievalQuery`: local-only lookup request for research memory
+- `ResearchRetrievalResult`: local-only retrieval result over research memory
 
 ## Safety Boundary
 
@@ -29,6 +32,8 @@ These contracts may describe:
 - risk flags
 - debate summaries
 - hypothesis state
+- local research memory
+- local retrieval matches
 - advisory notes
 
 They must not contain:
@@ -64,4 +69,5 @@ Current validation is local-only:
 - no network
 - no credentials
 - no LLM runtime
-
+- no vector database runtime
+- no external retrieval service

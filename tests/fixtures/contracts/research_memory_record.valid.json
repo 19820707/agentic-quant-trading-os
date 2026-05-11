@@ -1,0 +1,22 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_memory_001",
+  "correlation_id": "corr_research_memory_001",
+  "memory_record_id": "mem_fixture_001",
+  "memory_type": "SIMILAR_MARKET",
+  "subject": "Fixture prediction market memory",
+  "market_category": "prediction_market",
+  "created_at": "2026-01-01T00:00:00Z",
+  "updated_at": "2026-01-01T00:00:00Z",
+  "source_refs": [
+    "research_dossier:rd_fixture_001"
+  ],
+  "summary": "Local fixture memory for similar-market research only.",
+  "evidence_refs": [
+    "hypothesis:hyp_fixture_001"
+  ],
+  "confidence": 0.62,
+  "decay_after": "2026-04-01T00:00:00Z",
+  "local_only": true,
+  "execution_allowed": false
+}

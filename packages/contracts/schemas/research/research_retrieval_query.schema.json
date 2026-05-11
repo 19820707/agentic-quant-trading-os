@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/research_retrieval_query.schema.json",
+  "$comment": "ResearchRetrievalQuery describes local research-memory lookup intent only. It must not trigger network or execution.",
+  "title": "ResearchRetrievalQuery",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "retrieval_query_id",
+    "query_text",
+    "retrieval_mode",
+    "created_at",
+    "max_results",
+    "allowed_memory_types",
+    "local_only",
+    "network_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "retrieval_query_id": {
+      "type": "string",
+      "pattern": "^rq_[A-Za-z0-9_\\-]+$"
+    },
+    "query_text": {
+      "type": "string",
+      "minLength": 1
+    },
+    "retrieval_mode": {
+      "type": "string",
+      "enum": [
+        "KEYWORD",
+        "TAG",
+        "SIMILARITY_STUB",
+        "FIXTURE"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "max_results": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 50
+    },
+    "allowed_memory_types": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "SIMILAR_MARKET",
+          "CALIBRATION_NOTE",
+          "HYPOTHESIS_NOTE",
+          "POSTMORTEM",
+          "DEBATE_SUMMARY",
+          "RESEARCH_NOTE"
+        ]
+      }
+    },
+    "filters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "market_category": {
+          "type": "string"
+        },
+        "subject_contains": {
+          "type": "string"
+        },
+        "created_after": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "local_only": {
+      "type": "boolean",
+      "const": true
+    },
+    "network_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}

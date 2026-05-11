@@ -1,0 +1,23 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_memory_001",
+  "correlation_id": "corr_research_memory_001",
+  "retrieval_result_id": "rr_fixture_001",
+  "retrieval_query_id": "rq_fixture_001",
+  "created_at": "2026-01-01T00:01:01Z",
+  "matches": [
+    {
+      "memory_record_id": "mem_fixture_001",
+      "score": 0.91,
+      "summary": "Local fixture memory matched the query.",
+      "evidence_refs": [
+        "research_dossier:rd_fixture_001"
+      ]
+    }
+  ],
+  "result_count": 1,
+  "retrieval_notes": "Fixture-only retrieval result. No external lookup was performed.",
+  "local_only": true,
+  "network_allowed": false,
+  "execution_allowed": false
+}

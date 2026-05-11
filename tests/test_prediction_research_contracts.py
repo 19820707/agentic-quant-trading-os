@@ -60,6 +60,27 @@ RESEARCH_CONTRACTS = {
         "invalid_enum": None,
         "timestamp_field": "created_at",
     },
+    "research_memory_record": {
+        "fixture": "research_memory_record.valid.json",
+        "primary_id": "memory_record_id",
+        "enum_field": "memory_type",
+        "invalid_enum": "INVALID_MEMORY",
+        "timestamp_field": "created_at",
+    },
+    "research_retrieval_query": {
+        "fixture": "research_retrieval_query.valid.json",
+        "primary_id": "retrieval_query_id",
+        "enum_field": "retrieval_mode",
+        "invalid_enum": "INVALID_RETRIEVAL",
+        "timestamp_field": "created_at",
+    },
+    "research_retrieval_result": {
+        "fixture": "research_retrieval_result.valid.json",
+        "primary_id": "retrieval_result_id",
+        "enum_field": None,
+        "invalid_enum": None,
+        "timestamp_field": "created_at",
+    },
 }
 
 FORBIDDEN_SCHEMA_TEXT = (
@@ -118,6 +139,15 @@ class PredictionResearchContractTests(unittest.TestCase):
         self.assertTrue(fixture["deterministic_gateway_required"])
         self.assertFalse(fixture["risk_approval_allowed"])
         self.assertFalse(fixture["execution_allowed"])
+
+    def test_research_memory_and_retrieval_are_local_only(self):
+        for name in ("research_memory_record", "research_retrieval_query", "research_retrieval_result"):
+            with self.subTest(schema=name):
+                fixture = self._fixture(name)
+                self.assertTrue(fixture["local_only"])
+                self.assertFalse(fixture["execution_allowed"])
+                if "network_allowed" in fixture:
+                    self.assertFalse(fixture["network_allowed"])
 
     def test_missing_required_fields_are_rejected(self):
         for name in RESEARCH_CONTRACTS:
