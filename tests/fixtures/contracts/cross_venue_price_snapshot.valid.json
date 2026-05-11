@@ -1,0 +1,32 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_cross_venue_001",
+  "correlation_id": "corr_cross_venue_001",
+  "cross_venue_price_snapshot_id": "cvps_fixture_001",
+  "subject": "Fixture prediction market cross-venue price comparison",
+  "created_at": "2026-01-01T00:00:00Z",
+  "venue_prices": [
+    {
+      "venue": "KALSHI",
+      "market_id": "kalshi_fixture_market",
+      "outcome": "YES",
+      "yes_price_cents": 94,
+      "no_price_cents": 6,
+      "liquidity_state": "HAS_LIQUIDITY",
+      "fetched_at": "2026-01-01T00:00:00Z"
+    },
+    {
+      "venue": "POLYMARKET",
+      "market_id": "polymarket_fixture_market",
+      "outcome": "YES",
+      "yes_price_cents": 82,
+      "no_price_cents": 18,
+      "liquidity_state": "THIN",
+      "fetched_at": "2026-01-01T00:00:00Z"
+    }
+  ],
+  "public_data_only": true,
+  "local_only": true,
+  "network_allowed": false,
+  "execution_allowed": false
+}

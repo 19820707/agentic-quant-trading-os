@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/cross_venue_price_snapshot.schema.json",
+  "$comment": "CrossVenuePriceSnapshot normalizes public venue prices for research only. It must not create executable instructions.",
+  "title": "CrossVenuePriceSnapshot",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "cross_venue_price_snapshot_id",
+    "subject",
+    "created_at",
+    "venue_prices",
+    "public_data_only",
+    "local_only",
+    "network_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "cross_venue_price_snapshot_id": {
+      "type": "string",
+      "pattern": "^cvps_[A-Za-z0-9_\\-]+$"
+    },
+    "subject": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "venue_prices": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "venue",
+          "market_id",
+          "outcome",
+          "yes_price_cents",
+          "liquidity_state",
+          "fetched_at"
+        ],
+        "properties": {
+          "venue": {
+            "type": "string",
+            "enum": [
+              "POLYMARKET",
+              "KALSHI",
+              "OTHER"
+            ]
+          },
+          "market_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "outcome": {
+            "type": "string",
+            "minLength": 1
+          },
+          "yes_price_cents": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "no_price_cents": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "liquidity_state": {
+            "type": "string",
+            "enum": [
+              "HAS_LIQUIDITY",
+              "THIN",
+              "EMPTY",
+              "UNKNOWN"
+            ]
+          },
+          "fetched_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    },
+    "public_data_only": {
+      "type": "boolean",
+      "const": true
+    },
+    "local_only": {
+      "type": "boolean",
+      "const": true
+    },
+    "network_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}

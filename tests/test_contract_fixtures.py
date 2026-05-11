@@ -20,6 +20,9 @@ FIXTURES = {
     "debate_transcript.valid.json": ("research", "debate_transcript"),
     "signal_candidate.valid.json": ("research", "signal_candidate"),
     "risk_review_input.valid.json": ("research", "risk_review_input"),
+    "venue_resolution_state.valid.json": ("research", "venue_resolution_state"),
+    "cross_venue_price_snapshot.valid.json": ("research", "cross_venue_price_snapshot"),
+    "cross_venue_arbitrage_observation.valid.json": ("research", "cross_venue_arbitrage_observation"),
 }
 
 FORBIDDEN_KEYS = {
@@ -45,10 +48,10 @@ class ContractFixtureTests(unittest.TestCase):
                 self.assertTrue(result.valid, result.errors)
 
     def test_fixtures_are_paper_only_where_execution_context_exists(self):
-        for fixture_name in FIXTURES:
+        for fixture_name, (domain, _) in FIXTURES.items():
             with self.subTest(fixture=fixture_name):
                 payload = self._load_fixture(fixture_name)
-                if "venue" in payload:
+                if domain == "trading" and "venue" in payload:
                     self.assertEqual(payload["venue"], "paper")
                 if "execution_mode" in payload:
                     self.assertEqual(payload["execution_mode"], "PAPER")
@@ -69,7 +72,7 @@ class ContractFixtureTests(unittest.TestCase):
 
         self.assertEqual(
             correlation_ids,
-            {"corr_fixture_lifecycle_001", "corr_research_contracts_001"},
+            {"corr_fixture_lifecycle_001", "corr_research_contracts_001", "corr_cross_venue_001"},
         )
 
     def test_research_fixtures_are_non_executable(self):
@@ -84,6 +87,10 @@ class ContractFixtureTests(unittest.TestCase):
                     self.assertFalse(payload["order_intent_allowed"])
                 if "risk_approval_allowed" in payload:
                     self.assertFalse(payload["risk_approval_allowed"])
+                if "network_allowed" in payload:
+                    self.assertFalse(payload["network_allowed"])
+                if "local_only" in payload:
+                    self.assertTrue(payload["local_only"])
 
     def _load_fixture(self, fixture_name):
         with (FIXTURE_ROOT / fixture_name).open(encoding="utf-8") as fixture_file:

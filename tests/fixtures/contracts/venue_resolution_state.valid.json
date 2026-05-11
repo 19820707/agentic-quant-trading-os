@@ -1,0 +1,16 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_cross_venue_001",
+  "correlation_id": "corr_cross_venue_001",
+  "venue_resolution_state_id": "vrs_fixture_001",
+  "venue": "KALSHI",
+  "market_id": "kalshi_fixture_market",
+  "status": "SETTLED",
+  "is_finished": true,
+  "observed_at": "2026-01-01T00:00:00Z",
+  "data_source": "fixture",
+  "stale_after": "2026-01-01T00:05:00Z",
+  "local_only": true,
+  "network_allowed": false,
+  "execution_allowed": false
+}

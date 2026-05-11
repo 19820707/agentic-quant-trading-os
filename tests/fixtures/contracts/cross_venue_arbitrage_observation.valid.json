@@ -1,0 +1,27 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_cross_venue_001",
+  "correlation_id": "corr_cross_venue_001",
+  "cross_venue_arbitrage_observation_id": "cvao_fixture_001",
+  "cross_venue_price_snapshot_id": "cvps_fixture_001",
+  "created_at": "2026-01-01T00:00:01Z",
+  "observation_type": "SPREAD_ANOMALY",
+  "primary_venue": "KALSHI",
+  "comparison_venue": "POLYMARKET",
+  "spread_cents": 12,
+  "confidence": 0.58,
+  "rationale": "Fixture-only cross-venue spread observation for research review.",
+  "risk_flags": [
+    "cross_venue_resolution_mismatch",
+    "thin_liquidity",
+    "requires_manual_review",
+    "deterministic_risk_gateway_required"
+  ],
+  "signal_candidate_id": "sigcand_fixture_001",
+  "local_only": true,
+  "network_allowed": false,
+  "order_intent_allowed": false,
+  "deterministic_gateway_required": true,
+  "risk_approval_allowed": false,
+  "execution_allowed": false
+}

@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/cross_venue_arbitrage_observation.schema.json",
+  "$comment": "CrossVenueArbitrageObservation is a research observation only. It must not approve risk or execution.",
+  "title": "CrossVenueArbitrageObservation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "cross_venue_arbitrage_observation_id",
+    "cross_venue_price_snapshot_id",
+    "created_at",
+    "observation_type",
+    "primary_venue",
+    "comparison_venue",
+    "spread_cents",
+    "confidence",
+    "rationale",
+    "risk_flags",
+    "local_only",
+    "network_allowed",
+    "order_intent_allowed",
+    "deterministic_gateway_required",
+    "risk_approval_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "cross_venue_arbitrage_observation_id": {
+      "type": "string",
+      "pattern": "^cvao_[A-Za-z0-9_\\-]+$"
+    },
+    "cross_venue_price_snapshot_id": {
+      "type": "string",
+      "pattern": "^cvps_[A-Za-z0-9_\\-]+$"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "observation_type": {
+      "type": "string",
+      "enum": [
+        "SPREAD_ANOMALY",
+        "RESOLUTION_TIMING_MISMATCH",
+        "NO_OBSERVATION"
+      ]
+    },
+    "primary_venue": {
+      "type": "string",
+      "enum": [
+        "POLYMARKET",
+        "KALSHI",
+        "OTHER"
+      ]
+    },
+    "comparison_venue": {
+      "type": "string",
+      "enum": [
+        "POLYMARKET",
+        "KALSHI",
+        "OTHER"
+      ]
+    },
+    "spread_cents": {
+      "type": "number"
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "rationale": {
+      "type": "string",
+      "minLength": 1
+    },
+    "risk_flags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "signal_candidate_id": {
+      "type": "string",
+      "pattern": "^sigcand_[A-Za-z0-9_\\-]+$"
+    },
+    "local_only": {
+      "type": "boolean",
+      "const": true
+    },
+    "network_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "order_intent_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "deterministic_gateway_required": {
+      "type": "boolean",
+      "const": true
+    },
+    "risk_approval_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}
