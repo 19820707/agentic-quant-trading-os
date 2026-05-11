@@ -51,6 +51,8 @@ jobs:
         run: python -m unittest discover -s tests -p "test_contract_fixtures.py"
       - name: Run prediction research contract tests
         run: python -m unittest discover -s tests -p "test_prediction_research_contracts.py"
+      - name: Run prediction research fake graph tests
+        run: python -m unittest discover -s tests -p "test_prediction_research_fake_graph.py"
 
   adapter-interface-tests:
     name: Adapter interface tests
