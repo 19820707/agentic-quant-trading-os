@@ -60,6 +60,27 @@ RESEARCH_CONTRACTS = {
         "invalid_enum": None,
         "timestamp_field": "created_at",
     },
+    "venue_resolution_state": {
+        "fixture": "venue_resolution_state.valid.json",
+        "primary_id": "venue_resolution_state_id",
+        "enum_field": "status",
+        "invalid_enum": "INVALID_STATUS",
+        "timestamp_field": "observed_at",
+    },
+    "cross_venue_price_snapshot": {
+        "fixture": "cross_venue_price_snapshot.valid.json",
+        "primary_id": "cross_venue_price_snapshot_id",
+        "enum_field": None,
+        "invalid_enum": None,
+        "timestamp_field": "created_at",
+    },
+    "cross_venue_arbitrage_observation": {
+        "fixture": "cross_venue_arbitrage_observation.valid.json",
+        "primary_id": "cross_venue_arbitrage_observation_id",
+        "enum_field": "observation_type",
+        "invalid_enum": "EXECUTION_SIGNAL",
+        "timestamp_field": "created_at",
+    },
 }
 
 FORBIDDEN_SCHEMA_TEXT = (
@@ -118,6 +139,19 @@ class PredictionResearchContractTests(unittest.TestCase):
         self.assertTrue(fixture["deterministic_gateway_required"])
         self.assertFalse(fixture["risk_approval_allowed"])
         self.assertFalse(fixture["execution_allowed"])
+
+    def test_cross_venue_contracts_are_local_observation_only(self):
+        for name in ("venue_resolution_state", "cross_venue_price_snapshot", "cross_venue_arbitrage_observation"):
+            with self.subTest(schema=name):
+                fixture = self._fixture(name)
+                self.assertTrue(fixture["local_only"])
+                self.assertFalse(fixture["network_allowed"])
+                self.assertFalse(fixture["execution_allowed"])
+
+        observation = self._fixture("cross_venue_arbitrage_observation")
+        self.assertFalse(observation["order_intent_allowed"])
+        self.assertTrue(observation["deterministic_gateway_required"])
+        self.assertFalse(observation["risk_approval_allowed"])
 
     def test_missing_required_fields_are_rejected(self):
         for name in RESEARCH_CONTRACTS:

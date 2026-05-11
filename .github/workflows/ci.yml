@@ -93,6 +93,8 @@ jobs:
         run: python -m unittest discover -s tests -p "test_polymarket_skills_reference_review.py"
       - name: Run Trading-Agent-Polymarket reference review tests
         run: python -m unittest discover -s tests -p "test_trading_agent_polymarket_reference_review.py"
+      - name: Run Composio Polymarket-Kalshi reference review tests
+        run: python -m unittest discover -s tests -p "test_composio_polymarket_kalshi_reference_review.py"
 
   secret-artifact-audit:
     name: Secret and artifact hygiene audit

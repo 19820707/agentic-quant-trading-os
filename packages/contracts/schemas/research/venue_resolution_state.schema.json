@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/venue_resolution_state.schema.json",
+  "$comment": "VenueResolutionState captures public venue state for research only. It must not approve risk or execution.",
+  "title": "VenueResolutionState",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "venue_resolution_state_id",
+    "venue",
+    "market_id",
+    "status",
+    "is_finished",
+    "observed_at",
+    "data_source",
+    "local_only",
+    "network_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "venue_resolution_state_id": {
+      "type": "string",
+      "pattern": "^vrs_[A-Za-z0-9_\\-]+$"
+    },
+    "venue": {
+      "type": "string",
+      "enum": [
+        "POLYMARKET",
+        "KALSHI",
+        "OTHER"
+      ]
+    },
+    "market_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "OPEN",
+        "CLOSED",
+        "SETTLED",
+        "PAUSED",
+        "UNKNOWN"
+      ]
+    },
+    "is_finished": {
+      "type": "boolean"
+    },
+    "observed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "data_source": {
+      "type": "string",
+      "enum": [
+        "fixture",
+        "manual",
+        "public_read_only"
+      ]
+    },
+    "stale_after": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "local_only": {
+      "type": "boolean",
+      "const": true
+    },
+    "network_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}

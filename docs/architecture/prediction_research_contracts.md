@@ -17,6 +17,9 @@ The `research` schema domain contains:
 - `DebateTranscript`: YES/NO, advisory risk or governance debate record
 - `SignalCandidate`: non-executable candidate signal
 - `RiskReviewInput`: advisory input for later deterministic risk review
+- `VenueResolutionState`: local/public venue status observation
+- `CrossVenuePriceSnapshot`: normalized cross-venue price snapshot
+- `CrossVenueArbitrageObservation`: non-executable spread or timing observation
 
 ## Safety Boundary
 
@@ -29,6 +32,9 @@ These contracts may describe:
 - risk flags
 - debate summaries
 - hypothesis state
+- cross-venue price comparisons
+- venue status and freshness
+- spread and resolution-timing observations
 - advisory notes
 
 They must not contain:
@@ -64,4 +70,6 @@ Current validation is local-only:
 - no network
 - no credentials
 - no LLM runtime
+- no venue polling runtime
+- no cross-venue execution runtime
 
