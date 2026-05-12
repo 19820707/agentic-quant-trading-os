@@ -43,6 +43,8 @@ class ContractRegistryTests(unittest.TestCase):
                 "debate_transcript",
                 "signal_candidate",
                 "risk_review_input",
+                "research_outcome_audit",
+                "negative_result_record",
             }.issubset(names)
         )
 

@@ -1,0 +1,15 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "negative_result_record_id": "nrr_fixture_001",
+  "subject": "Synthetic negative research result",
+  "recorded_at": "2026-01-05T00:01:00Z",
+  "failure_category": "no_alpha",
+  "observed_issue": "Synthetic fixture records that a research idea did not demonstrate durable edge.",
+  "severity": "high",
+  "lesson": "Negative results must be retained and must not be hidden by later positive examples.",
+  "must_block_promotion": true,
+  "production_approval_allowed": false,
+  "execution_allowed": false
+}
