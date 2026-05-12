@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/dry_run_evaluation_summary.schema.json",
+  "$comment": "DryRunEvaluationSummary records paper/dry-run results only. It is not live approval.",
+  "title": "DryRunEvaluationSummary",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "dry_run_evaluation_summary_id",
+    "evaluated_at",
+    "evaluation_window_days",
+    "analyses_count",
+    "signals_count",
+    "simulated_trades_count",
+    "net_pnl",
+    "paper_only",
+    "production_approval_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "dry_run_evaluation_summary_id": {
+      "type": "string",
+      "pattern": "^dres_[A-Za-z0-9_\\-]+$"
+    },
+    "evaluated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "evaluation_window_days": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "analyses_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "signals_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "simulated_trades_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "net_pnl": {
+      "type": "number"
+    },
+    "key_takeaway": {
+      "type": "string"
+    },
+    "paper_only": {
+      "type": "boolean",
+      "const": true
+    },
+    "production_approval_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}

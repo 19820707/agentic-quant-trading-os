@@ -1,0 +1,16 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "dry_run_evaluation_summary_id": "dres_fixture_001",
+  "evaluated_at": "2026-01-04T00:04:00Z",
+  "evaluation_window_days": 25,
+  "analyses_count": 2816,
+  "signals_count": 5308,
+  "simulated_trades_count": 40,
+  "net_pnl": -24.96,
+  "key_takeaway": "Synthetic dry-run summary: paper results do not imply production approval.",
+  "paper_only": true,
+  "production_approval_allowed": false,
+  "execution_allowed": false
+}

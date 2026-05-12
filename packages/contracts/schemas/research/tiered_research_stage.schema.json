@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/tiered_research_stage.schema.json",
+  "$comment": "TieredResearchStage records planned research-stage metadata only. It does not call LLM providers or execute trades.",
+  "title": "TieredResearchStage",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "tiered_research_stage_id",
+    "stage",
+    "tier",
+    "purpose",
+    "created_at",
+    "network_allowed",
+    "credentials_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "tiered_research_stage_id": {
+      "type": "string",
+      "pattern": "^trs_[A-Za-z0-9_\\-]+$"
+    },
+    "stage": {
+      "type": "string",
+      "enum": [
+        "classification",
+        "scoring",
+        "estimation",
+        "deep_analysis",
+        "sizing_review",
+        "risk_review"
+      ]
+    },
+    "tier": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 3
+    },
+    "purpose": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "network_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "credentials_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}

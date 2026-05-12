@@ -1,0 +1,12 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "model_limitation_record_id": "mlr_fixture_001",
+  "recorded_at": "2026-01-04T00:03:00Z",
+  "limitation_category": "no_alpha",
+  "description": "Synthetic limitation fixture: model output is not assumed to produce tradable alpha.",
+  "impact": "high",
+  "model_approval_allowed": false,
+  "execution_allowed": false
+}
