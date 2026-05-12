@@ -1,0 +1,25 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "model_promotion_gate_id": "mpg_fixture_001",
+  "model_candidate_id": "model_fixture_candidate_001",
+  "created_at": "2026-01-06T00:00:00Z",
+  "promotion_stage": "research",
+  "required_evidence": [
+    "point_in_time_dataset",
+    "leakage_review",
+    "calibration_report",
+    "negative_result_review",
+    "paper_evaluation",
+    "risk_review",
+    "human_governance_approval"
+  ],
+  "blocking_issues": [
+    "Synthetic fixture: promotion remains blocked until explicit future approvals exist."
+  ],
+  "promotion_allowed": false,
+  "production_approval_allowed": false,
+  "risk_approval_allowed": false,
+  "execution_allowed": false
+}

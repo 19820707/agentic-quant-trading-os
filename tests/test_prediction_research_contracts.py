@@ -60,6 +60,20 @@ RESEARCH_CONTRACTS = {
         "invalid_enum": None,
         "timestamp_field": "created_at",
     },
+    "model_promotion_gate": {
+        "fixture": "model_promotion_gate.valid.json",
+        "primary_id": "model_promotion_gate_id",
+        "enum_field": "promotion_stage",
+        "invalid_enum": "INVALID_STAGE",
+        "timestamp_field": "created_at",
+    },
+    "research_promotion_checklist": {
+        "fixture": "research_promotion_checklist.valid.json",
+        "primary_id": "research_promotion_checklist_id",
+        "enum_field": "overall_status",
+        "invalid_enum": "APPROVED",
+        "timestamp_field": "created_at",
+    },
 }
 
 FORBIDDEN_SCHEMA_TEXT = (
@@ -117,6 +131,21 @@ class PredictionResearchContractTests(unittest.TestCase):
 
         self.assertTrue(fixture["deterministic_gateway_required"])
         self.assertFalse(fixture["risk_approval_allowed"])
+        self.assertFalse(fixture["execution_allowed"])
+
+    def test_model_promotion_gate_is_blocked_by_default(self):
+        fixture = self._fixture("model_promotion_gate")
+
+        self.assertFalse(fixture["promotion_allowed"])
+        self.assertFalse(fixture["production_approval_allowed"])
+        self.assertFalse(fixture["risk_approval_allowed"])
+        self.assertFalse(fixture["execution_allowed"])
+
+    def test_research_promotion_checklist_cannot_approve_production(self):
+        fixture = self._fixture("research_promotion_checklist")
+
+        self.assertEqual(fixture["overall_status"], "blocked")
+        self.assertFalse(fixture["production_approval_allowed"])
         self.assertFalse(fixture["execution_allowed"])
 
     def test_missing_required_fields_are_rejected(self):

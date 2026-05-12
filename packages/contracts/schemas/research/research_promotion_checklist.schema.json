@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/research_promotion_checklist.schema.json",
+  "$comment": "ResearchPromotionChecklist records readiness checks for research artifacts. It cannot approve live use.",
+  "title": "ResearchPromotionChecklist",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "research_promotion_checklist_id",
+    "subject",
+    "created_at",
+    "checks",
+    "overall_status",
+    "production_approval_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "research_promotion_checklist_id": {
+      "type": "string",
+      "pattern": "^rpc_[A-Za-z0-9_\\-]+$"
+    },
+    "subject": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "checks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "check_name",
+          "status"
+        ],
+        "properties": {
+          "check_name": {
+            "type": "string",
+            "enum": [
+              "dataset_point_in_time",
+              "data_leakage_review",
+              "calibration_review",
+              "negative_results_review",
+              "paper_only_review",
+              "risk_boundary_review",
+              "human_governance_review"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "passed",
+              "failed",
+              "blocked"
+            ]
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "overall_status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "blocked",
+        "not_ready"
+      ]
+    },
+    "production_approval_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}
