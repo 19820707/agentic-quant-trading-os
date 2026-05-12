@@ -1,0 +1,25 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "research_outcome_audit_id": "roa_fixture_001",
+  "subject": "Synthetic research outcome audit",
+  "audited_at": "2026-01-05T00:00:00Z",
+  "evaluation_mode": "fixture",
+  "outcome": "mixed",
+  "claim_reviewed": "Synthetic fixture claim for audit validation.",
+  "evidence_summary": "Local-only evidence summary; no production approval is implied.",
+  "metrics": [
+    {
+      "name": "fixture_brier_score",
+      "value": 0.18
+    },
+    {
+      "name": "fixture_drawdown",
+      "value": 0.12
+    }
+  ],
+  "production_approval_allowed": false,
+  "risk_approval_allowed": false,
+  "execution_allowed": false
+}

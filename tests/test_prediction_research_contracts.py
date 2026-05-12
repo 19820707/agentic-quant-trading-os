@@ -60,6 +60,20 @@ RESEARCH_CONTRACTS = {
         "invalid_enum": None,
         "timestamp_field": "created_at",
     },
+    "research_outcome_audit": {
+        "fixture": "research_outcome_audit.valid.json",
+        "primary_id": "research_outcome_audit_id",
+        "enum_field": "outcome",
+        "invalid_enum": "INVALID_OUTCOME",
+        "timestamp_field": "audited_at",
+    },
+    "negative_result_record": {
+        "fixture": "negative_result_record.valid.json",
+        "primary_id": "negative_result_record_id",
+        "enum_field": "failure_category",
+        "invalid_enum": "INVALID_FAILURE",
+        "timestamp_field": "recorded_at",
+    },
 }
 
 FORBIDDEN_SCHEMA_TEXT = (
@@ -117,6 +131,20 @@ class PredictionResearchContractTests(unittest.TestCase):
 
         self.assertTrue(fixture["deterministic_gateway_required"])
         self.assertFalse(fixture["risk_approval_allowed"])
+        self.assertFalse(fixture["execution_allowed"])
+
+    def test_research_outcome_audit_cannot_approve_production_risk_or_execution(self):
+        fixture = self._fixture("research_outcome_audit")
+
+        self.assertFalse(fixture["production_approval_allowed"])
+        self.assertFalse(fixture["risk_approval_allowed"])
+        self.assertFalse(fixture["execution_allowed"])
+
+    def test_negative_result_record_blocks_promotion_and_cannot_execute(self):
+        fixture = self._fixture("negative_result_record")
+
+        self.assertTrue(fixture["must_block_promotion"])
+        self.assertFalse(fixture["production_approval_allowed"])
         self.assertFalse(fixture["execution_allowed"])
 
     def test_missing_required_fields_are_rejected(self):

@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/research_outcome_audit.schema.json",
+  "$comment": "ResearchOutcomeAudit records evaluated research outcomes. It cannot approve risk, execution or production use.",
+  "title": "ResearchOutcomeAudit",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "research_outcome_audit_id",
+    "subject",
+    "audited_at",
+    "evaluation_mode",
+    "outcome",
+    "claim_reviewed",
+    "evidence_summary",
+    "production_approval_allowed",
+    "risk_approval_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "research_outcome_audit_id": {
+      "type": "string",
+      "pattern": "^roa_[A-Za-z0-9_\\-]+$"
+    },
+    "subject": {
+      "type": "string",
+      "minLength": 1
+    },
+    "audited_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "evaluation_mode": {
+      "type": "string",
+      "enum": [
+        "fixture",
+        "backtest",
+        "paper",
+        "research_review",
+        "postmortem"
+      ]
+    },
+    "outcome": {
+      "type": "string",
+      "enum": [
+        "positive",
+        "negative",
+        "mixed",
+        "inconclusive"
+      ]
+    },
+    "claim_reviewed": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence_summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "metrics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "value"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "value": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "production_approval_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "risk_approval_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}

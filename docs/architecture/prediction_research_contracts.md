@@ -17,6 +17,8 @@ The `research` schema domain contains:
 - `DebateTranscript`: YES/NO, advisory risk or governance debate record
 - `SignalCandidate`: non-executable candidate signal
 - `RiskReviewInput`: advisory input for later deterministic risk review
+- `ResearchOutcomeAudit`: reviewed research outcome and claim audit record
+- `NegativeResultRecord`: adverse result record to prevent survivorship bias
 
 ## Safety Boundary
 
@@ -30,6 +32,10 @@ These contracts may describe:
 - debate summaries
 - hypothesis state
 - advisory notes
+- outcome audits
+- negative results
+- failed hypotheses
+- promotion blockers
 
 They must not contain:
 
@@ -49,6 +55,10 @@ They must not contain:
 
 `RiskReviewInput` is not a `RiskDecision`.
 
+`ResearchOutcomeAudit` is not production approval.
+
+`NegativeResultRecord` must be retained as audit evidence and cannot be used to approve execution.
+
 No research contract can approve risk, approve execution, submit orders, cancel orders, transfer funds or withdraw funds.
 
 Any future path from a research contract toward an order must pass through separately approved services and deterministic-risk-gateway.
@@ -64,4 +74,6 @@ Current validation is local-only:
 - no network
 - no credentials
 - no LLM runtime
+- no model promotion runtime
+- no production approval runtime
 
