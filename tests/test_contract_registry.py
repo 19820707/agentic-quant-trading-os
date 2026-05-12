@@ -43,6 +43,11 @@ class ContractRegistryTests(unittest.TestCase):
                 "debate_transcript",
                 "signal_candidate",
                 "risk_review_input",
+                "forecast_evidence_item",
+                "market_rule_parse",
+                "forecast_calibration_record",
+                "forecast_postmortem",
+                "forecast_feature_snapshot",
             }.issubset(names)
         )
 

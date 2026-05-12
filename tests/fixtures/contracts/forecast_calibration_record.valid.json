@@ -1,0 +1,16 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "forecast_calibration_record_id": "fcr_fixture_001",
+  "probability_estimate_id": "pe_fixture_001",
+  "calibrated_at": "2026-01-01T00:02:00Z",
+  "raw_probability": 0.66,
+  "calibrated_probability": 0.62,
+  "confidence": 0.55,
+  "predicted_edge_bps": 120.0,
+  "uncertainty_low": 0.5,
+  "uncertainty_high": 0.72,
+  "calibration_method": "fixture",
+  "execution_allowed": false
+}

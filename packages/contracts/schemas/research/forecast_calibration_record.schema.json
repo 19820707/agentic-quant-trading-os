@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/forecast_calibration_record.schema.json",
+  "$comment": "ForecastCalibrationRecord records local probability calibration. It is not a trading decision.",
+  "title": "ForecastCalibrationRecord",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "forecast_calibration_record_id",
+    "probability_estimate_id",
+    "calibrated_at",
+    "raw_probability",
+    "calibrated_probability",
+    "confidence",
+    "calibration_method",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "forecast_calibration_record_id": {
+      "type": "string",
+      "pattern": "^fcr_[A-Za-z0-9_\\-]+$"
+    },
+    "probability_estimate_id": {
+      "type": "string",
+      "pattern": "^pe_[A-Za-z0-9_\\-]+$"
+    },
+    "calibrated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "raw_probability": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "calibrated_probability": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "predicted_edge_bps": {
+      "type": "number"
+    },
+    "uncertainty_low": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "uncertainty_high": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "calibration_method": {
+      "type": "string",
+      "enum": [
+        "fixture",
+        "isotonic",
+        "platt",
+        "gradient_boosted",
+        "ensemble",
+        "manual_review"
+      ]
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/forecast_feature_snapshot.schema.json",
+  "$comment": "ForecastFeatureSnapshot preserves point-in-time features for research validation only.",
+  "title": "ForecastFeatureSnapshot",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "forecast_feature_snapshot_id",
+    "subject",
+    "as_of_timestamp",
+    "available_timestamp",
+    "feature_values",
+    "point_in_time_validated",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "forecast_feature_snapshot_id": {
+      "type": "string",
+      "pattern": "^ffs_[A-Za-z0-9_\\-]+$"
+    },
+    "subject": {
+      "type": "string",
+      "minLength": 1
+    },
+    "as_of_timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "available_timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "feature_values": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "value"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "value": {
+            "type": "number"
+          },
+          "source": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "point_in_time_validated": {
+      "type": "boolean"
+    },
+    "leakage_reviewed": {
+      "type": "boolean"
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}

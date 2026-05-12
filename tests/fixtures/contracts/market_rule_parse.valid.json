@@ -1,0 +1,15 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "market_rule_parse_id": "mrp_fixture_001",
+  "subject": "Example prediction market forecasting subject",
+  "parsed_at": "2026-01-01T00:00:45Z",
+  "entity": "example_event",
+  "condition": "Resolves yes if the fixture event condition is met.",
+  "threshold": "fixture_threshold",
+  "resolution_source": "synthetic_fixture_resolution_source",
+  "ambiguity_score": 0.2,
+  "requires_human_review": true,
+  "execution_allowed": false
+}

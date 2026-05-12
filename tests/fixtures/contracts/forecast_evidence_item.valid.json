@@ -1,0 +1,15 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "forecast_evidence_item_id": "fei_fixture_001",
+  "subject": "Example prediction market forecasting subject",
+  "source_type": "fixture",
+  "retrieved_at": "2026-01-01T00:00:30Z",
+  "available_timestamp": "2026-01-01T00:00:00Z",
+  "as_of_timestamp": "2026-01-01T00:01:00Z",
+  "summary": "Synthetic local-only evidence item for forecasting contract validation.",
+  "relevance_score": 0.7,
+  "point_in_time_validated": true,
+  "execution_allowed": false
+}
