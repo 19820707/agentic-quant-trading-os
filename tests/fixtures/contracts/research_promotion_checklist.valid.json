@@ -1,0 +1,28 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "research_promotion_checklist_id": "rpc_fixture_001",
+  "subject": "Synthetic research promotion checklist",
+  "created_at": "2026-01-06T00:01:00Z",
+  "checks": [
+    {
+      "check_name": "dataset_point_in_time",
+      "status": "pending",
+      "notes": "Fixture only."
+    },
+    {
+      "check_name": "negative_results_review",
+      "status": "pending",
+      "notes": "Fixture only."
+    },
+    {
+      "check_name": "human_governance_review",
+      "status": "blocked",
+      "notes": "No production approval exists."
+    }
+  ],
+  "overall_status": "blocked",
+  "production_approval_allowed": false,
+  "execution_allowed": false
+}
