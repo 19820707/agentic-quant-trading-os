@@ -1,0 +1,13 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "market_news_relevance_score_id": "mnrs_fixture_001",
+  "subject": "Example prediction market research subject",
+  "news_reference_id": "fixture_news_reference_001",
+  "scored_at": "2026-01-04T00:01:00Z",
+  "relevance_score": 7.5,
+  "score_rationale": "Synthetic local relevance score for contract validation.",
+  "network_allowed": false,
+  "execution_allowed": false
+}

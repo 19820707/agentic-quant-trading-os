@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/market_news_relevance_score.schema.json",
+  "$comment": "MarketNewsRelevanceScore is a local scoring artifact. It does not fetch news or call external APIs.",
+  "title": "MarketNewsRelevanceScore",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "market_news_relevance_score_id",
+    "subject",
+    "news_reference_id",
+    "scored_at",
+    "relevance_score",
+    "score_rationale",
+    "network_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "market_news_relevance_score_id": {
+      "type": "string",
+      "pattern": "^mnrs_[A-Za-z0-9_\\-]+$"
+    },
+    "subject": {
+      "type": "string",
+      "minLength": 1
+    },
+    "news_reference_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "scored_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "relevance_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 10
+    },
+    "score_rationale": {
+      "type": "string",
+      "minLength": 1
+    },
+    "network_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}

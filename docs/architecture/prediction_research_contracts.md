@@ -17,6 +17,11 @@ The `research` schema domain contains:
 - `DebateTranscript`: YES/NO, advisory risk or governance debate record
 - `SignalCandidate`: non-executable candidate signal
 - `RiskReviewInput`: advisory input for later deterministic risk review
+- `TieredResearchStage`: local tiered research stage metadata
+- `MarketNewsRelevanceScore`: local market-news relevance scoring record
+- `ResearchCadencePlan`: non-runtime cadence plan for research workflows
+- `ModelLimitationRecord`: explicit model limitation and failure-mode record
+- `DryRunEvaluationSummary`: paper-only dry-run evaluation summary
 
 ## Safety Boundary
 
@@ -30,6 +35,11 @@ These contracts may describe:
 - debate summaries
 - hypothesis state
 - advisory notes
+- tiered research planning
+- market-news relevance scores
+- research cadence plans
+- model limitation records
+- dry-run evaluation summaries
 
 They must not contain:
 
@@ -49,6 +59,10 @@ They must not contain:
 
 `RiskReviewInput` is not a `RiskDecision`.
 
+`DryRunEvaluationSummary` is not live approval.
+
+`ResearchCadencePlan` is not a scheduler.
+
 No research contract can approve risk, approve execution, submit orders, cancel orders, transfer funds or withdraw funds.
 
 Any future path from a research contract toward an order must pass through separately approved services and deterministic-risk-gateway.
@@ -64,4 +78,7 @@ Current validation is local-only:
 - no network
 - no credentials
 - no LLM runtime
+- no scheduler runtime
+- no Polymarket CLOB runtime
+- no wallet or notification runtime
 

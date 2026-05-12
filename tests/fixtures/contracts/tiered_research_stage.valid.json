@@ -1,0 +1,13 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "tiered_research_stage_id": "trs_fixture_001",
+  "stage": "classification",
+  "tier": 0,
+  "purpose": "Synthetic local-only tiered research stage fixture.",
+  "created_at": "2026-01-04T00:00:00Z",
+  "network_allowed": false,
+  "credentials_allowed": false,
+  "execution_allowed": false
+}

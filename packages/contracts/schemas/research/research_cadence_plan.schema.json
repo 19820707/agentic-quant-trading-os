@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/research_cadence_plan.schema.json",
+  "$comment": "ResearchCadencePlan documents intended research cadences. It does not implement a scheduler.",
+  "title": "ResearchCadencePlan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "research_cadence_plan_id",
+    "created_at",
+    "cadences",
+    "scheduler_runtime_allowed",
+    "network_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "research_cadence_plan_id": {
+      "type": "string",
+      "pattern": "^rcp_[A-Za-z0-9_\\-]+$"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "cadences": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "cadence_name",
+          "purpose",
+          "interval_seconds"
+        ],
+        "properties": {
+          "cadence_name": {
+            "type": "string",
+            "enum": [
+              "ingestion",
+              "analysis",
+              "monitoring",
+              "postmortem"
+            ]
+          },
+          "purpose": {
+            "type": "string",
+            "minLength": 1
+          },
+          "interval_seconds": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      }
+    },
+    "scheduler_runtime_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "network_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}

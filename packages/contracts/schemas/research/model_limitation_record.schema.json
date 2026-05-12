@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/model_limitation_record.schema.json",
+  "$comment": "ModelLimitationRecord documents model and research limitations. It cannot approve model, risk or execution use.",
+  "title": "ModelLimitationRecord",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "model_limitation_record_id",
+    "recorded_at",
+    "limitation_category",
+    "description",
+    "impact",
+    "model_approval_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "model_limitation_record_id": {
+      "type": "string",
+      "pattern": "^mlr_[A-Za-z0-9_\\-]+$"
+    },
+    "recorded_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "limitation_category": {
+      "type": "string",
+      "enum": [
+        "no_alpha",
+        "latency",
+        "dependency",
+        "market_efficiency",
+        "data_quality",
+        "portfolio_risk",
+        "other"
+      ]
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "impact": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ]
+    },
+    "model_approval_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}

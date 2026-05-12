@@ -60,6 +60,41 @@ RESEARCH_CONTRACTS = {
         "invalid_enum": None,
         "timestamp_field": "created_at",
     },
+    "tiered_research_stage": {
+        "fixture": "tiered_research_stage.valid.json",
+        "primary_id": "tiered_research_stage_id",
+        "enum_field": "stage",
+        "invalid_enum": "INVALID_STAGE",
+        "timestamp_field": "created_at",
+    },
+    "market_news_relevance_score": {
+        "fixture": "market_news_relevance_score.valid.json",
+        "primary_id": "market_news_relevance_score_id",
+        "enum_field": None,
+        "invalid_enum": None,
+        "timestamp_field": "scored_at",
+    },
+    "research_cadence_plan": {
+        "fixture": "research_cadence_plan.valid.json",
+        "primary_id": "research_cadence_plan_id",
+        "enum_field": None,
+        "invalid_enum": None,
+        "timestamp_field": "created_at",
+    },
+    "model_limitation_record": {
+        "fixture": "model_limitation_record.valid.json",
+        "primary_id": "model_limitation_record_id",
+        "enum_field": "limitation_category",
+        "invalid_enum": "INVALID_LIMITATION",
+        "timestamp_field": "recorded_at",
+    },
+    "dry_run_evaluation_summary": {
+        "fixture": "dry_run_evaluation_summary.valid.json",
+        "primary_id": "dry_run_evaluation_summary_id",
+        "enum_field": None,
+        "invalid_enum": None,
+        "timestamp_field": "evaluated_at",
+    },
 }
 
 FORBIDDEN_SCHEMA_TEXT = (
@@ -117,6 +152,30 @@ class PredictionResearchContractTests(unittest.TestCase):
 
         self.assertTrue(fixture["deterministic_gateway_required"])
         self.assertFalse(fixture["risk_approval_allowed"])
+        self.assertFalse(fixture["execution_allowed"])
+
+    def test_research_discipline_contracts_are_local_only(self):
+        for name in (
+            "tiered_research_stage",
+            "market_news_relevance_score",
+            "research_cadence_plan",
+        ):
+            with self.subTest(schema=name):
+                fixture = self._fixture(name)
+                self.assertFalse(fixture["network_allowed"])
+                self.assertFalse(fixture["execution_allowed"])
+
+    def test_dry_run_summary_cannot_approve_live_use(self):
+        fixture = self._fixture("dry_run_evaluation_summary")
+
+        self.assertTrue(fixture["paper_only"])
+        self.assertFalse(fixture["production_approval_allowed"])
+        self.assertFalse(fixture["execution_allowed"])
+
+    def test_model_limitation_record_cannot_approve_model_or_execution(self):
+        fixture = self._fixture("model_limitation_record")
+
+        self.assertFalse(fixture["model_approval_allowed"])
         self.assertFalse(fixture["execution_allowed"])
 
     def test_missing_required_fields_are_rejected(self):
