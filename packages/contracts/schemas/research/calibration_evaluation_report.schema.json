@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/calibration_evaluation_report.schema.json",
+  "$comment": "CalibrationEvaluationReport is a local research evaluation artifact. It is not a model runtime, trading signal, risk approval or execution approval.",
+  "title": "CalibrationEvaluationReport",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "calibration_evaluation_report_id",
+    "evaluation_name",
+    "evaluated_at",
+    "sample_count",
+    "brier_score",
+    "log_loss",
+    "expected_calibration_error",
+    "maximum_calibration_error",
+    "coverage",
+    "method",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "calibration_evaluation_report_id": {
+      "type": "string",
+      "pattern": "^cer_[A-Za-z0-9_\\-]+$"
+    },
+    "evaluation_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evaluated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "sample_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "brier_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "log_loss": {
+      "type": "number",
+      "minimum": 0
+    },
+    "expected_calibration_error": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "maximum_calibration_error": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "coverage": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "method": {
+      "type": "string",
+      "enum": [
+        "fixture",
+        "reliability_diagram",
+        "temporal_holdout",
+        "walk_forward",
+        "manual_review"
+      ]
+    },
+    "notes": {
+      "type": "string"
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}

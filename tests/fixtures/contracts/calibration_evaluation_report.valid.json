@@ -1,0 +1,17 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "calibration_evaluation_report_id": "cer_fixture_001",
+  "evaluation_name": "Synthetic fixture calibration evaluation",
+  "evaluated_at": "2026-01-03T00:00:00Z",
+  "sample_count": 100,
+  "brier_score": 0.18,
+  "log_loss": 0.54,
+  "expected_calibration_error": 0.04,
+  "maximum_calibration_error": 0.09,
+  "coverage": 0.95,
+  "method": "fixture",
+  "notes": "Local-only calibration evaluation fixture.",
+  "execution_allowed": false
+}
