@@ -1,0 +1,24 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "forecast_feature_snapshot_id": "ffs_fixture_001",
+  "subject": "Example prediction market forecasting subject",
+  "as_of_timestamp": "2026-01-01T00:01:00Z",
+  "available_timestamp": "2026-01-01T00:00:00Z",
+  "feature_values": [
+    {
+      "name": "fixture_market_probability",
+      "value": 0.6,
+      "source": "synthetic_fixture"
+    },
+    {
+      "name": "fixture_evidence_relevance",
+      "value": 0.7,
+      "source": "synthetic_fixture"
+    }
+  ],
+  "point_in_time_validated": true,
+  "leakage_reviewed": true,
+  "execution_allowed": false
+}

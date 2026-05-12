@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/forecast_postmortem.schema.json",
+  "$comment": "ForecastPostmortem records resolved forecast quality. It cannot approve execution.",
+  "title": "ForecastPostmortem",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "forecast_postmortem_id",
+    "probability_estimate_id",
+    "resolved_at",
+    "outcome",
+    "brier_score",
+    "error_category",
+    "lessons",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "forecast_postmortem_id": {
+      "type": "string",
+      "pattern": "^fpm_[A-Za-z0-9_\\-]+$"
+    },
+    "probability_estimate_id": {
+      "type": "string",
+      "pattern": "^pe_[A-Za-z0-9_\\-]+$"
+    },
+    "resolved_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "outcome": {
+      "type": "string",
+      "enum": [
+        "yes",
+        "no",
+        "void",
+        "unknown"
+      ]
+    },
+    "brier_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "log_loss": {
+      "type": "number",
+      "minimum": 0
+    },
+    "error_category": {
+      "type": "string",
+      "enum": [
+        "well_calibrated",
+        "overconfident",
+        "underconfident",
+        "bad_evidence",
+        "ambiguous_rules",
+        "data_leakage_suspected",
+        "unresolved"
+      ]
+    },
+    "lessons": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}

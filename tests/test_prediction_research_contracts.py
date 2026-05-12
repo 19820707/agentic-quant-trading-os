@@ -60,6 +60,41 @@ RESEARCH_CONTRACTS = {
         "invalid_enum": None,
         "timestamp_field": "created_at",
     },
+    "forecast_evidence_item": {
+        "fixture": "forecast_evidence_item.valid.json",
+        "primary_id": "forecast_evidence_item_id",
+        "enum_field": "source_type",
+        "invalid_enum": "INVALID_SOURCE",
+        "timestamp_field": "retrieved_at",
+    },
+    "market_rule_parse": {
+        "fixture": "market_rule_parse.valid.json",
+        "primary_id": "market_rule_parse_id",
+        "enum_field": None,
+        "invalid_enum": None,
+        "timestamp_field": "parsed_at",
+    },
+    "forecast_calibration_record": {
+        "fixture": "forecast_calibration_record.valid.json",
+        "primary_id": "forecast_calibration_record_id",
+        "enum_field": "calibration_method",
+        "invalid_enum": "INVALID_METHOD",
+        "timestamp_field": "calibrated_at",
+    },
+    "forecast_postmortem": {
+        "fixture": "forecast_postmortem.valid.json",
+        "primary_id": "forecast_postmortem_id",
+        "enum_field": "error_category",
+        "invalid_enum": "INVALID_ERROR",
+        "timestamp_field": "resolved_at",
+    },
+    "forecast_feature_snapshot": {
+        "fixture": "forecast_feature_snapshot.valid.json",
+        "primary_id": "forecast_feature_snapshot_id",
+        "enum_field": None,
+        "invalid_enum": None,
+        "timestamp_field": "as_of_timestamp",
+    },
 }
 
 FORBIDDEN_SCHEMA_TEXT = (
@@ -118,6 +153,30 @@ class PredictionResearchContractTests(unittest.TestCase):
         self.assertTrue(fixture["deterministic_gateway_required"])
         self.assertFalse(fixture["risk_approval_allowed"])
         self.assertFalse(fixture["execution_allowed"])
+
+    def test_forecasting_research_contracts_preserve_safety_boundaries(self):
+        for name in (
+            "forecast_evidence_item",
+            "market_rule_parse",
+            "forecast_calibration_record",
+            "forecast_postmortem",
+            "forecast_feature_snapshot",
+        ):
+            with self.subTest(schema=name):
+                fixture = self._fixture(name)
+                self.assertFalse(fixture["execution_allowed"])
+                self.assertNotIn("order_intent_id", fixture)
+                self.assertNotIn("approved_order_id", fixture)
+
+    def test_point_in_time_forecast_contracts_are_marked_validated(self):
+        for name in ("forecast_evidence_item", "forecast_feature_snapshot"):
+            with self.subTest(schema=name):
+                fixture = self._fixture(name)
+                self.assertTrue(fixture["point_in_time_validated"])
+                self.assertLessEqual(
+                    fixture["available_timestamp"],
+                    fixture["as_of_timestamp"],
+                )
 
     def test_missing_required_fields_are_rejected(self):
         for name in RESEARCH_CONTRACTS:

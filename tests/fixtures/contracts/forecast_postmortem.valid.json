@@ -1,0 +1,16 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "forecast_postmortem_id": "fpm_fixture_001",
+  "probability_estimate_id": "pe_fixture_001",
+  "resolved_at": "2026-01-02T00:00:00Z",
+  "outcome": "yes",
+  "brier_score": 0.1444,
+  "log_loss": 0.478,
+  "error_category": "well_calibrated",
+  "lessons": [
+    "Synthetic postmortem fixture for local contract validation."
+  ],
+  "execution_allowed": false
+}

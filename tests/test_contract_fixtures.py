@@ -20,6 +20,11 @@ FIXTURES = {
     "debate_transcript.valid.json": ("research", "debate_transcript"),
     "signal_candidate.valid.json": ("research", "signal_candidate"),
     "risk_review_input.valid.json": ("research", "risk_review_input"),
+    "forecast_evidence_item.valid.json": ("research", "forecast_evidence_item"),
+    "market_rule_parse.valid.json": ("research", "market_rule_parse"),
+    "forecast_calibration_record.valid.json": ("research", "forecast_calibration_record"),
+    "forecast_postmortem.valid.json": ("research", "forecast_postmortem"),
+    "forecast_feature_snapshot.valid.json": ("research", "forecast_feature_snapshot"),
 }
 
 FORBIDDEN_KEYS = {
@@ -84,6 +89,8 @@ class ContractFixtureTests(unittest.TestCase):
                     self.assertFalse(payload["order_intent_allowed"])
                 if "risk_approval_allowed" in payload:
                     self.assertFalse(payload["risk_approval_allowed"])
+                if "point_in_time_validated" in payload:
+                    self.assertTrue(payload["point_in_time_validated"])
 
     def _load_fixture(self, fixture_name):
         with (FIXTURE_ROOT / fixture_name).open(encoding="utf-8") as fixture_file:

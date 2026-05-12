@@ -17,6 +17,11 @@ The `research` schema domain contains:
 - `DebateTranscript`: YES/NO, advisory risk or governance debate record
 - `SignalCandidate`: non-executable candidate signal
 - `RiskReviewInput`: advisory input for later deterministic risk review
+- `ForecastEvidenceItem`: point-in-time evidence item for forecast research
+- `MarketRuleParse`: structured interpretation of market resolution rules
+- `ForecastCalibrationRecord`: calibrated probability and uncertainty record
+- `ForecastPostmortem`: resolved forecast scoring and error review
+- `ForecastFeatureSnapshot`: point-in-time feature values used by forecast research
 
 ## Safety Boundary
 
@@ -30,6 +35,11 @@ These contracts may describe:
 - debate summaries
 - hypothesis state
 - advisory notes
+- forecast evidence
+- rule parsing outputs
+- calibration metadata
+- postmortem scores
+- point-in-time feature snapshots
 
 They must not contain:
 
@@ -64,4 +74,7 @@ Current validation is local-only:
 - no network
 - no credentials
 - no LLM runtime
+- no Kalshi or Polymarket runtime
+- no prediction-market venue clients
+- no LightGBM or model runtime dependency
 

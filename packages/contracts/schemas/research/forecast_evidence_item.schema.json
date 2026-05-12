@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/forecast_evidence_item.schema.json",
+  "$comment": "ForecastEvidenceItem is local research evidence. It is non-executable and cannot approve risk or execution.",
+  "title": "ForecastEvidenceItem",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "forecast_evidence_item_id",
+    "subject",
+    "source_type",
+    "retrieved_at",
+    "available_timestamp",
+    "as_of_timestamp",
+    "summary",
+    "point_in_time_validated",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "forecast_evidence_item_id": {
+      "type": "string",
+      "pattern": "^fei_[A-Za-z0-9_\\-]+$"
+    },
+    "subject": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_type": {
+      "type": "string",
+      "enum": [
+        "fixture",
+        "news",
+        "market_metadata",
+        "research_note",
+        "price_reference",
+        "other"
+      ]
+    },
+    "retrieved_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "available_timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "as_of_timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "relevance_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "point_in_time_validated": {
+      "type": "boolean"
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}
