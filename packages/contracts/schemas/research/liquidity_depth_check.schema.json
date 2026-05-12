@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/liquidity_depth_check.schema.json",
+  "$comment": "LiquidityDepthCheck captures advisory public depth analysis only. It is not execution permission.",
+  "title": "LiquidityDepthCheck",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "liquidity_depth_check_id",
+    "market_ref",
+    "observed_at",
+    "depth_score",
+    "liquidity_state",
+    "risk_flags",
+    "public_data_only",
+    "network_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "liquidity_depth_check_id": {
+      "type": "string",
+      "pattern": "^ldc_[A-Za-z0-9_\\-]+$"
+    },
+    "market_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "observed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "depth_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "liquidity_state": {
+      "type": "string",
+      "enum": [
+        "ADEQUATE",
+        "THIN",
+        "EMPTY",
+        "UNKNOWN"
+      ]
+    },
+    "risk_flags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "public_data_only": {
+      "type": "boolean",
+      "const": true
+    },
+    "network_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}

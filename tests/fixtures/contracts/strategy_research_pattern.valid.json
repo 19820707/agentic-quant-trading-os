@@ -1,0 +1,23 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_strategy_pattern_001",
+  "correlation_id": "corr_strategy_pattern_001",
+  "strategy_research_pattern_id": "srp_fixture_001",
+  "pattern_name": "Orderbook imbalance research pattern",
+  "pattern_category": "ORDERBOOK_IMBALANCE_RESEARCH",
+  "created_at": "2026-01-01T00:00:00Z",
+  "research_use_only": true,
+  "required_observations": [
+    "orderbook_imbalance_feature",
+    "liquidity_depth_check"
+  ],
+  "risk_flags": [
+    "stale_data_risk",
+    "thin_liquidity",
+    "manual_review_required"
+  ],
+  "local_only": true,
+  "network_allowed": false,
+  "order_intent_allowed": false,
+  "execution_allowed": false
+}

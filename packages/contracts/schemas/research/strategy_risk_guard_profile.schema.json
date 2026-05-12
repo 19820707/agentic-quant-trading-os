@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/strategy_risk_guard_profile.schema.json",
+  "$comment": "StrategyRiskGuardProfile records advisory guard settings for research only. It is not a risk decision.",
+  "title": "StrategyRiskGuardProfile",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "strategy_risk_guard_profile_id",
+    "strategy_research_pattern_id",
+    "created_at",
+    "circuit_breaker",
+    "depth_guard",
+    "dry_run_required",
+    "deterministic_gateway_required",
+    "risk_approval_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "strategy_risk_guard_profile_id": {
+      "type": "string",
+      "pattern": "^srgp_[A-Za-z0-9_\\-]+$"
+    },
+    "strategy_research_pattern_id": {
+      "type": "string",
+      "pattern": "^srp_[A-Za-z0-9_\\-]+$"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "circuit_breaker": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "enabled",
+        "max_large_events",
+        "window_seconds",
+        "cooldown_seconds"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "max_large_events": {
+          "type": "number",
+          "minimum": 1
+        },
+        "window_seconds": {
+          "type": "number",
+          "minimum": 1
+        },
+        "cooldown_seconds": {
+          "type": "number",
+          "minimum": 1
+        }
+      }
+    },
+    "depth_guard": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "enabled",
+        "minimum_depth_score"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "minimum_depth_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "dry_run_required": {
+      "type": "boolean",
+      "const": true
+    },
+    "deterministic_gateway_required": {
+      "type": "boolean",
+      "const": true
+    },
+    "risk_approval_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}

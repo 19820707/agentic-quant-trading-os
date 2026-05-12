@@ -60,6 +60,41 @@ RESEARCH_CONTRACTS = {
         "invalid_enum": None,
         "timestamp_field": "created_at",
     },
+    "strategy_research_pattern": {
+        "fixture": "strategy_research_pattern.valid.json",
+        "primary_id": "strategy_research_pattern_id",
+        "enum_field": "pattern_category",
+        "invalid_enum": "EXECUTION_PATTERN",
+        "timestamp_field": "created_at",
+    },
+    "strategy_risk_guard_profile": {
+        "fixture": "strategy_risk_guard_profile.valid.json",
+        "primary_id": "strategy_risk_guard_profile_id",
+        "enum_field": None,
+        "invalid_enum": None,
+        "timestamp_field": "created_at",
+    },
+    "liquidity_depth_check": {
+        "fixture": "liquidity_depth_check.valid.json",
+        "primary_id": "liquidity_depth_check_id",
+        "enum_field": "liquidity_state",
+        "invalid_enum": "READY_TO_TRADE",
+        "timestamp_field": "observed_at",
+    },
+    "orderbook_imbalance_feature": {
+        "fixture": "orderbook_imbalance_feature.valid.json",
+        "primary_id": "orderbook_imbalance_feature_id",
+        "enum_field": "feature_direction",
+        "invalid_enum": "PLACE_ORDER",
+        "timestamp_field": "observed_at",
+    },
+    "wallet_activity_observation": {
+        "fixture": "wallet_activity_observation.valid.json",
+        "primary_id": "wallet_activity_observation_id",
+        "enum_field": "activity_type",
+        "invalid_enum": "MIRROR_TRADE",
+        "timestamp_field": "observed_at",
+    },
 }
 
 FORBIDDEN_SCHEMA_TEXT = (
@@ -118,6 +153,26 @@ class PredictionResearchContractTests(unittest.TestCase):
         self.assertTrue(fixture["deterministic_gateway_required"])
         self.assertFalse(fixture["risk_approval_allowed"])
         self.assertFalse(fixture["execution_allowed"])
+
+    def test_strategy_pattern_contracts_are_non_executable(self):
+        for name in (
+            "strategy_research_pattern",
+            "strategy_risk_guard_profile",
+            "liquidity_depth_check",
+            "orderbook_imbalance_feature",
+            "wallet_activity_observation",
+        ):
+            with self.subTest(schema=name):
+                fixture = self._fixture(name)
+                self.assertFalse(fixture["execution_allowed"])
+                if "network_allowed" in fixture:
+                    self.assertFalse(fixture["network_allowed"])
+                if "order_intent_allowed" in fixture:
+                    self.assertFalse(fixture["order_intent_allowed"])
+                if "risk_approval_allowed" in fixture:
+                    self.assertFalse(fixture["risk_approval_allowed"])
+                if "copy_allowed" in fixture:
+                    self.assertFalse(fixture["copy_allowed"])
 
     def test_missing_required_fields_are_rejected(self):
         for name in RESEARCH_CONTRACTS:

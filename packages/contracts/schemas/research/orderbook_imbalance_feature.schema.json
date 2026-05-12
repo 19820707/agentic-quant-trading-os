@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/orderbook_imbalance_feature.schema.json",
+  "$comment": "OrderbookImbalanceFeature is a read-only feature. It must not drive execution directly.",
+  "title": "OrderbookImbalanceFeature",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "orderbook_imbalance_feature_id",
+    "market_ref",
+    "observed_at",
+    "bid_depth_score",
+    "ask_depth_score",
+    "imbalance_score",
+    "feature_direction",
+    "stale_data_risk",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "orderbook_imbalance_feature_id": {
+      "type": "string",
+      "pattern": "^obi_[A-Za-z0-9_\\-]+$"
+    },
+    "market_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "observed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "bid_depth_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "ask_depth_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "imbalance_score": {
+      "type": "number",
+      "minimum": -1,
+      "maximum": 1
+    },
+    "feature_direction": {
+      "type": "string",
+      "enum": [
+        "YES_PRESSURE",
+        "NO_PRESSURE",
+        "BALANCED",
+        "UNKNOWN"
+      ]
+    },
+    "stale_data_risk": {
+      "type": "boolean"
+    },
+    "signal_candidate_id": {
+      "type": "string",
+      "pattern": "^sigcand_[A-Za-z0-9_\\-]+$"
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}
