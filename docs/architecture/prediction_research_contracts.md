@@ -17,6 +17,8 @@ The `research` schema domain contains:
 - `DebateTranscript`: YES/NO, advisory risk or governance debate record
 - `SignalCandidate`: non-executable candidate signal
 - `RiskReviewInput`: advisory input for later deterministic risk review
+- `CalibrationEvaluationReport`: aggregate calibration quality metrics
+- `ForecastReliabilityBucket`: reliability bucket for future calibration diagrams
 
 ## Safety Boundary
 
@@ -30,6 +32,8 @@ These contracts may describe:
 - debate summaries
 - hypothesis state
 - advisory notes
+- calibration evaluation metrics
+- forecast reliability buckets
 
 They must not contain:
 
@@ -49,6 +53,10 @@ They must not contain:
 
 `RiskReviewInput` is not a `RiskDecision`.
 
+`CalibrationEvaluationReport` is not model approval or production approval.
+
+`ForecastReliabilityBucket` is not a trading signal.
+
 No research contract can approve risk, approve execution, submit orders, cancel orders, transfer funds or withdraw funds.
 
 Any future path from a research contract toward an order must pass through separately approved services and deterministic-risk-gateway.
@@ -64,4 +72,6 @@ Current validation is local-only:
 - no network
 - no credentials
 - no LLM runtime
+- no LightGBM runtime
+- no model runtime
 

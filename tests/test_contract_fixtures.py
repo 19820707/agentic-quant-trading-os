@@ -20,6 +20,11 @@ FIXTURES = {
     "debate_transcript.valid.json": ("research", "debate_transcript"),
     "signal_candidate.valid.json": ("research", "signal_candidate"),
     "risk_review_input.valid.json": ("research", "risk_review_input"),
+    "calibration_evaluation_report.valid.json": (
+        "research",
+        "calibration_evaluation_report",
+    ),
+    "forecast_reliability_bucket.valid.json": ("research", "forecast_reliability_bucket"),
 }
 
 FORBIDDEN_KEYS = {

@@ -1,0 +1,14 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "forecast_reliability_bucket_id": "frb_fixture_001",
+  "calibration_evaluation_report_id": "cer_fixture_001",
+  "bucket_lower": 0.6,
+  "bucket_upper": 0.7,
+  "sample_count": 25,
+  "mean_predicted_probability": 0.64,
+  "empirical_frequency": 0.6,
+  "mean_absolute_error": 0.04,
+  "execution_allowed": false
+}

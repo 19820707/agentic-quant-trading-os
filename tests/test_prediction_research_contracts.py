@@ -60,6 +60,20 @@ RESEARCH_CONTRACTS = {
         "invalid_enum": None,
         "timestamp_field": "created_at",
     },
+    "calibration_evaluation_report": {
+        "fixture": "calibration_evaluation_report.valid.json",
+        "primary_id": "calibration_evaluation_report_id",
+        "enum_field": "method",
+        "invalid_enum": "INVALID_METHOD",
+        "timestamp_field": "evaluated_at",
+    },
+    "forecast_reliability_bucket": {
+        "fixture": "forecast_reliability_bucket.valid.json",
+        "primary_id": "forecast_reliability_bucket_id",
+        "enum_field": None,
+        "invalid_enum": None,
+        "timestamp_field": None,
+    },
 }
 
 FORBIDDEN_SCHEMA_TEXT = (
@@ -118,6 +132,21 @@ class PredictionResearchContractTests(unittest.TestCase):
         self.assertTrue(fixture["deterministic_gateway_required"])
         self.assertFalse(fixture["risk_approval_allowed"])
         self.assertFalse(fixture["execution_allowed"])
+
+    def test_calibration_evaluation_contracts_are_non_executable(self):
+        for name in ("calibration_evaluation_report", "forecast_reliability_bucket"):
+            with self.subTest(schema=name):
+                fixture = self._fixture(name)
+                self.assertFalse(fixture["execution_allowed"])
+                self.assertNotIn("model_approval_allowed", fixture)
+                self.assertNotIn("production_approval_allowed", fixture)
+
+    def test_reliability_bucket_bounds_are_ordered(self):
+        fixture = self._fixture("forecast_reliability_bucket")
+
+        self.assertLess(fixture["bucket_lower"], fixture["bucket_upper"])
+        self.assertGreaterEqual(fixture["mean_predicted_probability"], fixture["bucket_lower"])
+        self.assertLessEqual(fixture["mean_predicted_probability"], fixture["bucket_upper"])
 
     def test_missing_required_fields_are_rejected(self):
         for name in RESEARCH_CONTRACTS:

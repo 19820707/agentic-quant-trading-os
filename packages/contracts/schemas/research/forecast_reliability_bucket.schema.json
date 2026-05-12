@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/forecast_reliability_bucket.schema.json",
+  "$comment": "ForecastReliabilityBucket summarizes forecast reliability by probability bucket. It is not executable.",
+  "title": "ForecastReliabilityBucket",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "forecast_reliability_bucket_id",
+    "calibration_evaluation_report_id",
+    "bucket_lower",
+    "bucket_upper",
+    "sample_count",
+    "mean_predicted_probability",
+    "empirical_frequency",
+    "mean_absolute_error",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "forecast_reliability_bucket_id": {
+      "type": "string",
+      "pattern": "^frb_[A-Za-z0-9_\\-]+$"
+    },
+    "calibration_evaluation_report_id": {
+      "type": "string",
+      "pattern": "^cer_[A-Za-z0-9_\\-]+$"
+    },
+    "bucket_lower": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "bucket_upper": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "sample_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "mean_predicted_probability": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "empirical_frequency": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "mean_absolute_error": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}
