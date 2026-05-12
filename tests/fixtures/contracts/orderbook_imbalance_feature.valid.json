@@ -1,0 +1,15 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_strategy_pattern_001",
+  "correlation_id": "corr_strategy_pattern_001",
+  "orderbook_imbalance_feature_id": "obi_fixture_001",
+  "market_ref": "fixture_market_depth",
+  "observed_at": "2026-01-01T00:00:02Z",
+  "bid_depth_score": 0.64,
+  "ask_depth_score": 0.36,
+  "imbalance_score": 0.28,
+  "feature_direction": "YES_PRESSURE",
+  "stale_data_risk": false,
+  "signal_candidate_id": "sigcand_fixture_001",
+  "execution_allowed": false
+}

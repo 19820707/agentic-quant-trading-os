@@ -1,0 +1,18 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_strategy_pattern_001",
+  "correlation_id": "corr_strategy_pattern_001",
+  "wallet_activity_observation_id": "wao_fixture_001",
+  "wallet_ref": "public_wallet_fixture",
+  "observed_at": "2026-01-01T00:00:03Z",
+  "activity_type": "POSITION_INCREASE",
+  "market_ref": "fixture_market_wallet_activity",
+  "confidence": 0.51,
+  "risk_flags": [
+    "copy_activity_research_only",
+    "manual_review_required"
+  ],
+  "copy_allowed": false,
+  "network_allowed": false,
+  "execution_allowed": false
+}

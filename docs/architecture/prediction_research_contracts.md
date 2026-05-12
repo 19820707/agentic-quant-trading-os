@@ -17,6 +17,11 @@ The `research` schema domain contains:
 - `DebateTranscript`: YES/NO, advisory risk or governance debate record
 - `SignalCandidate`: non-executable candidate signal
 - `RiskReviewInput`: advisory input for later deterministic risk review
+- `StrategyResearchPattern`: governed strategy pattern catalog entry
+- `StrategyRiskGuardProfile`: advisory risk guard profile for research review
+- `LiquidityDepthCheck`: read-only public liquidity/depth assessment
+- `OrderbookImbalanceFeature`: read-only order book imbalance feature
+- `WalletActivityObservation`: public wallet activity observation for research
 
 ## Safety Boundary
 
@@ -29,6 +34,10 @@ These contracts may describe:
 - risk flags
 - debate summaries
 - hypothesis state
+- strategy pattern classification
+- advisory guard requirements
+- order book and liquidity features
+- public wallet activity observations
 - advisory notes
 
 They must not contain:
@@ -64,4 +73,6 @@ Current validation is local-only:
 - no network
 - no credentials
 - no LLM runtime
+- no strategy runtime
+- no wallet tracking runtime
 

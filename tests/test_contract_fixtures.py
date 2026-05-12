@@ -20,6 +20,11 @@ FIXTURES = {
     "debate_transcript.valid.json": ("research", "debate_transcript"),
     "signal_candidate.valid.json": ("research", "signal_candidate"),
     "risk_review_input.valid.json": ("research", "risk_review_input"),
+    "strategy_research_pattern.valid.json": ("research", "strategy_research_pattern"),
+    "strategy_risk_guard_profile.valid.json": ("research", "strategy_risk_guard_profile"),
+    "liquidity_depth_check.valid.json": ("research", "liquidity_depth_check"),
+    "orderbook_imbalance_feature.valid.json": ("research", "orderbook_imbalance_feature"),
+    "wallet_activity_observation.valid.json": ("research", "wallet_activity_observation"),
 }
 
 FORBIDDEN_KEYS = {
@@ -69,7 +74,7 @@ class ContractFixtureTests(unittest.TestCase):
 
         self.assertEqual(
             correlation_ids,
-            {"corr_fixture_lifecycle_001", "corr_research_contracts_001"},
+            {"corr_fixture_lifecycle_001", "corr_research_contracts_001", "corr_strategy_pattern_001"},
         )
 
     def test_research_fixtures_are_non_executable(self):
@@ -84,6 +89,10 @@ class ContractFixtureTests(unittest.TestCase):
                     self.assertFalse(payload["order_intent_allowed"])
                 if "risk_approval_allowed" in payload:
                     self.assertFalse(payload["risk_approval_allowed"])
+                if "network_allowed" in payload:
+                    self.assertFalse(payload["network_allowed"])
+                if "copy_allowed" in payload:
+                    self.assertFalse(payload["copy_allowed"])
 
     def _load_fixture(self, fixture_name):
         with (FIXTURE_ROOT / fixture_name).open(encoding="utf-8") as fixture_file:

@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/wallet_activity_observation.schema.json",
+  "$comment": "WalletActivityObservation is research-only public activity metadata. It must not mirror or execute activity.",
+  "title": "WalletActivityObservation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "wallet_activity_observation_id",
+    "wallet_ref",
+    "observed_at",
+    "activity_type",
+    "market_ref",
+    "confidence",
+    "risk_flags",
+    "copy_allowed",
+    "network_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "wallet_activity_observation_id": {
+      "type": "string",
+      "pattern": "^wao_[A-Za-z0-9_\\-]+$"
+    },
+    "wallet_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "observed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "activity_type": {
+      "type": "string",
+      "enum": [
+        "POSITION_INCREASE",
+        "POSITION_DECREASE",
+        "POSITION_CLOSED",
+        "UNKNOWN"
+      ]
+    },
+    "market_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "risk_flags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "copy_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "network_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}

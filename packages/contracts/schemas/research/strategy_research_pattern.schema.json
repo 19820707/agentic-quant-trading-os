@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/strategy_research_pattern.schema.json",
+  "$comment": "StrategyResearchPattern catalogs research patterns only. It must not approve risk or execution.",
+  "title": "StrategyResearchPattern",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "strategy_research_pattern_id",
+    "pattern_name",
+    "pattern_category",
+    "created_at",
+    "research_use_only",
+    "required_observations",
+    "risk_flags",
+    "order_intent_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "strategy_research_pattern_id": {
+      "type": "string",
+      "pattern": "^srp_[A-Za-z0-9_\\-]+$"
+    },
+    "pattern_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "pattern_category": {
+      "type": "string",
+      "enum": [
+        "COPY_ACTIVITY_RESEARCH",
+        "SHORT_WINDOW_PRICE_RESEARCH",
+        "CROSS_VENUE_RESEARCH",
+        "MOMENTUM_RESEARCH",
+        "SPREAD_RESEARCH",
+        "SPORTS_MARKET_RESEARCH",
+        "RESOLUTION_RESEARCH",
+        "ORDERBOOK_IMBALANCE_RESEARCH",
+        "MARKET_MAKING_RESEARCH",
+        "ONCHAIN_ACTIVITY_RESEARCH"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "research_use_only": {
+      "type": "boolean",
+      "const": true
+    },
+    "required_observations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "risk_flags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "local_only": {
+      "type": "boolean",
+      "const": true
+    },
+    "network_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "order_intent_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}

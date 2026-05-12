@@ -1,0 +1,16 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_strategy_pattern_001",
+  "correlation_id": "corr_strategy_pattern_001",
+  "liquidity_depth_check_id": "ldc_fixture_001",
+  "market_ref": "fixture_market_depth",
+  "observed_at": "2026-01-01T00:00:01Z",
+  "depth_score": 0.72,
+  "liquidity_state": "ADEQUATE",
+  "risk_flags": [
+    "public_depth_only"
+  ],
+  "public_data_only": true,
+  "network_allowed": false,
+  "execution_allowed": false
+}
