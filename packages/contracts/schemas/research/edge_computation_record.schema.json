@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/edge_computation_record.schema.json",
+  "$comment": "EdgeComputationRecord records probability comparison only. It is not an executable signal.",
+  "title": "EdgeComputationRecord",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "edge_computation_record_id",
+    "subject",
+    "computed_at",
+    "market_probability",
+    "calibrated_probability",
+    "edge",
+    "computation_method",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "edge_computation_record_id": {
+      "type": "string",
+      "pattern": "^ecr_[A-Za-z0-9_\\-]+$"
+    },
+    "subject": {
+      "type": "string",
+      "minLength": 1
+    },
+    "computed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "market_probability": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "calibrated_probability": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "edge": {
+      "type": "number",
+      "minimum": -1,
+      "maximum": 1
+    },
+    "computation_method": {
+      "type": "string",
+      "enum": [
+        "fixture",
+        "calibrated_minus_market",
+        "cross_venue_spread",
+        "manual_research"
+      ]
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}

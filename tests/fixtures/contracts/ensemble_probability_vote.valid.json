@@ -1,0 +1,28 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "ensemble_probability_vote_id": "epv_fixture_001",
+  "subject": "Example prediction market signal subject",
+  "voted_at": "2026-01-01T00:02:00Z",
+  "aggregation_method": "median",
+  "votes": [
+    {
+      "model_label": "fixture_model_a",
+      "probability": 0.6,
+      "confidence": 0.5
+    },
+    {
+      "model_label": "fixture_model_b",
+      "probability": 0.62,
+      "confidence": 0.55
+    },
+    {
+      "model_label": "fixture_model_c",
+      "probability": 0.64,
+      "confidence": 0.52
+    }
+  ],
+  "aggregated_probability": 0.62,
+  "execution_allowed": false
+}

@@ -20,6 +20,14 @@ FIXTURES = {
     "debate_transcript.valid.json": ("research", "debate_transcript"),
     "signal_candidate.valid.json": ("research", "signal_candidate"),
     "risk_review_input.valid.json": ("research", "risk_review_input"),
+    "prediction_market_signal_classification.valid.json": (
+        "research",
+        "prediction_market_signal_classification",
+    ),
+    "edge_computation_record.valid.json": ("research", "edge_computation_record"),
+    "ensemble_probability_vote.valid.json": ("research", "ensemble_probability_vote"),
+    "advisory_kelly_sizing.valid.json": ("research", "advisory_kelly_sizing"),
+    "signal_pipeline_status.valid.json": ("research", "signal_pipeline_status"),
 }
 
 FORBIDDEN_KEYS = {
@@ -84,6 +92,10 @@ class ContractFixtureTests(unittest.TestCase):
                     self.assertFalse(payload["order_intent_allowed"])
                 if "risk_approval_allowed" in payload:
                     self.assertFalse(payload["risk_approval_allowed"])
+                if "network_allowed" in payload:
+                    self.assertFalse(payload["network_allowed"])
+                if "advisory_only" in payload:
+                    self.assertTrue(payload["advisory_only"])
 
     def _load_fixture(self, fixture_name):
         with (FIXTURE_ROOT / fixture_name).open(encoding="utf-8") as fixture_file:

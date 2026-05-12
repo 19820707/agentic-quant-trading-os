@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/signal_pipeline_status.schema.json",
+  "$comment": "SignalPipelineStatus describes local pipeline progress only. It cannot trigger runtime execution.",
+  "title": "SignalPipelineStatus",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "signal_pipeline_status_id",
+    "pipeline_name",
+    "reported_at",
+    "stages",
+    "network_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "signal_pipeline_status_id": {
+      "type": "string",
+      "pattern": "^sps_[A-Za-z0-9_\\-]+$"
+    },
+    "pipeline_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reported_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "stages": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "stage",
+          "status"
+        ],
+        "properties": {
+          "stage": {
+            "type": "string",
+            "enum": [
+              "fetch",
+              "research",
+              "analyze",
+              "calibrate",
+              "compare",
+              "size",
+              "signal"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "running",
+              "complete",
+              "failed"
+            ]
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "network_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "signal_pipeline_status_id": "sps_fixture_001",
+  "pipeline_name": "fixture_signal_pipeline",
+  "reported_at": "2026-01-01T00:04:00Z",
+  "stages": [
+    {
+      "stage": "fetch",
+      "status": "complete",
+      "message": "Fixture stage only."
+    },
+    {
+      "stage": "research",
+      "status": "complete",
+      "message": "Fixture stage only."
+    },
+    {
+      "stage": "signal",
+      "status": "complete",
+      "message": "Fixture stage only."
+    }
+  ],
+  "network_allowed": false,
+  "execution_allowed": false
+}

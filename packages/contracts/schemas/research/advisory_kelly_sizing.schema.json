@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/advisory_kelly_sizing.schema.json",
+  "$comment": "AdvisoryKellySizing is a research sizing hint only. It is not a position, order or risk approval.",
+  "title": "AdvisoryKellySizing",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "advisory_kelly_sizing_id",
+    "signal_classification_id",
+    "computed_at",
+    "full_kelly_fraction",
+    "applied_fraction",
+    "cap_fraction",
+    "advisory_only",
+    "risk_approval_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "advisory_kelly_sizing_id": {
+      "type": "string",
+      "pattern": "^aks_[A-Za-z0-9_\\-]+$"
+    },
+    "signal_classification_id": {
+      "type": "string",
+      "pattern": "^pmsc_[A-Za-z0-9_\\-]+$"
+    },
+    "computed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "full_kelly_fraction": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "applied_fraction": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "cap_fraction": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "advisory_only": {
+      "type": "boolean",
+      "const": true
+    },
+    "risk_approval_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}

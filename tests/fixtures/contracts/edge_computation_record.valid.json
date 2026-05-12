@@ -1,0 +1,13 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "edge_computation_record_id": "ecr_fixture_001",
+  "subject": "Example prediction market signal subject",
+  "computed_at": "2026-01-01T00:02:30Z",
+  "market_probability": 0.58,
+  "calibrated_probability": 0.62,
+  "edge": 0.04,
+  "computation_method": "calibrated_minus_market",
+  "execution_allowed": false
+}
