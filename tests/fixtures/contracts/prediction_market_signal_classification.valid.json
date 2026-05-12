@@ -1,0 +1,14 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "signal_classification_id": "pmsc_fixture_001",
+  "subject": "Example prediction market signal subject",
+  "classified_at": "2026-01-01T00:03:00Z",
+  "signal": "HOLD",
+  "edge": 0.04,
+  "confidence": 0.5,
+  "threshold_basis": "Synthetic fixture thresholding for local contract validation.",
+  "order_intent_allowed": false,
+  "execution_allowed": false
+}

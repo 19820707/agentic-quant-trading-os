@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/ensemble_probability_vote.schema.json",
+  "$comment": "EnsembleProbabilityVote captures local model-vote research. It does not call model providers.",
+  "title": "EnsembleProbabilityVote",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "ensemble_probability_vote_id",
+    "subject",
+    "voted_at",
+    "aggregation_method",
+    "votes",
+    "aggregated_probability",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "ensemble_probability_vote_id": {
+      "type": "string",
+      "pattern": "^epv_[A-Za-z0-9_\\-]+$"
+    },
+    "subject": {
+      "type": "string",
+      "minLength": 1
+    },
+    "voted_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "aggregation_method": {
+      "type": "string",
+      "enum": [
+        "median",
+        "mean",
+        "trimmed_mean",
+        "manual_review"
+      ]
+    },
+    "votes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "model_label",
+          "probability",
+          "confidence"
+        ],
+        "properties": {
+          "model_label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "probability": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          }
+        }
+      }
+    },
+    "aggregated_probability": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}

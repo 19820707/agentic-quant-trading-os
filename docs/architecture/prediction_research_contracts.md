@@ -17,6 +17,11 @@ The `research` schema domain contains:
 - `DebateTranscript`: YES/NO, advisory risk or governance debate record
 - `SignalCandidate`: non-executable candidate signal
 - `RiskReviewInput`: advisory input for later deterministic risk review
+- `PredictionMarketSignalClassification`: five-tier non-executable signal classification
+- `EdgeComputationRecord`: calibrated probability versus market probability comparison
+- `EnsembleProbabilityVote`: model-vote record and aggregation metadata
+- `AdvisoryKellySizing`: capped sizing hint for research review only
+- `SignalPipelineStatus`: local progress record for signal pipeline stages
 
 ## Safety Boundary
 
@@ -30,6 +35,11 @@ These contracts may describe:
 - debate summaries
 - hypothesis state
 - advisory notes
+- signal classification
+- edge computation
+- ensemble probability votes
+- advisory Kelly sizing
+- pipeline status
 
 They must not contain:
 
@@ -49,6 +59,10 @@ They must not contain:
 
 `RiskReviewInput` is not a `RiskDecision`.
 
+`PredictionMarketSignalClassification` is not an `OrderIntent`.
+
+`AdvisoryKellySizing` is not a position size, risk approval or execution approval.
+
 No research contract can approve risk, approve execution, submit orders, cancel orders, transfer funds or withdraw funds.
 
 Any future path from a research contract toward an order must pass through separately approved services and deterministic-risk-gateway.
@@ -64,4 +78,8 @@ Current validation is local-only:
 - no network
 - no credentials
 - no LLM runtime
+- no external LLM provider
+- no Synthesis.trade runtime
+- no wallet or order API
+- no dashboard execution controls
 

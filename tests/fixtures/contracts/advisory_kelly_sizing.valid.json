@@ -1,0 +1,14 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "advisory_kelly_sizing_id": "aks_fixture_001",
+  "signal_classification_id": "pmsc_fixture_001",
+  "computed_at": "2026-01-01T00:03:30Z",
+  "full_kelly_fraction": 0.12,
+  "applied_fraction": 0.03,
+  "cap_fraction": 0.05,
+  "advisory_only": true,
+  "risk_approval_allowed": false,
+  "execution_allowed": false
+}

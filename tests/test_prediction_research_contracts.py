@@ -60,6 +60,41 @@ RESEARCH_CONTRACTS = {
         "invalid_enum": None,
         "timestamp_field": "created_at",
     },
+    "prediction_market_signal_classification": {
+        "fixture": "prediction_market_signal_classification.valid.json",
+        "primary_id": "signal_classification_id",
+        "enum_field": "signal",
+        "invalid_enum": "BUY_YES",
+        "timestamp_field": "classified_at",
+    },
+    "edge_computation_record": {
+        "fixture": "edge_computation_record.valid.json",
+        "primary_id": "edge_computation_record_id",
+        "enum_field": "computation_method",
+        "invalid_enum": "INVALID_METHOD",
+        "timestamp_field": "computed_at",
+    },
+    "ensemble_probability_vote": {
+        "fixture": "ensemble_probability_vote.valid.json",
+        "primary_id": "ensemble_probability_vote_id",
+        "enum_field": "aggregation_method",
+        "invalid_enum": "INVALID_AGGREGATION",
+        "timestamp_field": "voted_at",
+    },
+    "advisory_kelly_sizing": {
+        "fixture": "advisory_kelly_sizing.valid.json",
+        "primary_id": "advisory_kelly_sizing_id",
+        "enum_field": None,
+        "invalid_enum": None,
+        "timestamp_field": "computed_at",
+    },
+    "signal_pipeline_status": {
+        "fixture": "signal_pipeline_status.valid.json",
+        "primary_id": "signal_pipeline_status_id",
+        "enum_field": None,
+        "invalid_enum": None,
+        "timestamp_field": "reported_at",
+    },
 }
 
 FORBIDDEN_SCHEMA_TEXT = (
@@ -117,6 +152,25 @@ class PredictionResearchContractTests(unittest.TestCase):
 
         self.assertTrue(fixture["deterministic_gateway_required"])
         self.assertFalse(fixture["risk_approval_allowed"])
+        self.assertFalse(fixture["execution_allowed"])
+
+    def test_signal_classification_cannot_create_order_intent(self):
+        fixture = self._fixture("prediction_market_signal_classification")
+
+        self.assertFalse(fixture["order_intent_allowed"])
+        self.assertFalse(fixture["execution_allowed"])
+
+    def test_advisory_kelly_sizing_cannot_approve_risk_or_execution(self):
+        fixture = self._fixture("advisory_kelly_sizing")
+
+        self.assertTrue(fixture["advisory_only"])
+        self.assertFalse(fixture["risk_approval_allowed"])
+        self.assertFalse(fixture["execution_allowed"])
+
+    def test_signal_pipeline_status_is_local_only(self):
+        fixture = self._fixture("signal_pipeline_status")
+
+        self.assertFalse(fixture["network_allowed"])
         self.assertFalse(fixture["execution_allowed"])
 
     def test_missing_required_fields_are_rejected(self):
