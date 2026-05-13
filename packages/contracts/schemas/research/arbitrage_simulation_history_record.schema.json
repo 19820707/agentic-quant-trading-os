@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/arbitrage_simulation_history_record.schema.json",
+  "$comment": "ArbitrageSimulationHistoryRecord records local simulation outcomes only.",
+  "title": "ArbitrageSimulationHistoryRecord",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "arbitrage_simulation_history_record_id",
+    "subject",
+    "simulation_run_label",
+    "observed_at",
+    "decision_path",
+    "simulated_outcome",
+    "simulated_pnl",
+    "simulation_only",
+    "production_approval_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "arbitrage_simulation_history_record_id": {
+      "type": "string",
+      "pattern": "^ashr_[A-Za-z0-9_\\-]+$"
+    },
+    "subject": {
+      "type": "string",
+      "minLength": 1
+    },
+    "simulation_run_label": {
+      "type": "string",
+      "minLength": 1
+    },
+    "observed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "decision_path": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "simulated_outcome": {
+      "type": "string",
+      "enum": [
+        "no_action",
+        "opportunity_seen",
+        "hedge_timeout",
+        "round_expired"
+      ]
+    },
+    "simulated_pnl": {
+      "type": "number"
+    },
+    "simulation_only": {
+      "type": "boolean",
+      "const": true
+    },
+    "production_approval_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}

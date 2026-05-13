@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/prediction_market_discovery_record.schema.json",
+  "$comment": "PredictionMarketDiscoveryRecord is local research metadata only.",
+  "title": "PredictionMarketDiscoveryRecord",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "prediction_market_discovery_record_id",
+    "subject",
+    "asset",
+    "market_slug",
+    "discovered_at",
+    "round_start",
+    "round_end",
+    "stale_after",
+    "discovery_source",
+    "network_allowed",
+    "credentials_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "prediction_market_discovery_record_id": {
+      "type": "string",
+      "pattern": "^pmdr_[A-Za-z0-9_\\-]+$"
+    },
+    "subject": {
+      "type": "string",
+      "minLength": 1
+    },
+    "asset": {
+      "type": "string",
+      "enum": [
+        "btc",
+        "eth",
+        "sol",
+        "xrp"
+      ]
+    },
+    "market_slug": {
+      "type": "string",
+      "minLength": 1
+    },
+    "discovered_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "round_start": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "round_end": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "stale_after": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "discovery_source": {
+      "type": "string",
+      "enum": [
+        "synthetic_fixture",
+        "manual_review",
+        "local_replay"
+      ]
+    },
+    "network_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "credentials_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}

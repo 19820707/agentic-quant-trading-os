@@ -20,6 +20,10 @@ FIXTURES = {
     "debate_transcript.valid.json": ("research", "debate_transcript"),
     "signal_candidate.valid.json": ("research", "signal_candidate"),
     "risk_review_input.valid.json": ("research", "risk_review_input"),
+    "prediction_market_discovery_record.valid.json": ("research", "prediction_market_discovery_record"),
+    "prediction_market_price_snapshot.valid.json": ("research", "prediction_market_price_snapshot"),
+    "arbitrage_simulation_history_record.valid.json": ("research", "arbitrage_simulation_history_record"),
+    "arbitrage_configuration_policy.valid.json": ("research", "arbitrage_configuration_policy"),
 }
 
 FORBIDDEN_KEYS = {
