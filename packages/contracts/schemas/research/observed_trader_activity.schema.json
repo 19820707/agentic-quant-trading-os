@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/observed_trader_activity.schema.json",
+  "$comment": "ObservedTraderActivity normalizes public research activity and cannot trigger action.",
+  "title": "ObservedTraderActivity",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "observed_trader_activity_id",
+    "copy_trade_target_observation_id",
+    "observed_at",
+    "sequence_id",
+    "activity_type",
+    "market_ref",
+    "side",
+    "price",
+    "size",
+    "stale_after",
+    "observation_only",
+    "network_allowed",
+    "credentials_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "observed_trader_activity_id": {
+      "type": "string",
+      "pattern": "^ota_[A-Za-z0-9_\\-]+$"
+    },
+    "copy_trade_target_observation_id": {
+      "type": "string",
+      "pattern": "^ctto_[A-Za-z0-9_\\-]+$"
+    },
+    "observed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "sequence_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "activity_type": {
+      "type": "string",
+      "enum": [
+        "trade",
+        "position_update",
+        "claim",
+        "unknown"
+      ]
+    },
+    "market_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "side": {
+      "type": "string",
+      "enum": [
+        "YES",
+        "NO",
+        "UNKNOWN"
+      ]
+    },
+    "price": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "size": {
+      "type": "number",
+      "minimum": 0
+    },
+    "stale_after": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "observation_only": {
+      "type": "boolean",
+      "const": true
+    },
+    "network_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "credentials_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/copy_trade_risk_review_input.schema.json",
+  "$comment": "CopyTradeRiskReviewInput is advisory research input only.",
+  "title": "CopyTradeRiskReviewInput",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "copy_trade_risk_review_input_id",
+    "copy_trade_simulation_record_id",
+    "created_at",
+    "risk_flags",
+    "concentration_warning",
+    "latency_warning",
+    "liquidity_warning",
+    "copycat_risk",
+    "deterministic_gateway_required",
+    "risk_approval_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "copy_trade_risk_review_input_id": {
+      "type": "string",
+      "pattern": "^ctri_[A-Za-z0-9_\\-]+$"
+    },
+    "copy_trade_simulation_record_id": {
+      "type": "string",
+      "pattern": "^ctsr_[A-Za-z0-9_\\-]+$"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "risk_flags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "concentration_warning": {
+      "type": "boolean"
+    },
+    "latency_warning": {
+      "type": "boolean"
+    },
+    "liquidity_warning": {
+      "type": "boolean"
+    },
+    "copycat_risk": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "unknown"
+      ]
+    },
+    "deterministic_gateway_required": {
+      "type": "boolean",
+      "const": true
+    },
+    "risk_approval_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "trader_reliability_profile_id": "trp_fixture_001",
+  "copy_trade_target_observation_id": "ctto_fixture_001",
+  "computed_at": "2026-01-01T00:24:00Z",
+  "sample_count": 0,
+  "win_rate_estimate": 0.0,
+  "drawdown_estimate": 0.0,
+  "recency_score": 0.0,
+  "data_quality_flags": [
+    "synthetic_fixture",
+    "insufficient_sample"
+  ],
+  "copy_authority_allowed": false,
+  "risk_approval_allowed": false,
+  "execution_allowed": false
+}

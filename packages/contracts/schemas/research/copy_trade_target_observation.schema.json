@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/copy_trade_target_observation.schema.json",
+  "$comment": "CopyTradeTargetObservation is a research observation only.",
+  "title": "CopyTradeTargetObservation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "copy_trade_target_observation_id",
+    "target_label",
+    "target_public_identifier",
+    "observed_at",
+    "source",
+    "observation_only",
+    "network_allowed",
+    "credentials_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "copy_trade_target_observation_id": {
+      "type": "string",
+      "pattern": "^ctto_[A-Za-z0-9_\\-]+$"
+    },
+    "target_label": {
+      "type": "string",
+      "minLength": 1
+    },
+    "target_public_identifier": {
+      "type": "string",
+      "minLength": 1
+    },
+    "observed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source": {
+      "type": "string",
+      "enum": [
+        "synthetic_fixture",
+        "manual_review",
+        "local_replay"
+      ]
+    },
+    "observation_only": {
+      "type": "boolean",
+      "const": true
+    },
+    "network_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "credentials_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}
