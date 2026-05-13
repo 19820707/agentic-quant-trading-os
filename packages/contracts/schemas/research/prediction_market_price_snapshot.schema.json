@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/prediction_market_price_snapshot.schema.json",
+  "$comment": "PredictionMarketPriceSnapshot is a local research snapshot, not an order book adapter.",
+  "title": "PredictionMarketPriceSnapshot",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "prediction_market_price_snapshot_id",
+    "subject",
+    "observed_at",
+    "yes_ask",
+    "no_ask",
+    "spread",
+    "liquidity_hint",
+    "source_lag_ms",
+    "snapshot_source",
+    "network_allowed",
+    "credentials_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "prediction_market_price_snapshot_id": {
+      "type": "string",
+      "pattern": "^pmps_[A-Za-z0-9_\\-]+$"
+    },
+    "subject": {
+      "type": "string",
+      "minLength": 1
+    },
+    "observed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "yes_ask": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "no_ask": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "spread": {
+      "type": "number",
+      "minimum": 0
+    },
+    "liquidity_hint": {
+      "type": "string",
+      "enum": [
+        "unknown",
+        "low",
+        "medium",
+        "high"
+      ]
+    },
+    "source_lag_ms": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "snapshot_source": {
+      "type": "string",
+      "enum": [
+        "synthetic_fixture",
+        "manual_review",
+        "local_replay"
+      ]
+    },
+    "network_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "credentials_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}

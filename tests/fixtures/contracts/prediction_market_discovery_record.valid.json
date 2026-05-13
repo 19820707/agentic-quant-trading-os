@@ -1,0 +1,17 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "prediction_market_discovery_record_id": "pmdr_fixture_001",
+  "subject": "synthetic short-window prediction market",
+  "asset": "btc",
+  "market_slug": "synthetic-btc-round",
+  "discovered_at": "2026-01-01T00:00:00Z",
+  "round_start": "2026-01-01T00:00:00Z",
+  "round_end": "2026-01-01T00:15:00Z",
+  "stale_after": "2026-01-01T00:01:00Z",
+  "discovery_source": "synthetic_fixture",
+  "network_allowed": false,
+  "credentials_allowed": false,
+  "execution_allowed": false
+}

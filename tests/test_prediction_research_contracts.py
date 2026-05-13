@@ -60,6 +60,34 @@ RESEARCH_CONTRACTS = {
         "invalid_enum": None,
         "timestamp_field": "created_at",
     },
+    "prediction_market_discovery_record": {
+        "fixture": "prediction_market_discovery_record.valid.json",
+        "primary_id": "prediction_market_discovery_record_id",
+        "enum_field": "asset",
+        "invalid_enum": "doge",
+        "timestamp_field": "discovered_at",
+    },
+    "prediction_market_price_snapshot": {
+        "fixture": "prediction_market_price_snapshot.valid.json",
+        "primary_id": "prediction_market_price_snapshot_id",
+        "enum_field": "liquidity_hint",
+        "invalid_enum": "INVALID_LIQUIDITY",
+        "timestamp_field": "observed_at",
+    },
+    "arbitrage_simulation_history_record": {
+        "fixture": "arbitrage_simulation_history_record.valid.json",
+        "primary_id": "arbitrage_simulation_history_record_id",
+        "enum_field": "simulated_outcome",
+        "invalid_enum": "EXECUTED",
+        "timestamp_field": "observed_at",
+    },
+    "arbitrage_configuration_policy": {
+        "fixture": "arbitrage_configuration_policy.valid.json",
+        "primary_id": "arbitrage_configuration_policy_id",
+        "enum_field": None,
+        "invalid_enum": None,
+        "timestamp_field": "created_at",
+    },
 }
 
 FORBIDDEN_SCHEMA_TEXT = (
@@ -117,6 +145,36 @@ class PredictionResearchContractTests(unittest.TestCase):
 
         self.assertTrue(fixture["deterministic_gateway_required"])
         self.assertFalse(fixture["risk_approval_allowed"])
+        self.assertFalse(fixture["execution_allowed"])
+
+    def test_prediction_market_discovery_is_local_only(self):
+        fixture = self._fixture("prediction_market_discovery_record")
+
+        self.assertFalse(fixture["network_allowed"])
+        self.assertFalse(fixture["credentials_allowed"])
+        self.assertFalse(fixture["execution_allowed"])
+
+    def test_prediction_market_price_snapshot_is_not_runtime_adapter(self):
+        fixture = self._fixture("prediction_market_price_snapshot")
+
+        self.assertFalse(fixture["network_allowed"])
+        self.assertFalse(fixture["credentials_allowed"])
+        self.assertFalse(fixture["execution_allowed"])
+
+    def test_arbitrage_simulation_history_is_non_executable(self):
+        fixture = self._fixture("arbitrage_simulation_history_record")
+
+        self.assertTrue(fixture["simulation_only"])
+        self.assertFalse(fixture["production_approval_allowed"])
+        self.assertFalse(fixture["execution_allowed"])
+
+    def test_arbitrage_configuration_policy_keeps_runtime_disabled(self):
+        fixture = self._fixture("arbitrage_configuration_policy")
+
+        self.assertFalse(fixture["secret_material_allowed"])
+        self.assertFalse(fixture["network_allowed"])
+        self.assertFalse(fixture["runtime_enabled"])
+        self.assertFalse(fixture["production_enabled"])
         self.assertFalse(fixture["execution_allowed"])
 
     def test_missing_required_fields_are_rejected(self):

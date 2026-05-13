@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/arbitrage_configuration_policy.schema.json",
+  "$comment": "ArbitrageConfigurationPolicy describes local research thresholds only.",
+  "title": "ArbitrageConfigurationPolicy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "arbitrage_configuration_policy_id",
+    "subject",
+    "created_at",
+    "max_assets",
+    "polling_interval_ms",
+    "observation_window_minutes",
+    "move_threshold_pct",
+    "combined_cost_target",
+    "secret_material_allowed",
+    "network_allowed",
+    "runtime_enabled",
+    "production_enabled",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "arbitrage_configuration_policy_id": {
+      "type": "string",
+      "pattern": "^acp_[A-Za-z0-9_\\-]+$"
+    },
+    "subject": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "max_assets": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "polling_interval_ms": {
+      "type": "integer",
+      "minimum": 1000
+    },
+    "observation_window_minutes": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "move_threshold_pct": {
+      "type": "number",
+      "minimum": 0
+    },
+    "combined_cost_target": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "secret_material_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "network_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "runtime_enabled": {
+      "type": "boolean",
+      "const": false
+    },
+    "production_enabled": {
+      "type": "boolean",
+      "const": false
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}

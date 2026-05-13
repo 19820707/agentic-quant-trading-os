@@ -93,6 +93,8 @@ jobs:
         run: python -m unittest discover -s tests -p "test_polymarket_skills_reference_review.py"
       - name: Run Trading-Agent-Polymarket reference review tests
         run: python -m unittest discover -s tests -p "test_trading_agent_polymarket_reference_review.py"
+      - name: Run SXai prediction-market-arbitrage lifecycle reference review tests
+        run: python -m unittest discover -s tests -p "test_sxai_prediction_market_arbitrage_lifecycle_reference_review.py"
 
   secret-artifact-audit:
     name: Secret and artifact hygiene audit

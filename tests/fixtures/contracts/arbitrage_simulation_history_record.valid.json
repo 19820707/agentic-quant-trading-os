@@ -1,0 +1,20 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "arbitrage_simulation_history_record_id": "ashr_fixture_001",
+  "subject": "synthetic arbitrage simulation history",
+  "simulation_run_label": "synthetic_round_replay_001",
+  "observed_at": "2026-01-01T00:02:00Z",
+  "decision_path": [
+    "round_discovered",
+    "price_snapshot_recorded",
+    "opportunity_seen",
+    "no_action_taken"
+  ],
+  "simulated_outcome": "opportunity_seen",
+  "simulated_pnl": 0.0,
+  "simulation_only": true,
+  "production_approval_allowed": false,
+  "execution_allowed": false
+}
