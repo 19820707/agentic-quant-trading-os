@@ -43,6 +43,17 @@ class ContractRegistryTests(unittest.TestCase):
                 "debate_transcript",
                 "signal_candidate",
                 "risk_review_input",
+                "agent_orchestration_plan",
+                "agent_role_assignment",
+                "agent_handoff_record",
+                "agent_consensus_record",
+                "swarm_topology_policy",
+                "agent_federation_policy",
+                "agent_memory_policy",
+                "mcp_tool_registration_policy",
+                "background_worker_policy",
+                "agent_cost_budget_policy",
+                "prompt_injection_review",
             }.issubset(names)
         )
 
