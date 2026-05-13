@@ -1,0 +1,14 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "arbitrage_simulation_run_id": "asr_fixture_001",
+  "subject": "synthetic arbitrage simulation",
+  "simulated_at": "2026-01-01T00:13:00Z",
+  "simulation_only": true,
+  "opportunities_count": 2,
+  "simulated_actions_count": 0,
+  "simulated_pnl": 0.0,
+  "production_approval_allowed": false,
+  "execution_allowed": false
+}

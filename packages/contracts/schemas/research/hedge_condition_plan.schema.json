@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/hedge_condition_plan.schema.json",
+  "$comment": "HedgeConditionPlan is a non-runtime research plan.",
+  "title": "HedgeConditionPlan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "hedge_condition_plan_id",
+    "subject",
+    "created_at",
+    "first_leg_reference_price",
+    "opposite_leg_max_price",
+    "combined_cost_limit",
+    "timeout_seconds",
+    "hedge_execution_allowed",
+    "production_approval_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "hedge_condition_plan_id": {
+      "type": "string",
+      "pattern": "^hcp_[A-Za-z0-9_\\-]+$"
+    },
+    "subject": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "first_leg_reference_price": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "opposite_leg_max_price": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "combined_cost_limit": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "timeout_seconds": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "hedge_execution_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "production_approval_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}

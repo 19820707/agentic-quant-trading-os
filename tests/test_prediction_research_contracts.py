@@ -60,6 +60,48 @@ RESEARCH_CONTRACTS = {
         "invalid_enum": None,
         "timestamp_field": "created_at",
     },
+    "two_leg_arbitrage_observation": {
+        "fixture": "two_leg_arbitrage_observation.valid.json",
+        "primary_id": "two_leg_arbitrage_observation_id",
+        "enum_field": None,
+        "invalid_enum": None,
+        "timestamp_field": "observed_at",
+    },
+    "sudden_move_observation": {
+        "fixture": "sudden_move_observation.valid.json",
+        "primary_id": "sudden_move_observation_id",
+        "enum_field": None,
+        "invalid_enum": None,
+        "timestamp_field": "observed_at",
+    },
+    "hedge_condition_plan": {
+        "fixture": "hedge_condition_plan.valid.json",
+        "primary_id": "hedge_condition_plan_id",
+        "enum_field": None,
+        "invalid_enum": None,
+        "timestamp_field": "created_at",
+    },
+    "market_round_lifecycle": {
+        "fixture": "market_round_lifecycle.valid.json",
+        "primary_id": "market_round_lifecycle_id",
+        "enum_field": "settlement_status",
+        "invalid_enum": "INVALID_STATUS",
+        "timestamp_field": "round_start",
+    },
+    "arbitrage_simulation_run": {
+        "fixture": "arbitrage_simulation_run.valid.json",
+        "primary_id": "arbitrage_simulation_run_id",
+        "enum_field": None,
+        "invalid_enum": None,
+        "timestamp_field": "simulated_at",
+    },
+    "arbitrage_observation_audit": {
+        "fixture": "arbitrage_observation_audit.valid.json",
+        "primary_id": "arbitrage_observation_audit_id",
+        "enum_field": "audit_status",
+        "invalid_enum": "INVALID_STATUS",
+        "timestamp_field": "audited_at",
+    },
 }
 
 FORBIDDEN_SCHEMA_TEXT = (
@@ -117,6 +159,39 @@ class PredictionResearchContractTests(unittest.TestCase):
 
         self.assertTrue(fixture["deterministic_gateway_required"])
         self.assertFalse(fixture["risk_approval_allowed"])
+        self.assertFalse(fixture["execution_allowed"])
+
+    def test_arbitrage_observation_contracts_are_non_executable(self):
+        for name in (
+            "two_leg_arbitrage_observation",
+            "sudden_move_observation",
+            "market_round_lifecycle",
+        ):
+            with self.subTest(schema=name):
+                fixture = self._fixture(name)
+                self.assertFalse(fixture["execution_allowed"])
+                if "observation_only" in fixture:
+                    self.assertTrue(fixture["observation_only"])
+
+    def test_hedge_condition_plan_cannot_execute_hedge(self):
+        fixture = self._fixture("hedge_condition_plan")
+
+        self.assertFalse(fixture["hedge_execution_allowed"])
+        self.assertFalse(fixture["production_approval_allowed"])
+        self.assertFalse(fixture["execution_allowed"])
+
+    def test_arbitrage_simulation_is_simulation_only(self):
+        fixture = self._fixture("arbitrage_simulation_run")
+
+        self.assertTrue(fixture["simulation_only"])
+        self.assertFalse(fixture["production_approval_allowed"])
+        self.assertFalse(fixture["execution_allowed"])
+
+    def test_arbitrage_audit_has_no_order_or_wallet_references(self):
+        fixture = self._fixture("arbitrage_observation_audit")
+
+        self.assertFalse(fixture["order_reference_allowed"])
+        self.assertFalse(fixture["wallet_reference_allowed"])
         self.assertFalse(fixture["execution_allowed"])
 
     def test_missing_required_fields_are_rejected(self):

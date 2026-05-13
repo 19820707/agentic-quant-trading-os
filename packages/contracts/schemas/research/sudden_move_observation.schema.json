@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/sudden_move_observation.schema.json",
+  "$comment": "SuddenMoveObservation records local research signals only.",
+  "title": "SuddenMoveObservation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "sudden_move_observation_id",
+    "subject",
+    "observed_at",
+    "window_minutes",
+    "move_threshold",
+    "observed_move",
+    "triggered",
+    "observation_only",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sudden_move_observation_id": {
+      "type": "string",
+      "pattern": "^smo_[A-Za-z0-9_\\-]+$"
+    },
+    "subject": {
+      "type": "string",
+      "minLength": 1
+    },
+    "observed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "window_minutes": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "move_threshold": {
+      "type": "number",
+      "minimum": 0
+    },
+    "observed_move": {
+      "type": "number"
+    },
+    "triggered": {
+      "type": "boolean"
+    },
+    "observation_only": {
+      "type": "boolean",
+      "const": true
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}

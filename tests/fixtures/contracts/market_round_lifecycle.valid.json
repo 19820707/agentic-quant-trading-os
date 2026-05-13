@@ -1,0 +1,13 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "market_round_lifecycle_id": "mrl_fixture_001",
+  "subject": "synthetic prediction market round",
+  "round_start": "2026-01-01T00:00:00Z",
+  "round_end": "2026-01-01T01:00:00Z",
+  "observation_window_start": "2026-01-01T00:05:00Z",
+  "observation_window_end": "2026-01-01T00:55:00Z",
+  "settlement_status": "unknown",
+  "execution_allowed": false
+}

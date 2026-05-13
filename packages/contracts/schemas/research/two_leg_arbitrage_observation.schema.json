@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/two_leg_arbitrage_observation.schema.json",
+  "$comment": "TwoLegArbitrageObservation is research-only and non-executable.",
+  "title": "TwoLegArbitrageObservation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "two_leg_arbitrage_observation_id",
+    "subject",
+    "observed_at",
+    "leg_one_label",
+    "leg_one_price",
+    "leg_two_label",
+    "leg_two_price",
+    "combined_cost",
+    "target_max_cost",
+    "structural_edge",
+    "observation_only",
+    "production_approval_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "two_leg_arbitrage_observation_id": {
+      "type": "string",
+      "pattern": "^tlao_[A-Za-z0-9_\\-]+$"
+    },
+    "subject": {
+      "type": "string",
+      "minLength": 1
+    },
+    "observed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "leg_one_label": {
+      "type": "string",
+      "minLength": 1
+    },
+    "leg_one_price": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "leg_two_label": {
+      "type": "string",
+      "minLength": 1
+    },
+    "leg_two_price": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "combined_cost": {
+      "type": "number",
+      "minimum": 0
+    },
+    "target_max_cost": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "structural_edge": {
+      "type": "number"
+    },
+    "observation_only": {
+      "type": "boolean",
+      "const": true
+    },
+    "production_approval_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}

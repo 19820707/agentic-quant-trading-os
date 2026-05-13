@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/arbitrage_simulation_run.schema.json",
+  "$comment": "ArbitrageSimulationRun is local research simulation output only.",
+  "title": "ArbitrageSimulationRun",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "arbitrage_simulation_run_id",
+    "subject",
+    "simulated_at",
+    "simulation_only",
+    "opportunities_count",
+    "simulated_actions_count",
+    "simulated_pnl",
+    "production_approval_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "arbitrage_simulation_run_id": {
+      "type": "string",
+      "pattern": "^asr_[A-Za-z0-9_\\-]+$"
+    },
+    "subject": {
+      "type": "string",
+      "minLength": 1
+    },
+    "simulated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "simulation_only": {
+      "type": "boolean",
+      "const": true
+    },
+    "opportunities_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "simulated_actions_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "simulated_pnl": {
+      "type": "number"
+    },
+    "production_approval_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}
