@@ -1,0 +1,39 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_feature_contracts_001",
+  "correlation_id": "corr_feature_contracts_001",
+  "leakage_review_report_id": "lrr_fixture_001",
+  "dataset_lineage_record_id": "dlr_fixture_001",
+  "reviewed_at": "2026-01-08T00:01:00Z",
+  "review_status": "passed_research_only",
+  "checks": [
+    {
+      "check_name": "event_timestamp_present",
+      "result": "PASS",
+      "severity": "INFO",
+      "reason": "Fixture includes event_timestamp field mapping."
+    },
+    {
+      "check_name": "created_timestamp_present",
+      "result": "PASS",
+      "severity": "INFO",
+      "reason": "Fixture includes created_timestamp field mapping."
+    },
+    {
+      "check_name": "available_timestamp_present",
+      "result": "PASS",
+      "severity": "INFO",
+      "reason": "Fixture includes available_timestamp field mapping."
+    },
+    {
+      "check_name": "future_data_join_guard",
+      "result": "PASS",
+      "severity": "INFO",
+      "reason": "Fixture documents point-in-time join guard requirement."
+    }
+  ],
+  "leakage_detected": false,
+  "model_training_approval_allowed": false,
+  "production_approval_allowed": false,
+  "execution_allowed": false
+}

@@ -1,0 +1,24 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_feature_contracts_001",
+  "correlation_id": "corr_feature_contracts_001",
+  "dataset_lineage_record_id": "dlr_fixture_001",
+  "dataset_id": "dataset_fixture_prediction_features",
+  "dataset_version": "0.1.0-fixture",
+  "created_at": "2026-01-08T00:00:00Z",
+  "event_timestamp_field": "event_timestamp",
+  "created_timestamp_field": "created_timestamp",
+  "available_timestamp_field": "available_timestamp",
+  "source_snapshots": [
+    {
+      "source_id": "fixture_market_data",
+      "source_type": "fixture",
+      "snapshot_id": "snapshot_fixture_001",
+      "as_of_timestamp": "2026-01-07T23:59:00Z"
+    }
+  ],
+  "point_in_time_validated": true,
+  "leakage_review_required": true,
+  "model_training_approval_allowed": false,
+  "execution_allowed": false
+}

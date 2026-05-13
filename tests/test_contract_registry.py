@@ -31,6 +31,16 @@ class ContractRegistryTests(unittest.TestCase):
 
         self.assertIn("audit_event", names)
 
+    def test_lists_feature_lineage_contracts_under_features(self):
+        names = {entry.name for entry in self.registry.list_schemas("features")}
+
+        self.assertTrue(
+            {
+                "dataset_lineage_record",
+                "leakage_review_report",
+            }.issubset(names)
+        )
+
     def test_lists_research_contracts_under_research(self):
         names = {entry.name for entry in self.registry.list_schemas("research")}
 
