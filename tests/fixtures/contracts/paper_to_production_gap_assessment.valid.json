@@ -1,0 +1,17 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "paper_to_production_gap_assessment_id": "ptpga_fixture_001",
+  "subject": "Synthetic paper to production gap assessment",
+  "assessed_at": "2026-01-07T00:03:00Z",
+  "gap_severity": "high",
+  "gaps": [
+    "slippage_assumption",
+    "liquidity_assumption",
+    "human_governance",
+    "rollback_plan"
+  ],
+  "production_approval_allowed": false,
+  "execution_allowed": false
+}

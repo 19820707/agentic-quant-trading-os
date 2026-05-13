@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/research_escalation_decision.schema.json",
+  "$comment": "ResearchEscalationDecision records local research tier escalation. It does not call LLM providers or execute trades.",
+  "title": "ResearchEscalationDecision",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "research_escalation_decision_id",
+    "subject",
+    "created_at",
+    "current_tier",
+    "proposed_tier",
+    "decision",
+    "reason",
+    "network_allowed",
+    "credentials_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "research_escalation_decision_id": {
+      "type": "string",
+      "pattern": "^red_[A-Za-z0-9_\\-]+$"
+    },
+    "subject": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "current_tier": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 3
+    },
+    "proposed_tier": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 3
+    },
+    "decision": {
+      "type": "string",
+      "enum": [
+        "escalate",
+        "hold",
+        "reject",
+        "require_human_review"
+      ]
+    },
+    "reason": {
+      "type": "string",
+      "minLength": 1
+    },
+    "network_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "credentials_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}

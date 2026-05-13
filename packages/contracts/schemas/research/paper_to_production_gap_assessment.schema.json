@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/paper_to_production_gap_assessment.schema.json",
+  "$comment": "PaperToProductionGapAssessment records gaps between paper results and production readiness. It cannot approve production.",
+  "title": "PaperToProductionGapAssessment",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "paper_to_production_gap_assessment_id",
+    "subject",
+    "assessed_at",
+    "gap_severity",
+    "gaps",
+    "production_approval_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "paper_to_production_gap_assessment_id": {
+      "type": "string",
+      "pattern": "^ptpga_[A-Za-z0-9_\\-]+$"
+    },
+    "subject": {
+      "type": "string",
+      "minLength": 1
+    },
+    "assessed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "gap_severity": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ]
+    },
+    "gaps": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "enum": [
+          "slippage_assumption",
+          "liquidity_assumption",
+          "latency_assumption",
+          "venue_behavior",
+          "operational_monitoring",
+          "human_governance",
+          "rollback_plan"
+        ]
+      }
+    },
+    "production_approval_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}

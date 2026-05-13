@@ -1,0 +1,15 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "human_research_review_request_id": "hrr_fixture_001",
+  "subject": "Synthetic human research review request",
+  "created_at": "2026-01-07T00:02:00Z",
+  "review_reason": "Synthetic fixture has ambiguity and requires governance review.",
+  "priority": "high",
+  "evidence_ids": [
+    "fixture_evidence_001"
+  ],
+  "decision_pending": true,
+  "execution_allowed": false
+}

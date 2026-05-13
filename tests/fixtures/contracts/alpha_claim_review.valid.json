@@ -1,0 +1,17 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "alpha_claim_review_id": "acr_fixture_001",
+  "claim": "Synthetic research claim has durable alpha.",
+  "reviewed_at": "2026-01-07T00:01:00Z",
+  "support_level": "unsupported",
+  "unsupported_claims": [
+    "No production evidence exists.",
+    "Paper results do not prove durable alpha."
+  ],
+  "evidence_summary": "Fixture review blocks overclaiming and keeps approvals false.",
+  "production_approval_allowed": false,
+  "risk_approval_allowed": false,
+  "execution_allowed": false
+}

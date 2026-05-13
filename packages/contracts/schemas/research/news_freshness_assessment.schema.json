@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/news_freshness_assessment.schema.json",
+  "$comment": "NewsFreshnessAssessment records local freshness metadata. It does not fetch news or call networks.",
+  "title": "NewsFreshnessAssessment",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "news_freshness_assessment_id",
+    "news_reference_id",
+    "assessed_at",
+    "source_timestamp",
+    "retrieved_at",
+    "stale_after_seconds",
+    "is_stale",
+    "network_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "news_freshness_assessment_id": {
+      "type": "string",
+      "pattern": "^nfa_[A-Za-z0-9_\\-]+$"
+    },
+    "news_reference_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "assessed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source_timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "retrieved_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "stale_after_seconds": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "is_stale": {
+      "type": "boolean"
+    },
+    "network_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}
