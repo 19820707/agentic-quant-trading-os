@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/agent_handoff_record.schema.json",
+  "$comment": "AgentHandoffRecord captures supervised handoff context only.",
+  "title": "AgentHandoffRecord",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "trace_id", "correlation_id", "agent_handoff_record_id", "created_at", "from_role", "to_role", "handoff_reason", "context_summary", "manual_review_required", "payload_redacted", "execution_allowed"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "agent_handoff_record_id": {"type": "string", "pattern": "^ahr_[A-Za-z0-9_\\-]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "from_role": {"type": "string", "minLength": 1},
+    "to_role": {"type": "string", "minLength": 1},
+    "handoff_reason": {"type": "string", "minLength": 1},
+    "context_summary": {"type": "string", "minLength": 1},
+    "manual_review_required": {"type": "boolean", "const": true},
+    "payload_redacted": {"type": "boolean", "const": true},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

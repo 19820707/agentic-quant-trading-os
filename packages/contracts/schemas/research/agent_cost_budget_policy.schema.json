@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/agent_cost_budget_policy.schema.json",
+  "$comment": "AgentCostBudgetPolicy defines local research budget caps without runtime spend authority.",
+  "title": "AgentCostBudgetPolicy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "trace_id", "correlation_id", "agent_cost_budget_policy_id", "created_at", "max_tokens_per_task", "max_cost_per_task", "budget_breach_behavior", "autonomous_spend_allowed", "execution_allowed"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "agent_cost_budget_policy_id": {"type": "string", "pattern": "^acbp_[A-Za-z0-9_\\-]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "max_tokens_per_task": {"type": "integer", "minimum": 0},
+    "max_cost_per_task": {"type": "number", "minimum": 0},
+    "budget_breach_behavior": {"type": "string", "enum": ["fail_closed", "manual_review_required"]},
+    "autonomous_spend_allowed": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

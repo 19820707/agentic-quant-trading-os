@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/agent_orchestration_plan.schema.json",
+  "$comment": "AgentOrchestrationPlan is a research plan only and does not launch agents.",
+  "title": "AgentOrchestrationPlan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "trace_id", "correlation_id", "agent_orchestration_plan_id", "created_at", "objective", "max_agents", "coordination_mode", "autonomous_execution_allowed", "network_allowed", "credentials_allowed", "trading_allowed", "execution_allowed"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "agent_orchestration_plan_id": {"type": "string", "pattern": "^aop_[A-Za-z0-9_\\-]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "objective": {"type": "string", "minLength": 1},
+    "max_agents": {"type": "integer", "minimum": 1},
+    "coordination_mode": {"type": "string", "enum": ["single_agent", "supervised_team", "manual_review_only"]},
+    "autonomous_execution_allowed": {"type": "boolean", "const": false},
+    "network_allowed": {"type": "boolean", "const": false},
+    "credentials_allowed": {"type": "boolean", "const": false},
+    "trading_allowed": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

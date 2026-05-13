@@ -1,0 +1,13 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "prompt_injection_review_id": "pir_fixture_001",
+  "reviewed_at": "2026-01-01T01:10:00Z",
+  "source_label": "synthetic_external_text",
+  "finding_level": "blocked",
+  "sanitization_required": true,
+  "tool_call_blocked": true,
+  "credential_exposure_detected": false,
+  "execution_allowed": false
+}

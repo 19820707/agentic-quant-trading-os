@@ -1,0 +1,21 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "agent_role_assignment_id": "ara_fixture_001",
+  "agent_orchestration_plan_id": "aop_fixture_001",
+  "assigned_at": "2026-01-01T01:01:00Z",
+  "role_name": "synthetic reviewer",
+  "allowed_scope": [
+    "read_contract_fixtures",
+    "summarize_risk"
+  ],
+  "forbidden_scope": [
+    "call_network",
+    "access_credentials",
+    "trade"
+  ],
+  "tool_use_allowed": false,
+  "autonomous_action_allowed": false,
+  "execution_allowed": false
+}
