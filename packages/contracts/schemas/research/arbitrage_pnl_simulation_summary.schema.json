@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/arbitrage_pnl_simulation_summary.schema.json",
+  "$comment": "ArbitragePnLSimulationSummary is simulated research output only.",
+  "title": "ArbitragePnLSimulationSummary",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "arbitrage_pnl_simulation_summary_id",
+    "subject",
+    "computed_at",
+    "period_pnl",
+    "total_pnl",
+    "fees_estimate",
+    "slippage_estimate",
+    "simulation_only",
+    "production_approval_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "arbitrage_pnl_simulation_summary_id": {"type": "string", "pattern": "^apss_[A-Za-z0-9_\\-]+$"},
+    "subject": {"type": "string", "minLength": 1},
+    "computed_at": {"type": "string", "format": "date-time"},
+    "period_pnl": {"type": "number"},
+    "total_pnl": {"type": "number"},
+    "fees_estimate": {"type": "number", "minimum": 0},
+    "slippage_estimate": {"type": "number", "minimum": 0},
+    "simulation_only": {"type": "boolean", "const": true},
+    "production_approval_allowed": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/strategy_history_event.schema.json",
+  "$comment": "StrategyHistoryEvent is a local research audit event without secrets.",
+  "title": "StrategyHistoryEvent",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "strategy_history_event_id",
+    "event_type",
+    "observed_at",
+    "decision_context",
+    "simulated_result",
+    "secrets_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "strategy_history_event_id": {"type": "string", "pattern": "^she_[A-Za-z0-9_\\-]+$"},
+    "event_type": {"type": "string", "enum": ["observation", "simulation", "policy_block", "audit_note"]},
+    "observed_at": {"type": "string", "format": "date-time"},
+    "decision_context": {"type": "string", "minLength": 1},
+    "simulated_result": {"type": "string", "minLength": 1},
+    "secrets_allowed": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

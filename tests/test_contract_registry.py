@@ -43,6 +43,13 @@ class ContractRegistryTests(unittest.TestCase):
                 "debate_transcript",
                 "signal_candidate",
                 "risk_review_input",
+                "order_book_imbalance_observation",
+                "trend_state_observation",
+                "trend_flip_observation",
+                "preflight_safety_review",
+                "simulation_mode_policy",
+                "arbitrage_pnl_simulation_summary",
+                "strategy_history_event",
             }.issubset(names)
         )
 

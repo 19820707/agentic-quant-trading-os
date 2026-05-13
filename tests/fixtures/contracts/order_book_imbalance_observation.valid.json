@@ -1,0 +1,16 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "order_book_imbalance_observation_id": "obio_fixture_001",
+  "subject": "synthetic order book imbalance",
+  "observed_at": "2026-01-01T00:30:00Z",
+  "depth_levels": 5,
+  "yes_bid_depth": 100.0,
+  "no_bid_depth": 80.0,
+  "imbalance_score": 0.11,
+  "trend_state": "uptrend",
+  "observation_only": true,
+  "network_allowed": false,
+  "execution_allowed": false
+}

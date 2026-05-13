@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/simulation_mode_policy.schema.json",
+  "$comment": "SimulationModePolicy keeps strategy research in local simulation.",
+  "title": "SimulationModePolicy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "simulation_mode_policy_id",
+    "created_at",
+    "simulation_required",
+    "production_mode_allowed",
+    "runtime_order_allowed",
+    "settlement_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "simulation_mode_policy_id": {"type": "string", "pattern": "^smp_[A-Za-z0-9_\\-]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "simulation_required": {"type": "boolean", "const": true},
+    "production_mode_allowed": {"type": "boolean", "const": false},
+    "runtime_order_allowed": {"type": "boolean", "const": false},
+    "settlement_allowed": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

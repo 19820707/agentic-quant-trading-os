@@ -17,6 +17,13 @@ The `research` schema domain contains:
 - `DebateTranscript`: YES/NO, advisory risk or governance debate record
 - `SignalCandidate`: non-executable candidate signal
 - `RiskReviewInput`: advisory input for later deterministic risk review
+- `OrderBookImbalanceObservation`: local order-book imbalance research context
+- `TrendStateObservation`: local trend-state research record
+- `TrendFlipObservation`: non-executable trend-flip event
+- `PreflightSafetyReview`: fail-closed preflight checklist record
+- `SimulationModePolicy`: local simulation-only policy record
+- `ArbitragePnLSimulationSummary`: simulated PnL summary
+- `StrategyHistoryEvent`: local strategy history audit record
 
 ## Safety Boundary
 
@@ -30,6 +37,9 @@ These contracts may describe:
 - debate summaries
 - hypothesis state
 - advisory notes
+- imbalance and trend state
+- simulated PnL
+- local strategy history
 
 They must not contain:
 
@@ -42,6 +52,9 @@ They must not contain:
 - live execution approval
 - risk approval
 - broker/exchange requests
+- account operations
+- production preflight checks
+- settlement operations
 
 ## Execution Boundary
 
@@ -50,6 +63,8 @@ They must not contain:
 `RiskReviewInput` is not a `RiskDecision`.
 
 No research contract can approve risk, approve execution, submit orders, cancel orders, transfer funds or withdraw funds.
+
+Trend and preflight research contracts cannot place orders, switch positions, settle markets, enable accounts, run production checks or approve execution. They can only describe local observations, fail-closed safety policy and simulation outcomes.
 
 Any future path from a research contract toward an order must pass through separately approved services and deterministic-risk-gateway.
 
