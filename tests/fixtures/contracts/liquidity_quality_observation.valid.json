@@ -1,0 +1,15 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "liquidity_quality_observation_id": "lqo_fixture_001",
+  "subject": "synthetic liquidity quality",
+  "observed_at": "2026-01-01T00:44:00Z",
+  "depth_score": 0.3,
+  "spread_score": 0.4,
+  "staleness_score": 0.1,
+  "liquidity_quality": "unknown",
+  "observation_only": true,
+  "network_allowed": false,
+  "execution_allowed": false
+}

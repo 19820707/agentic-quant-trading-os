@@ -17,6 +17,12 @@ The `research` schema domain contains:
 - `DebateTranscript`: YES/NO, advisory risk or governance debate record
 - `SignalCandidate`: non-executable candidate signal
 - `RiskReviewInput`: advisory input for later deterministic risk review
+- `PredictionMarketToolkitAssessment`: external toolkit capability and default-state assessment
+- `StrategyPatternClassification`: non-executable strategy pattern classification
+- `IntegrationReadinessAssessment`: external integration readiness and risk scoring
+- `MarketMakingResearchPolicy`: disabled market-making research policy
+- `LiquidityQualityObservation`: local liquidity quality research observation
+- `SpreadRiskEstimate`: spread and slippage risk estimate
 
 ## Safety Boundary
 
@@ -30,6 +36,10 @@ These contracts may describe:
 - debate summaries
 - hypothesis state
 - advisory notes
+- external toolkit governance
+- strategy classifications
+- liquidity quality
+- spread risk
 
 They must not contain:
 
@@ -42,6 +52,8 @@ They must not contain:
 - live execution approval
 - risk approval
 - broker/exchange requests
+- quote publication
+- inventory rebalancing
 
 ## Execution Boundary
 
@@ -50,6 +62,8 @@ They must not contain:
 `RiskReviewInput` is not a `RiskDecision`.
 
 No research contract can approve risk, approve execution, submit orders, cancel orders, transfer funds or withdraw funds.
+
+Prediction-market governance contracts cannot install toolkits, enable runtime adapters, publish quotes, rebalance inventory, approve risk or approve execution. They only classify and score external tools, strategy patterns, liquidity quality and spread risk.
 
 Any future path from a research contract toward an order must pass through separately approved services and deterministic-risk-gateway.
 

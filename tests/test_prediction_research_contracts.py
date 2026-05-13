@@ -60,6 +60,48 @@ RESEARCH_CONTRACTS = {
         "invalid_enum": None,
         "timestamp_field": "created_at",
     },
+    "prediction_market_toolkit_assessment": {
+        "fixture": "prediction_market_toolkit_assessment.valid.json",
+        "primary_id": "prediction_market_toolkit_assessment_id",
+        "enum_field": "default_state",
+        "invalid_enum": "RUNTIME_APPROVED",
+        "timestamp_field": "assessed_at",
+    },
+    "strategy_pattern_classification": {
+        "fixture": "strategy_pattern_classification.valid.json",
+        "primary_id": "strategy_pattern_classification_id",
+        "enum_field": "pattern_type",
+        "invalid_enum": "ORDER_EXECUTION",
+        "timestamp_field": "classified_at",
+    },
+    "integration_readiness_assessment": {
+        "fixture": "integration_readiness_assessment.valid.json",
+        "primary_id": "integration_readiness_assessment_id",
+        "enum_field": "approval_recommendation",
+        "invalid_enum": "APPROVE_RUNTIME",
+        "timestamp_field": "assessed_at",
+    },
+    "market_making_research_policy": {
+        "fixture": "market_making_research_policy.valid.json",
+        "primary_id": "market_making_research_policy_id",
+        "enum_field": None,
+        "invalid_enum": None,
+        "timestamp_field": "created_at",
+    },
+    "liquidity_quality_observation": {
+        "fixture": "liquidity_quality_observation.valid.json",
+        "primary_id": "liquidity_quality_observation_id",
+        "enum_field": "liquidity_quality",
+        "invalid_enum": "EXECUTABLE",
+        "timestamp_field": "observed_at",
+    },
+    "spread_risk_estimate": {
+        "fixture": "spread_risk_estimate.valid.json",
+        "primary_id": "spread_risk_estimate_id",
+        "enum_field": "risk_level",
+        "invalid_enum": "APPROVED",
+        "timestamp_field": "estimated_at",
+    },
 }
 
 FORBIDDEN_SCHEMA_TEXT = (
@@ -118,6 +160,41 @@ class PredictionResearchContractTests(unittest.TestCase):
         self.assertTrue(fixture["deterministic_gateway_required"])
         self.assertFalse(fixture["risk_approval_allowed"])
         self.assertFalse(fixture["execution_allowed"])
+
+    def test_toolkit_governance_assessments_do_not_enable_runtime(self):
+        for name in ("prediction_market_toolkit_assessment", "integration_readiness_assessment"):
+            with self.subTest(schema=name):
+                fixture = self._fixture(name)
+                self.assertFalse(fixture["dependency_allowed"])
+                self.assertFalse(fixture["runtime_enabled"])
+                self.assertFalse(fixture["execution_allowed"])
+
+    def test_strategy_pattern_classification_stops_before_execution(self):
+        fixture = self._fixture("strategy_pattern_classification")
+
+        self.assertTrue(fixture["deterministic_gateway_required"])
+        self.assertFalse(fixture["order_intent_allowed"])
+        self.assertFalse(fixture["risk_approval_allowed"])
+        self.assertFalse(fixture["execution_allowed"])
+
+    def test_market_making_research_policy_cannot_publish_quotes(self):
+        fixture = self._fixture("market_making_research_policy")
+
+        self.assertFalse(fixture["inventory_rebalance_allowed"])
+        self.assertFalse(fixture["quote_publication_allowed"])
+        self.assertFalse(fixture["network_allowed"])
+        self.assertFalse(fixture["credentials_allowed"])
+        self.assertFalse(fixture["execution_allowed"])
+
+    def test_liquidity_and_spread_contracts_are_research_only(self):
+        liquidity = self._fixture("liquidity_quality_observation")
+        spread = self._fixture("spread_risk_estimate")
+
+        self.assertTrue(liquidity["observation_only"])
+        self.assertFalse(liquidity["network_allowed"])
+        self.assertFalse(liquidity["execution_allowed"])
+        self.assertFalse(spread["risk_approval_allowed"])
+        self.assertFalse(spread["execution_allowed"])
 
     def test_missing_required_fields_are_rejected(self):
         for name in RESEARCH_CONTRACTS:

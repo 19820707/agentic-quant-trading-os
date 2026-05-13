@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/integration_readiness_assessment.schema.json",
+  "$comment": "IntegrationReadinessAssessment scores external integration risk without approving runtime use.",
+  "title": "IntegrationReadinessAssessment",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "integration_readiness_assessment_id",
+    "tool_name",
+    "assessed_at",
+    "maturity_score",
+    "license_score",
+    "dependency_risk_score",
+    "credential_risk_score",
+    "execution_risk_score",
+    "testability_score",
+    "production_readiness",
+    "approval_recommendation",
+    "dependency_allowed",
+    "runtime_enabled",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "integration_readiness_assessment_id": {"type": "string", "pattern": "^ira_[A-Za-z0-9_\\-]+$"},
+    "tool_name": {"type": "string", "minLength": 1},
+    "assessed_at": {"type": "string", "format": "date-time"},
+    "maturity_score": {"type": "number", "minimum": 0, "maximum": 1},
+    "license_score": {"type": "number", "minimum": 0, "maximum": 1},
+    "dependency_risk_score": {"type": "number", "minimum": 0, "maximum": 1},
+    "credential_risk_score": {"type": "number", "minimum": 0, "maximum": 1},
+    "execution_risk_score": {"type": "number", "minimum": 0, "maximum": 1},
+    "testability_score": {"type": "number", "minimum": 0, "maximum": 1},
+    "production_readiness": {
+      "type": "string",
+      "enum": [
+        "not_ready",
+        "reference_only",
+        "research_only",
+        "paper_candidate",
+        "read_only_candidate"
+      ]
+    },
+    "approval_recommendation": {
+      "type": "string",
+      "enum": [
+        "reject",
+        "catalog_only",
+        "research_contracts_only",
+        "fake_adapter_review"
+      ]
+    },
+    "dependency_allowed": {"type": "boolean", "const": false},
+    "runtime_enabled": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

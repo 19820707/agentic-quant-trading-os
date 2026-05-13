@@ -1,0 +1,14 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "spread_risk_estimate_id": "sre_fixture_001",
+  "subject": "synthetic spread risk",
+  "estimated_at": "2026-01-01T00:45:00Z",
+  "spread": 0.06,
+  "slippage_estimate": 0.02,
+  "stale_data_risk": true,
+  "risk_level": "unknown",
+  "risk_approval_allowed": false,
+  "execution_allowed": false
+}

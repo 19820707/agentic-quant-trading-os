@@ -1,0 +1,14 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "market_making_research_policy_id": "mmrp_fixture_001",
+  "created_at": "2026-01-01T00:43:00Z",
+  "quoted_spread_target": 0.04,
+  "inventory_limit": 0.0,
+  "inventory_rebalance_allowed": false,
+  "quote_publication_allowed": false,
+  "network_allowed": false,
+  "credentials_allowed": false,
+  "execution_allowed": false
+}

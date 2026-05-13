@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/liquidity_quality_observation.schema.json",
+  "$comment": "LiquidityQualityObservation is local research context only.",
+  "title": "LiquidityQualityObservation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "liquidity_quality_observation_id",
+    "subject",
+    "observed_at",
+    "depth_score",
+    "spread_score",
+    "staleness_score",
+    "liquidity_quality",
+    "observation_only",
+    "network_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "liquidity_quality_observation_id": {"type": "string", "pattern": "^lqo_[A-Za-z0-9_\\-]+$"},
+    "subject": {"type": "string", "minLength": 1},
+    "observed_at": {"type": "string", "format": "date-time"},
+    "depth_score": {"type": "number", "minimum": 0, "maximum": 1},
+    "spread_score": {"type": "number", "minimum": 0, "maximum": 1},
+    "staleness_score": {"type": "number", "minimum": 0, "maximum": 1},
+    "liquidity_quality": {"type": "string", "enum": ["unknown", "poor", "acceptable", "strong"]},
+    "observation_only": {"type": "boolean", "const": true},
+    "network_allowed": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

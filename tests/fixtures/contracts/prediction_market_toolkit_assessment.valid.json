@@ -1,0 +1,16 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "prediction_market_toolkit_assessment_id": "pmta_fixture_001",
+  "tool_name": "synthetic prediction market toolkit",
+  "repository_url": "https://github.com/haredoggy/Prediction-Markets-Trading-Bot-Toolkits",
+  "assessed_at": "2026-01-01T00:40:00Z",
+  "capability_category": "market_making_research",
+  "default_state": "reference_only",
+  "dependency_allowed": false,
+  "runtime_enabled": false,
+  "network_allowed": false,
+  "credentials_allowed": false,
+  "execution_allowed": false
+}

@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/prediction_market_toolkit_assessment.schema.json",
+  "$comment": "PredictionMarketToolkitAssessment catalogs external tooling without approving dependency or runtime use.",
+  "title": "PredictionMarketToolkitAssessment",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "prediction_market_toolkit_assessment_id",
+    "tool_name",
+    "repository_url",
+    "assessed_at",
+    "capability_category",
+    "default_state",
+    "dependency_allowed",
+    "runtime_enabled",
+    "network_allowed",
+    "credentials_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "prediction_market_toolkit_assessment_id": {"type": "string", "pattern": "^pmta_[A-Za-z0-9_\\-]+$"},
+    "tool_name": {"type": "string", "minLength": 1},
+    "repository_url": {"type": "string", "format": "uri"},
+    "assessed_at": {"type": "string", "format": "date-time"},
+    "capability_category": {
+      "type": "string",
+      "enum": [
+        "data_ingestion",
+        "market_discovery",
+        "signal_research",
+        "arbitrage_research",
+        "copy_trade_observation",
+        "market_making_research",
+        "risk_review",
+        "simulation",
+        "audit"
+      ]
+    },
+    "default_state": {
+      "type": "string",
+      "enum": [
+        "reference_only",
+        "research_only",
+        "fake_client_only",
+        "paper_candidate",
+        "read_only_candidate",
+        "future_execution_candidate"
+      ]
+    },
+    "dependency_allowed": {"type": "boolean", "const": false},
+    "runtime_enabled": {"type": "boolean", "const": false},
+    "network_allowed": {"type": "boolean", "const": false},
+    "credentials_allowed": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}
