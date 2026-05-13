@@ -1,0 +1,41 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_feature_contracts_001",
+  "correlation_id": "corr_feature_contracts_001",
+  "feature_view_contract_id": "fvc_fixture_001",
+  "feature_view_name": "prediction_market_signal_features",
+  "feature_view_version": "0.1.0-fixture",
+  "created_at": "2026-01-09T00:00:00Z",
+  "entity_keys": [
+    "market_id"
+  ],
+  "features": [
+    {
+      "name": "market_probability",
+      "dtype": "float",
+      "description": "Synthetic fixture market probability."
+    },
+    {
+      "name": "calibrated_probability",
+      "dtype": "float",
+      "description": "Synthetic fixture calibrated probability."
+    },
+    {
+      "name": "edge",
+      "dtype": "float",
+      "description": "Synthetic fixture calibrated probability minus market probability."
+    },
+    {
+      "name": "confidence",
+      "dtype": "float",
+      "description": "Synthetic fixture confidence score."
+    }
+  ],
+  "event_timestamp_field": "event_timestamp",
+  "created_timestamp_field": "created_timestamp",
+  "available_timestamp_field": "available_timestamp",
+  "point_in_time_required": true,
+  "materialization_allowed": false,
+  "model_training_approval_allowed": false,
+  "execution_allowed": false
+}

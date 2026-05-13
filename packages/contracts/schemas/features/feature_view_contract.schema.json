@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/features/feature_view_contract.schema.json",
+  "$comment": "FeatureViewContract defines feature view metadata and timestamp boundaries. It does not materialize features or approve model training.",
+  "title": "FeatureViewContract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "feature_view_contract_id",
+    "feature_view_name",
+    "feature_view_version",
+    "created_at",
+    "entity_keys",
+    "features",
+    "event_timestamp_field",
+    "created_timestamp_field",
+    "available_timestamp_field",
+    "point_in_time_required",
+    "materialization_allowed",
+    "model_training_approval_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "feature_view_contract_id": {
+      "type": "string",
+      "pattern": "^fvc_[A-Za-z0-9_\\-]+$"
+    },
+    "feature_view_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "feature_view_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "entity_keys": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "features": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "dtype"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "dtype": {
+            "type": "string",
+            "enum": [
+              "float",
+              "integer",
+              "boolean",
+              "string"
+            ]
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "event_timestamp_field": {
+      "type": "string",
+      "const": "event_timestamp"
+    },
+    "created_timestamp_field": {
+      "type": "string",
+      "const": "created_timestamp"
+    },
+    "available_timestamp_field": {
+      "type": "string",
+      "const": "available_timestamp"
+    },
+    "point_in_time_required": {
+      "type": "boolean",
+      "const": true
+    },
+    "materialization_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "model_training_approval_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}
