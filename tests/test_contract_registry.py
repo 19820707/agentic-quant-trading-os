@@ -43,6 +43,12 @@ class ContractRegistryTests(unittest.TestCase):
                 "debate_transcript",
                 "signal_candidate",
                 "risk_review_input",
+                "agent_skill_definition",
+                "skill_dependency_declaration",
+                "agent_tool_permission_policy",
+                "tool_risk_classification",
+                "tool_call_audit_record",
+                "agent_loop_guard",
             }.issubset(names)
         )
 

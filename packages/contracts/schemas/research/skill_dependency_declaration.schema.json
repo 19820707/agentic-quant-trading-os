@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/skill_dependency_declaration.schema.json",
+  "$comment": "SkillDependencyDeclaration lists local tool requirements without activating tools.",
+  "title": "SkillDependencyDeclaration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "skill_dependency_declaration_id",
+    "agent_skill_definition_id",
+    "declared_at",
+    "required_tool_names",
+    "missing_tool_behavior",
+    "dependency_validation_required",
+    "tool_activation_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "skill_dependency_declaration_id": {"type": "string", "pattern": "^sdd_[A-Za-z0-9_\\-]+$"},
+    "agent_skill_definition_id": {"type": "string", "pattern": "^asd_[A-Za-z0-9_\\-]+$"},
+    "declared_at": {"type": "string", "format": "date-time"},
+    "required_tool_names": {"type": "array", "items": {"type": "string"}},
+    "missing_tool_behavior": {"type": "string", "enum": ["fail_closed", "disable_skill", "manual_review_required"]},
+    "dependency_validation_required": {"type": "boolean", "const": true},
+    "tool_activation_allowed": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

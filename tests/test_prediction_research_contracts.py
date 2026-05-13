@@ -60,6 +60,48 @@ RESEARCH_CONTRACTS = {
         "invalid_enum": None,
         "timestamp_field": "created_at",
     },
+    "agent_skill_definition": {
+        "fixture": "agent_skill_definition.valid.json",
+        "primary_id": "agent_skill_definition_id",
+        "enum_field": "skill_category",
+        "invalid_enum": "EXECUTOR",
+        "timestamp_field": "created_at",
+    },
+    "skill_dependency_declaration": {
+        "fixture": "skill_dependency_declaration.valid.json",
+        "primary_id": "skill_dependency_declaration_id",
+        "enum_field": "missing_tool_behavior",
+        "invalid_enum": "AUTO_ENABLE",
+        "timestamp_field": "declared_at",
+    },
+    "agent_tool_permission_policy": {
+        "fixture": "agent_tool_permission_policy.valid.json",
+        "primary_id": "agent_tool_permission_policy_id",
+        "enum_field": "risk_level",
+        "invalid_enum": "APPROVED",
+        "timestamp_field": "created_at",
+    },
+    "tool_risk_classification": {
+        "fixture": "tool_risk_classification.valid.json",
+        "primary_id": "tool_risk_classification_id",
+        "enum_field": "tool_category",
+        "invalid_enum": "BROKER_EXECUTION",
+        "timestamp_field": "classified_at",
+    },
+    "tool_call_audit_record": {
+        "fixture": "tool_call_audit_record.valid.json",
+        "primary_id": "tool_call_audit_record_id",
+        "enum_field": "policy_decision",
+        "invalid_enum": "EXECUTE",
+        "timestamp_field": "recorded_at",
+    },
+    "agent_loop_guard": {
+        "fixture": "agent_loop_guard.valid.json",
+        "primary_id": "agent_loop_guard_id",
+        "enum_field": "termination_behavior",
+        "invalid_enum": "CONTINUE_FOREVER",
+        "timestamp_field": "created_at",
+    },
 }
 
 FORBIDDEN_SCHEMA_TEXT = (
@@ -117,6 +159,52 @@ class PredictionResearchContractTests(unittest.TestCase):
 
         self.assertTrue(fixture["deterministic_gateway_required"])
         self.assertFalse(fixture["risk_approval_allowed"])
+        self.assertFalse(fixture["execution_allowed"])
+
+    def test_agent_skill_definition_is_disabled_by_default(self):
+        fixture = self._fixture("agent_skill_definition")
+
+        self.assertFalse(fixture["enabled_by_default"])
+        self.assertFalse(fixture["tool_use_allowed"])
+        self.assertFalse(fixture["network_allowed"])
+        self.assertFalse(fixture["credentials_allowed"])
+        self.assertFalse(fixture["execution_allowed"])
+
+    def test_skill_dependency_declaration_does_not_activate_tools(self):
+        fixture = self._fixture("skill_dependency_declaration")
+
+        self.assertTrue(fixture["dependency_validation_required"])
+        self.assertFalse(fixture["tool_activation_allowed"])
+        self.assertFalse(fixture["execution_allowed"])
+
+    def test_agent_tool_policy_blocks_operational_authority(self):
+        fixture = self._fixture("agent_tool_permission_policy")
+
+        self.assertFalse(fixture["shell_allowed"])
+        self.assertFalse(fixture["file_write_allowed"])
+        self.assertFalse(fixture["network_allowed"])
+        self.assertFalse(fixture["credentials_allowed"])
+        self.assertFalse(fixture["trading_allowed"])
+        self.assertFalse(fixture["risk_approval_allowed"])
+        self.assertFalse(fixture["execution_allowed"])
+
+    def test_tool_risk_and_audit_records_remain_non_executable(self):
+        classification = self._fixture("tool_risk_classification")
+        audit = self._fixture("tool_call_audit_record")
+
+        self.assertTrue(classification["manual_approval_required"])
+        self.assertFalse(classification["runtime_activation_allowed"])
+        self.assertFalse(classification["execution_allowed"])
+        self.assertTrue(audit["redaction_applied"])
+        self.assertFalse(audit["sensitive_payload_allowed"])
+        self.assertFalse(audit["execution_allowed"])
+
+    def test_agent_loop_guard_fails_closed(self):
+        fixture = self._fixture("agent_loop_guard")
+
+        self.assertEqual(fixture["termination_behavior"], "fail_closed")
+        self.assertTrue(fixture["hallucination_review_required"])
+        self.assertFalse(fixture["autonomous_action_allowed"])
         self.assertFalse(fixture["execution_allowed"])
 
     def test_missing_required_fields_are_rejected(self):

@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/agent_loop_guard.schema.json",
+  "$comment": "AgentLoopGuard defines local loop termination policy only.",
+  "title": "AgentLoopGuard",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "agent_loop_guard_id",
+    "created_at",
+    "max_repeated_tool_calls",
+    "max_reasoning_steps",
+    "termination_behavior",
+    "hallucination_review_required",
+    "autonomous_action_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "agent_loop_guard_id": {"type": "string", "pattern": "^alg_[A-Za-z0-9_\\-]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "max_repeated_tool_calls": {"type": "integer", "minimum": 1},
+    "max_reasoning_steps": {"type": "integer", "minimum": 1},
+    "termination_behavior": {"type": "string", "enum": ["fail_closed", "return_partial_answer", "manual_review_required"]},
+    "hallucination_review_required": {"type": "boolean", "const": true},
+    "autonomous_action_allowed": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

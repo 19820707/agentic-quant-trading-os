@@ -1,0 +1,18 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "tool_risk_classification_id": "trc_fixture_001",
+  "tool_name": "synthetic_network_tool",
+  "classified_at": "2026-01-01T00:53:00Z",
+  "tool_category": "network_access",
+  "risk_level": "blocked",
+  "required_controls": [
+    "manual_review",
+    "no_secrets",
+    "no_runtime_activation"
+  ],
+  "manual_approval_required": true,
+  "runtime_activation_allowed": false,
+  "execution_allowed": false
+}

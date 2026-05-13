@@ -17,6 +17,12 @@ The `research` schema domain contains:
 - `DebateTranscript`: YES/NO, advisory risk or governance debate record
 - `SignalCandidate`: non-executable candidate signal
 - `RiskReviewInput`: advisory input for later deterministic risk review
+- `AgentSkillDefinition`: disabled local agent skill catalog record
+- `SkillDependencyDeclaration`: fail-closed skill dependency declaration
+- `AgentToolPermissionPolicy`: blocked-by-default agent tool policy
+- `ToolRiskClassification`: tool risk classification without activation authority
+- `ToolCallAuditRecord`: redacted audit record for proposed or blocked tool calls
+- `AgentLoopGuard`: fail-closed agent loop policy
 
 ## Safety Boundary
 
@@ -30,6 +36,10 @@ These contracts may describe:
 - debate summaries
 - hypothesis state
 - advisory notes
+- agent skill metadata
+- tool risk policy
+- tool call audit state
+- loop guard policy
 
 They must not contain:
 
@@ -42,6 +52,9 @@ They must not contain:
 - live execution approval
 - risk approval
 - broker/exchange requests
+- shell authority
+- file-write authority
+- agent runtime activation
 
 ## Execution Boundary
 
@@ -50,6 +63,8 @@ They must not contain:
 `RiskReviewInput` is not a `RiskDecision`.
 
 No research contract can approve risk, approve execution, submit orders, cancel orders, transfer funds or withdraw funds.
+
+Agent/tool governance contracts cannot activate runtime agents, grant tool authority, call networks, access credentials, approve risk or approve execution. They only describe disabled skills, dependencies, permission policy, risk classification, audit state and loop guards.
 
 Any future path from a research contract toward an order must pass through separately approved services and deterministic-risk-gateway.
 
