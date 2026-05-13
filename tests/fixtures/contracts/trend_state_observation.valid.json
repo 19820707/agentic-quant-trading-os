@@ -1,0 +1,14 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "trend_state_observation_id": "tso_fixture_001",
+  "subject": "synthetic trend state",
+  "observed_at": "2026-01-01T00:31:00Z",
+  "previous_trend": "neutral",
+  "current_trend": "uptrend",
+  "trend_threshold": 0.05,
+  "trend_changed": true,
+  "signal_authority_allowed": false,
+  "execution_allowed": false
+}

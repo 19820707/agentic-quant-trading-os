@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/order_book_imbalance_observation.schema.json",
+  "$comment": "OrderBookImbalanceObservation is research-only and cannot trigger execution.",
+  "title": "OrderBookImbalanceObservation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "order_book_imbalance_observation_id",
+    "subject",
+    "observed_at",
+    "depth_levels",
+    "yes_bid_depth",
+    "no_bid_depth",
+    "imbalance_score",
+    "trend_state",
+    "observation_only",
+    "network_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "order_book_imbalance_observation_id": {"type": "string", "pattern": "^obio_[A-Za-z0-9_\\-]+$"},
+    "subject": {"type": "string", "minLength": 1},
+    "observed_at": {"type": "string", "format": "date-time"},
+    "depth_levels": {"type": "integer", "minimum": 1},
+    "yes_bid_depth": {"type": "number", "minimum": 0},
+    "no_bid_depth": {"type": "number", "minimum": 0},
+    "imbalance_score": {"type": "number", "minimum": -1, "maximum": 1},
+    "trend_state": {"type": "string", "enum": ["uptrend", "downtrend", "neutral", "unknown"]},
+    "observation_only": {"type": "boolean", "const": true},
+    "network_allowed": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

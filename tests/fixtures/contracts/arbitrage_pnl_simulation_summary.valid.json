@@ -1,0 +1,15 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "arbitrage_pnl_simulation_summary_id": "apss_fixture_001",
+  "subject": "synthetic arbitrage pnl summary",
+  "computed_at": "2026-01-01T00:35:00Z",
+  "period_pnl": 0.0,
+  "total_pnl": 0.0,
+  "fees_estimate": 0.0,
+  "slippage_estimate": 0.0,
+  "simulation_only": true,
+  "production_approval_allowed": false,
+  "execution_allowed": false
+}

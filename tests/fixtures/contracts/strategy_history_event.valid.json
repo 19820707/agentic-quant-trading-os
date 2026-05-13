@@ -1,0 +1,12 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "strategy_history_event_id": "she_fixture_001",
+  "event_type": "policy_block",
+  "observed_at": "2026-01-01T00:36:00Z",
+  "decision_context": "Synthetic strategy event remained blocked by local policy.",
+  "simulated_result": "No runtime action was taken.",
+  "secrets_allowed": false,
+  "execution_allowed": false
+}

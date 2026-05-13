@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/trend_state_observation.schema.json",
+  "$comment": "TrendStateObservation is research-only trend context.",
+  "title": "TrendStateObservation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "trend_state_observation_id",
+    "subject",
+    "observed_at",
+    "previous_trend",
+    "current_trend",
+    "trend_threshold",
+    "trend_changed",
+    "signal_authority_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "trend_state_observation_id": {"type": "string", "pattern": "^tso_[A-Za-z0-9_\\-]+$"},
+    "subject": {"type": "string", "minLength": 1},
+    "observed_at": {"type": "string", "format": "date-time"},
+    "previous_trend": {"type": "string", "enum": ["uptrend", "downtrend", "neutral", "unknown"]},
+    "current_trend": {"type": "string", "enum": ["uptrend", "downtrend", "neutral", "unknown"]},
+    "trend_threshold": {"type": "number", "minimum": 0},
+    "trend_changed": {"type": "boolean"},
+    "signal_authority_allowed": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "trend_flip_observation_id": "tfo_fixture_001",
+  "subject": "synthetic trend flip",
+  "flip_detected_at": "2026-01-01T00:32:00Z",
+  "from_side": "YES",
+  "to_side": "NO",
+  "flip_reason": "Synthetic imbalance crossed the local threshold.",
+  "switch_execution_allowed": false,
+  "execution_allowed": false
+}

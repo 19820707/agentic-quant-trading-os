@@ -1,0 +1,14 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "preflight_safety_review_id": "psr_fixture_001",
+  "created_at": "2026-01-01T00:33:00Z",
+  "simulation_mode_required": true,
+  "account_check_allowed": false,
+  "balance_check_allowed": false,
+  "credentials_allowed": false,
+  "network_allowed": false,
+  "production_enabled": false,
+  "execution_allowed": false
+}

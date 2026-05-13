@@ -1,0 +1,12 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "simulation_mode_policy_id": "smp_fixture_001",
+  "created_at": "2026-01-01T00:34:00Z",
+  "simulation_required": true,
+  "production_mode_allowed": false,
+  "runtime_order_allowed": false,
+  "settlement_allowed": false,
+  "execution_allowed": false
+}

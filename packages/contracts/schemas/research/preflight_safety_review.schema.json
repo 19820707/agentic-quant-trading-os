@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/preflight_safety_review.schema.json",
+  "$comment": "PreflightSafetyReview is a disabled checklist and performs no runtime checks.",
+  "title": "PreflightSafetyReview",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "preflight_safety_review_id",
+    "created_at",
+    "simulation_mode_required",
+    "account_check_allowed",
+    "balance_check_allowed",
+    "credentials_allowed",
+    "network_allowed",
+    "production_enabled",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "preflight_safety_review_id": {"type": "string", "pattern": "^psr_[A-Za-z0-9_\\-]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "simulation_mode_required": {"type": "boolean", "const": true},
+    "account_check_allowed": {"type": "boolean", "const": false},
+    "balance_check_allowed": {"type": "boolean", "const": false},
+    "credentials_allowed": {"type": "boolean", "const": false},
+    "network_allowed": {"type": "boolean", "const": false},
+    "production_enabled": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

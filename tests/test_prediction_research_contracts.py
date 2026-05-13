@@ -60,6 +60,55 @@ RESEARCH_CONTRACTS = {
         "invalid_enum": None,
         "timestamp_field": "created_at",
     },
+    "order_book_imbalance_observation": {
+        "fixture": "order_book_imbalance_observation.valid.json",
+        "primary_id": "order_book_imbalance_observation_id",
+        "enum_field": "trend_state",
+        "invalid_enum": "EXECUTE",
+        "timestamp_field": "observed_at",
+    },
+    "trend_state_observation": {
+        "fixture": "trend_state_observation.valid.json",
+        "primary_id": "trend_state_observation_id",
+        "enum_field": "current_trend",
+        "invalid_enum": "BUY",
+        "timestamp_field": "observed_at",
+    },
+    "trend_flip_observation": {
+        "fixture": "trend_flip_observation.valid.json",
+        "primary_id": "trend_flip_observation_id",
+        "enum_field": "to_side",
+        "invalid_enum": "SELL",
+        "timestamp_field": "flip_detected_at",
+    },
+    "preflight_safety_review": {
+        "fixture": "preflight_safety_review.valid.json",
+        "primary_id": "preflight_safety_review_id",
+        "enum_field": None,
+        "invalid_enum": None,
+        "timestamp_field": "created_at",
+    },
+    "simulation_mode_policy": {
+        "fixture": "simulation_mode_policy.valid.json",
+        "primary_id": "simulation_mode_policy_id",
+        "enum_field": None,
+        "invalid_enum": None,
+        "timestamp_field": "created_at",
+    },
+    "arbitrage_pnl_simulation_summary": {
+        "fixture": "arbitrage_pnl_simulation_summary.valid.json",
+        "primary_id": "arbitrage_pnl_simulation_summary_id",
+        "enum_field": None,
+        "invalid_enum": None,
+        "timestamp_field": "computed_at",
+    },
+    "strategy_history_event": {
+        "fixture": "strategy_history_event.valid.json",
+        "primary_id": "strategy_history_event_id",
+        "enum_field": "event_type",
+        "invalid_enum": "ORDER",
+        "timestamp_field": "observed_at",
+    },
 }
 
 FORBIDDEN_SCHEMA_TEXT = (
@@ -118,6 +167,45 @@ class PredictionResearchContractTests(unittest.TestCase):
         self.assertTrue(fixture["deterministic_gateway_required"])
         self.assertFalse(fixture["risk_approval_allowed"])
         self.assertFalse(fixture["execution_allowed"])
+
+    def test_trend_observations_are_non_executable(self):
+        for name in (
+            "order_book_imbalance_observation",
+            "trend_state_observation",
+            "trend_flip_observation",
+        ):
+            with self.subTest(schema=name):
+                fixture = self._fixture(name)
+                self.assertFalse(fixture["execution_allowed"])
+                if "observation_only" in fixture:
+                    self.assertTrue(fixture["observation_only"])
+
+    def test_preflight_and_simulation_policies_fail_closed(self):
+        preflight = self._fixture("preflight_safety_review")
+        simulation = self._fixture("simulation_mode_policy")
+
+        self.assertTrue(preflight["simulation_mode_required"])
+        self.assertFalse(preflight["account_check_allowed"])
+        self.assertFalse(preflight["balance_check_allowed"])
+        self.assertFalse(preflight["credentials_allowed"])
+        self.assertFalse(preflight["network_allowed"])
+        self.assertFalse(preflight["production_enabled"])
+        self.assertFalse(preflight["execution_allowed"])
+        self.assertTrue(simulation["simulation_required"])
+        self.assertFalse(simulation["production_mode_allowed"])
+        self.assertFalse(simulation["runtime_order_allowed"])
+        self.assertFalse(simulation["settlement_allowed"])
+        self.assertFalse(simulation["execution_allowed"])
+
+    def test_pnl_and_history_records_are_research_only(self):
+        pnl = self._fixture("arbitrage_pnl_simulation_summary")
+        event = self._fixture("strategy_history_event")
+
+        self.assertTrue(pnl["simulation_only"])
+        self.assertFalse(pnl["production_approval_allowed"])
+        self.assertFalse(pnl["execution_allowed"])
+        self.assertFalse(event["secrets_allowed"])
+        self.assertFalse(event["execution_allowed"])
 
     def test_missing_required_fields_are_rejected(self):
         for name in RESEARCH_CONTRACTS:
