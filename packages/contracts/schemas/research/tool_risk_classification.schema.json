@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/tool_risk_classification.schema.json",
+  "$comment": "ToolRiskClassification classifies tool risk without approval authority.",
+  "title": "ToolRiskClassification",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "tool_risk_classification_id",
+    "tool_name",
+    "classified_at",
+    "tool_category",
+    "risk_level",
+    "required_controls",
+    "manual_approval_required",
+    "runtime_activation_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "tool_risk_classification_id": {"type": "string", "pattern": "^trc_[A-Za-z0-9_\\-]+$"},
+    "tool_name": {"type": "string", "minLength": 1},
+    "classified_at": {"type": "string", "format": "date-time"},
+    "tool_category": {"type": "string", "enum": ["read_only_analysis", "file_access", "network_access", "credential_access", "trading_related", "blocked"]},
+    "risk_level": {"type": "string", "enum": ["low", "medium", "high", "blocked"]},
+    "required_controls": {"type": "array", "items": {"type": "string"}},
+    "manual_approval_required": {"type": "boolean", "const": true},
+    "runtime_activation_allowed": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

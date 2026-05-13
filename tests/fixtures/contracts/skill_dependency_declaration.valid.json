@@ -1,0 +1,15 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "skill_dependency_declaration_id": "sdd_fixture_001",
+  "agent_skill_definition_id": "asd_fixture_001",
+  "declared_at": "2026-01-01T00:51:00Z",
+  "required_tool_names": [
+    "synthetic_read_only_tool"
+  ],
+  "missing_tool_behavior": "fail_closed",
+  "dependency_validation_required": true,
+  "tool_activation_allowed": false,
+  "execution_allowed": false
+}

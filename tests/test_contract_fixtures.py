@@ -20,6 +20,12 @@ FIXTURES = {
     "debate_transcript.valid.json": ("research", "debate_transcript"),
     "signal_candidate.valid.json": ("research", "signal_candidate"),
     "risk_review_input.valid.json": ("research", "risk_review_input"),
+    "agent_skill_definition.valid.json": ("research", "agent_skill_definition"),
+    "skill_dependency_declaration.valid.json": ("research", "skill_dependency_declaration"),
+    "agent_tool_permission_policy.valid.json": ("research", "agent_tool_permission_policy"),
+    "tool_risk_classification.valid.json": ("research", "tool_risk_classification"),
+    "tool_call_audit_record.valid.json": ("research", "tool_call_audit_record"),
+    "agent_loop_guard.valid.json": ("research", "agent_loop_guard"),
 }
 
 FORBIDDEN_KEYS = {

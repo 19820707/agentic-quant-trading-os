@@ -1,0 +1,13 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "tool_call_audit_record_id": "tcar_fixture_001",
+  "tool_name": "synthetic_blocked_tool",
+  "recorded_at": "2026-01-01T00:54:00Z",
+  "call_status": "blocked",
+  "policy_decision": "block",
+  "redaction_applied": true,
+  "sensitive_payload_allowed": false,
+  "execution_allowed": false
+}
