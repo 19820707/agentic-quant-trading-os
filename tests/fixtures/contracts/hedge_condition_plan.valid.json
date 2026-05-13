@@ -1,0 +1,15 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "hedge_condition_plan_id": "hcp_fixture_001",
+  "subject": "synthetic conditional hedge research plan",
+  "created_at": "2026-01-01T00:12:00Z",
+  "first_leg_reference_price": 0.42,
+  "opposite_leg_max_price": 0.55,
+  "combined_cost_limit": 0.98,
+  "timeout_seconds": 30,
+  "hedge_execution_allowed": false,
+  "production_approval_allowed": false,
+  "execution_allowed": false
+}

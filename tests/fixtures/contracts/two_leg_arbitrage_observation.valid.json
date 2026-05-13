@@ -1,0 +1,18 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "two_leg_arbitrage_observation_id": "tlao_fixture_001",
+  "subject": "synthetic prediction market pair",
+  "observed_at": "2026-01-01T00:10:00Z",
+  "leg_one_label": "YES",
+  "leg_one_price": 0.42,
+  "leg_two_label": "NO",
+  "leg_two_price": 0.54,
+  "combined_cost": 0.96,
+  "target_max_cost": 0.98,
+  "structural_edge": 0.02,
+  "observation_only": true,
+  "production_approval_allowed": false,
+  "execution_allowed": false
+}

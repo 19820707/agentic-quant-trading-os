@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/market_round_lifecycle.schema.json",
+  "$comment": "MarketRoundLifecycle records market timing context for research only.",
+  "title": "MarketRoundLifecycle",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "market_round_lifecycle_id",
+    "subject",
+    "round_start",
+    "round_end",
+    "observation_window_start",
+    "observation_window_end",
+    "settlement_status",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "market_round_lifecycle_id": {
+      "type": "string",
+      "pattern": "^mrl_[A-Za-z0-9_\\-]+$"
+    },
+    "subject": {
+      "type": "string",
+      "minLength": 1
+    },
+    "round_start": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "round_end": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "observation_window_start": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "observation_window_end": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "settlement_status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "settled",
+        "unknown",
+        "void"
+      ]
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}

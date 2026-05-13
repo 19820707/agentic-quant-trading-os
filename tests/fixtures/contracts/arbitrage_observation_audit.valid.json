@@ -1,0 +1,17 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "arbitrage_observation_audit_id": "aoa_fixture_001",
+  "subject": "synthetic arbitrage observation audit",
+  "audited_at": "2026-01-01T00:14:00Z",
+  "observation_ids": [
+    "tlao_fixture_001",
+    "smo_fixture_001"
+  ],
+  "finding": "Synthetic observations are research-only and cannot trigger execution.",
+  "audit_status": "reviewed",
+  "order_reference_allowed": false,
+  "wallet_reference_allowed": false,
+  "execution_allowed": false
+}

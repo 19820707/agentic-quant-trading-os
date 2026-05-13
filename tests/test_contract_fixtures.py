@@ -20,6 +20,12 @@ FIXTURES = {
     "debate_transcript.valid.json": ("research", "debate_transcript"),
     "signal_candidate.valid.json": ("research", "signal_candidate"),
     "risk_review_input.valid.json": ("research", "risk_review_input"),
+    "two_leg_arbitrage_observation.valid.json": ("research", "two_leg_arbitrage_observation"),
+    "sudden_move_observation.valid.json": ("research", "sudden_move_observation"),
+    "hedge_condition_plan.valid.json": ("research", "hedge_condition_plan"),
+    "market_round_lifecycle.valid.json": ("research", "market_round_lifecycle"),
+    "arbitrage_simulation_run.valid.json": ("research", "arbitrage_simulation_run"),
+    "arbitrage_observation_audit.valid.json": ("research", "arbitrage_observation_audit"),
 }
 
 FORBIDDEN_KEYS = {
