@@ -60,6 +60,48 @@ RESEARCH_CONTRACTS = {
         "invalid_enum": None,
         "timestamp_field": "created_at",
     },
+    "research_escalation_decision": {
+        "fixture": "research_escalation_decision.valid.json",
+        "primary_id": "research_escalation_decision_id",
+        "enum_field": "decision",
+        "invalid_enum": "AUTO_EXECUTE",
+        "timestamp_field": "created_at",
+    },
+    "alpha_claim_review": {
+        "fixture": "alpha_claim_review.valid.json",
+        "primary_id": "alpha_claim_review_id",
+        "enum_field": "support_level",
+        "invalid_enum": "PRODUCTION_APPROVED",
+        "timestamp_field": "reviewed_at",
+    },
+    "human_research_review_request": {
+        "fixture": "human_research_review_request.valid.json",
+        "primary_id": "human_research_review_request_id",
+        "enum_field": "priority",
+        "invalid_enum": "AUTO_APPROVE",
+        "timestamp_field": "created_at",
+    },
+    "paper_to_production_gap_assessment": {
+        "fixture": "paper_to_production_gap_assessment.valid.json",
+        "primary_id": "paper_to_production_gap_assessment_id",
+        "enum_field": "gap_severity",
+        "invalid_enum": "READY",
+        "timestamp_field": "assessed_at",
+    },
+    "news_freshness_assessment": {
+        "fixture": "news_freshness_assessment.valid.json",
+        "primary_id": "news_freshness_assessment_id",
+        "enum_field": None,
+        "invalid_enum": None,
+        "timestamp_field": "assessed_at",
+    },
+    "market_ambiguity_assessment": {
+        "fixture": "market_ambiguity_assessment.valid.json",
+        "primary_id": "market_ambiguity_assessment_id",
+        "enum_field": "resolution_risk",
+        "invalid_enum": "AUTO_RESOLVED",
+        "timestamp_field": "assessed_at",
+    },
 }
 
 FORBIDDEN_SCHEMA_TEXT = (
@@ -117,6 +159,48 @@ class PredictionResearchContractTests(unittest.TestCase):
 
         self.assertTrue(fixture["deterministic_gateway_required"])
         self.assertFalse(fixture["risk_approval_allowed"])
+        self.assertFalse(fixture["execution_allowed"])
+
+    def test_research_escalation_remains_local_and_non_executable(self):
+        fixture = self._fixture("research_escalation_decision")
+
+        self.assertFalse(fixture["network_allowed"])
+        self.assertFalse(fixture["credentials_allowed"])
+        self.assertFalse(fixture["execution_allowed"])
+        self.assertEqual(fixture["decision"], "require_human_review")
+
+    def test_alpha_claim_review_cannot_approve_production_or_execution(self):
+        fixture = self._fixture("alpha_claim_review")
+
+        self.assertFalse(fixture["production_approval_allowed"])
+        self.assertFalse(fixture["risk_approval_allowed"])
+        self.assertFalse(fixture["execution_allowed"])
+        self.assertEqual(fixture["support_level"], "unsupported")
+
+    def test_human_review_request_is_pending_not_approval(self):
+        fixture = self._fixture("human_research_review_request")
+
+        self.assertTrue(fixture["decision_pending"])
+        self.assertFalse(fixture["execution_allowed"])
+
+    def test_paper_to_production_gap_blocks_production(self):
+        fixture = self._fixture("paper_to_production_gap_assessment")
+
+        self.assertEqual(fixture["gap_severity"], "high")
+        self.assertFalse(fixture["production_approval_allowed"])
+        self.assertFalse(fixture["execution_allowed"])
+
+    def test_news_freshness_assessment_is_local_only(self):
+        fixture = self._fixture("news_freshness_assessment")
+
+        self.assertTrue(fixture["is_stale"])
+        self.assertFalse(fixture["network_allowed"])
+        self.assertFalse(fixture["execution_allowed"])
+
+    def test_market_ambiguity_requires_human_review_and_cannot_execute(self):
+        fixture = self._fixture("market_ambiguity_assessment")
+
+        self.assertTrue(fixture["human_review_required"])
         self.assertFalse(fixture["execution_allowed"])
 
     def test_missing_required_fields_are_rejected(self):

@@ -17,6 +17,12 @@ The `research` schema domain contains:
 - `DebateTranscript`: YES/NO, advisory risk or governance debate record
 - `SignalCandidate`: non-executable candidate signal
 - `RiskReviewInput`: advisory input for later deterministic risk review
+- `ResearchEscalationDecision`: local tier escalation decision for bounded analysis
+- `AlphaClaimReview`: evidence review for claims of durable alpha
+- `HumanResearchReviewRequest`: request for human review when ambiguity or risk is high
+- `PaperToProductionGapAssessment`: assessment of gaps between paper results and production readiness
+- `NewsFreshnessAssessment`: local news freshness and staleness metadata
+- `MarketAmbiguityAssessment`: market-rule ambiguity and resolution-risk record
 
 ## Safety Boundary
 
@@ -30,6 +36,12 @@ These contracts may describe:
 - debate summaries
 - hypothesis state
 - advisory notes
+- research escalation
+- alpha-claim support
+- human review requests
+- paper-to-production gaps
+- news freshness
+- market ambiguity
 
 They must not contain:
 
@@ -49,6 +61,12 @@ They must not contain:
 
 `RiskReviewInput` is not a `RiskDecision`.
 
+`AlphaClaimReview` is not production approval.
+
+`HumanResearchReviewRequest` is not a human approval decision.
+
+`PaperToProductionGapAssessment` is not production approval.
+
 No research contract can approve risk, approve execution, submit orders, cancel orders, transfer funds or withdraw funds.
 
 Any future path from a research contract toward an order must pass through separately approved services and deterministic-risk-gateway.
@@ -64,4 +82,6 @@ Current validation is local-only:
 - no network
 - no credentials
 - no LLM runtime
+- no crawler runtime
+- no production approval runtime
 

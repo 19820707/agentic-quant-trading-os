@@ -1,0 +1,15 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "research_escalation_decision_id": "red_fixture_001",
+  "subject": "Synthetic research escalation decision",
+  "created_at": "2026-01-07T00:00:00Z",
+  "current_tier": 1,
+  "proposed_tier": 2,
+  "decision": "require_human_review",
+  "reason": "Synthetic fixture requires human review before deeper analysis.",
+  "network_allowed": false,
+  "credentials_allowed": false,
+  "execution_allowed": false
+}

@@ -43,6 +43,12 @@ class ContractRegistryTests(unittest.TestCase):
                 "debate_transcript",
                 "signal_candidate",
                 "risk_review_input",
+                "research_escalation_decision",
+                "alpha_claim_review",
+                "human_research_review_request",
+                "paper_to_production_gap_assessment",
+                "news_freshness_assessment",
+                "market_ambiguity_assessment",
             }.issubset(names)
         )
 

@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/alpha_claim_review.schema.json",
+  "$comment": "AlphaClaimReview records evidence review for alpha claims. It cannot approve production, risk or execution.",
+  "title": "AlphaClaimReview",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "alpha_claim_review_id",
+    "claim",
+    "reviewed_at",
+    "support_level",
+    "unsupported_claims",
+    "evidence_summary",
+    "production_approval_allowed",
+    "risk_approval_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "alpha_claim_review_id": {
+      "type": "string",
+      "pattern": "^acr_[A-Za-z0-9_\\-]+$"
+    },
+    "claim": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reviewed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "support_level": {
+      "type": "string",
+      "enum": [
+        "unsupported",
+        "weak",
+        "mixed",
+        "strong_research_only"
+      ]
+    },
+    "unsupported_claims": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "evidence_summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "production_approval_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "risk_approval_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}

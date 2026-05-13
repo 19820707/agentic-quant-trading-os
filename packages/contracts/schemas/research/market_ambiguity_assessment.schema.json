@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/market_ambiguity_assessment.schema.json",
+  "$comment": "MarketAmbiguityAssessment records ambiguity in prediction market rules. It cannot approve execution.",
+  "title": "MarketAmbiguityAssessment",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "market_ambiguity_assessment_id",
+    "subject",
+    "assessed_at",
+    "ambiguity_score",
+    "resolution_risk",
+    "human_review_required",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "market_ambiguity_assessment_id": {
+      "type": "string",
+      "pattern": "^maa_[A-Za-z0-9_\\-]+$"
+    },
+    "subject": {
+      "type": "string",
+      "minLength": 1
+    },
+    "assessed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "ambiguity_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "resolution_risk": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ]
+    },
+    "ambiguous_terms": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "human_review_required": {
+      "type": "boolean"
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}

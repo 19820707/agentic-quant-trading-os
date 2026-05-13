@@ -1,0 +1,16 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "market_ambiguity_assessment_id": "maa_fixture_001",
+  "subject": "Synthetic market ambiguity assessment",
+  "assessed_at": "2026-01-07T00:05:00Z",
+  "ambiguity_score": 0.82,
+  "resolution_risk": "high",
+  "ambiguous_terms": [
+    "materially",
+    "official confirmation"
+  ],
+  "human_review_required": true,
+  "execution_allowed": false
+}
