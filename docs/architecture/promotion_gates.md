@@ -29,6 +29,8 @@ Production-impacting changes must pass applicable gates:
 - Operational readiness review.
 - Rollback and incident plan.
 
+Agent runtime changes must also pass `docs/integrations/agent_runtime_approval_gate.md` before any runtime agent, MCP server, tool execution, background worker, federation, external memory, credential access or network access is enabled.
+
 ## Evidence Expectations
 
 Promotion evidence should identify:
