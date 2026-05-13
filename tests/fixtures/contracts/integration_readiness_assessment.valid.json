@@ -1,0 +1,19 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "integration_readiness_assessment_id": "ira_fixture_001",
+  "tool_name": "synthetic toolkit integration",
+  "assessed_at": "2026-01-01T00:42:00Z",
+  "maturity_score": 0.2,
+  "license_score": 0.0,
+  "dependency_risk_score": 0.8,
+  "credential_risk_score": 0.9,
+  "execution_risk_score": 0.9,
+  "testability_score": 0.4,
+  "production_readiness": "reference_only",
+  "approval_recommendation": "catalog_only",
+  "dependency_allowed": false,
+  "runtime_enabled": false,
+  "execution_allowed": false
+}

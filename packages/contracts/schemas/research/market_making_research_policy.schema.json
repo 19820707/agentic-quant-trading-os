@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/market_making_research_policy.schema.json",
+  "$comment": "MarketMakingResearchPolicy is not a quoting or inventory runtime policy.",
+  "title": "MarketMakingResearchPolicy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "market_making_research_policy_id",
+    "created_at",
+    "quoted_spread_target",
+    "inventory_limit",
+    "inventory_rebalance_allowed",
+    "quote_publication_allowed",
+    "network_allowed",
+    "credentials_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "market_making_research_policy_id": {"type": "string", "pattern": "^mmrp_[A-Za-z0-9_\\-]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "quoted_spread_target": {"type": "number", "minimum": 0},
+    "inventory_limit": {"type": "number", "minimum": 0},
+    "inventory_rebalance_allowed": {"type": "boolean", "const": false},
+    "quote_publication_allowed": {"type": "boolean", "const": false},
+    "network_allowed": {"type": "boolean", "const": false},
+    "credentials_allowed": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

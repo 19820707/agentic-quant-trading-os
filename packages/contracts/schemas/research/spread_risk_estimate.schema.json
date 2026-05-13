@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/spread_risk_estimate.schema.json",
+  "$comment": "SpreadRiskEstimate is research-only and cannot authorize trading.",
+  "title": "SpreadRiskEstimate",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "spread_risk_estimate_id",
+    "subject",
+    "estimated_at",
+    "spread",
+    "slippage_estimate",
+    "stale_data_risk",
+    "risk_level",
+    "risk_approval_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "spread_risk_estimate_id": {"type": "string", "pattern": "^sre_[A-Za-z0-9_\\-]+$"},
+    "subject": {"type": "string", "minLength": 1},
+    "estimated_at": {"type": "string", "format": "date-time"},
+    "spread": {"type": "number", "minimum": 0},
+    "slippage_estimate": {"type": "number", "minimum": 0},
+    "stale_data_risk": {"type": "boolean"},
+    "risk_level": {"type": "string", "enum": ["low", "medium", "high", "unknown"]},
+    "risk_approval_allowed": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

@@ -20,6 +20,12 @@ FIXTURES = {
     "debate_transcript.valid.json": ("research", "debate_transcript"),
     "signal_candidate.valid.json": ("research", "signal_candidate"),
     "risk_review_input.valid.json": ("research", "risk_review_input"),
+    "prediction_market_toolkit_assessment.valid.json": ("research", "prediction_market_toolkit_assessment"),
+    "strategy_pattern_classification.valid.json": ("research", "strategy_pattern_classification"),
+    "integration_readiness_assessment.valid.json": ("research", "integration_readiness_assessment"),
+    "market_making_research_policy.valid.json": ("research", "market_making_research_policy"),
+    "liquidity_quality_observation.valid.json": ("research", "liquidity_quality_observation"),
+    "spread_risk_estimate.valid.json": ("research", "spread_risk_estimate"),
 }
 
 FORBIDDEN_KEYS = {

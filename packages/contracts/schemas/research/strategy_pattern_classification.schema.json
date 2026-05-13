@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/strategy_pattern_classification.schema.json",
+  "$comment": "StrategyPatternClassification describes a non-executable research strategy pattern.",
+  "title": "StrategyPatternClassification",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "strategy_pattern_classification_id",
+    "pattern_name",
+    "classified_at",
+    "pattern_type",
+    "allowed_outputs",
+    "forbidden_outputs",
+    "deterministic_gateway_required",
+    "order_intent_allowed",
+    "risk_approval_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "strategy_pattern_classification_id": {"type": "string", "pattern": "^spc_[A-Za-z0-9_\\-]+$"},
+    "pattern_name": {"type": "string", "minLength": 1},
+    "classified_at": {"type": "string", "format": "date-time"},
+    "pattern_type": {
+      "type": "string",
+      "enum": [
+        "arbitrage",
+        "trend_following",
+        "copy_trade_observation",
+        "market_making_research",
+        "liquidity_provision_research",
+        "event_reaction",
+        "spread_monitoring"
+      ]
+    },
+    "allowed_outputs": {"type": "array", "items": {"type": "string"}},
+    "forbidden_outputs": {"type": "array", "items": {"type": "string"}},
+    "deterministic_gateway_required": {"type": "boolean", "const": true},
+    "order_intent_allowed": {"type": "boolean", "const": false},
+    "risk_approval_allowed": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

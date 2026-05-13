@@ -1,0 +1,23 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "strategy_pattern_classification_id": "spc_fixture_001",
+  "pattern_name": "synthetic spread monitoring",
+  "classified_at": "2026-01-01T00:41:00Z",
+  "pattern_type": "spread_monitoring",
+  "allowed_outputs": [
+    "research_observation",
+    "risk_estimate",
+    "audit_note"
+  ],
+  "forbidden_outputs": [
+    "order_intent",
+    "approved_order",
+    "execution_permission"
+  ],
+  "deterministic_gateway_required": true,
+  "order_intent_allowed": false,
+  "risk_approval_allowed": false,
+  "execution_allowed": false
+}
