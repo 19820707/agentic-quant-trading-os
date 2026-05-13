@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/copy_trade_simulation_record.schema.json",
+  "$comment": "CopyTradeSimulationRecord records local hypothetical outcomes only.",
+  "title": "CopyTradeSimulationRecord",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "copy_trade_simulation_record_id",
+    "observed_trader_activity_id",
+    "simulated_at",
+    "simulated_size",
+    "simulated_notional",
+    "cap_applied",
+    "simulation_outcome",
+    "simulation_only",
+    "production_approval_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "copy_trade_simulation_record_id": {
+      "type": "string",
+      "pattern": "^ctsr_[A-Za-z0-9_\\-]+$"
+    },
+    "observed_trader_activity_id": {
+      "type": "string",
+      "pattern": "^ota_[A-Za-z0-9_\\-]+$"
+    },
+    "simulated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "simulated_size": {
+      "type": "number",
+      "minimum": 0
+    },
+    "simulated_notional": {
+      "type": "number",
+      "minimum": 0
+    },
+    "cap_applied": {
+      "type": "boolean"
+    },
+    "simulation_outcome": {
+      "type": "string",
+      "enum": [
+        "no_action",
+        "would_track",
+        "blocked_by_policy",
+        "stale_activity"
+      ]
+    },
+    "simulation_only": {
+      "type": "boolean",
+      "const": true
+    },
+    "production_approval_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}

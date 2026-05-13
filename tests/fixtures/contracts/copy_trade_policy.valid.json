@@ -1,0 +1,18 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "copy_trade_policy_id": "ctp_fixture_001",
+  "created_at": "2026-01-01T00:22:00Z",
+  "poll_interval_ms": 15000,
+  "activity_limit": 100,
+  "size_multiplier": 0.0,
+  "max_simulated_notional": 25.0,
+  "trades_only": true,
+  "copy_execution_allowed": false,
+  "wallet_allowed": false,
+  "credentials_allowed": false,
+  "network_allowed": false,
+  "production_enabled": false,
+  "execution_allowed": false
+}

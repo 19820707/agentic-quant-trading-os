@@ -60,6 +60,48 @@ RESEARCH_CONTRACTS = {
         "invalid_enum": None,
         "timestamp_field": "created_at",
     },
+    "copy_trade_target_observation": {
+        "fixture": "copy_trade_target_observation.valid.json",
+        "primary_id": "copy_trade_target_observation_id",
+        "enum_field": "source",
+        "invalid_enum": "REMOTE_RUNTIME",
+        "timestamp_field": "observed_at",
+    },
+    "observed_trader_activity": {
+        "fixture": "observed_trader_activity.valid.json",
+        "primary_id": "observed_trader_activity_id",
+        "enum_field": "activity_type",
+        "invalid_enum": "COPY_COMMAND",
+        "timestamp_field": "observed_at",
+    },
+    "copy_trade_policy": {
+        "fixture": "copy_trade_policy.valid.json",
+        "primary_id": "copy_trade_policy_id",
+        "enum_field": None,
+        "invalid_enum": None,
+        "timestamp_field": "created_at",
+    },
+    "copy_trade_simulation_record": {
+        "fixture": "copy_trade_simulation_record.valid.json",
+        "primary_id": "copy_trade_simulation_record_id",
+        "enum_field": "simulation_outcome",
+        "invalid_enum": "EXECUTED",
+        "timestamp_field": "simulated_at",
+    },
+    "trader_reliability_profile": {
+        "fixture": "trader_reliability_profile.valid.json",
+        "primary_id": "trader_reliability_profile_id",
+        "enum_field": None,
+        "invalid_enum": None,
+        "timestamp_field": "computed_at",
+    },
+    "copy_trade_risk_review_input": {
+        "fixture": "copy_trade_risk_review_input.valid.json",
+        "primary_id": "copy_trade_risk_review_input_id",
+        "enum_field": "copycat_risk",
+        "invalid_enum": "APPROVED",
+        "timestamp_field": "created_at",
+    },
 }
 
 FORBIDDEN_SCHEMA_TEXT = (
@@ -114,6 +156,46 @@ class PredictionResearchContractTests(unittest.TestCase):
 
     def test_risk_review_input_cannot_approve_risk(self):
         fixture = self._fixture("risk_review_input")
+
+        self.assertTrue(fixture["deterministic_gateway_required"])
+        self.assertFalse(fixture["risk_approval_allowed"])
+        self.assertFalse(fixture["execution_allowed"])
+
+    def test_copy_trade_observations_are_local_only(self):
+        for name in ("copy_trade_target_observation", "observed_trader_activity"):
+            with self.subTest(schema=name):
+                fixture = self._fixture(name)
+                self.assertTrue(fixture["observation_only"])
+                self.assertFalse(fixture["network_allowed"])
+                self.assertFalse(fixture["credentials_allowed"])
+                self.assertFalse(fixture["execution_allowed"])
+
+    def test_copy_trade_policy_keeps_runtime_disabled(self):
+        fixture = self._fixture("copy_trade_policy")
+
+        self.assertFalse(fixture["copy_execution_allowed"])
+        self.assertFalse(fixture["wallet_allowed"])
+        self.assertFalse(fixture["credentials_allowed"])
+        self.assertFalse(fixture["network_allowed"])
+        self.assertFalse(fixture["production_enabled"])
+        self.assertFalse(fixture["execution_allowed"])
+
+    def test_copy_trade_simulation_is_simulation_only(self):
+        fixture = self._fixture("copy_trade_simulation_record")
+
+        self.assertTrue(fixture["simulation_only"])
+        self.assertFalse(fixture["production_approval_allowed"])
+        self.assertFalse(fixture["execution_allowed"])
+
+    def test_trader_reliability_profile_cannot_authorize_copying(self):
+        fixture = self._fixture("trader_reliability_profile")
+
+        self.assertFalse(fixture["copy_authority_allowed"])
+        self.assertFalse(fixture["risk_approval_allowed"])
+        self.assertFalse(fixture["execution_allowed"])
+
+    def test_copy_trade_risk_review_cannot_approve_risk(self):
+        fixture = self._fixture("copy_trade_risk_review_input")
 
         self.assertTrue(fixture["deterministic_gateway_required"])
         self.assertFalse(fixture["risk_approval_allowed"])

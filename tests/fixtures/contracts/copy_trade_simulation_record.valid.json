@@ -1,0 +1,15 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "copy_trade_simulation_record_id": "ctsr_fixture_001",
+  "observed_trader_activity_id": "ota_fixture_001",
+  "simulated_at": "2026-01-01T00:23:00Z",
+  "simulated_size": 0.0,
+  "simulated_notional": 0.0,
+  "cap_applied": true,
+  "simulation_outcome": "blocked_by_policy",
+  "simulation_only": true,
+  "production_approval_allowed": false,
+  "execution_allowed": false
+}

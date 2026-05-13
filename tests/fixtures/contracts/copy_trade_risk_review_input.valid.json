@@ -1,0 +1,20 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "copy_trade_risk_review_input_id": "ctri_fixture_001",
+  "copy_trade_simulation_record_id": "ctsr_fixture_001",
+  "created_at": "2026-01-01T00:25:00Z",
+  "risk_flags": [
+    "copycat_risk",
+    "latency_sensitive",
+    "research_only"
+  ],
+  "concentration_warning": true,
+  "latency_warning": true,
+  "liquidity_warning": true,
+  "copycat_risk": "high",
+  "deterministic_gateway_required": true,
+  "risk_approval_allowed": false,
+  "execution_allowed": false
+}

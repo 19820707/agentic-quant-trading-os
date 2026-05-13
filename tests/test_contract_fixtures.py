@@ -20,6 +20,12 @@ FIXTURES = {
     "debate_transcript.valid.json": ("research", "debate_transcript"),
     "signal_candidate.valid.json": ("research", "signal_candidate"),
     "risk_review_input.valid.json": ("research", "risk_review_input"),
+    "copy_trade_target_observation.valid.json": ("research", "copy_trade_target_observation"),
+    "observed_trader_activity.valid.json": ("research", "observed_trader_activity"),
+    "copy_trade_policy.valid.json": ("research", "copy_trade_policy"),
+    "copy_trade_simulation_record.valid.json": ("research", "copy_trade_simulation_record"),
+    "trader_reliability_profile.valid.json": ("research", "trader_reliability_profile"),
+    "copy_trade_risk_review_input.valid.json": ("research", "copy_trade_risk_review_input"),
 }
 
 FORBIDDEN_KEYS = {

@@ -43,6 +43,12 @@ class ContractRegistryTests(unittest.TestCase):
                 "debate_transcript",
                 "signal_candidate",
                 "risk_review_input",
+                "copy_trade_target_observation",
+                "observed_trader_activity",
+                "copy_trade_policy",
+                "copy_trade_simulation_record",
+                "trader_reliability_profile",
+                "copy_trade_risk_review_input",
             }.issubset(names)
         )
 

@@ -1,0 +1,14 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "copy_trade_target_observation_id": "ctto_fixture_001",
+  "target_label": "synthetic observed trader",
+  "target_public_identifier": "synthetic_public_profile",
+  "observed_at": "2026-01-01T00:20:00Z",
+  "source": "synthetic_fixture",
+  "observation_only": true,
+  "network_allowed": false,
+  "credentials_allowed": false,
+  "execution_allowed": false
+}

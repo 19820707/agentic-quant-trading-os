@@ -1,0 +1,19 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "observed_trader_activity_id": "ota_fixture_001",
+  "copy_trade_target_observation_id": "ctto_fixture_001",
+  "observed_at": "2026-01-01T00:21:00Z",
+  "sequence_id": "synthetic_sequence_001",
+  "activity_type": "trade",
+  "market_ref": "synthetic_market_ref",
+  "side": "YES",
+  "price": 0.57,
+  "size": 10.0,
+  "stale_after": "2026-01-01T00:22:00Z",
+  "observation_only": true,
+  "network_allowed": false,
+  "credentials_allowed": false,
+  "execution_allowed": false
+}

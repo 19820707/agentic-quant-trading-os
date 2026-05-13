@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/trader_reliability_profile.schema.json",
+  "$comment": "TraderReliabilityProfile is research scoring only and cannot authorize copy trading.",
+  "title": "TraderReliabilityProfile",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "trader_reliability_profile_id",
+    "copy_trade_target_observation_id",
+    "computed_at",
+    "sample_count",
+    "win_rate_estimate",
+    "drawdown_estimate",
+    "recency_score",
+    "data_quality_flags",
+    "copy_authority_allowed",
+    "risk_approval_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "trader_reliability_profile_id": {
+      "type": "string",
+      "pattern": "^trp_[A-Za-z0-9_\\-]+$"
+    },
+    "copy_trade_target_observation_id": {
+      "type": "string",
+      "pattern": "^ctto_[A-Za-z0-9_\\-]+$"
+    },
+    "computed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "sample_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "win_rate_estimate": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "drawdown_estimate": {
+      "type": "number",
+      "minimum": 0
+    },
+    "recency_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "data_quality_flags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "copy_authority_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "risk_approval_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}

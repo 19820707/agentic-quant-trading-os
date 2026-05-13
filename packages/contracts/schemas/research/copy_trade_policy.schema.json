@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/copy_trade_policy.schema.json",
+  "$comment": "CopyTradePolicy is a disabled research policy, not an operational copy-trading policy.",
+  "title": "CopyTradePolicy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "copy_trade_policy_id",
+    "created_at",
+    "poll_interval_ms",
+    "activity_limit",
+    "size_multiplier",
+    "max_simulated_notional",
+    "trades_only",
+    "copy_execution_allowed",
+    "wallet_allowed",
+    "credentials_allowed",
+    "network_allowed",
+    "production_enabled",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "copy_trade_policy_id": {
+      "type": "string",
+      "pattern": "^ctp_[A-Za-z0-9_\\-]+$"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "poll_interval_ms": {
+      "type": "integer",
+      "minimum": 1000
+    },
+    "activity_limit": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "size_multiplier": {
+      "type": "number",
+      "minimum": 0
+    },
+    "max_simulated_notional": {
+      "type": "number",
+      "minimum": 0
+    },
+    "trades_only": {
+      "type": "boolean"
+    },
+    "copy_execution_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "wallet_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "credentials_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "network_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "production_enabled": {
+      "type": "boolean",
+      "const": false
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}
