@@ -53,6 +53,8 @@ jobs:
         run: python -m unittest discover -s tests -p "test_prediction_research_contracts.py"
       - name: Run prediction research fake graph tests
         run: python -m unittest discover -s tests -p "test_prediction_research_fake_graph.py"
+      - name: Run fail-closed risk gateway tests
+        run: python -m unittest discover -s tests -p "test_fail_closed_risk_gateway.py"
 
   adapter-interface-tests:
     name: Adapter interface tests

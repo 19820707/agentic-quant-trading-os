@@ -7,9 +7,12 @@ from .market_data_adapter_registry import (
     MarketDataAdapterRegistryError,
     UnknownMarketDataAdapterError,
 )
+from .risk_gateway import FailClosedRiskGateway, FailClosedRiskLimits
 
 __all__ = [
     "DuplicateMarketDataAdapterError",
+    "FailClosedRiskGateway",
+    "FailClosedRiskLimits",
     "InMemoryMarketDataAdapter",
     "InMemoryMarketDataSnapshot",
     "MarketDataAdapterInfo",
