@@ -60,6 +60,83 @@ RESEARCH_CONTRACTS = {
         "invalid_enum": None,
         "timestamp_field": "created_at",
     },
+    "agent_orchestration_plan": {
+        "fixture": "agent_orchestration_plan.valid.json",
+        "primary_id": "agent_orchestration_plan_id",
+        "enum_field": "coordination_mode",
+        "invalid_enum": "AUTO_RUN",
+        "timestamp_field": "created_at",
+    },
+    "agent_role_assignment": {
+        "fixture": "agent_role_assignment.valid.json",
+        "primary_id": "agent_role_assignment_id",
+        "enum_field": None,
+        "invalid_enum": None,
+        "timestamp_field": "assigned_at",
+    },
+    "agent_handoff_record": {
+        "fixture": "agent_handoff_record.valid.json",
+        "primary_id": "agent_handoff_record_id",
+        "enum_field": None,
+        "invalid_enum": None,
+        "timestamp_field": "created_at",
+    },
+    "agent_consensus_record": {
+        "fixture": "agent_consensus_record.valid.json",
+        "primary_id": "agent_consensus_record_id",
+        "enum_field": "consensus_state",
+        "invalid_enum": "APPROVE_TRADE",
+        "timestamp_field": "created_at",
+    },
+    "swarm_topology_policy": {
+        "fixture": "swarm_topology_policy.valid.json",
+        "primary_id": "swarm_topology_policy_id",
+        "enum_field": "allowed_topology",
+        "invalid_enum": "AUTO_SWARM",
+        "timestamp_field": "created_at",
+    },
+    "agent_federation_policy": {
+        "fixture": "agent_federation_policy.valid.json",
+        "primary_id": "agent_federation_policy_id",
+        "enum_field": None,
+        "invalid_enum": None,
+        "timestamp_field": "created_at",
+    },
+    "agent_memory_policy": {
+        "fixture": "agent_memory_policy.valid.json",
+        "primary_id": "agent_memory_policy_id",
+        "enum_field": "memory_scope",
+        "invalid_enum": "REMOTE_VECTOR_DB",
+        "timestamp_field": "created_at",
+    },
+    "mcp_tool_registration_policy": {
+        "fixture": "mcp_tool_registration_policy.valid.json",
+        "primary_id": "mcp_tool_registration_policy_id",
+        "enum_field": None,
+        "invalid_enum": None,
+        "timestamp_field": "created_at",
+    },
+    "background_worker_policy": {
+        "fixture": "background_worker_policy.valid.json",
+        "primary_id": "background_worker_policy_id",
+        "enum_field": None,
+        "invalid_enum": None,
+        "timestamp_field": "created_at",
+    },
+    "agent_cost_budget_policy": {
+        "fixture": "agent_cost_budget_policy.valid.json",
+        "primary_id": "agent_cost_budget_policy_id",
+        "enum_field": "budget_breach_behavior",
+        "invalid_enum": "KEEP_RUNNING",
+        "timestamp_field": "created_at",
+    },
+    "prompt_injection_review": {
+        "fixture": "prompt_injection_review.valid.json",
+        "primary_id": "prompt_injection_review_id",
+        "enum_field": "finding_level",
+        "invalid_enum": "IGNORE",
+        "timestamp_field": "reviewed_at",
+    },
 }
 
 FORBIDDEN_SCHEMA_TEXT = (
@@ -118,6 +195,64 @@ class PredictionResearchContractTests(unittest.TestCase):
         self.assertTrue(fixture["deterministic_gateway_required"])
         self.assertFalse(fixture["risk_approval_allowed"])
         self.assertFalse(fixture["execution_allowed"])
+
+    def test_agent_orchestration_contracts_do_not_execute(self):
+        for name in (
+            "agent_orchestration_plan",
+            "agent_role_assignment",
+            "agent_handoff_record",
+            "agent_consensus_record",
+        ):
+            with self.subTest(schema=name):
+                fixture = self._fixture(name)
+                self.assertFalse(fixture["execution_allowed"])
+                if "autonomous_execution_allowed" in fixture:
+                    self.assertFalse(fixture["autonomous_execution_allowed"])
+                if "risk_approval_allowed" in fixture:
+                    self.assertFalse(fixture["risk_approval_allowed"])
+
+    def test_swarm_and_federation_are_disabled(self):
+        swarm = self._fixture("swarm_topology_policy")
+        federation = self._fixture("agent_federation_policy")
+
+        self.assertFalse(swarm["federation_allowed"])
+        self.assertFalse(swarm["autonomous_loop_allowed"])
+        self.assertFalse(swarm["network_allowed"])
+        self.assertFalse(swarm["execution_allowed"])
+        self.assertFalse(federation["cross_machine_allowed"])
+        self.assertFalse(federation["remote_agent_allowed"])
+        self.assertFalse(federation["credentials_allowed"])
+        self.assertFalse(federation["network_allowed"])
+        self.assertFalse(federation["execution_allowed"])
+
+    def test_memory_mcp_and_workers_are_fail_closed(self):
+        memory = self._fixture("agent_memory_policy")
+        mcp = self._fixture("mcp_tool_registration_policy")
+        worker = self._fixture("background_worker_policy")
+
+        self.assertFalse(memory["secret_storage_allowed"])
+        self.assertFalse(memory["credential_storage_allowed"])
+        self.assertFalse(memory["external_memory_allowed"])
+        self.assertFalse(memory["execution_allowed"])
+        self.assertFalse(mcp["registration_allowed"])
+        self.assertFalse(mcp["broker_credentials_allowed"])
+        self.assertFalse(mcp["trading_allowed"])
+        self.assertFalse(mcp["execution_allowed"])
+        self.assertFalse(worker["schedule_allowed"])
+        self.assertFalse(worker["autonomous_execution_allowed"])
+        self.assertFalse(worker["execution_allowed"])
+
+    def test_budget_and_prompt_defence_are_research_only(self):
+        budget = self._fixture("agent_cost_budget_policy")
+        prompt_review = self._fixture("prompt_injection_review")
+
+        self.assertEqual(budget["budget_breach_behavior"], "fail_closed")
+        self.assertFalse(budget["autonomous_spend_allowed"])
+        self.assertFalse(budget["execution_allowed"])
+        self.assertTrue(prompt_review["sanitization_required"])
+        self.assertTrue(prompt_review["tool_call_blocked"])
+        self.assertFalse(prompt_review["credential_exposure_detected"])
+        self.assertFalse(prompt_review["execution_allowed"])
 
     def test_missing_required_fields_are_rejected(self):
         for name in RESEARCH_CONTRACTS:

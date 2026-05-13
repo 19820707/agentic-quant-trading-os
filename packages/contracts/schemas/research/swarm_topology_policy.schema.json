@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/swarm_topology_policy.schema.json",
+  "$comment": "SwarmTopologyPolicy documents disabled topology options only.",
+  "title": "SwarmTopologyPolicy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "trace_id", "correlation_id", "swarm_topology_policy_id", "created_at", "allowed_topology", "max_agents", "federation_allowed", "autonomous_loop_allowed", "network_allowed", "execution_allowed"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "swarm_topology_policy_id": {"type": "string", "pattern": "^stp_[A-Za-z0-9_\\-]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "allowed_topology": {"type": "string", "enum": ["none", "manual_supervision", "hierarchical_review"]},
+    "max_agents": {"type": "integer", "minimum": 0},
+    "federation_allowed": {"type": "boolean", "const": false},
+    "autonomous_loop_allowed": {"type": "boolean", "const": false},
+    "network_allowed": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

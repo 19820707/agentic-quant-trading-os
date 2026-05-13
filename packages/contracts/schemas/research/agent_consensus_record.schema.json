@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/agent_consensus_record.schema.json",
+  "$comment": "AgentConsensusRecord records advisory consensus without authority.",
+  "title": "AgentConsensusRecord",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "trace_id", "correlation_id", "agent_consensus_record_id", "created_at", "topic", "participant_roles", "consensus_state", "dissent_summary", "advisory_only", "risk_approval_allowed", "execution_allowed"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "agent_consensus_record_id": {"type": "string", "pattern": "^acr_[A-Za-z0-9_\\-]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "topic": {"type": "string", "minLength": 1},
+    "participant_roles": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "consensus_state": {"type": "string", "enum": ["agreement", "disagreement", "inconclusive", "manual_review_required"]},
+    "dissent_summary": {"type": "string"},
+    "advisory_only": {"type": "boolean", "const": true},
+    "risk_approval_allowed": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

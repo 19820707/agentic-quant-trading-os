@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/mcp_tool_registration_policy.schema.json",
+  "$comment": "MCPToolRegistrationPolicy documents denied MCP registration by default.",
+  "title": "MCPToolRegistrationPolicy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "trace_id", "correlation_id", "mcp_tool_registration_policy_id", "created_at", "tool_name", "registration_allowed", "network_allowed", "broker_credentials_allowed", "trading_allowed", "execution_allowed"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "mcp_tool_registration_policy_id": {"type": "string", "pattern": "^mtrp_[A-Za-z0-9_\\-]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "tool_name": {"type": "string", "minLength": 1},
+    "registration_allowed": {"type": "boolean", "const": false},
+    "network_allowed": {"type": "boolean", "const": false},
+    "broker_credentials_allowed": {"type": "boolean", "const": false},
+    "trading_allowed": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

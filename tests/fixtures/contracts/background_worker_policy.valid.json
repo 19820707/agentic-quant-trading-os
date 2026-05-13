@@ -1,0 +1,13 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "background_worker_policy_id": "bwp_fixture_001",
+  "created_at": "2026-01-01T01:08:00Z",
+  "worker_name": "synthetic_background_review",
+  "schedule_allowed": false,
+  "autonomous_execution_allowed": false,
+  "network_allowed": false,
+  "credentials_allowed": false,
+  "execution_allowed": false
+}

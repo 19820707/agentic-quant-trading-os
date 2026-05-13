@@ -1,0 +1,13 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "swarm_topology_policy_id": "stp_fixture_001",
+  "created_at": "2026-01-01T01:04:00Z",
+  "allowed_topology": "manual_supervision",
+  "max_agents": 3,
+  "federation_allowed": false,
+  "autonomous_loop_allowed": false,
+  "network_allowed": false,
+  "execution_allowed": false
+}

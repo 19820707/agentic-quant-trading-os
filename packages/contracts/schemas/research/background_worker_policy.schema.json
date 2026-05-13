@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/background_worker_policy.schema.json",
+  "$comment": "BackgroundWorkerPolicy blocks autonomous background execution by default.",
+  "title": "BackgroundWorkerPolicy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "trace_id", "correlation_id", "background_worker_policy_id", "created_at", "worker_name", "schedule_allowed", "autonomous_execution_allowed", "network_allowed", "credentials_allowed", "execution_allowed"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "background_worker_policy_id": {"type": "string", "pattern": "^bwp_[A-Za-z0-9_\\-]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "worker_name": {"type": "string", "minLength": 1},
+    "schedule_allowed": {"type": "boolean", "const": false},
+    "autonomous_execution_allowed": {"type": "boolean", "const": false},
+    "network_allowed": {"type": "boolean", "const": false},
+    "credentials_allowed": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

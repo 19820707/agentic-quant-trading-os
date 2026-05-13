@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/agent_role_assignment.schema.json",
+  "$comment": "AgentRoleAssignment records bounded responsibilities without runtime authority.",
+  "title": "AgentRoleAssignment",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "trace_id", "correlation_id", "agent_role_assignment_id", "agent_orchestration_plan_id", "assigned_at", "role_name", "allowed_scope", "forbidden_scope", "tool_use_allowed", "autonomous_action_allowed", "execution_allowed"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "agent_role_assignment_id": {"type": "string", "pattern": "^ara_[A-Za-z0-9_\\-]+$"},
+    "agent_orchestration_plan_id": {"type": "string", "pattern": "^aop_[A-Za-z0-9_\\-]+$"},
+    "assigned_at": {"type": "string", "format": "date-time"},
+    "role_name": {"type": "string", "minLength": 1},
+    "allowed_scope": {"type": "array", "items": {"type": "string"}},
+    "forbidden_scope": {"type": "array", "items": {"type": "string"}},
+    "tool_use_allowed": {"type": "boolean", "const": false},
+    "autonomous_action_allowed": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

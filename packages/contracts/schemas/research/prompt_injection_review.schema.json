@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/prompt_injection_review.schema.json",
+  "$comment": "PromptInjectionReview records defensive review findings only.",
+  "title": "PromptInjectionReview",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "trace_id", "correlation_id", "prompt_injection_review_id", "reviewed_at", "source_label", "finding_level", "sanitization_required", "tool_call_blocked", "credential_exposure_detected", "execution_allowed"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "prompt_injection_review_id": {"type": "string", "pattern": "^pir_[A-Za-z0-9_\\-]+$"},
+    "reviewed_at": {"type": "string", "format": "date-time"},
+    "source_label": {"type": "string", "minLength": 1},
+    "finding_level": {"type": "string", "enum": ["none", "low", "medium", "high", "blocked"]},
+    "sanitization_required": {"type": "boolean"},
+    "tool_call_blocked": {"type": "boolean"},
+    "credential_exposure_detected": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}
