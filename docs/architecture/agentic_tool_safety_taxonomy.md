@@ -12,6 +12,8 @@ Agentic tools may analyze, summarize, propose, review, simulate, and report.
 
 Agentic tools must not execute trades, submit orders, cancel orders, transfer funds, withdraw funds, read broker credentials, change risk limits, disable kill switches, or bypass deterministic-risk-gateway.
 
+Any move from contracts, fake harnesses or reference reviews into agent runtime behavior must pass `docs/integrations/agent_runtime_approval_gate.md`.
+
 ## Risk Classes
 
 ### Class 0: Reference-Only
@@ -173,4 +175,3 @@ Every future agentic tool or script must satisfy:
 - no order submission
 - no live trading
 - no production enablement
-
