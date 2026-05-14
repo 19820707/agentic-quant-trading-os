@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/ml/rl_constraint_violation_record.schema.json",
+  "$comment": "RLConstraintViolationRecord captures blocked safe RL constraint violations.",
+  "title": "RLConstraintViolationRecord",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "rl_constraint_violation_record_id",
+    "created_at",
+    "rl_safety_policy_id",
+    "constraint_name",
+    "constraint_category",
+    "threshold",
+    "observed_value",
+    "severity",
+    "blocked",
+    "audit_required",
+    "manual_review_required",
+    "recovery_required",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "rl_constraint_violation_record_id": {"type": "string", "pattern": "^rlcv_[A-Za-z0-9_\\-]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "rl_safety_policy_id": {"type": "string", "pattern": "^rlsp_[A-Za-z0-9_\\-]+$"},
+    "constraint_name": {"type": "string", "minLength": 1},
+    "constraint_category": {
+      "type": "string",
+      "enum": [
+        "notional_limit",
+        "position_limit",
+        "exposure_limit",
+        "drawdown_limit",
+        "stale_data_block",
+        "liquidity_limit",
+        "slippage_limit",
+        "kill_switch_block",
+        "credential_access_block",
+        "risk_gateway_bypass_block"
+      ]
+    },
+    "threshold": {"type": "number"},
+    "observed_value": {"type": "number"},
+    "severity": {"type": "string", "enum": ["low", "medium", "high", "critical"]},
+    "blocked": {"type": "boolean", "const": true},
+    "audit_required": {"type": "boolean", "const": true},
+    "manual_review_required": {"type": "boolean", "const": true},
+    "recovery_required": {"type": "boolean", "const": true},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

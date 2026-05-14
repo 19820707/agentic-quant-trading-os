@@ -49,6 +49,8 @@ jobs:
         run: python -m unittest discover -s tests -p "test_contract_registry.py"
       - name: Run contract fixture tests
         run: python -m unittest discover -s tests -p "test_contract_fixtures.py"
+      - name: Run safe RL governance contract tests
+        run: python -m unittest discover -s tests -p "test_safe_rl_governance_contracts.py"
       - name: Run prediction research contract tests
         run: python -m unittest discover -s tests -p "test_prediction_research_contracts.py"
       - name: Run prediction research fake graph tests
@@ -97,6 +99,8 @@ jobs:
         run: python -m unittest discover -s tests -p "test_agent_runtime_approval_gate.py"
       - name: Run Ruflo reference review tests
         run: python -m unittest discover -s tests -p "test_ruflo_reference_review.py"
+      - name: Run SafeRL reference review tests
+        run: python -m unittest discover -s tests -p "test_saferl_reference_review.py"
 
   secret-artifact-audit:
     name: Secret and artifact hygiene audit

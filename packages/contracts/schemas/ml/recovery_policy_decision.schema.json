@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/ml/recovery_policy_decision.schema.json",
+  "$comment": "RecoveryPolicyDecision records safe RL recovery decisions without executable authority.",
+  "title": "RecoveryPolicyDecision",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "recovery_policy_decision_id",
+    "created_at",
+    "rl_safety_policy_id",
+    "trigger_record_id",
+    "proposed_recovery_action",
+    "reason",
+    "deterministic_gateway_required",
+    "manual_review_required",
+    "network_allowed",
+    "credentials_allowed",
+    "risk_approval_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "recovery_policy_decision_id": {"type": "string", "pattern": "^rpd_[A-Za-z0-9_\\-]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "rl_safety_policy_id": {"type": "string", "pattern": "^rlsp_[A-Za-z0-9_\\-]+$"},
+    "trigger_record_id": {"type": "string", "pattern": "^rlcv_[A-Za-z0-9_\\-]+$"},
+    "proposed_recovery_action": {
+      "type": "string",
+      "enum": ["FREEZE_POLICY", "REDUCE_EXPOSURE_SIMULATED", "REQUIRE_MANUAL_REVIEW", "REVERT_TO_BASELINE", "PAPER_ONLY"]
+    },
+    "reason": {"type": "string", "minLength": 1},
+    "deterministic_gateway_required": {"type": "boolean", "const": true},
+    "manual_review_required": {"type": "boolean", "const": true},
+    "network_allowed": {"type": "boolean", "const": false},
+    "credentials_allowed": {"type": "boolean", "const": false},
+    "risk_approval_allowed": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}
