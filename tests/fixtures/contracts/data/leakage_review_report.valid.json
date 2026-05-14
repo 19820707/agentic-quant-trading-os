@@ -1,0 +1,58 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_data_lineage_001",
+  "correlation_id": "corr_data_lineage_001",
+  "leakage_review_report_id": "leakage_review_fixture_001",
+  "dataset_lineage_id": "dataset_lineage_fixture_001",
+  "dataset_id": "dataset_fixture_001",
+  "review_status": "NEEDS_REMEDIATION",
+  "reviewed_at": "2026-01-01T00:00:03Z",
+  "reviewed_by": "data-governance-fixture",
+  "checks": [
+    {
+      "check_name": "point_in_time_join",
+      "result": "PASS",
+      "severity": "INFO",
+      "reason": "Fixture declares as-of cutoff and point-in-time join requirement.",
+      "evidence_refs": [
+        "dataset_lineage_fixture_001"
+      ]
+    },
+    {
+      "check_name": "future_label_exclusion",
+      "result": "PASS",
+      "severity": "INFO",
+      "reason": "Fixture separates observation window and label horizon."
+    },
+    {
+      "check_name": "manual_override_review",
+      "result": "WARN",
+      "severity": "MEDIUM",
+      "reason": "This scaffold does not approve model training or backtesting.",
+      "remediation": "Add a separate approved review workflow before runtime use."
+    }
+  ],
+  "overall_risk_level": "MEDIUM",
+  "approved_for_model_training": false,
+  "approved_for_backtest": false,
+  "approved_for_live_use": false,
+  "remediation_required": true,
+  "remediation_plan": [
+    {
+      "action_id": "leakage_action_fixture_001",
+      "description": "Require separate approval before any feature engine, model training or backtest runtime uses this dataset.",
+      "owner": "data-governance",
+      "status": "OPEN"
+    }
+  ],
+  "review_limitations": [
+    "Fixture validates contract shape only; it does not inspect real market data."
+  ],
+  "contains_secrets": false,
+  "external_network_required": false,
+  "non_executable": true,
+  "metadata": {
+    "fixture_only": true,
+    "runtime_enabled": false
+  }
+}
