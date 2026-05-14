@@ -1,0 +1,19 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_max_safe_autonomy_002",
+  "correlation_id": "corr_max_safe_autonomy_001",
+  "autonomous_policy_decision_id": "apd_auto_merge_low_001",
+  "created_at": "2026-01-01T16:01:00Z",
+  "risk_class": "low",
+  "confidence": "high",
+  "decision": "ALLOW_AUTO_MERGE",
+  "allowed_next_action": "merge_after_gates",
+  "human_approval_required": false,
+  "auto_patch_allowed": true,
+  "auto_pr_allowed": true,
+  "auto_merge_allowed": true,
+  "protected_path_touched": false,
+  "critical_action_detected": false,
+  "rollback_required": true,
+  "audit_required": true
+}
