@@ -1,0 +1,83 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_control_loop_manifest_001",
+  "correlation_id": "corr_control_loop_manifest_001",
+  "control_loop_manifest_id": "clm_apollo_reference_001",
+  "created_at": "2026-01-01T07:00:00Z",
+  "reference_source": "ApolloAuto/apollo",
+  "source_domain": "autonomous_driving_reference",
+  "stages": [
+    {
+      "reference_stage": "PERCEPTION",
+      "trading_stage": "market_data_and_research_observation",
+      "allowed_outputs": ["validated observations", "lineage", "quality flags"],
+      "forbidden_outputs": ["trading decision", "risk decision"],
+      "deterministic_gate_required": true,
+      "trace_required": true
+    },
+    {
+      "reference_stage": "PREDICTION",
+      "trading_stage": "forecasting_and_regime_estimation",
+      "allowed_outputs": ["probability estimate", "confidence", "uncertainty"],
+      "forbidden_outputs": ["order intent", "execution approval"],
+      "deterministic_gate_required": true,
+      "trace_required": true
+    },
+    {
+      "reference_stage": "PLANNING",
+      "trading_stage": "signal_and_intent_planning",
+      "allowed_outputs": ["signal candidate", "draft order intent"],
+      "forbidden_outputs": ["execution approval", "risk bypass"],
+      "deterministic_gate_required": true,
+      "trace_required": true
+    },
+    {
+      "reference_stage": "CONTROL",
+      "trading_stage": "deterministic_risk_gateway",
+      "allowed_outputs": ["reject", "resize", "require review"],
+      "forbidden_outputs": ["risk bypass", "hidden state mutation"],
+      "deterministic_gate_required": true,
+      "trace_required": true
+    },
+    {
+      "reference_stage": "ACTUATION",
+      "trading_stage": "execution_engine_boundary",
+      "allowed_outputs": ["future execution report after approval"],
+      "forbidden_outputs": ["direct model execution", "direct agent execution"],
+      "deterministic_gate_required": true,
+      "trace_required": true
+    }
+  ],
+  "guardians": [
+    "stale_data_guardian",
+    "drift_guardian",
+    "liquidity_guardian",
+    "exposure_guardian",
+    "kill_switch_guardian",
+    "audit_guardian"
+  ],
+  "runtime_defaults": {
+    "apollo_runtime_allowed": false,
+    "cyber_rt_allowed": false,
+    "bazel_build_allowed": false,
+    "cpp_runtime_allowed": false,
+    "sensor_stack_allowed": false,
+    "vehicle_control_allowed": false,
+    "network_allowed": false,
+    "credentials_allowed": false,
+    "trading_execution_allowed": false,
+    "risk_bypass_allowed": false,
+    "production_enabled": false
+  },
+  "forbidden_capabilities": [
+    "direct_model_execution",
+    "direct_agent_execution",
+    "risk_gateway_bypass",
+    "raw_signal_execution",
+    "raw_order_intent_execution",
+    "broker_or_exchange_call",
+    "private_endpoint_use",
+    "credential_access",
+    "production_enablement"
+  ]
+}

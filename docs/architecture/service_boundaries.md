@@ -33,3 +33,15 @@ This document defines the expected ownership boundaries for the platform. `AGENT
 - Preserve audit identifiers across the boundary.
 - Update architecture documentation and operational notes.
 
+## Critical Control Loop Boundary
+
+The platform follows a safety-critical observation -> prediction -> planning -> control -> execution-boundary separation.
+
+- Market data and research services may produce observations.
+- Model services may produce forecasts, probabilities and confidence metadata.
+- Signal and intent services may produce candidate signals or non-executable order intents.
+- Deterministic-risk-gateway remains the final pre-trade control boundary.
+- Execution-engine remains the only future boundary for approved execution.
+
+No model, agent, dashboard, notebook, research service, backtest or signal service may bypass deterministic-risk-gateway or call a broker/exchange directly.
+
