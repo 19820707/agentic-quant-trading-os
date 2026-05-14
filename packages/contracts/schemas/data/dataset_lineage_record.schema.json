@@ -1,0 +1,345 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/data/dataset_lineage_record.schema.json",
+  "$comment": "DatasetLineageRecord is a non-runtime contract for point-in-time dataset governance. It does not authorize ingestion, feature computation, model training, backtesting, networking or trading.",
+  "title": "DatasetLineageRecord",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "dataset_lineage_id",
+    "dataset_id",
+    "dataset_version",
+    "dataset_name",
+    "dataset_purpose",
+    "asset_scope",
+    "source_systems",
+    "temporal_bounds",
+    "point_in_time_controls",
+    "split_policy",
+    "transformations",
+    "created_at",
+    "created_by",
+    "non_executable",
+    "contains_secrets",
+    "live_data_included",
+    "external_network_required"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "dataset_lineage_id": {
+      "type": "string",
+      "pattern": "^dataset_lineage_[A-Za-z0-9_\\-]+$"
+    },
+    "dataset_id": {
+      "type": "string",
+      "pattern": "^dataset_[A-Za-z0-9_\\-]+$"
+    },
+    "dataset_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "dataset_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "dataset_purpose": {
+      "type": "string",
+      "enum": [
+        "TRAINING",
+        "VALIDATION",
+        "TEST",
+        "BACKTEST",
+        "PAPER_RESEARCH",
+        "FEATURE_RESEARCH"
+      ]
+    },
+    "asset_scope": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "source_systems": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "source_name",
+          "source_type",
+          "access_mode",
+          "point_in_time_available",
+          "ingestion_completed_at"
+        ],
+        "properties": {
+          "source_name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source_type": {
+            "type": "string",
+            "enum": [
+              "FIXTURE",
+              "MARKET_DATA",
+              "NEWS",
+              "FUNDAMENTAL",
+              "ON_CHAIN",
+              "REFERENCE_DATA",
+              "SYNTHETIC"
+            ]
+          },
+          "access_mode": {
+            "type": "string",
+            "enum": [
+              "STATIC_FIXTURE",
+              "SNAPSHOT",
+              "BATCH",
+              "MANUAL_EXPORT"
+            ]
+          },
+          "point_in_time_available": {
+            "type": "boolean"
+          },
+          "ingestion_started_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "ingestion_completed_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "source_watermark_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "license_review_id": {
+            "type": "string"
+          },
+          "retention_class": {
+            "type": "string",
+            "enum": [
+              "EPHEMERAL",
+              "RESEARCH",
+              "AUDIT_REQUIRED"
+            ]
+          }
+        }
+      }
+    },
+    "temporal_bounds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "observation_start_at",
+        "observation_end_at",
+        "max_event_time_at",
+        "as_of_cutoff_at"
+      ],
+      "properties": {
+        "observation_start_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "observation_end_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "max_event_time_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "as_of_cutoff_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "label_start_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "label_end_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "point_in_time_controls": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "as_of_join_required",
+        "future_data_excluded",
+        "feature_availability_tracked",
+        "label_horizon_declared",
+        "late_arrival_policy"
+      ],
+      "properties": {
+        "as_of_join_required": {
+          "type": "boolean",
+          "const": true
+        },
+        "future_data_excluded": {
+          "type": "boolean",
+          "const": true
+        },
+        "feature_availability_tracked": {
+          "type": "boolean"
+        },
+        "label_horizon_declared": {
+          "type": "boolean"
+        },
+        "late_arrival_policy": {
+          "type": "string",
+          "enum": [
+            "EXCLUDE_AFTER_CUTOFF",
+            "QUARANTINE_UNTIL_REVIEW",
+            "MANUAL_REVIEW_REQUIRED"
+          ]
+        },
+        "clock_source": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "split_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "split_method",
+        "temporal_order_preserved",
+        "overlap_allowed"
+      ],
+      "properties": {
+        "split_method": {
+          "type": "string",
+          "enum": [
+            "TIME_SERIES_SPLIT",
+            "WALK_FORWARD",
+            "PURGED_KFOLD",
+            "HOLDOUT",
+            "NOT_SPLIT"
+          ]
+        },
+        "temporal_order_preserved": {
+          "type": "boolean",
+          "const": true
+        },
+        "overlap_allowed": {
+          "type": "boolean",
+          "const": false
+        },
+        "embargo_period_seconds": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "transformations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "transformation_id",
+          "transformation_name",
+          "uses_future_information"
+        ],
+        "properties": {
+          "transformation_id": {
+            "type": "string",
+            "pattern": "^transform_[A-Za-z0-9_\\-]+$"
+          },
+          "transformation_name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "input_columns": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "output_columns": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "uses_future_information": {
+            "type": "boolean",
+            "const": false
+          },
+          "window_seconds": {
+            "type": "number",
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "upstream_dataset_lineage_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^dataset_lineage_[A-Za-z0-9_\\-]+$"
+      }
+    },
+    "leakage_review_report_id": {
+      "type": "string",
+      "pattern": "^leakage_review_[A-Za-z0-9_\\-]+$"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "created_by": {
+      "type": "string",
+      "minLength": 1
+    },
+    "non_executable": {
+      "type": "boolean",
+      "const": true
+    },
+    "contains_secrets": {
+      "type": "boolean",
+      "const": false
+    },
+    "live_data_included": {
+      "type": "boolean",
+      "const": false
+    },
+    "external_network_required": {
+      "type": "boolean",
+      "const": false
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": {
+        "type": [
+          "string",
+          "number",
+          "boolean",
+          "null"
+        ]
+      }
+    }
+  }
+}
