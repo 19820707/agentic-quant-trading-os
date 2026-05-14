@@ -32,6 +32,7 @@ FIXTURES = {
     "agent_cost_budget_policy.valid.json": ("research", "agent_cost_budget_policy"),
     "prompt_injection_review.valid.json": ("research", "prompt_injection_review"),
     "feature_store_approval_gate.valid.json": ("features", "feature_store_approval_gate"),
+    "fake_offline_materialization_review.valid.json": ("features", "fake_offline_materialization_review"),
     "agent_task_spec.valid.json": ("governance", "agent_task_spec"),
     "agent_patch_plan.valid.json": ("governance", "agent_patch_plan"),
     "agent_risk_assessment.valid.json": ("governance", "agent_risk_assessment"),
