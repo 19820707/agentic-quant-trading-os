@@ -1,0 +1,29 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_agentic_governance_001",
+  "correlation_id": "corr_agentic_governance_001",
+  "sandbox_execution_report_id": "ser_docs_quality_gate_001",
+  "agent_patch_plan_id": "app_docs_quality_gate_001",
+  "agent_risk_assessment_id": "ara_docs_quality_gate_001",
+  "created_at": "2026-05-14T00:00:00Z",
+  "sandbox_mode": "local_dry_run",
+  "commands_declared": [
+    "python scripts/scaffold_audit.py",
+    "python scripts/secret_artifact_audit.py"
+  ],
+  "commands_executed": [
+    "python scripts/scaffold_audit.py",
+    "python scripts/secret_artifact_audit.py"
+  ],
+  "exit_code": 0,
+  "artifact_paths": [],
+  "network_observed": false,
+  "credentials_observed": false,
+  "filesystem_write_scope": "workspace_branch_only",
+  "result": "passed",
+  "auto_merge_allowed": false,
+  "network_allowed": false,
+  "credentials_allowed": false,
+  "risk_approval_allowed": false,
+  "execution_allowed": false
+}

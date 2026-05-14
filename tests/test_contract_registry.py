@@ -72,6 +72,9 @@ class ContractRegistryTests(unittest.TestCase):
                 "agent_task_spec",
                 "agent_patch_plan",
                 "agent_risk_assessment",
+                "sandbox_execution_report",
+                "test_evidence_report",
+                "rollback_plan",
             }.issubset(names)
         )
 

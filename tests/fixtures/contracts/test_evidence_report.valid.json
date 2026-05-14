@@ -1,0 +1,33 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_agentic_governance_001",
+  "correlation_id": "corr_agentic_governance_001",
+  "test_evidence_report_id": "ter_docs_quality_gate_001",
+  "sandbox_execution_report_id": "ser_docs_quality_gate_001",
+  "agent_patch_plan_id": "app_docs_quality_gate_001",
+  "created_at": "2026-05-14T00:00:00Z",
+  "commands": [
+    "python -m unittest discover -s tests",
+    "python scripts/scaffold_audit.py",
+    "python scripts/secret_artifact_audit.py"
+  ],
+  "total_tests": 267,
+  "passed_tests": 267,
+  "failed_tests": 0,
+  "result": "passed",
+  "coverage_scope": [
+    "contract_validation",
+    "fixture_validation",
+    "unit_tests",
+    "syntax_compile",
+    "json_validation",
+    "scaffold_audit",
+    "secret_artifact_audit"
+  ],
+  "requires_human_review": true,
+  "auto_merge_allowed": false,
+  "network_allowed": false,
+  "credentials_allowed": false,
+  "risk_approval_allowed": false,
+  "execution_allowed": false
+}
