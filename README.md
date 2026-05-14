@@ -68,6 +68,12 @@ Pull requests and pushes to `main` run CI quality gates for scaffold audit, cont
 
 CI must not use secrets, perform live trading, call broker/exchange APIs or run network-dependent trading integrations.
 
+## Control Plane Dashboard
+
+A static local-only dashboard scaffold lives in `apps/control-plane-dashboard`.
+
+It provides a first operator-facing view of system status, security gates, contract registry, Risk Gateway status, data lineage gates, feature gates and PR readiness. It does not call APIs, read credentials, connect to brokers/exchanges or expose execution controls.
+
 ## Security Tooling
 
 Active baseline:

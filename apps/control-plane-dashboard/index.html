@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Agentic Quant Trading OS Control Plane</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="sidebar" aria-label="Control plane navigation">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">AQ</span>
+          <div>
+            <strong>Control Plane</strong>
+            <span>Scaffold mode</span>
+          </div>
+        </div>
+        <nav>
+          <a href="#overview" aria-current="page">Overview</a>
+          <a href="#contracts">Contracts</a>
+          <a href="#risk-gateway">Risk Gateway</a>
+          <a href="#data-lineage">Data Lineage</a>
+          <a href="#feature-gates">Feature Gates</a>
+          <a href="#security-gates">Security Gates</a>
+          <a href="#roadmap">Roadmap</a>
+        </nav>
+      </aside>
+
+      <main>
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Agentic Quant Trading OS</p>
+            <h1>Governed Platform Control Plane</h1>
+          </div>
+          <div class="status-pill status-safe">Local-only preview</div>
+        </header>
+
+        <section id="overview" class="section">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">System Status</p>
+              <h2>Critical capabilities remain gated</h2>
+            </div>
+            <span class="timestamp">Snapshot: static scaffold</span>
+          </div>
+
+          <div class="status-grid">
+            <article class="metric-card">
+              <span>Runtime mode</span>
+              <strong>Scaffold only</strong>
+              <p>No production deployment or autonomous runtime is enabled.</p>
+            </article>
+            <article class="metric-card">
+              <span>Risk Gateway</span>
+              <strong>Fail closed</strong>
+              <p>Order approval remains disabled unless future gates explicitly change state.</p>
+            </article>
+            <article class="metric-card">
+              <span>Agent actions</span>
+              <strong>PR-only governance</strong>
+              <p>Agents may propose plans and evidence; direct writes and auto-merge are disabled.</p>
+            </article>
+            <article class="metric-card">
+              <span>External access</span>
+              <strong>Blocked</strong>
+              <p>No private venue, credential, private endpoint or trading path is exposed.</p>
+            </article>
+          </div>
+        </section>
+
+        <section id="contracts" class="section two-column">
+          <article class="panel">
+            <p class="eyebrow">Contract Registry</p>
+            <h2>Active contract domains</h2>
+            <div class="list">
+              <div><span>Trading</span><strong>Intent, risk, execution reports</strong></div>
+              <div><span>Research</span><strong>Dossiers, estimates, signals</strong></div>
+              <div><span>Features</span><strong>Approval gates and feature controls</strong></div>
+              <div><span>Governance</span><strong>Agent tasks, evidence, human approval</strong></div>
+              <div><span>Audit</span><strong>Structured audit events</strong></div>
+            </div>
+          </article>
+
+          <article class="panel">
+            <p class="eyebrow">Recent PR Readiness</p>
+            <h2>Review chain</h2>
+            <ol class="timeline">
+              <li><span>AgentTaskSpec</span><strong>Task captured</strong></li>
+              <li><span>AgentPatchPlan</span><strong>Plan and rollback required</strong></li>
+              <li><span>AgentRiskAssessment</span><strong>Policy classification required</strong></li>
+              <li><span>Sandbox/Test Evidence</span><strong>Validation evidence required</strong></li>
+              <li><span>HumanApprovalRecord</span><strong>Manual review remains required</strong></li>
+            </ol>
+          </article>
+        </section>
+
+        <section id="risk-gateway" class="section">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Risk Gateway Status</p>
+              <h2>Execution boundary</h2>
+            </div>
+            <span class="status-pill status-blocked">Execution disabled</span>
+          </div>
+          <div class="gate-row">
+            <div>
+              <strong>OrderIntent is non-executable</strong>
+              <p>AI, models, notebooks, dashboards and agents cannot bypass deterministic risk controls.</p>
+            </div>
+            <div>
+              <strong>ApprovedOrder remains gated</strong>
+              <p>No UI action creates orders, cancels orders or moves funds.</p>
+            </div>
+          </div>
+        </section>
+
+        <section id="data-lineage" class="section two-column">
+          <article class="panel">
+            <p class="eyebrow">Data Lineage Gates</p>
+            <h2>Point-in-time discipline</h2>
+            <ul class="check-list">
+              <li>Dataset lineage evidence required</li>
+              <li>Leakage review required before feature promotion</li>
+              <li>Backtest approval is separate from production approval</li>
+            </ul>
+          </article>
+          <article class="panel" id="feature-gates">
+            <p class="eyebrow">Feature Gates</p>
+            <h2>Feature store remains disabled</h2>
+            <ul class="check-list">
+              <li>FeatureStoreApprovalGate is fail-closed</li>
+              <li>Fake materialization review is contract-only</li>
+              <li>No online serving or feature database writes</li>
+            </ul>
+          </article>
+        </section>
+
+        <section id="security-gates" class="section">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Security Gates</p>
+              <h2>Baseline controls</h2>
+            </div>
+          </div>
+          <div class="security-grid">
+            <div class="security-item"><span>CodeQL</span><strong>Advisory SAST active</strong></div>
+            <div class="security-item"><span>Secret hygiene</span><strong>Local audit active</strong></div>
+            <div class="security-item"><span>External tools</span><strong>Approval required</strong></div>
+            <div class="security-item"><span>Credentials</span><strong>Not available to agents</strong></div>
+          </div>
+        </section>
+
+        <section id="roadmap" class="section">
+          <p class="eyebrow">Roadmap</p>
+          <h2>Next safe UI increments</h2>
+          <div class="roadmap">
+            <div><strong>Static contract browser</strong><span>Local schema index only</span></div>
+            <div><strong>Local fixture explorer</strong><span>No API, no secrets</span></div>
+            <div><strong>PR evidence viewer</strong><span>Manual review support</span></div>
+            <div><strong>Read-only backend adapter</strong><span>Separate approval gate</span></div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
