@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/ml/benchmark_result_record.schema.json",
+  "$comment": "BenchmarkResultRecord captures reproducible benchmark evidence without production approval.",
+  "title": "BenchmarkResultRecord",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "benchmark_result_record_id",
+    "created_at",
+    "model_evaluation_manifest_id",
+    "benchmark_name",
+    "benchmark_version",
+    "evaluation_mode",
+    "metrics",
+    "dataset_lineage_ref",
+    "reproducibility_status",
+    "failure_modes_checked",
+    "production_approval_allowed",
+    "risk_approval_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "benchmark_result_record_id": {"type": "string", "pattern": "^brr_[A-Za-z0-9_\\-]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "model_evaluation_manifest_id": {"type": "string", "pattern": "^mem_[A-Za-z0-9_\\-]+$"},
+    "benchmark_name": {"type": "string", "minLength": 1},
+    "benchmark_version": {"type": "string", "minLength": 1},
+    "evaluation_mode": {"type": "string", "enum": ["OPEN_LOOP", "CLOSED_LOOP_SIMULATED", "PAPER_ONLY"]},
+    "metrics": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "value"],
+        "properties": {
+          "name": {"type": "string", "minLength": 1},
+          "value": {"type": "number"},
+          "confidence_interval_low": {"type": "number"},
+          "confidence_interval_high": {"type": "number"}
+        }
+      }
+    },
+    "dataset_lineage_ref": {"type": "string", "minLength": 1},
+    "reproducibility_status": {"type": "string", "enum": ["not_reproduced", "reproduced_once", "reproduced_multiple", "failed_reproduction"]},
+    "failure_modes_checked": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "enum": [
+          "data_leakage",
+          "lookahead_bias",
+          "survivorship_bias",
+          "stale_data",
+          "calibration_drift",
+          "overfitting",
+          "cherry_picked_period",
+          "missing_costs",
+          "missing_slippage",
+          "unstable_closed_loop_feedback"
+        ]
+      }
+    },
+    "production_approval_allowed": {"type": "boolean", "const": false},
+    "risk_approval_allowed": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

@@ -13,6 +13,7 @@ class ContractRegistryTests(unittest.TestCase):
         self.assertIn("trading", domains)
         self.assertIn("audit", domains)
         self.assertIn("research", domains)
+        self.assertIn("ml", domains)
 
     def test_lists_known_trading_schemas(self):
         names = {entry.name for entry in self.registry.list_schemas("trading")}
@@ -30,6 +31,12 @@ class ContractRegistryTests(unittest.TestCase):
         names = {entry.name for entry in self.registry.list_schemas("audit")}
 
         self.assertIn("audit_event", names)
+
+    def test_lists_ml_contracts_under_ml(self):
+        names = {entry.name for entry in self.registry.list_schemas("ml")}
+
+        self.assertIn("model_evaluation_manifest", names)
+        self.assertIn("benchmark_result_record", names)
 
     def test_lists_research_contracts_under_research(self):
         names = {entry.name for entry in self.registry.list_schemas("research")}
