@@ -19,3 +19,8 @@ The autonomous maintenance components are dry-run only. They do not install a
 GitHub App, receive real webhooks, read tokens, call the GitHub API, create
 branches, commit files, open pull requests, auto-merge, or run production
 automation.
+
+The fixture-driven scanner reads local JSON workflow fixtures and converts
+failed checks into dry-run findings and evidence records. It is a test harness
+only; it does not call GitHub, execute shell commands, write branches, commit or
+open pull requests.

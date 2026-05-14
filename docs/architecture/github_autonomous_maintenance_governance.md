@@ -122,3 +122,12 @@ components for the full control-plane shape:
 This implementation is intentionally local-only. It does not import GitHub
 clients, read tokens, call the network, create branches, commit files, open pull
 requests, auto-merge, execute tests, or run production automation.
+
+## Fixture-Driven Scanner
+
+`packages/sdk/github_autonomous_fixture_scanner.py` reads local JSON workflow
+fixtures and converts failed checks into dry-run findings and evidence records.
+
+The scanner is for contract and policy validation only. It does not call GitHub,
+open network connections, read environment variables, use tokens, execute shell
+commands, create branches, commit files, open pull requests or merge changes.

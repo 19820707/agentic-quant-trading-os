@@ -1,0 +1,18 @@
+{
+  "repository": "19820707/agentic-quant-trading-os",
+  "workflow_name": "CI Quality Gates",
+  "event": "pull_request",
+  "head_branch": "codex/example",
+  "checks": [
+    {
+      "name": "Contract tests",
+      "conclusion": "failure",
+      "summary": "test_contract_validator.py failed"
+    },
+    {
+      "name": "Scaffold audit",
+      "conclusion": "success",
+      "summary": "scaffold audit passed"
+    }
+  ]
+}

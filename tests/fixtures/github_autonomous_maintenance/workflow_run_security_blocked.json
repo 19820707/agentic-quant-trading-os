@@ -1,0 +1,13 @@
+{
+  "repository": "19820707/agentic-quant-trading-os",
+  "workflow_name": "CI Quality Gates",
+  "event": "pull_request",
+  "head_branch": "codex/security-sensitive",
+  "checks": [
+    {
+      "name": "Artifact hygiene audit",
+      "conclusion": "failure",
+      "summary": "execution path changed in protected area"
+    }
+  ]
+}
