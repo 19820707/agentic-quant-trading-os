@@ -1,0 +1,25 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_agentic_governance_001",
+  "correlation_id": "corr_agentic_governance_001",
+  "human_approval_record_id": "har_docs_quality_gate_001",
+  "agent_pr_review_evidence_id": "apre_docs_quality_gate_001",
+  "created_at": "2026-05-15T00:00:00Z",
+  "approver_role": "maintainer",
+  "approval_status": "approved_for_manual_review_only",
+  "approval_scope": "pull_request_review_only",
+  "conditions": [
+    "Manual maintainer review remains required before merge.",
+    "No runtime authority is granted by this record."
+  ],
+  "expires_at": "2026-06-15T00:00:00Z",
+  "manual_merge_review_required": true,
+  "auto_merge_allowed": false,
+  "direct_main_write_allowed": false,
+  "network_allowed": false,
+  "credentials_allowed": false,
+  "trading_changes_allowed": false,
+  "risk_approval_allowed": false,
+  "execution_allowed": false,
+  "production_allowed": false
+}

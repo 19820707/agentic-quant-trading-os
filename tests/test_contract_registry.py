@@ -75,6 +75,8 @@ class ContractRegistryTests(unittest.TestCase):
                 "sandbox_execution_report",
                 "test_evidence_report",
                 "rollback_plan",
+                "agent_pr_review_evidence",
+                "human_approval_record",
             }.issubset(names)
         )
 

@@ -1,0 +1,32 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_agentic_governance_001",
+  "correlation_id": "corr_agentic_governance_001",
+  "agent_pr_review_evidence_id": "apre_docs_quality_gate_001",
+  "agent_patch_plan_id": "app_docs_quality_gate_001",
+  "agent_risk_assessment_id": "ara_docs_quality_gate_001",
+  "test_evidence_report_id": "ter_docs_quality_gate_001",
+  "rollback_plan_id": "rbp_docs_quality_gate_001",
+  "created_at": "2026-05-15T00:00:00Z",
+  "review_status": "ready_for_human_review",
+  "risk_level": "low",
+  "reviewed_files": [
+    "docs/architecture/capability_maturity_matrix.md"
+  ],
+  "unresolved_blocking_findings": 0,
+  "required_reviewers": [
+    "maintainer",
+    "security_reviewer"
+  ],
+  "security_boundary_verified": true,
+  "human_review_required": true,
+  "ready_for_human_approval": true,
+  "auto_merge_allowed": false,
+  "direct_main_write_allowed": false,
+  "network_allowed": false,
+  "credentials_allowed": false,
+  "trading_changes_allowed": false,
+  "risk_approval_allowed": false,
+  "execution_allowed": false,
+  "production_allowed": false
+}

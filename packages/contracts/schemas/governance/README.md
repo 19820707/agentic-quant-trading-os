@@ -12,4 +12,6 @@ Current schemas:
 - `sandbox_execution_report.schema.json`: isolated execution evidence that still grants no runtime authority.
 - `test_evidence_report.schema.json`: deterministic validation evidence that still requires human review.
 - `rollback_plan.schema.json`: rollback strategy contract with automated and production rollback disabled.
+- `agent_pr_review_evidence.schema.json`: pull-request review evidence with auto-merge and direct main writes disabled.
+- `human_approval_record.schema.json`: human review record scoped to review only, without runtime or production authority.
 
