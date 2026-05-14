@@ -1,0 +1,38 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_safe_rl_promotion_001",
+  "correlation_id": "corr_safe_rl_001",
+  "policy_promotion_gate_id": "ppg_safe_rl_001",
+  "created_at": "2026-01-01T14:10:00Z",
+  "policy_id": "policy_safe_rl_research_001",
+  "source_evaluation_report_id": "sper_safe_rl_001",
+  "promotion_stage": "blocked",
+  "approval_status": "HUMAN_REVIEW_REQUIRED",
+  "required_evidence": [
+    "safe_policy_evaluation_report",
+    "scenario_stress_test_report",
+    "constraint_violation_review",
+    "human_governance_record"
+  ],
+  "required_approvals": [
+    "security",
+    "risk_architecture",
+    "platform_reliability",
+    "model_risk",
+    "maintainer"
+  ],
+  "safety_layer_required": true,
+  "deterministic_gateway_required": true,
+  "human_governance_required": true,
+  "approved_for_paper": false,
+  "approved_for_market_execution": false,
+  "pyproject_change_allowed": false,
+  "dependency_allowed": false,
+  "network_allowed": false,
+  "credentials_allowed": false,
+  "runtime_training_allowed": false,
+  "policy_execution_allowed": false,
+  "risk_approval_allowed": false,
+  "execution_allowed": false,
+  "production_enabled": false
+}

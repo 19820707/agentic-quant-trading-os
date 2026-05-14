@@ -34,6 +34,9 @@ FIXTURES = {
     "ml/rl_safety_policy.valid.json": ("ml", "rl_safety_policy"),
     "ml/rl_constraint_violation_record.valid.json": ("ml", "rl_constraint_violation_record"),
     "ml/recovery_policy_decision.valid.json": ("ml", "recovery_policy_decision"),
+    "ml/safe_policy_evaluation_report.valid.json": ("ml", "safe_policy_evaluation_report"),
+    "ml/scenario_stress_test_report.valid.json": ("ml", "scenario_stress_test_report"),
+    "ml/policy_promotion_gate.valid.json": ("ml", "policy_promotion_gate"),
 }
 
 FORBIDDEN_KEYS = {

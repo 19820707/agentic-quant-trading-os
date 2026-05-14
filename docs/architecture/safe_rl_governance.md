@@ -58,6 +58,45 @@ Allowed recovery decision values:
 - `REVERT_TO_BASELINE`
 - `PAPER_ONLY`
 
+## Policy Evaluation
+
+Safe policy evaluation reports are evidence records, not promotion approvals.
+
+Every report must preserve:
+
+- policy identity and version
+- evaluation dataset identity
+- scenario set identity
+- calibration and loss metrics
+- drawdown and CVaR-style risk estimates
+- uncertainty estimate and coverage
+- zero unauthorized execution evidence
+- zero credential access evidence
+- zero deterministic-risk-gateway bypass evidence
+
+Evaluation reports must keep `approved_for_promotion`, `network_allowed`,
+`credentials_allowed`, `policy_execution_allowed`, `risk_approval_allowed`,
+`execution_allowed` and `production_enabled` false.
+
+## Scenario Stress Tests
+
+Scenario stress reports document how a future policy behaved under synthetic
+market regimes such as liquidity shock, volatility spike, crash, stale data or
+spread widening.
+
+Stress reports must remain local and synthetic. They must not call markets,
+load real exchange clients, read credentials or produce executable actions.
+Failure must be blocked and routed to manual review.
+
+## Promotion Gate
+
+Policy promotion gates block learned policies by default.
+
+Promotion gates may list required evidence and required approvals, but they do
+not approve dependencies, training runtimes, network access, credential access,
+risk approval, execution approval, paper trading, live trading or production
+deployment.
+
 ## Zero-Violation Target
 
 The project target is zero unauthorized execution:

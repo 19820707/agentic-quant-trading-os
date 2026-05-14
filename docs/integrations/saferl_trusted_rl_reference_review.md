@@ -127,6 +127,9 @@ This project may safely define:
 - RL safety policy contracts
 - constraint violation records
 - recovery policy decision records
+- safe policy evaluation reports
+- scenario stress test reports
+- policy promotion gates
 - safe RL benchmark policy
 - multi-agent safety governance
 

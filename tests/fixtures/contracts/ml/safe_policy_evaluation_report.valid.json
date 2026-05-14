@@ -1,0 +1,42 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_safe_rl_eval_001",
+  "correlation_id": "corr_safe_rl_001",
+  "safe_policy_evaluation_report_id": "sper_safe_rl_001",
+  "created_at": "2026-01-01T14:00:00Z",
+  "policy_id": "policy_safe_rl_research_001",
+  "policy_version": "policy_v0_1_0",
+  "evaluation_scope": "research_only",
+  "evaluation_dataset_id": "dataset_synthetic_research_001",
+  "scenario_set_id": "scenario_set_market_stress_001",
+  "metrics": {
+    "sample_count": 128,
+    "brier_score": 0.18,
+    "log_loss": 0.52,
+    "max_drawdown": 0.07,
+    "cvar_estimate": -0.04,
+    "constraint_violation_count": 0
+  },
+  "uncertainty_estimate": {
+    "method": "ensemble_interval_placeholder",
+    "score": 0.22,
+    "coverage": 0.9
+  },
+  "constraint_summary": {
+    "zero_unauthorized_execution": true,
+    "zero_credential_access": true,
+    "zero_risk_gateway_bypass": true
+  },
+  "promotion_recommendation": "RESEARCH_ONLY",
+  "safety_layer_required": true,
+  "deterministic_gateway_required": true,
+  "manual_review_required": true,
+  "approved_for_promotion": false,
+  "network_allowed": false,
+  "credentials_allowed": false,
+  "runtime_training_allowed": false,
+  "policy_execution_allowed": false,
+  "risk_approval_allowed": false,
+  "execution_allowed": false,
+  "production_enabled": false
+}

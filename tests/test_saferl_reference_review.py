@@ -62,6 +62,20 @@ class SafeRLReferenceReviewTests(unittest.TestCase):
             with self.subTest(component=component):
                 self.assertIn(component, text)
 
+    def test_reference_review_allows_only_contract_governance_targets(self):
+        text = REVIEW.read_text(encoding="utf-8").lower()
+
+        for target in (
+            "rl safety policy contracts",
+            "constraint violation records",
+            "recovery policy decision records",
+            "safe policy evaluation reports",
+            "scenario stress test reports",
+            "policy promotion gates",
+        ):
+            with self.subTest(target=target):
+                self.assertIn(target, text)
+
     def test_safe_rl_governance_blocks_execution_authority(self):
         text = GOVERNANCE.read_text(encoding="utf-8").lower()
 

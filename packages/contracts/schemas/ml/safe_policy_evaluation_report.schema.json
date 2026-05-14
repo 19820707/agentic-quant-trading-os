@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/ml/safe_policy_evaluation_report.schema.json",
+  "$comment": "SafePolicyEvaluationReport records safe RL policy evaluation evidence without enabling runtime policy execution.",
+  "title": "SafePolicyEvaluationReport",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "safe_policy_evaluation_report_id",
+    "created_at",
+    "policy_id",
+    "policy_version",
+    "evaluation_scope",
+    "evaluation_dataset_id",
+    "scenario_set_id",
+    "metrics",
+    "uncertainty_estimate",
+    "constraint_summary",
+    "promotion_recommendation",
+    "safety_layer_required",
+    "deterministic_gateway_required",
+    "manual_review_required",
+    "approved_for_promotion",
+    "network_allowed",
+    "credentials_allowed",
+    "runtime_training_allowed",
+    "policy_execution_allowed",
+    "risk_approval_allowed",
+    "execution_allowed",
+    "production_enabled"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "safe_policy_evaluation_report_id": {"type": "string", "pattern": "^sper_[A-Za-z0-9_\\-]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "policy_id": {"type": "string", "minLength": 1},
+    "policy_version": {"type": "string", "minLength": 1},
+    "evaluation_scope": {
+      "type": "string",
+      "enum": ["research_only", "paper_only_candidate", "promotion_blocked"]
+    },
+    "evaluation_dataset_id": {"type": "string", "minLength": 1},
+    "scenario_set_id": {"type": "string", "minLength": 1},
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sample_count",
+        "brier_score",
+        "log_loss",
+        "max_drawdown",
+        "cvar_estimate",
+        "constraint_violation_count"
+      ],
+      "properties": {
+        "sample_count": {"type": "number", "minimum": 0},
+        "brier_score": {"type": "number", "minimum": 0},
+        "log_loss": {"type": "number", "minimum": 0},
+        "max_drawdown": {"type": "number", "minimum": 0},
+        "cvar_estimate": {"type": "number"},
+        "constraint_violation_count": {"type": "number", "minimum": 0}
+      }
+    },
+    "uncertainty_estimate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["method", "score", "coverage"],
+      "properties": {
+        "method": {"type": "string", "minLength": 1},
+        "score": {"type": "number", "minimum": 0},
+        "coverage": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    },
+    "constraint_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["zero_unauthorized_execution", "zero_credential_access", "zero_risk_gateway_bypass"],
+      "properties": {
+        "zero_unauthorized_execution": {"type": "boolean", "const": true},
+        "zero_credential_access": {"type": "boolean", "const": true},
+        "zero_risk_gateway_bypass": {"type": "boolean", "const": true}
+      }
+    },
+    "promotion_recommendation": {
+      "type": "string",
+      "enum": ["BLOCKED", "RESEARCH_ONLY", "REQUIRE_MANUAL_REVIEW"]
+    },
+    "safety_layer_required": {"type": "boolean", "const": true},
+    "deterministic_gateway_required": {"type": "boolean", "const": true},
+    "manual_review_required": {"type": "boolean", "const": true},
+    "approved_for_promotion": {"type": "boolean", "const": false},
+    "network_allowed": {"type": "boolean", "const": false},
+    "credentials_allowed": {"type": "boolean", "const": false},
+    "runtime_training_allowed": {"type": "boolean", "const": false},
+    "policy_execution_allowed": {"type": "boolean", "const": false},
+    "risk_approval_allowed": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false},
+    "production_enabled": {"type": "boolean", "const": false}
+  }
+}

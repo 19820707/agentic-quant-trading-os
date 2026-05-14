@@ -1,0 +1,29 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_safe_rl_stress_001",
+  "correlation_id": "corr_safe_rl_001",
+  "scenario_stress_test_report_id": "sstr_safe_rl_001",
+  "created_at": "2026-01-01T14:05:00Z",
+  "policy_id": "policy_safe_rl_research_001",
+  "scenario_id": "scenario_liquidity_shock_001",
+  "market_regime": "liquidity_shock",
+  "liquidity_condition": "stressed",
+  "volatility_condition": "extreme",
+  "adversarial_condition": "spread_widening",
+  "policy_response": "freeze_policy",
+  "failure_mode": "constraint_breach",
+  "constraints_checked": [
+    "max_notional",
+    "max_drawdown",
+    "stale_data",
+    "risk_gateway_bypass"
+  ],
+  "stress_passed": false,
+  "blocked_on_failure": true,
+  "manual_review_required": true,
+  "network_allowed": false,
+  "credentials_allowed": false,
+  "policy_execution_allowed": false,
+  "risk_approval_allowed": false,
+  "execution_allowed": false
+}

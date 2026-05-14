@@ -38,6 +38,9 @@ class ContractRegistryTests(unittest.TestCase):
         self.assertIn("rl_safety_policy", names)
         self.assertIn("rl_constraint_violation_record", names)
         self.assertIn("recovery_policy_decision", names)
+        self.assertIn("safe_policy_evaluation_report", names)
+        self.assertIn("scenario_stress_test_report", names)
+        self.assertIn("policy_promotion_gate", names)
 
     def test_lists_research_contracts_under_research(self):
         names = {entry.name for entry in self.registry.list_schemas("research")}
