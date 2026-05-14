@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/ml/rl_safety_policy.schema.json",
+  "$comment": "RLSafetyPolicy defines fail-closed safe RL governance without policy execution.",
+  "title": "RLSafetyPolicy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "rl_safety_policy_id",
+    "created_at",
+    "policy_scope",
+    "allowed_action_space",
+    "forbidden_action_space",
+    "constraints",
+    "safety_layer_required",
+    "deterministic_gateway_required",
+    "audit_required",
+    "network_allowed",
+    "credentials_allowed",
+    "runtime_training_allowed",
+    "policy_execution_allowed",
+    "risk_approval_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "rl_safety_policy_id": {"type": "string", "pattern": "^rlsp_[A-Za-z0-9_\\-]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "policy_scope": {"type": "string", "enum": ["single_strategy", "multi_agent_research", "paper_only_research"]},
+    "allowed_action_space": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "forbidden_action_space": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "constraints": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "category", "threshold", "breach_behavior"],
+        "properties": {
+          "name": {"type": "string", "minLength": 1},
+          "category": {
+            "type": "string",
+            "enum": [
+              "notional_limit",
+              "position_limit",
+              "exposure_limit",
+              "drawdown_limit",
+              "stale_data_block",
+              "liquidity_limit",
+              "slippage_limit",
+              "kill_switch_block",
+              "credential_access_block",
+              "risk_gateway_bypass_block"
+            ]
+          },
+          "threshold": {"type": "number"},
+          "breach_behavior": {"type": "string", "const": "fail_closed"}
+        }
+      }
+    },
+    "safety_layer_required": {"type": "boolean", "const": true},
+    "deterministic_gateway_required": {"type": "boolean", "const": true},
+    "audit_required": {"type": "boolean", "const": true},
+    "network_allowed": {"type": "boolean", "const": false},
+    "credentials_allowed": {"type": "boolean", "const": false},
+    "runtime_training_allowed": {"type": "boolean", "const": false},
+    "policy_execution_allowed": {"type": "boolean", "const": false},
+    "risk_approval_allowed": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}
