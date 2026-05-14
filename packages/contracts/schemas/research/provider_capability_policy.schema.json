@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/provider_capability_policy.schema.json",
+  "$comment": "ProviderCapabilityPolicy records disabled provider capabilities.",
+  "title": "ProviderCapabilityPolicy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "trace_id", "correlation_id", "provider_capability_policy_id", "created_at", "provider_family", "allowed_tasks", "enabled", "network_allowed", "credential_access_allowed", "tool_call_allowed", "trading_authority_allowed", "execution_allowed"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "provider_capability_policy_id": {"type": "string", "pattern": "^pcp_[A-Za-z0-9_\\-]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "provider_family": {"type": "string", "enum": ["local", "primary_llm", "secondary_llm", "search_assistant", "code_assistant", "human"]},
+    "allowed_tasks": {"type": "array", "items": {"type": "string", "enum": ["research", "review", "debate", "summarize", "threat_model", "documentation"]}},
+    "enabled": {"type": "boolean", "const": false},
+    "network_allowed": {"type": "boolean", "const": false},
+    "credential_access_allowed": {"type": "boolean", "const": false},
+    "tool_call_allowed": {"type": "boolean", "const": false},
+    "trading_authority_allowed": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "multi_model_review_plan_id": "mmrp_fixture_001",
+  "created_at": "2026-01-01T02:00:00Z",
+  "review_subject": "Synthetic architecture review.",
+  "review_mode": "architecture",
+  "candidate_provider_roles": [
+    {
+      "role": "architecture reviewer",
+      "provider_family": "human",
+      "enabled": false
+    },
+    {
+      "role": "security reviewer",
+      "provider_family": "local",
+      "enabled": false
+    }
+  ],
+  "minimum_consensus_ratio": 0.75,
+  "human_review_required": true,
+  "model_calls_allowed": false,
+  "network_allowed": false,
+  "credentials_allowed": false,
+  "execution_allowed": false
+}

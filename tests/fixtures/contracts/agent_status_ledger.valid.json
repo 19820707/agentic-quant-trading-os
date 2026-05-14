@@ -1,0 +1,26 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "agent_status_ledger_id": "asl_fixture_001",
+  "created_at": "2026-01-01T02:03:00Z",
+  "workflow_name": "Synthetic advisory review workflow.",
+  "entries": [
+    {
+      "agent_role": "architecture reviewer",
+      "state": "manual_review_required",
+      "degraded": false,
+      "notes": "No runtime agent was launched."
+    },
+    {
+      "agent_role": "security reviewer",
+      "state": "blocked",
+      "degraded": true,
+      "notes": "External provider access is disabled."
+    }
+  ],
+  "auto_retry_allowed": false,
+  "auto_fix_allowed": false,
+  "auto_merge_allowed": false,
+  "execution_allowed": false
+}

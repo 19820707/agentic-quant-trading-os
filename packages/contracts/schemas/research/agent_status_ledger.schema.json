@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/agent_status_ledger.schema.json",
+  "$comment": "AgentStatusLedger records local advisory agent states without launching agents.",
+  "title": "AgentStatusLedger",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "trace_id", "correlation_id", "agent_status_ledger_id", "created_at", "workflow_name", "entries", "auto_retry_allowed", "auto_fix_allowed", "auto_merge_allowed", "execution_allowed"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "agent_status_ledger_id": {"type": "string", "pattern": "^asl_[A-Za-z0-9_\\-]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "workflow_name": {"type": "string", "minLength": 1},
+    "entries": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["agent_role", "state", "degraded", "notes"],
+        "properties": {
+          "agent_role": {"type": "string", "minLength": 1},
+          "state": {"type": "string", "enum": ["not_started", "blocked", "degraded", "completed", "manual_review_required"]},
+          "degraded": {"type": "boolean"},
+          "notes": {"type": "string"}
+        }
+      }
+    },
+    "auto_retry_allowed": {"type": "boolean", "const": false},
+    "auto_fix_allowed": {"type": "boolean", "const": false},
+    "auto_merge_allowed": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

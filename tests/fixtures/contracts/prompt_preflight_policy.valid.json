@@ -1,0 +1,15 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "prompt_preflight_policy_id": "ppp_fixture_001",
+  "created_at": "2026-01-01T02:07:00Z",
+  "prompt_source": "market_metadata",
+  "max_prompt_chars": 4000,
+  "observed_prompt_chars": 320,
+  "sensitive_data_detected": false,
+  "market_metadata_delimited": true,
+  "tool_instruction_blocked": true,
+  "dispatch_allowed": false,
+  "execution_allowed": false
+}

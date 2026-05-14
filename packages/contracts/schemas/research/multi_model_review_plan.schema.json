@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/multi_model_review_plan.schema.json",
+  "$comment": "MultiModelReviewPlan defines an advisory multi-model review plan without model calls.",
+  "title": "MultiModelReviewPlan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "trace_id", "correlation_id", "multi_model_review_plan_id", "created_at", "review_subject", "review_mode", "candidate_provider_roles", "minimum_consensus_ratio", "human_review_required", "model_calls_allowed", "network_allowed", "credentials_allowed", "execution_allowed"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "multi_model_review_plan_id": {"type": "string", "pattern": "^mmrp_[A-Za-z0-9_\\-]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "review_subject": {"type": "string", "minLength": 1},
+    "review_mode": {"type": "string", "enum": ["research", "architecture", "security", "code_review", "incident_review"]},
+    "candidate_provider_roles": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["role", "provider_family", "enabled"],
+        "properties": {
+          "role": {"type": "string", "minLength": 1},
+          "provider_family": {"type": "string", "enum": ["local", "primary_llm", "secondary_llm", "search_assistant", "code_assistant", "human"]},
+          "enabled": {"type": "boolean", "const": false}
+        }
+      }
+    },
+    "minimum_consensus_ratio": {"type": "number", "minimum": 0.5, "maximum": 1.0},
+    "human_review_required": {"type": "boolean", "const": true},
+    "model_calls_allowed": {"type": "boolean", "const": false},
+    "network_allowed": {"type": "boolean", "const": false},
+    "credentials_allowed": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

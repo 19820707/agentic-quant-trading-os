@@ -1,0 +1,21 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "security_review_workflow_record_id": "srw_fixture_001",
+  "created_at": "2026-01-01T02:08:00Z",
+  "review_scope": "Synthetic architecture boundary.",
+  "review_type": "runtime_boundary",
+  "findings": [
+    {
+      "severity": "medium",
+      "summary": "Runtime remains disabled until an approval gate changes.",
+      "requires_fix": false
+    }
+  ],
+  "requires_human_review": true,
+  "auto_remediation_allowed": false,
+  "network_allowed": false,
+  "credentials_allowed": false,
+  "execution_allowed": false
+}

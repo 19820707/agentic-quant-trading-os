@@ -13,3 +13,9 @@ consensus, topology, federation, memory, MCP registration, workers, budgets and
 prompt-injection review. They must not activate agent runtime, MCP runtime,
 federation, background workers, credentials, trading or execution.
 
+Multi-model review governance contracts may describe review plans, consensus
+gates, adversarial debates, provider policy, phase gates, prompt preflight and
+security review workflows. They must not call models, activate providers,
+install plugins, start MCP servers, patch code automatically, merge PRs
+automatically, access credentials, trade or execute.
+
