@@ -1,0 +1,205 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/governance/control_loop_manifest.schema.json",
+  "$comment": "ControlLoopManifest maps critical control-loop stages to trading platform boundaries without enabling runtime behavior.",
+  "title": "ControlLoopManifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "control_loop_manifest_id",
+    "created_at",
+    "reference_source",
+    "source_domain",
+    "stages",
+    "guardians",
+    "runtime_defaults",
+    "forbidden_capabilities"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "control_loop_manifest_id": {
+      "type": "string",
+      "pattern": "^clm_[A-Za-z0-9_\\-]+$"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "reference_source": {
+      "type": "string",
+      "const": "ApolloAuto/apollo"
+    },
+    "source_domain": {
+      "type": "string",
+      "const": "autonomous_driving_reference"
+    },
+    "stages": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "reference_stage",
+          "trading_stage",
+          "allowed_outputs",
+          "forbidden_outputs",
+          "deterministic_gate_required",
+          "trace_required"
+        ],
+        "properties": {
+          "reference_stage": {
+            "type": "string",
+            "enum": [
+              "PERCEPTION",
+              "PREDICTION",
+              "PLANNING",
+              "CONTROL",
+              "ACTUATION",
+              "MONITOR",
+              "REPLAY"
+            ]
+          },
+          "trading_stage": {
+            "type": "string",
+            "minLength": 1
+          },
+          "allowed_outputs": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "forbidden_outputs": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "deterministic_gate_required": {
+            "type": "boolean",
+            "const": true
+          },
+          "trace_required": {
+            "type": "boolean",
+            "const": true
+          }
+        }
+      }
+    },
+    "guardians": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "enum": [
+          "stale_data_guardian",
+          "drift_guardian",
+          "liquidity_guardian",
+          "exposure_guardian",
+          "kill_switch_guardian",
+          "audit_guardian"
+        ]
+      }
+    },
+    "runtime_defaults": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "apollo_runtime_allowed",
+        "cyber_rt_allowed",
+        "bazel_build_allowed",
+        "cpp_runtime_allowed",
+        "sensor_stack_allowed",
+        "vehicle_control_allowed",
+        "network_allowed",
+        "credentials_allowed",
+        "trading_execution_allowed",
+        "risk_bypass_allowed",
+        "production_enabled"
+      ],
+      "properties": {
+        "apollo_runtime_allowed": {
+          "type": "boolean",
+          "const": false
+        },
+        "cyber_rt_allowed": {
+          "type": "boolean",
+          "const": false
+        },
+        "bazel_build_allowed": {
+          "type": "boolean",
+          "const": false
+        },
+        "cpp_runtime_allowed": {
+          "type": "boolean",
+          "const": false
+        },
+        "sensor_stack_allowed": {
+          "type": "boolean",
+          "const": false
+        },
+        "vehicle_control_allowed": {
+          "type": "boolean",
+          "const": false
+        },
+        "network_allowed": {
+          "type": "boolean",
+          "const": false
+        },
+        "credentials_allowed": {
+          "type": "boolean",
+          "const": false
+        },
+        "trading_execution_allowed": {
+          "type": "boolean",
+          "const": false
+        },
+        "risk_bypass_allowed": {
+          "type": "boolean",
+          "const": false
+        },
+        "production_enabled": {
+          "type": "boolean",
+          "const": false
+        }
+      }
+    },
+    "forbidden_capabilities": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "enum": [
+          "direct_model_execution",
+          "direct_agent_execution",
+          "risk_gateway_bypass",
+          "raw_signal_execution",
+          "raw_order_intent_execution",
+          "broker_or_exchange_call",
+          "private_endpoint_use",
+          "credential_access",
+          "production_enablement"
+        ]
+      }
+    }
+  }
+}
