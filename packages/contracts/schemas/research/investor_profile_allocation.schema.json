@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/investor_profile_allocation.schema.json",
+  "$comment": "InvestorProfileAllocation records educational profile allocation assumptions.",
+  "title": "InvestorProfileAllocation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "trace_id", "correlation_id", "investor_profile_allocation_id", "created_at", "profile", "allocations", "total_weight", "educational_only", "personalized_advice_allowed", "trading_allowed", "execution_allowed"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "investor_profile_allocation_id": {"type": "string", "pattern": "^ipa_[A-Za-z0-9_\\-]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "profile": {"type": "string", "enum": ["conservative", "moderate", "growth"]},
+    "allocations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["asset_bucket", "weight"],
+        "properties": {
+          "asset_bucket": {"type": "string", "minLength": 1},
+          "weight": {"type": "number", "minimum": 0, "maximum": 1}
+        }
+      }
+    },
+    "total_weight": {"type": "number", "minimum": 0, "maximum": 1},
+    "educational_only": {"type": "boolean", "const": true},
+    "personalized_advice_allowed": {"type": "boolean", "const": false},
+    "trading_allowed": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

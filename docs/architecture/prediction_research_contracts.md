@@ -28,6 +28,12 @@ The `research` schema domain contains:
 - `BackgroundWorkerPolicy`: disabled background worker policy
 - `AgentCostBudgetPolicy`: fail-closed cost budget policy
 - `PromptInjectionReview`: defensive prompt safety review
+- `InvestmentScenarioInput`: educational scenario assumptions
+- `InvestmentScenarioProjection`: deterministic projection output
+- `InvestorProfileAllocation`: educational profile allocation buckets
+- `LongHorizonScenarioSet`: multi-horizon scenario comparison
+- `AssumptionSensitivityReport`: sensitivity across static assumptions
+- `FinancialEducationDisclaimer`: non-advisory simulation boundary
 
 ## Safety Boundary
 
@@ -45,6 +51,10 @@ These contracts may describe:
 - swarm and federation policy
 - memory and MCP registration policy
 - prompt injection findings
+- educational investment assumptions
+- long-horizon projections
+- sensitivity observations
+- educational disclaimer state
 
 They must not contain:
 
@@ -61,6 +71,8 @@ They must not contain:
 - MCP runtime activation
 - federation
 - background automation
+- personalized financial advice
+- trade recommendations
 
 ## Execution Boundary
 
@@ -71,6 +83,8 @@ They must not contain:
 No research contract can approve risk, approve execution, submit orders, cancel orders, transfer funds or withdraw funds.
 
 Agent orchestration contracts cannot launch swarms, register MCP tools, federate agents, activate memory systems, schedule workers, access credentials, approve risk or approve execution. They only describe governance records and fail-closed policy.
+
+Investment scenario contracts cannot recommend assets, create signals, create order intents, approve risk or approve execution. They only describe educational local assumptions and projections.
 
 Any future path from a research contract toward an order must pass through separately approved services and deterministic-risk-gateway.
 

@@ -31,6 +31,12 @@ FIXTURES = {
     "background_worker_policy.valid.json": ("research", "background_worker_policy"),
     "agent_cost_budget_policy.valid.json": ("research", "agent_cost_budget_policy"),
     "prompt_injection_review.valid.json": ("research", "prompt_injection_review"),
+    "investment_scenario_input.valid.json": ("research", "investment_scenario_input"),
+    "investment_scenario_projection.valid.json": ("research", "investment_scenario_projection"),
+    "investor_profile_allocation.valid.json": ("research", "investor_profile_allocation"),
+    "long_horizon_scenario_set.valid.json": ("research", "long_horizon_scenario_set"),
+    "assumption_sensitivity_report.valid.json": ("research", "assumption_sensitivity_report"),
+    "financial_education_disclaimer.valid.json": ("research", "financial_education_disclaimer"),
 }
 
 FORBIDDEN_KEYS = {
