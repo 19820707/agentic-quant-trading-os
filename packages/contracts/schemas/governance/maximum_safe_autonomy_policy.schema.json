@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/governance/maximum_safe_autonomy_policy.schema.json",
+  "title": "MaximumSafeAutonomyPolicy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "maximum_safe_autonomy_policy_id",
+    "created_at",
+    "default_operating_mode",
+    "human_approval_model",
+    "fail_closed_for",
+    "target_autonomy_level",
+    "auto_patch",
+    "auto_merge",
+    "protected_paths",
+    "critical_actions",
+    "required_evidence",
+    "safety_boundary"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "maximum_safe_autonomy_policy_id": {"type": "string", "pattern": "^msap_[A-Za-z0-9_\\-]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "default_operating_mode": {"type": "string", "const": "autonomous_by_default"},
+    "human_approval_model": {"type": "string", "const": "exception_only"},
+    "fail_closed_for": {"type": "array", "minItems": 2, "items": {"type": "string", "enum": ["critical", "unknown"]}},
+    "target_autonomy_level": {"type": "string", "enum": ["L3_AUTO_PR", "L4_LOW_RISK_AUTO_MERGE"]},
+    "auto_patch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["enabled", "max_risk", "require_sandbox", "require_tests", "require_rollback", "require_audit", "create_branch", "create_pull_request"],
+      "properties": {
+        "enabled": {"type": "boolean", "const": true},
+        "max_risk": {"type": "string", "enum": ["low", "medium"]},
+        "require_sandbox": {"type": "boolean", "const": true},
+        "require_tests": {"type": "boolean", "const": true},
+        "require_rollback": {"type": "boolean", "const": true},
+        "require_audit": {"type": "boolean", "const": true},
+        "create_branch": {"type": "boolean", "const": true},
+        "create_pull_request": {"type": "boolean", "const": true}
+      }
+    },
+    "auto_merge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["enabled", "max_risk", "require_all_checks", "require_secret_scan", "require_rollback", "block_protected_paths", "block_runtime_changes"],
+      "properties": {
+        "enabled": {"type": "boolean", "const": true},
+        "max_risk": {"type": "string", "const": "low"},
+        "require_all_checks": {"type": "boolean", "const": true},
+        "require_secret_scan": {"type": "boolean", "const": true},
+        "require_rollback": {"type": "boolean", "const": true},
+        "block_protected_paths": {"type": "boolean", "const": true},
+        "block_runtime_changes": {"type": "boolean", "const": true}
+      }
+    },
+    "protected_paths": {"type": "array", "minItems": 8, "items": {"type": "string", "minLength": 1}},
+    "critical_actions": {"type": "array", "minItems": 8, "items": {"type": "string", "minLength": 1}},
+    "required_evidence": {"type": "array", "minItems": 8, "items": {"type": "string", "minLength": 1}},
+    "safety_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["runtime_automation_enabled", "github_app_enabled", "repository_write_token_allowed", "llm_runtime_enabled", "network_calls_allowed", "credentials_allowed", "trading_enabled", "broker_exchange_enabled", "production_enabled"],
+      "properties": {
+        "runtime_automation_enabled": {"type": "boolean", "const": false},
+        "github_app_enabled": {"type": "boolean", "const": false},
+        "repository_write_token_allowed": {"type": "boolean", "const": false},
+        "llm_runtime_enabled": {"type": "boolean", "const": false},
+        "network_calls_allowed": {"type": "boolean", "const": false},
+        "credentials_allowed": {"type": "boolean", "const": false},
+        "trading_enabled": {"type": "boolean", "const": false},
+        "broker_exchange_enabled": {"type": "boolean", "const": false},
+        "production_enabled": {"type": "boolean", "const": false}
+      }
+    }
+  }
+}
