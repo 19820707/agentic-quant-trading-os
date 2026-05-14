@@ -1,0 +1,152 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/features/leakage_review_report.schema.json",
+  "$comment": "LeakageReviewReport records point-in-time and leakage review findings. It cannot approve training, risk or execution by itself.",
+  "title": "LeakageReviewReport",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "leakage_review_report_id",
+    "dataset_lineage_record_id",
+    "reviewed_at",
+    "review_status",
+    "checks",
+    "required_checks_complete",
+    "leakage_detected",
+    "blocked_on_leakage",
+    "manual_review_required",
+    "model_training_approval_allowed",
+    "backtest_approval_allowed",
+    "production_approval_allowed",
+    "network_allowed",
+    "credentials_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "leakage_review_report_id": {
+      "type": "string",
+      "pattern": "^lrr_[A-Za-z0-9_\\-]+$"
+    },
+    "dataset_lineage_record_id": {
+      "type": "string",
+      "pattern": "^dlr_[A-Za-z0-9_\\-]+$"
+    },
+    "reviewed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "review_status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "blocked",
+        "passed_research_only"
+      ]
+    },
+    "checks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "check_name",
+          "result",
+          "severity"
+        ],
+        "properties": {
+          "check_name": {
+            "type": "string",
+            "enum": [
+              "event_timestamp_present",
+              "created_timestamp_present",
+              "available_timestamp_present",
+              "label_horizon_validated",
+              "future_data_join_guard",
+              "train_validation_split_temporal",
+              "feature_availability_lag_reviewed",
+              "target_leakage_guard",
+              "cross_sectional_leakage_guard",
+              "survivorship_bias_reviewed"
+            ]
+          },
+          "result": {
+            "type": "string",
+            "enum": [
+              "PASS",
+              "WARN",
+              "FAIL",
+              "NOT_APPLICABLE"
+            ]
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "INFO",
+              "WARNING",
+              "HIGH",
+              "CRITICAL"
+            ]
+          },
+          "reason": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "leakage_detected": {
+      "type": "boolean"
+    },
+    "required_checks_complete": {
+      "type": "boolean",
+      "const": true
+    },
+    "blocked_on_leakage": {
+      "type": "boolean",
+      "const": true
+    },
+    "manual_review_required": {
+      "type": "boolean",
+      "const": true
+    },
+    "model_training_approval_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "backtest_approval_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "production_approval_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "network_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "credentials_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}

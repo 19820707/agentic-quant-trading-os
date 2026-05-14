@@ -13,6 +13,8 @@ FIXTURES = {
     "approved_order.valid.json": ("trading", "approved_order"),
     "execution_report.valid.json": ("trading", "execution_report"),
     "audit_event.valid.json": ("audit", "audit_event"),
+    "dataset_lineage_record.valid.json": ("features", "dataset_lineage_record"),
+    "leakage_review_report.valid.json": ("features", "leakage_review_report"),
     "research_dossier.valid.json": ("research", "research_dossier"),
     "probability_estimate.valid.json": ("research", "probability_estimate"),
     "hypothesis_record.valid.json": ("research", "hypothesis_record"),
@@ -80,7 +82,11 @@ class ContractFixtureTests(unittest.TestCase):
 
         self.assertEqual(
             correlation_ids,
-            {"corr_fixture_lifecycle_001", "corr_research_contracts_001"},
+            {
+                "corr_feature_contracts_001",
+                "corr_fixture_lifecycle_001",
+                "corr_research_contracts_001",
+            },
         )
 
     def test_research_fixtures_are_non_executable(self):
@@ -95,6 +101,10 @@ class ContractFixtureTests(unittest.TestCase):
                     self.assertFalse(payload["order_intent_allowed"])
                 if "risk_approval_allowed" in payload:
                     self.assertFalse(payload["risk_approval_allowed"])
+                if "model_training_approval_allowed" in payload:
+                    self.assertFalse(payload["model_training_approval_allowed"])
+                if "production_approval_allowed" in payload:
+                    self.assertFalse(payload["production_approval_allowed"])
 
     def _load_fixture(self, fixture_name):
         with (FIXTURE_ROOT / fixture_name).open(encoding="utf-8") as fixture_file:

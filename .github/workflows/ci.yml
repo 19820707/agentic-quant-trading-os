@@ -53,6 +53,8 @@ jobs:
         run: python -m unittest discover -s tests -p "test_prediction_research_contracts.py"
       - name: Run prediction research fake graph tests
         run: python -m unittest discover -s tests -p "test_prediction_research_fake_graph.py"
+      - name: Run feature lineage contract tests
+        run: python -m unittest discover -s tests -p "test_feature_lineage_contracts.py"
 
   adapter-interface-tests:
     name: Adapter interface tests
