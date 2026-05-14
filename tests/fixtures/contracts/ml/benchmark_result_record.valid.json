@@ -1,0 +1,40 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_model_eval_001",
+  "correlation_id": "corr_model_eval_001",
+  "benchmark_result_record_id": "brr_fixture_001",
+  "created_at": "2026-01-01T08:10:00Z",
+  "model_evaluation_manifest_id": "mem_fixture_001",
+  "benchmark_name": "synthetic_open_loop_forecast_benchmark",
+  "benchmark_version": "benchmark.0",
+  "evaluation_mode": "OPEN_LOOP",
+  "metrics": [
+    {
+      "name": "brier_score",
+      "value": 0.21,
+      "confidence_interval_low": 0.19,
+      "confidence_interval_high": 0.23
+    },
+    {
+      "name": "log_loss",
+      "value": 0.68
+    }
+  ],
+  "dataset_lineage_ref": "dataset_snapshot_synthetic_001",
+  "reproducibility_status": "reproduced_once",
+  "failure_modes_checked": [
+    "data_leakage",
+    "lookahead_bias",
+    "survivorship_bias",
+    "stale_data",
+    "calibration_drift",
+    "overfitting",
+    "cherry_picked_period",
+    "missing_costs",
+    "missing_slippage",
+    "unstable_closed_loop_feedback"
+  ],
+  "production_approval_allowed": false,
+  "risk_approval_allowed": false,
+  "execution_allowed": false
+}

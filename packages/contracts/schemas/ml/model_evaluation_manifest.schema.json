@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/ml/model_evaluation_manifest.schema.json",
+  "$comment": "ModelEvaluationManifest defines local governance evidence for model evaluation without runtime execution.",
+  "title": "ModelEvaluationManifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "model_evaluation_manifest_id",
+    "created_at",
+    "model_family",
+    "model_version",
+    "dataset_snapshot_id",
+    "feature_snapshot_id",
+    "evaluation_mode",
+    "sample_period",
+    "label_horizon",
+    "leakage_review_status",
+    "calibration_required",
+    "cost_model_required",
+    "slippage_model_required",
+    "risk_constraints_required",
+    "approval_status",
+    "network_allowed",
+    "credentials_allowed",
+    "runtime_training_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "model_evaluation_manifest_id": {"type": "string", "pattern": "^mem_[A-Za-z0-9_\\-]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "model_family": {
+      "type": "string",
+      "enum": ["transformer", "temporal_cnn", "lstm_gru", "ensemble", "calibrated_baseline", "agentic_research_graph", "other"]
+    },
+    "model_version": {"type": "string", "minLength": 1},
+    "dataset_snapshot_id": {"type": "string", "minLength": 1},
+    "feature_snapshot_id": {"type": "string", "minLength": 1},
+    "evaluation_mode": {"type": "string", "enum": ["OPEN_LOOP", "CLOSED_LOOP_SIMULATED", "PAPER_ONLY"]},
+    "sample_period": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["start", "end"],
+      "properties": {
+        "start": {"type": "string", "format": "date-time"},
+        "end": {"type": "string", "format": "date-time"}
+      }
+    },
+    "label_horizon": {"type": "string", "minLength": 1},
+    "leakage_review_status": {"type": "string", "enum": ["not_reviewed", "review_required", "passed", "failed"]},
+    "calibration_required": {"type": "boolean", "const": true},
+    "cost_model_required": {"type": "boolean", "const": true},
+    "slippage_model_required": {"type": "boolean", "const": true},
+    "risk_constraints_required": {"type": "boolean", "const": true},
+    "known_failure_modes": {"type": "array", "items": {"type": "string"}},
+    "approval_status": {"type": "string", "enum": ["draft", "review_required", "approved_for_research", "rejected"]},
+    "network_allowed": {"type": "boolean", "const": false},
+    "credentials_allowed": {"type": "boolean", "const": false},
+    "runtime_training_allowed": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

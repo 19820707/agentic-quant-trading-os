@@ -1,0 +1,28 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_model_eval_001",
+  "correlation_id": "corr_model_eval_001",
+  "model_evaluation_manifest_id": "mem_fixture_001",
+  "created_at": "2026-01-01T08:00:00Z",
+  "model_family": "transformer",
+  "model_version": "model.research.0",
+  "dataset_snapshot_id": "dataset_snapshot_synthetic_001",
+  "feature_snapshot_id": "feature_snapshot_synthetic_001",
+  "evaluation_mode": "OPEN_LOOP",
+  "sample_period": {
+    "start": "2025-01-01T00:00:00Z",
+    "end": "2025-12-31T23:59:59Z"
+  },
+  "label_horizon": "1d",
+  "leakage_review_status": "review_required",
+  "calibration_required": true,
+  "cost_model_required": true,
+  "slippage_model_required": true,
+  "risk_constraints_required": true,
+  "known_failure_modes": ["lookahead_bias", "calibration_drift", "missing_costs"],
+  "approval_status": "review_required",
+  "network_allowed": false,
+  "credentials_allowed": false,
+  "runtime_training_allowed": false,
+  "execution_allowed": false
+}
