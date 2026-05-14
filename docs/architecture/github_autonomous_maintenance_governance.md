@@ -87,6 +87,7 @@ Every proposed autonomous maintenance action must preserve:
 ## Current Status
 
 github_autonomous_maintenance_reference_reviewed: true
+local_dry_run_components_available: true
 github_app_enabled: false
 webhook_receiver_enabled: false
 scheduled_scanner_enabled: false
@@ -97,3 +98,27 @@ llm_runtime_enabled: false
 credentials_allowed: false
 production_enabled: false
 
+## Local Dry-Run Implementation
+
+`packages/sdk/github_autonomous_maintenance.py` provides local fail-closed
+components for the full control-plane shape:
+
+- repository discovery
+- multi-repository monitor
+- dry-run webhook event receiver
+- scheduled scanner request builder
+- finding engine
+- patch planner
+- risk classifier
+- policy engine
+- sandbox patch runner
+- plan-only test runner
+- disabled branch, commit and pull request bot
+- pull request reviewer record generator
+- evidence index
+- rollback planner
+- audit log
+
+This implementation is intentionally local-only. It does not import GitHub
+clients, read tokens, call the network, create branches, commit files, open pull
+requests, auto-merge, execute tests, or run production automation.
