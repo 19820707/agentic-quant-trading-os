@@ -1,0 +1,74 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_data_lineage_001",
+  "correlation_id": "corr_data_lineage_001",
+  "dataset_lineage_id": "dataset_lineage_fixture_001",
+  "dataset_id": "dataset_fixture_001",
+  "dataset_version": "dataset.v0.1.0",
+  "dataset_name": "paper fixture point-in-time dataset",
+  "dataset_purpose": "FEATURE_RESEARCH",
+  "asset_scope": [
+    "PAPER/BTC-USDT"
+  ],
+  "source_systems": [
+    {
+      "source_name": "static_contract_fixture",
+      "source_type": "FIXTURE",
+      "access_mode": "STATIC_FIXTURE",
+      "point_in_time_available": true,
+      "ingestion_started_at": "2026-01-01T00:00:00Z",
+      "ingestion_completed_at": "2026-01-01T00:00:01Z",
+      "source_watermark_at": "2025-12-31T23:59:59Z",
+      "license_review_id": "license_fixture_only",
+      "retention_class": "RESEARCH"
+    }
+  ],
+  "temporal_bounds": {
+    "observation_start_at": "2025-01-01T00:00:00Z",
+    "observation_end_at": "2025-12-31T23:59:59Z",
+    "max_event_time_at": "2025-12-31T23:59:59Z",
+    "as_of_cutoff_at": "2026-01-01T00:00:00Z",
+    "label_start_at": "2026-01-01T00:00:00Z",
+    "label_end_at": "2026-01-02T00:00:00Z"
+  },
+  "point_in_time_controls": {
+    "as_of_join_required": true,
+    "future_data_excluded": true,
+    "feature_availability_tracked": true,
+    "label_horizon_declared": true,
+    "late_arrival_policy": "QUARANTINE_UNTIL_REVIEW",
+    "clock_source": "fixture_utc"
+  },
+  "split_policy": {
+    "split_method": "WALK_FORWARD",
+    "temporal_order_preserved": true,
+    "overlap_allowed": false,
+    "embargo_period_seconds": 86400
+  },
+  "transformations": [
+    {
+      "transformation_id": "transform_fixture_returns_001",
+      "transformation_name": "lagged paper return features",
+      "input_columns": [
+        "close"
+      ],
+      "output_columns": [
+        "return_lag_1"
+      ],
+      "uses_future_information": false,
+      "window_seconds": 86400
+    }
+  ],
+  "upstream_dataset_lineage_ids": [],
+  "leakage_review_report_id": "leakage_review_fixture_001",
+  "created_at": "2026-01-01T00:00:02Z",
+  "created_by": "data-governance-fixture",
+  "non_executable": true,
+  "contains_secrets": false,
+  "live_data_included": false,
+  "external_network_required": false,
+  "metadata": {
+    "fixture_only": true,
+    "runtime_enabled": false
+  }
+}
