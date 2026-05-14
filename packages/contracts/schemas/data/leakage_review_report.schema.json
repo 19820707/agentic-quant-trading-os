@@ -1,0 +1,226 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/data/leakage_review_report.schema.json",
+  "$comment": "LeakageReviewReport is a non-runtime governance contract. It does not approve model training, backtesting, trading, networking, credentials or execution.",
+  "title": "LeakageReviewReport",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "leakage_review_report_id",
+    "dataset_lineage_id",
+    "dataset_id",
+    "review_status",
+    "reviewed_at",
+    "reviewed_by",
+    "checks",
+    "overall_risk_level",
+    "approved_for_model_training",
+    "approved_for_backtest",
+    "approved_for_live_use",
+    "remediation_required",
+    "contains_secrets",
+    "external_network_required",
+    "non_executable"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "leakage_review_report_id": {
+      "type": "string",
+      "pattern": "^leakage_review_[A-Za-z0-9_\\-]+$"
+    },
+    "dataset_lineage_id": {
+      "type": "string",
+      "pattern": "^dataset_lineage_[A-Za-z0-9_\\-]+$"
+    },
+    "dataset_id": {
+      "type": "string",
+      "pattern": "^dataset_[A-Za-z0-9_\\-]+$"
+    },
+    "review_status": {
+      "type": "string",
+      "enum": [
+        "PASS",
+        "FAIL",
+        "NEEDS_REMEDIATION",
+        "INCONCLUSIVE"
+      ]
+    },
+    "reviewed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "reviewed_by": {
+      "type": "string",
+      "minLength": 1
+    },
+    "checks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "check_name",
+          "result",
+          "severity",
+          "reason"
+        ],
+        "properties": {
+          "check_name": {
+            "type": "string",
+            "enum": [
+              "point_in_time_join",
+              "future_label_exclusion",
+              "target_leakage",
+              "lookahead_features",
+              "survivorship_bias",
+              "train_test_overlap",
+              "timestamp_alignment",
+              "late_data_arrival",
+              "feature_availability",
+              "duplicate_event_contamination",
+              "manual_override_review"
+            ]
+          },
+          "result": {
+            "type": "string",
+            "enum": [
+              "PASS",
+              "FAIL",
+              "WARN",
+              "NOT_APPLICABLE"
+            ]
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "INFO",
+              "LOW",
+              "MEDIUM",
+              "HIGH",
+              "CRITICAL"
+            ]
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "remediation": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "overall_risk_level": {
+      "type": "string",
+      "enum": [
+        "LOW",
+        "MEDIUM",
+        "HIGH",
+        "CRITICAL"
+      ]
+    },
+    "approved_for_model_training": {
+      "type": "boolean",
+      "const": false
+    },
+    "approved_for_backtest": {
+      "type": "boolean",
+      "const": false
+    },
+    "approved_for_live_use": {
+      "type": "boolean",
+      "const": false
+    },
+    "remediation_required": {
+      "type": "boolean"
+    },
+    "remediation_plan": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "action_id",
+          "description",
+          "owner",
+          "status"
+        ],
+        "properties": {
+          "action_id": {
+            "type": "string",
+            "pattern": "^leakage_action_[A-Za-z0-9_\\-]+$"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1
+          },
+          "owner": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "OPEN",
+              "IN_PROGRESS",
+              "COMPLETE",
+              "WAIVED"
+            ]
+          }
+        }
+      }
+    },
+    "review_limitations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "contains_secrets": {
+      "type": "boolean",
+      "const": false
+    },
+    "external_network_required": {
+      "type": "boolean",
+      "const": false
+    },
+    "non_executable": {
+      "type": "boolean",
+      "const": true
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": {
+        "type": [
+          "string",
+          "number",
+          "boolean",
+          "null"
+        ]
+      }
+    }
+  }
+}
