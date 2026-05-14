@@ -1,0 +1,25 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_github_autonomy_003",
+  "correlation_id": "corr_github_autonomy_001",
+  "patch_plan_record_id": "ppr_github_autonomy_001",
+  "created_at": "2026-01-01T15:02:00Z",
+  "finding_id": "mfr_github_autonomy_001",
+  "risk_class": "medium",
+  "planned_files": [
+    "packages/contracts/schemas/governance/example.schema.json",
+    "tests/test_example_contract.py"
+  ],
+  "planned_tests": [
+    "python -m unittest discover -s tests -p \"test_contract_validator.py\"",
+    "python scripts/scaffold_audit.py"
+  ],
+  "rollback_plan": "revert generated branch before any merge consideration",
+  "sandbox_required": true,
+  "branch_creation_allowed": false,
+  "commit_allowed": false,
+  "pull_request_allowed": false,
+  "auto_merge_allowed": false,
+  "touches_trading_or_execution": false,
+  "credentials_allowed": false
+}

@@ -1,0 +1,25 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_github_autonomy_005",
+  "correlation_id": "corr_github_autonomy_001",
+  "maintenance_evidence_record_id": "mer_github_autonomy_001",
+  "created_at": "2026-01-01T15:04:00Z",
+  "repository": "19820707/agentic-quant-trading-os",
+  "finding_id": "mfr_github_autonomy_001",
+  "patch_plan_id": "ppr_github_autonomy_001",
+  "policy_decision_id": "acpd_github_autonomy_001",
+  "evidence_items": [
+    "reference review completed",
+    "contract fixtures validated",
+    "no repository write performed"
+  ],
+  "tests_executed": [
+    "test_github_autonomous_maintenance_governance.py",
+    "test_contract_fixtures.py"
+  ],
+  "audit_required": true,
+  "rollback_required": true,
+  "contains_credentials": false,
+  "repository_write_performed": false,
+  "auto_merge_performed": false
+}

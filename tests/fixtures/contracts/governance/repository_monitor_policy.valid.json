@@ -1,0 +1,27 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_github_autonomy_001",
+  "correlation_id": "corr_github_autonomy_001",
+  "repository_monitor_policy_id": "rmp_github_autonomy_001",
+  "created_at": "2026-01-01T15:00:00Z",
+  "scope": "single_repository",
+  "allowed_triggers": ["manual", "ci_result", "scheduled_dry_run"],
+  "allowed_scanners": ["scaffold_audit", "secret_artifact_audit", "contract_tests", "codeql_reference"],
+  "forbidden_targets": [
+    "main_direct_write",
+    "auto_merge",
+    "token_logging",
+    "broker_credentials",
+    "exchange_credentials",
+    "risk_gateway_bypass",
+    "execution_engine_mutation"
+  ],
+  "repository_write_allowed": false,
+  "auto_pr_allowed": false,
+  "auto_merge_allowed": false,
+  "github_app_enabled": false,
+  "webhook_receiver_enabled": false,
+  "network_access_allowed": false,
+  "credentials_allowed": false,
+  "production_enabled": false
+}

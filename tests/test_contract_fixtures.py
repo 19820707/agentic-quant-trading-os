@@ -31,6 +31,11 @@ FIXTURES = {
     "background_worker_policy.valid.json": ("research", "background_worker_policy"),
     "agent_cost_budget_policy.valid.json": ("research", "agent_cost_budget_policy"),
     "prompt_injection_review.valid.json": ("research", "prompt_injection_review"),
+    "governance/repository_monitor_policy.valid.json": ("governance", "repository_monitor_policy"),
+    "governance/maintenance_finding_record.valid.json": ("governance", "maintenance_finding_record"),
+    "governance/patch_plan_record.valid.json": ("governance", "patch_plan_record"),
+    "governance/autonomous_change_policy_decision.valid.json": ("governance", "autonomous_change_policy_decision"),
+    "governance/maintenance_evidence_record.valid.json": ("governance", "maintenance_evidence_record"),
 }
 
 FORBIDDEN_KEYS = {
@@ -80,7 +85,7 @@ class ContractFixtureTests(unittest.TestCase):
 
         self.assertEqual(
             correlation_ids,
-            {"corr_fixture_lifecycle_001", "corr_research_contracts_001"},
+            {"corr_fixture_lifecycle_001", "corr_research_contracts_001", "corr_github_autonomy_001"},
         )
 
     def test_research_fixtures_are_non_executable(self):
