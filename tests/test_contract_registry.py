@@ -13,6 +13,7 @@ class ContractRegistryTests(unittest.TestCase):
         self.assertIn("trading", domains)
         self.assertIn("audit", domains)
         self.assertIn("research", domains)
+        self.assertIn("features", domains)
 
     def test_lists_known_trading_schemas(self):
         names = {entry.name for entry in self.registry.list_schemas("trading")}
@@ -56,6 +57,11 @@ class ContractRegistryTests(unittest.TestCase):
                 "prompt_injection_review",
             }.issubset(names)
         )
+
+    def test_lists_feature_contracts_under_features(self):
+        names = {entry.name for entry in self.registry.list_schemas("features")}
+
+        self.assertIn("feature_store_approval_gate", names)
 
     def test_get_order_intent_works_without_suffix(self):
         entry = self.registry.get("trading", "order_intent")
