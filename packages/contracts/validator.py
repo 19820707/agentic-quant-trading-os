@@ -97,8 +97,46 @@ class ContractValidator:
 
     def _minimal_validate(self, schema: dict[str, Any], payload: Any) -> list[str]:
         errors: list[str] = []
-        self._minimal_validate_value(schema, payload, "$", errors)
+        resolved_schema = self._minimal_resolve_refs(schema, schema)
+        self._minimal_validate_value(resolved_schema, payload, "$", errors)
         return errors
+
+    def _minimal_resolve_refs(self, schema: Any, root_schema: dict[str, Any]) -> Any:
+        if isinstance(schema, list):
+            return [self._minimal_resolve_refs(item, root_schema) for item in schema]
+
+        if not isinstance(schema, dict):
+            return schema
+
+        ref = schema.get("$ref")
+        if isinstance(ref, str):
+            target = self._minimal_ref_target(ref, root_schema)
+            resolved = self._minimal_resolve_refs(target, root_schema)
+            siblings = {key: value for key, value in schema.items() if key != "$ref"}
+            if not siblings:
+                return resolved
+            merged = copy.deepcopy(resolved)
+            if isinstance(merged, dict):
+                merged.update(self._minimal_resolve_refs(siblings, root_schema))
+                return merged
+            return self._minimal_resolve_refs(siblings, root_schema)
+
+        return {
+            key: self._minimal_resolve_refs(value, root_schema)
+            for key, value in schema.items()
+        }
+
+    def _minimal_ref_target(self, ref: str, root_schema: dict[str, Any]) -> Any:
+        if not ref.startswith("#/"):
+            raise InvalidSchemaError(f"minimal validator only supports local JSON Pointer refs: {ref}")
+
+        target: Any = root_schema
+        for raw_part in ref[2:].split("/"):
+            part = raw_part.replace("~1", "/").replace("~0", "~")
+            if not isinstance(target, dict) or part not in target:
+                raise InvalidSchemaError(f"unresolvable local schema ref: {ref}")
+            target = target[part]
+        return target
 
     def _minimal_validate_value(self, schema: dict[str, Any], value: Any, path: str, errors: list[str]) -> None:
         if "const" in schema and value != schema["const"]:

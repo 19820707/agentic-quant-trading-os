@@ -1,0 +1,76 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_capability_manifest_001",
+  "correlation_id": "corr_capability_manifest_001",
+  "capability_manifest_id": "capman_repository_001",
+  "created_at": "2026-01-01T06:00:00Z",
+  "repository_phase": "SCAFFOLD_ONLY",
+  "capabilities": [
+    {
+      "domain": "trading_contracts",
+      "current_status": "CONTRACT_DEFINED",
+      "allowed_capability": ["schema validation", "fixture validation"],
+      "forbidden_capability": ["broker calls", "risk bypass", "capital impact"],
+      "required_contracts": ["order_intent", "risk_decision", "approved_order", "execution_report"],
+      "required_tests": ["test_core_contract_schemas.py", "test_contract_validator.py"],
+      "required_approval_gate": "docs/architecture/promotion_gates.md",
+      "promotion_target": "PAPER_ONLY",
+      "owner_boundary": "risk_and_execution"
+    },
+    {
+      "domain": "market_data_adapters",
+      "current_status": "FAKE_RUNTIME_ONLY",
+      "allowed_capability": ["in-memory data", "fake client tests"],
+      "forbidden_capability": ["private endpoints", "credentials", "real exchange client"],
+      "required_contracts": ["ReadOnlyMarketDataAdapter"],
+      "required_tests": ["test_market_data_adapter_interfaces.py", "test_market_data_adapter_registry.py"],
+      "required_approval_gate": "docs/integrations/external_adapter_review_checklist.md",
+      "promotion_target": "READ_ONLY_ADAPTER_ONLY",
+      "owner_boundary": "market_data"
+    },
+    {
+      "domain": "agent_runtime",
+      "current_status": "CONTRACT_DEFINED",
+      "allowed_capability": ["plans", "handoffs", "consensus records"],
+      "forbidden_capability": ["autonomous runtime", "tool execution", "credential access"],
+      "required_contracts": ["agent_orchestration_plan", "agent_role_assignment", "agent_handoff_record"],
+      "required_tests": ["test_agent_runtime_approval_gate.py", "test_prediction_research_contracts.py"],
+      "required_approval_gate": "docs/integrations/agent_runtime_approval_gate.md",
+      "promotion_target": "FAKE_RUNTIME_ONLY",
+      "owner_boundary": "governance"
+    },
+    {
+      "domain": "execution_engine",
+      "current_status": "SCAFFOLD_ONLY",
+      "allowed_capability": ["health endpoint", "readiness endpoint"],
+      "forbidden_capability": ["order routing", "private endpoint access", "position mutation"],
+      "required_contracts": ["approved_order", "execution_report"],
+      "required_tests": ["test_service_placeholders.py", "test_contract_fixtures.py"],
+      "required_approval_gate": "docs/architecture/promotion_gates.md",
+      "promotion_target": "GATED_LIVE_EXECUTION",
+      "owner_boundary": "execution"
+    }
+  ],
+  "forbidden_global_states": [
+    "LIVE_TRADING_ENABLED",
+    "BROKER_PRIVATE_ENDPOINTS",
+    "ORDER_SUBMISSION",
+    "ORDER_CANCELLATION",
+    "POSITION_MUTATION",
+    "UNREVIEWED_AGENT_RUNTIME",
+    "UNGATED_MEMORY_RUNTIME",
+    "UNGATED_NETWORK_ACCESS",
+    "UNGATED_CREDENTIAL_ACCESS",
+    "BYPASS_DETERMINISTIC_RISK_GATEWAY"
+  ],
+  "runtime_defaults": {
+    "runtime_enabled": false,
+    "production_enabled": false,
+    "network_access_allowed": false,
+    "credentials_allowed": false,
+    "private_endpoints_allowed": false,
+    "trading_methods_allowed": false,
+    "risk_approval_allowed": false,
+    "execution_approval_allowed": false
+  }
+}

@@ -1,7 +1,16 @@
 import copy
+import json
 import unittest
+from pathlib import Path
+from unittest.mock import patch
 
 from packages.contracts import ContractValidator, SchemaNotFoundError
+
+
+ROOT = Path(__file__).resolve().parents[1]
+CAPABILITY_MANIFEST_FIXTURE = (
+    ROOT / "tests" / "fixtures" / "contracts" / "governance" / "capability_manifest.valid.json"
+)
 
 
 ORDER_INTENT_PAYLOAD = {
@@ -128,6 +137,24 @@ class ContractValidatorTests(unittest.TestCase):
         self.assertTrue(result.valid)
         self.assertNotIn("api_key", payload)
         self.assertNotIn("broker_secret", payload)
+
+    def test_minimal_validator_resolves_local_refs_without_jsonschema(self):
+        with CAPABILITY_MANIFEST_FIXTURE.open(encoding="utf-8") as fixture_file:
+            payload = json.load(fixture_file)
+        payload["capabilities"][0]["current_status"] = "UNGATED_RUNTIME"
+
+        original_import = __import__
+
+        def import_without_jsonschema(name, *args, **kwargs):
+            if name == "jsonschema":
+                raise ImportError("jsonschema intentionally unavailable for fallback test")
+            return original_import(name, *args, **kwargs)
+
+        with patch("builtins.__import__", side_effect=import_without_jsonschema):
+            result = self.validator.validate("governance", "capability_manifest", payload)
+
+        self.assertFalse(result.valid)
+        self.assertTrue(any("enum" in error for error in result.errors))
 
 
 if __name__ == "__main__":

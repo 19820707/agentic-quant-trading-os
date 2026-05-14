@@ -49,10 +49,16 @@ jobs:
         run: python -m unittest discover -s tests -p "test_contract_registry.py"
       - name: Run contract fixture tests
         run: python -m unittest discover -s tests -p "test_contract_fixtures.py"
+      - name: Run capability manifest contract tests
+        run: python -m unittest discover -s tests -p "test_capability_manifest_contract.py"
       - name: Run prediction research contract tests
         run: python -m unittest discover -s tests -p "test_prediction_research_contracts.py"
       - name: Run prediction research fake graph tests
         run: python -m unittest discover -s tests -p "test_prediction_research_fake_graph.py"
+      - name: Run capability maturity matrix tests
+        run: python -m unittest discover -s tests -p "test_capability_maturity_matrix.py"
+      - name: Run runtime capability forbidden-state tests
+        run: python -m unittest discover -s tests -p "test_runtime_capability_forbidden_states.py"
 
   adapter-interface-tests:
     name: Adapter interface tests

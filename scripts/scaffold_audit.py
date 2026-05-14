@@ -6,6 +6,7 @@ checks and never calls external services.
 
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 
@@ -44,7 +45,9 @@ REQUIRED_ROOT_PATHS = [
     "package.json",
     ".env.example",
     "packages/contracts/schemas",
+    "packages/contracts/schemas/governance/capability_manifest.schema.json",
     "docs/architecture",
+    "docs/architecture/capability_maturity_matrix.md",
     "docs/runbooks",
     "security",
 ]
@@ -70,6 +73,19 @@ SKIPPED_DIRECTORY_NAMES = {
 SKIPPED_FILE_SUFFIXES = {
     ".pyc",
     ".pyo",
+}
+
+FORBIDDEN_CAPABILITY_STATES = {
+    "LIVE_TRADING_ENABLED",
+    "BROKER_PRIVATE_ENDPOINTS",
+    "ORDER_SUBMISSION",
+    "ORDER_CANCELLATION",
+    "POSITION_MUTATION",
+    "UNREVIEWED_AGENT_RUNTIME",
+    "UNGATED_MEMORY_RUNTIME",
+    "UNGATED_NETWORK_ACCESS",
+    "UNGATED_CREDENTIAL_ACCESS",
+    "BYPASS_DETERMINISTIC_RISK_GATEWAY",
 }
 
 
@@ -135,6 +151,42 @@ def check_prohibited_markers() -> None:
             fail(f"prohibited marker {marker!r} found in {path.relative_to(ROOT)}")
 
 
+def check_capability_governance() -> None:
+    matrix_path = ROOT / "docs" / "architecture" / "capability_maturity_matrix.md"
+    manifest_path = (
+        ROOT / "tests" / "fixtures" / "contracts" / "governance" / "capability_manifest.valid.json"
+    )
+
+    matrix_text = read_text(matrix_path)
+    for state in FORBIDDEN_CAPABILITY_STATES:
+        if state not in matrix_text:
+            fail(f"capability maturity matrix missing forbidden state: {state}")
+        if f"{state}: true" in matrix_text or f"{state}=true" in matrix_text:
+            fail(f"capability maturity matrix enables forbidden state: {state}")
+
+    with manifest_path.open(encoding="utf-8") as manifest_file:
+        manifest = json.load(manifest_file)
+
+    manifest_states = set(manifest.get("forbidden_global_states", []))
+    missing_states = FORBIDDEN_CAPABILITY_STATES - manifest_states
+    if missing_states:
+        fail(f"capability manifest missing forbidden states: {sorted(missing_states)}")
+
+    runtime_defaults = manifest.get("runtime_defaults", {})
+    for flag in (
+        "runtime_enabled",
+        "production_enabled",
+        "network_access_allowed",
+        "credentials_allowed",
+        "private_endpoints_allowed",
+        "trading_methods_allowed",
+        "risk_approval_allowed",
+        "execution_approval_allowed",
+    ):
+        if runtime_defaults.get(flag) is not False:
+            fail(f"capability manifest must keep {flag} false")
+
+
 def check_auditor_guardrails() -> None:
     marker_hits = [
         marker for marker in PROHIBITED_MARKERS if marker.lower() in "withdraw(amount)"
@@ -148,6 +200,7 @@ def main() -> None:
     check_required_paths()
     check_services()
     check_prohibited_markers()
+    check_capability_governance()
     print("scaffold audit passed: placeholders present, no trading logic executed")
 
 
