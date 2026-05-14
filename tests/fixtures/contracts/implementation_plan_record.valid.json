@@ -1,0 +1,23 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "implementation_plan_record_id": "ipr_fixture_001",
+  "created_at": "2026-01-01T03:04:00Z",
+  "plan_title": "Add local governance contracts.",
+  "expected_files": [
+    "packages/contracts/schemas/research/example.schema.json",
+    "tests/fixtures/contracts/example.valid.json"
+  ],
+  "planned_steps": [
+    "Define schema",
+    "Add fixture",
+    "Run local validation"
+  ],
+  "validation_commands": [
+    "python -m unittest discover -s tests"
+  ],
+  "rollback_plan": "Revert the documentation and contract-only PR.",
+  "approved_to_start": false,
+  "execution_allowed": false
+}

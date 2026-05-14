@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/plan_execute_verify_cycle.schema.json",
+  "$comment": "PlanExecuteVerifyCycle captures a bounded engineering cycle.",
+  "title": "PlanExecuteVerifyCycle",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "trace_id", "correlation_id", "plan_execute_verify_cycle_id", "created_at", "cycle_state", "plan_summary", "execution_summary", "verification_summary", "verification_passed", "next_action", "auto_continue_allowed", "execution_allowed"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "plan_execute_verify_cycle_id": {"type": "string", "pattern": "^pevc_[A-Za-z0-9_\\-]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "cycle_state": {"type": "string", "enum": ["plan_required", "execution_blocked", "verification_required", "verified", "blocked"]},
+    "plan_summary": {"type": "string", "minLength": 1},
+    "execution_summary": {"type": "string"},
+    "verification_summary": {"type": "string"},
+    "verification_passed": {"type": "boolean"},
+    "next_action": {"type": "string", "enum": ["human_review", "revise_plan", "run_local_tests", "stop"]},
+    "auto_continue_allowed": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

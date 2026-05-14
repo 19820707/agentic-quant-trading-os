@@ -13,3 +13,10 @@ consensus, topology, federation, memory, MCP registration, workers, budgets and
 prompt-injection review. They must not activate agent runtime, MCP runtime,
 federation, background workers, credentials, trading or execution.
 
+Product engineering discipline contracts may describe research, requirements,
+technical design, agent instructions, implementation plans, acceptance
+criteria, plan-execute-verify cycles, scope boundaries, handoffs, build
+readiness and post-build verification. They must not replace AGENTS.md,
+call LLMs, generate code automatically, deploy, access credentials, trade or
+execute.
+

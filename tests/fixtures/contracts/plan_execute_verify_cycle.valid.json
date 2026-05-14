@@ -1,0 +1,15 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "plan_execute_verify_cycle_id": "pevc_fixture_001",
+  "created_at": "2026-01-01T03:06:00Z",
+  "cycle_state": "verification_required",
+  "plan_summary": "Add contract-only governance artifact.",
+  "execution_summary": "Local files were prepared for review.",
+  "verification_summary": "Validation has not been promoted.",
+  "verification_passed": false,
+  "next_action": "human_review",
+  "auto_continue_allowed": false,
+  "execution_allowed": false
+}

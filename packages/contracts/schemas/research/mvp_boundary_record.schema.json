@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/mvp_boundary_record.schema.json",
+  "$comment": "MVPBoundaryRecord separates current scope from future work.",
+  "title": "MVPBoundaryRecord",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "trace_id", "correlation_id", "mvp_boundary_record_id", "created_at", "scope_name", "in_scope_items", "out_of_scope_items", "future_work_items", "scope_expansion_allowed", "human_review_required", "execution_allowed"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "mvp_boundary_record_id": {"type": "string", "pattern": "^mbr_[A-Za-z0-9_\\-]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "scope_name": {"type": "string", "minLength": 1},
+    "in_scope_items": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "out_of_scope_items": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "future_work_items": {"type": "array", "items": {"type": "string"}},
+    "scope_expansion_allowed": {"type": "boolean", "const": false},
+    "human_review_required": {"type": "boolean", "const": true},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

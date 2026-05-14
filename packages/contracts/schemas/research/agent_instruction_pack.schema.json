@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/agent_instruction_pack.schema.json",
+  "$comment": "AgentInstructionPack records scoped instructions without granting authority.",
+  "title": "AgentInstructionPack",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "trace_id", "correlation_id", "agent_instruction_pack_id", "created_at", "instruction_scope", "source_documents", "allowed_actions", "forbidden_actions", "requires_plan_before_edit", "human_approval_required", "credentials_allowed", "execution_allowed"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "agent_instruction_pack_id": {"type": "string", "pattern": "^aip_[A-Za-z0-9_\\-]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "instruction_scope": {"type": "string", "minLength": 1},
+    "source_documents": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "allowed_actions": {"type": "array", "items": {"type": "string", "enum": ["read", "plan", "document", "test_local", "report"]}},
+    "forbidden_actions": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "requires_plan_before_edit": {"type": "boolean", "const": true},
+    "human_approval_required": {"type": "boolean", "const": true},
+    "credentials_allowed": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

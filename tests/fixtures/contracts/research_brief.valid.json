@@ -1,0 +1,19 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "research_brief_id": "rb_fixture_001",
+  "created_at": "2026-01-01T03:00:00Z",
+  "research_subject": "Synthetic engineering discipline review.",
+  "research_questions": [
+    "What evidence is needed before implementation?",
+    "Which controls prevent scope expansion?"
+  ],
+  "evidence_summary": "Only local documentation and contract evidence is available.",
+  "open_questions": [
+    "Human review remains required."
+  ],
+  "human_review_required": true,
+  "implementation_allowed": false,
+  "execution_allowed": false
+}

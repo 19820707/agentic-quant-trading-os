@@ -28,6 +28,17 @@ The `research` schema domain contains:
 - `BackgroundWorkerPolicy`: disabled background worker policy
 - `AgentCostBudgetPolicy`: fail-closed cost budget policy
 - `PromptInjectionReview`: defensive prompt safety review
+- `ResearchBrief`: discovery record before implementation
+- `ProductRequirementRecord`: bounded requirement record
+- `TechnicalDesignRecord`: design decision and validation record
+- `AgentInstructionPack`: scoped instruction packet with forbidden actions
+- `ImplementationPlanRecord`: intended edit and validation plan
+- `AcceptanceCriteriaRecord`: testable acceptance criterion
+- `PlanExecuteVerifyCycle`: bounded engineering cycle record
+- `MVPBoundaryRecord`: scope and future-work boundary
+- `AgentHandoffArtifact`: redacted handoff context
+- `BuildReadinessChecklist`: readiness gate before implementation
+- `PostBuildVerificationRecord`: post-change verification evidence
 
 ## Safety Boundary
 
@@ -45,6 +56,14 @@ These contracts may describe:
 - swarm and federation policy
 - memory and MCP registration policy
 - prompt injection findings
+- product discovery
+- requirements
+- technical design
+- acceptance criteria
+- implementation plans
+- readiness checks
+- handoff context
+- post-build verification
 
 They must not contain:
 
@@ -61,6 +80,9 @@ They must not contain:
 - MCP runtime activation
 - federation
 - background automation
+- automatic code generation authority
+- deployment authority
+- scope expansion authority
 
 ## Execution Boundary
 
@@ -71,6 +93,8 @@ They must not contain:
 No research contract can approve risk, approve execution, submit orders, cancel orders, transfer funds or withdraw funds.
 
 Agent orchestration contracts cannot launch swarms, register MCP tools, federate agents, activate memory systems, schedule workers, access credentials, approve risk or approve execution. They only describe governance records and fail-closed policy.
+
+Product engineering discipline contracts cannot replace AGENTS.md, call LLMs, generate code automatically, deploy systems, expand scope, approve risk or approve execution. They only describe the evidence trail from research to verification.
 
 Any future path from a research contract toward an order must pass through separately approved services and deterministic-risk-gateway.
 

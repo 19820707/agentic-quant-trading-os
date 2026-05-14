@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/build_readiness_checklist.schema.json",
+  "$comment": "BuildReadinessChecklist records readiness gates before implementation.",
+  "title": "BuildReadinessChecklist",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "trace_id", "correlation_id", "build_readiness_checklist_id", "created_at", "target_change", "required_docs_present", "acceptance_criteria_present", "test_plan_present", "rollback_plan_present", "secrets_review_complete", "ready_to_build", "execution_allowed"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "build_readiness_checklist_id": {"type": "string", "pattern": "^brc_[A-Za-z0-9_\\-]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "target_change": {"type": "string", "minLength": 1},
+    "required_docs_present": {"type": "boolean"},
+    "acceptance_criteria_present": {"type": "boolean"},
+    "test_plan_present": {"type": "boolean"},
+    "rollback_plan_present": {"type": "boolean"},
+    "secrets_review_complete": {"type": "boolean"},
+    "ready_to_build": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

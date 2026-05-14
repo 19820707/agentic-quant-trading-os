@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/product_requirement_record.schema.json",
+  "$comment": "ProductRequirementRecord captures bounded requirements without implementation authority.",
+  "title": "ProductRequirementRecord",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "trace_id", "correlation_id", "product_requirement_record_id", "created_at", "requirement_title", "requirement_type", "user_value", "acceptance_criteria_ids", "out_of_scope", "human_review_required", "implementation_allowed", "execution_allowed"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "product_requirement_record_id": {"type": "string", "pattern": "^prr_[A-Za-z0-9_\\-]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "requirement_title": {"type": "string", "minLength": 1},
+    "requirement_type": {"type": "string", "enum": ["functional", "non_functional", "security", "reliability", "governance"]},
+    "user_value": {"type": "string", "minLength": 1},
+    "acceptance_criteria_ids": {"type": "array", "items": {"type": "string", "pattern": "^acr_[A-Za-z0-9_\\-]+$"}},
+    "out_of_scope": {"type": "array", "items": {"type": "string"}},
+    "human_review_required": {"type": "boolean", "const": true},
+    "implementation_allowed": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

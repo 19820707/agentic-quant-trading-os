@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/post_build_verification_record.schema.json",
+  "$comment": "PostBuildVerificationRecord captures post-change verification evidence.",
+  "title": "PostBuildVerificationRecord",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "trace_id", "correlation_id", "post_build_verification_record_id", "created_at", "change_subject", "commands_run", "verification_status", "residual_risks", "human_review_required", "promotion_allowed", "execution_allowed"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "post_build_verification_record_id": {"type": "string", "pattern": "^pbv_[A-Za-z0-9_\\-]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "change_subject": {"type": "string", "minLength": 1},
+    "commands_run": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "verification_status": {"type": "string", "enum": ["passed", "failed", "blocked", "not_run"]},
+    "residual_risks": {"type": "array", "items": {"type": "string"}},
+    "human_review_required": {"type": "boolean", "const": true},
+    "promotion_allowed": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

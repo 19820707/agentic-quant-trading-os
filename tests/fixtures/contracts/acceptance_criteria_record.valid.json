@@ -1,0 +1,16 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "acceptance_criteria_record_id": "acr_fixture_001",
+  "created_at": "2026-01-01T03:05:00Z",
+  "criterion": "The contract validates with local fixtures.",
+  "verification_method": "contract_test",
+  "evidence_required": [
+    "Schema validation output",
+    "Fixture validation output"
+  ],
+  "status": "ready_for_review",
+  "human_review_required": true,
+  "execution_allowed": false
+}

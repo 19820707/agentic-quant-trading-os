@@ -1,0 +1,29 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "agent_instruction_pack_id": "aip_fixture_001",
+  "created_at": "2026-01-01T03:03:00Z",
+  "instruction_scope": "Synthetic documentation-only task.",
+  "source_documents": [
+    "AGENTS.md",
+    "docs/architecture/product_engineering_governance.md"
+  ],
+  "allowed_actions": [
+    "read",
+    "plan",
+    "document",
+    "test_local",
+    "report"
+  ],
+  "forbidden_actions": [
+    "Read credentials",
+    "Call network",
+    "Deploy",
+    "Trade"
+  ],
+  "requires_plan_before_edit": true,
+  "human_approval_required": true,
+  "credentials_allowed": false,
+  "execution_allowed": false
+}
