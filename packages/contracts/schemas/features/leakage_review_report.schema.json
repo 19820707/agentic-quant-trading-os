@@ -14,9 +14,15 @@
     "reviewed_at",
     "review_status",
     "checks",
+    "required_checks_complete",
     "leakage_detected",
+    "blocked_on_leakage",
+    "manual_review_required",
     "model_training_approval_allowed",
+    "backtest_approval_allowed",
     "production_approval_allowed",
+    "network_allowed",
+    "credentials_allowed",
     "execution_allowed"
   ],
   "properties": {
@@ -73,7 +79,10 @@
               "label_horizon_validated",
               "future_data_join_guard",
               "train_validation_split_temporal",
-              "feature_availability_lag_reviewed"
+              "feature_availability_lag_reviewed",
+              "target_leakage_guard",
+              "cross_sectional_leakage_guard",
+              "survivorship_bias_reviewed"
             ]
           },
           "result": {
@@ -103,11 +112,35 @@
     "leakage_detected": {
       "type": "boolean"
     },
+    "required_checks_complete": {
+      "type": "boolean",
+      "const": true
+    },
+    "blocked_on_leakage": {
+      "type": "boolean",
+      "const": true
+    },
+    "manual_review_required": {
+      "type": "boolean",
+      "const": true
+    },
     "model_training_approval_allowed": {
       "type": "boolean",
       "const": false
     },
+    "backtest_approval_allowed": {
+      "type": "boolean",
+      "const": false
+    },
     "production_approval_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "network_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "credentials_allowed": {
       "type": "boolean",
       "const": false
     },

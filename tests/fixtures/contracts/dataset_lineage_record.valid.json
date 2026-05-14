@@ -9,6 +9,13 @@
   "event_timestamp_field": "event_timestamp",
   "created_timestamp_field": "created_timestamp",
   "available_timestamp_field": "available_timestamp",
+  "label_timestamp_field": "label_timestamp",
+  "label_horizon_seconds": 3600,
+  "dataset_window": {
+    "start_timestamp": "2026-01-01T00:00:00Z",
+    "end_timestamp": "2026-01-07T23:59:00Z"
+  },
+  "feature_availability_lag_seconds": 60,
   "source_snapshots": [
     {
       "source_id": "fixture_market_data",
@@ -17,8 +24,22 @@
       "as_of_timestamp": "2026-01-07T23:59:00Z"
     }
   ],
+  "transformation_ids": [
+    "transform_returns_v0_1_0",
+    "transform_volatility_v0_1_0",
+    "transform_availability_lag_guard_v0_1_0"
+  ],
+  "split_policy": {
+    "split_type": "temporal_holdout",
+    "temporal_order_preserved": true,
+    "shuffle_allowed": false
+  },
   "point_in_time_validated": true,
   "leakage_review_required": true,
   "model_training_approval_allowed": false,
+  "backtest_approval_allowed": false,
+  "network_allowed": false,
+  "credentials_allowed": false,
+  "production_approval_allowed": false,
   "execution_allowed": false
 }

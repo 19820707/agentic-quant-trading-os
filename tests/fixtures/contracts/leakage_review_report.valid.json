@@ -30,10 +30,52 @@
       "result": "PASS",
       "severity": "INFO",
       "reason": "Fixture documents point-in-time join guard requirement."
+    },
+    {
+      "check_name": "label_horizon_validated",
+      "result": "PASS",
+      "severity": "INFO",
+      "reason": "Fixture declares a positive prediction horizon."
+    },
+    {
+      "check_name": "train_validation_split_temporal",
+      "result": "PASS",
+      "severity": "INFO",
+      "reason": "Fixture requires temporal holdout split with no shuffling."
+    },
+    {
+      "check_name": "feature_availability_lag_reviewed",
+      "result": "PASS",
+      "severity": "INFO",
+      "reason": "Fixture declares availability lag in seconds."
+    },
+    {
+      "check_name": "target_leakage_guard",
+      "result": "PASS",
+      "severity": "INFO",
+      "reason": "Fixture requires label timestamp to be separated from feature availability."
+    },
+    {
+      "check_name": "cross_sectional_leakage_guard",
+      "result": "PASS",
+      "severity": "INFO",
+      "reason": "Fixture records cross-market leakage as reviewed before training."
+    },
+    {
+      "check_name": "survivorship_bias_reviewed",
+      "result": "PASS",
+      "severity": "INFO",
+      "reason": "Fixture records source snapshot identity for reproducible membership."
     }
   ],
+  "required_checks_complete": true,
   "leakage_detected": false,
+  "blocked_on_leakage": true,
+  "manual_review_required": true,
   "model_training_approval_allowed": false,
+  "backtest_approval_allowed": false,
   "production_approval_allowed": false,
+  "network_allowed": false,
+  "credentials_allowed": false,
   "execution_allowed": false
 }
