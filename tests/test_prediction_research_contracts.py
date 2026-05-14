@@ -137,6 +137,69 @@ RESEARCH_CONTRACTS = {
         "invalid_enum": "IGNORE",
         "timestamp_field": "reviewed_at",
     },
+    "multi_model_review_plan": {
+        "fixture": "multi_model_review_plan.valid.json",
+        "primary_id": "multi_model_review_plan_id",
+        "enum_field": "review_mode",
+        "invalid_enum": "AUTO_PROVIDER_RUN",
+        "timestamp_field": "created_at",
+    },
+    "consensus_gate_record": {
+        "fixture": "consensus_gate_record.valid.json",
+        "primary_id": "consensus_gate_record_id",
+        "enum_field": "gate_state",
+        "invalid_enum": "APPROVE_EXECUTION",
+        "timestamp_field": "created_at",
+    },
+    "adversarial_debate_record": {
+        "fixture": "adversarial_debate_record.valid.json",
+        "primary_id": "adversarial_debate_record_id",
+        "enum_field": "debate_stage",
+        "invalid_enum": "AUTO_SHIP",
+        "timestamp_field": "created_at",
+    },
+    "agent_status_ledger": {
+        "fixture": "agent_status_ledger.valid.json",
+        "primary_id": "agent_status_ledger_id",
+        "enum_field": None,
+        "invalid_enum": None,
+        "timestamp_field": "created_at",
+    },
+    "provider_capability_policy": {
+        "fixture": "provider_capability_policy.valid.json",
+        "primary_id": "provider_capability_policy_id",
+        "enum_field": "provider_family",
+        "invalid_enum": "UNBOUNDED_PROVIDER",
+        "timestamp_field": "created_at",
+    },
+    "reaction_engine_policy": {
+        "fixture": "reaction_engine_policy.valid.json",
+        "primary_id": "reaction_engine_policy_id",
+        "enum_field": "reaction_mode",
+        "invalid_enum": "AUTO_FIX",
+        "timestamp_field": "created_at",
+    },
+    "phase_quality_gate": {
+        "fixture": "phase_quality_gate.valid.json",
+        "primary_id": "phase_quality_gate_id",
+        "enum_field": "phase",
+        "invalid_enum": "PRODUCTION_RUN",
+        "timestamp_field": "created_at",
+    },
+    "prompt_preflight_policy": {
+        "fixture": "prompt_preflight_policy.valid.json",
+        "primary_id": "prompt_preflight_policy_id",
+        "enum_field": "prompt_source",
+        "invalid_enum": "MODEL_INSTRUCTIONS",
+        "timestamp_field": "created_at",
+    },
+    "security_review_workflow_record": {
+        "fixture": "security_review_workflow_record.valid.json",
+        "primary_id": "security_review_workflow_record_id",
+        "enum_field": "review_type",
+        "invalid_enum": "AUTO_REMEDIATE",
+        "timestamp_field": "created_at",
+    },
 }
 
 FORBIDDEN_SCHEMA_TEXT = (
@@ -253,6 +316,64 @@ class PredictionResearchContractTests(unittest.TestCase):
         self.assertTrue(prompt_review["tool_call_blocked"])
         self.assertFalse(prompt_review["credential_exposure_detected"])
         self.assertFalse(prompt_review["execution_allowed"])
+
+    def test_multi_model_review_contracts_are_disabled_by_default(self):
+        review_plan = self._fixture("multi_model_review_plan")
+        provider_policy = self._fixture("provider_capability_policy")
+        prompt_preflight = self._fixture("prompt_preflight_policy")
+
+        self.assertTrue(review_plan["human_review_required"])
+        self.assertFalse(review_plan["model_calls_allowed"])
+        self.assertFalse(review_plan["network_allowed"])
+        self.assertFalse(review_plan["credentials_allowed"])
+        self.assertFalse(review_plan["execution_allowed"])
+        for role in review_plan["candidate_provider_roles"]:
+            self.assertFalse(role["enabled"])
+        self.assertFalse(provider_policy["enabled"])
+        self.assertFalse(provider_policy["network_allowed"])
+        self.assertFalse(provider_policy["credential_access_allowed"])
+        self.assertFalse(provider_policy["tool_call_allowed"])
+        self.assertFalse(provider_policy["trading_authority_allowed"])
+        self.assertFalse(prompt_preflight["dispatch_allowed"])
+        self.assertFalse(prompt_preflight["sensitive_data_detected"])
+        self.assertTrue(prompt_preflight["tool_instruction_blocked"])
+
+    def test_consensus_debate_and_phase_gates_are_advisory_only(self):
+        consensus = self._fixture("consensus_gate_record")
+        debate = self._fixture("adversarial_debate_record")
+        phase_gate = self._fixture("phase_quality_gate")
+
+        self.assertTrue(consensus["human_review_required"])
+        self.assertTrue(consensus["advisory_only"])
+        self.assertFalse(consensus["risk_approval_allowed"])
+        self.assertFalse(consensus["execution_allowed"])
+        self.assertTrue(debate["requires_human_review"])
+        self.assertTrue(debate["advisory_only"])
+        self.assertFalse(debate["execution_allowed"])
+        self.assertTrue(phase_gate["human_review_required"])
+        self.assertFalse(phase_gate["promotion_allowed"])
+        self.assertFalse(phase_gate["execution_allowed"])
+
+    def test_reaction_and_security_workflows_cannot_mutate_repo_or_runtime(self):
+        reaction = self._fixture("reaction_engine_policy")
+        ledger = self._fixture("agent_status_ledger")
+        security_review = self._fixture("security_review_workflow_record")
+
+        self.assertEqual(reaction["max_retries"], 0)
+        self.assertFalse(reaction["auto_fix_allowed"])
+        self.assertFalse(reaction["auto_merge_allowed"])
+        self.assertFalse(reaction["network_allowed"])
+        self.assertFalse(reaction["credentials_allowed"])
+        self.assertFalse(reaction["execution_allowed"])
+        self.assertFalse(ledger["auto_retry_allowed"])
+        self.assertFalse(ledger["auto_fix_allowed"])
+        self.assertFalse(ledger["auto_merge_allowed"])
+        self.assertFalse(ledger["execution_allowed"])
+        self.assertTrue(security_review["requires_human_review"])
+        self.assertFalse(security_review["auto_remediation_allowed"])
+        self.assertFalse(security_review["network_allowed"])
+        self.assertFalse(security_review["credentials_allowed"])
+        self.assertFalse(security_review["execution_allowed"])
 
     def test_missing_required_fields_are_rejected(self):
         for name in RESEARCH_CONTRACTS:

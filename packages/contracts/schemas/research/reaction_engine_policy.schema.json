@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/reaction_engine_policy.schema.json",
+  "$comment": "ReactionEnginePolicy defines fail-closed policy for future CI/review reactions.",
+  "title": "ReactionEnginePolicy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "trace_id", "correlation_id", "reaction_engine_policy_id", "created_at", "observed_event", "reaction_mode", "max_retries", "auto_fix_allowed", "auto_merge_allowed", "network_allowed", "credentials_allowed", "execution_allowed"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "reaction_engine_policy_id": {"type": "string", "pattern": "^rep_[A-Za-z0-9_\\-]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "observed_event": {"type": "string", "enum": ["ci_failed", "review_requested", "changes_requested", "agent_blocked", "merge_candidate"]},
+    "reaction_mode": {"type": "string", "enum": ["record_only", "notify_human", "manual_triage_required"]},
+    "max_retries": {"type": "integer", "minimum": 0, "maximum": 0},
+    "auto_fix_allowed": {"type": "boolean", "const": false},
+    "auto_merge_allowed": {"type": "boolean", "const": false},
+    "network_allowed": {"type": "boolean", "const": false},
+    "credentials_allowed": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

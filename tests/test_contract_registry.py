@@ -54,6 +54,15 @@ class ContractRegistryTests(unittest.TestCase):
                 "background_worker_policy",
                 "agent_cost_budget_policy",
                 "prompt_injection_review",
+                "multi_model_review_plan",
+                "consensus_gate_record",
+                "adversarial_debate_record",
+                "agent_status_ledger",
+                "provider_capability_policy",
+                "reaction_engine_policy",
+                "phase_quality_gate",
+                "prompt_preflight_policy",
+                "security_review_workflow_record",
             }.issubset(names)
         )
 

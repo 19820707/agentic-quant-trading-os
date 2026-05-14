@@ -1,0 +1,22 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "adversarial_debate_record_id": "adr_fixture_001",
+  "created_at": "2026-01-01T02:02:00Z",
+  "debate_subject": "Synthetic method selection.",
+  "debate_stage": "define",
+  "claims": [
+    "The proposed approach is simple to review."
+  ],
+  "counterclaims": [
+    "The approach still lacks enough failure evidence."
+  ],
+  "unresolved_risks": [
+    "Ambiguous operating boundary."
+  ],
+  "synthesis": "Proceed only with documented, non-runtime scaffolding.",
+  "requires_human_review": true,
+  "advisory_only": true,
+  "execution_allowed": false
+}

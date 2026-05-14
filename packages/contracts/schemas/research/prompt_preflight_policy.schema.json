@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/prompt_preflight_policy.schema.json",
+  "$comment": "PromptPreflightPolicy checks prompts before any future model dispatch.",
+  "title": "PromptPreflightPolicy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "trace_id", "correlation_id", "prompt_preflight_policy_id", "created_at", "prompt_source", "max_prompt_chars", "observed_prompt_chars", "sensitive_data_detected", "market_metadata_delimited", "tool_instruction_blocked", "dispatch_allowed", "execution_allowed"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "prompt_preflight_policy_id": {"type": "string", "pattern": "^ppp_[A-Za-z0-9_\\-]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "prompt_source": {"type": "string", "enum": ["user_request", "market_metadata", "research_note", "code_review", "security_review"]},
+    "max_prompt_chars": {"type": "integer", "minimum": 1},
+    "observed_prompt_chars": {"type": "integer", "minimum": 0},
+    "sensitive_data_detected": {"type": "boolean", "const": false},
+    "market_metadata_delimited": {"type": "boolean"},
+    "tool_instruction_blocked": {"type": "boolean", "const": true},
+    "dispatch_allowed": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

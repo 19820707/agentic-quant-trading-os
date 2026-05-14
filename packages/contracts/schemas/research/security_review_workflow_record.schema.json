@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/security_review_workflow_record.schema.json",
+  "$comment": "SecurityReviewWorkflowRecord captures advisory security review workflow output.",
+  "title": "SecurityReviewWorkflowRecord",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "trace_id", "correlation_id", "security_review_workflow_record_id", "created_at", "review_scope", "review_type", "findings", "requires_human_review", "auto_remediation_allowed", "network_allowed", "credentials_allowed", "execution_allowed"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "security_review_workflow_record_id": {"type": "string", "pattern": "^srw_[A-Za-z0-9_\\-]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "review_scope": {"type": "string", "minLength": 1},
+    "review_type": {"type": "string", "enum": ["architecture", "code", "dependency", "prompt_injection", "runtime_boundary"]},
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["severity", "summary", "requires_fix"],
+        "properties": {
+          "severity": {"type": "string", "enum": ["info", "low", "medium", "high", "critical"]},
+          "summary": {"type": "string", "minLength": 1},
+          "requires_fix": {"type": "boolean"}
+        }
+      }
+    },
+    "requires_human_review": {"type": "boolean", "const": true},
+    "auto_remediation_allowed": {"type": "boolean", "const": false},
+    "network_allowed": {"type": "boolean", "const": false},
+    "credentials_allowed": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

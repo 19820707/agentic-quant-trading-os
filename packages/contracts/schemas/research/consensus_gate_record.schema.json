@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/consensus_gate_record.schema.json",
+  "$comment": "ConsensusGateRecord records advisory consensus and blocks unsafe decisions.",
+  "title": "ConsensusGateRecord",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "trace_id", "correlation_id", "consensus_gate_record_id", "created_at", "subject", "threshold_ratio", "observed_ratio", "gate_state", "dissent_count", "blocking_reasons", "human_review_required", "advisory_only", "risk_approval_allowed", "execution_allowed"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "consensus_gate_record_id": {"type": "string", "pattern": "^cgr_[A-Za-z0-9_\\-]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "subject": {"type": "string", "minLength": 1},
+    "threshold_ratio": {"type": "number", "minimum": 0.5, "maximum": 1.0},
+    "observed_ratio": {"type": "number", "minimum": 0.0, "maximum": 1.0},
+    "gate_state": {"type": "string", "enum": ["blocked", "manual_review_required", "advisory_passed", "inconclusive"]},
+    "dissent_count": {"type": "integer", "minimum": 0},
+    "blocking_reasons": {"type": "array", "items": {"type": "string"}},
+    "human_review_required": {"type": "boolean", "const": true},
+    "advisory_only": {"type": "boolean", "const": true},
+    "risk_approval_allowed": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

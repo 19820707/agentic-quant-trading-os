@@ -31,6 +31,15 @@ FIXTURES = {
     "background_worker_policy.valid.json": ("research", "background_worker_policy"),
     "agent_cost_budget_policy.valid.json": ("research", "agent_cost_budget_policy"),
     "prompt_injection_review.valid.json": ("research", "prompt_injection_review"),
+    "multi_model_review_plan.valid.json": ("research", "multi_model_review_plan"),
+    "consensus_gate_record.valid.json": ("research", "consensus_gate_record"),
+    "adversarial_debate_record.valid.json": ("research", "adversarial_debate_record"),
+    "agent_status_ledger.valid.json": ("research", "agent_status_ledger"),
+    "provider_capability_policy.valid.json": ("research", "provider_capability_policy"),
+    "reaction_engine_policy.valid.json": ("research", "reaction_engine_policy"),
+    "phase_quality_gate.valid.json": ("research", "phase_quality_gate"),
+    "prompt_preflight_policy.valid.json": ("research", "prompt_preflight_policy"),
+    "security_review_workflow_record.valid.json": ("research", "security_review_workflow_record"),
 }
 
 FORBIDDEN_KEYS = {
