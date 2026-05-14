@@ -13,14 +13,23 @@
     "feature_view_name",
     "feature_view_version",
     "created_at",
+    "dataset_lineage_record_id",
+    "leakage_review_report_id",
     "entity_keys",
     "features",
     "event_timestamp_field",
     "created_timestamp_field",
     "available_timestamp_field",
     "point_in_time_required",
+    "max_feature_staleness_seconds",
+    "feature_availability_lag_required",
+    "leakage_review_required",
     "materialization_allowed",
     "model_training_approval_allowed",
+    "backtest_approval_allowed",
+    "network_allowed",
+    "credentials_allowed",
+    "production_approval_allowed",
     "execution_allowed"
   ],
   "properties": {
@@ -52,6 +61,14 @@
       "type": "string",
       "format": "date-time"
     },
+    "dataset_lineage_record_id": {
+      "type": "string",
+      "pattern": "^dlr_[A-Za-z0-9_\\-]+$"
+    },
+    "leakage_review_report_id": {
+      "type": "string",
+      "pattern": "^lrr_[A-Za-z0-9_\\-]+$"
+    },
     "entity_keys": {
       "type": "array",
       "minItems": 1,
@@ -68,7 +85,11 @@
         "additionalProperties": false,
         "required": [
           "name",
-          "dtype"
+          "dtype",
+          "source_field",
+          "availability_lag_seconds",
+          "max_staleness_seconds",
+          "point_in_time_safe"
         ],
         "properties": {
           "name": {
@@ -86,6 +107,22 @@
           },
           "description": {
             "type": "string"
+          },
+          "source_field": {
+            "type": "string",
+            "minLength": 1
+          },
+          "availability_lag_seconds": {
+            "type": "number",
+            "minimum": 0
+          },
+          "max_staleness_seconds": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "point_in_time_safe": {
+            "type": "boolean",
+            "const": true
           }
         }
       }
@@ -106,11 +143,39 @@
       "type": "boolean",
       "const": true
     },
+    "max_feature_staleness_seconds": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "feature_availability_lag_required": {
+      "type": "boolean",
+      "const": true
+    },
+    "leakage_review_required": {
+      "type": "boolean",
+      "const": true
+    },
     "materialization_allowed": {
       "type": "boolean",
       "const": false
     },
     "model_training_approval_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "backtest_approval_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "network_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "credentials_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "production_approval_allowed": {
       "type": "boolean",
       "const": false
     },

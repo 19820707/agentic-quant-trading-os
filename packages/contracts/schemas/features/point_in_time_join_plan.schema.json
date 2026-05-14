@@ -13,13 +13,24 @@
     "join_plan_name",
     "created_at",
     "left_dataset_id",
+    "left_dataset_lineage_record_id",
     "right_feature_view_contract_id",
+    "leakage_review_report_id",
     "entity_keys",
     "join_timestamp_field",
     "feature_available_timestamp_field",
     "max_lookback_seconds",
+    "join_semantics",
+    "temporal_order_preserved",
+    "entity_key_match_required",
     "future_data_join_allowed",
     "leakage_review_required",
+    "materialization_allowed",
+    "model_training_approval_allowed",
+    "backtest_approval_allowed",
+    "network_allowed",
+    "credentials_allowed",
+    "production_approval_allowed",
     "execution_allowed"
   ],
   "properties": {
@@ -51,9 +62,17 @@
       "type": "string",
       "minLength": 1
     },
+    "left_dataset_lineage_record_id": {
+      "type": "string",
+      "pattern": "^dlr_[A-Za-z0-9_\\-]+$"
+    },
     "right_feature_view_contract_id": {
       "type": "string",
       "pattern": "^fvc_[A-Za-z0-9_\\-]+$"
+    },
+    "leakage_review_report_id": {
+      "type": "string",
+      "pattern": "^lrr_[A-Za-z0-9_\\-]+$"
     },
     "entity_keys": {
       "type": "array",
@@ -75,6 +94,18 @@
       "type": "integer",
       "minimum": 1
     },
+    "join_semantics": {
+      "type": "string",
+      "const": "asof_backward"
+    },
+    "temporal_order_preserved": {
+      "type": "boolean",
+      "const": true
+    },
+    "entity_key_match_required": {
+      "type": "boolean",
+      "const": true
+    },
     "future_data_join_allowed": {
       "type": "boolean",
       "const": false
@@ -82,6 +113,30 @@
     "leakage_review_required": {
       "type": "boolean",
       "const": true
+    },
+    "materialization_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "model_training_approval_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "backtest_approval_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "network_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "credentials_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "production_approval_allowed": {
+      "type": "boolean",
+      "const": false
     },
     "execution_allowed": {
       "type": "boolean",
