@@ -1,0 +1,14 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "intention_record_id": "ir_fixture_001",
+  "created_at": "2026-01-01T05:06:00Z",
+  "objective": "Review memory governance before adding runtime storage.",
+  "status": "open",
+  "owner": "human_reviewer",
+  "blocked_by": ["approval_gate"],
+  "must_not_do": ["Start MCP runtime", "Store credentials", "Call network"],
+  "autonomous_execution_allowed": false,
+  "execution_allowed": false
+}

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/memory_recall_request.schema.json",
+  "$comment": "MemoryRecallRequest records a bounded local recall request.",
+  "title": "MemoryRecallRequest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "trace_id", "correlation_id", "memory_recall_request_id", "created_at", "query", "allowed_scopes", "max_results", "redaction_required", "network_allowed", "credentials_allowed", "broker_context_allowed", "execution_allowed"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "memory_recall_request_id": {"type": "string", "pattern": "^mrr_[A-Za-z0-9_\\-]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "query": {"type": "string", "minLength": 1},
+    "allowed_scopes": {"type": "array", "minItems": 1, "items": {"type": "string", "enum": ["project_rule", "decision", "lesson", "handoff", "validation"]}},
+    "max_results": {"type": "integer", "minimum": 1, "maximum": 20},
+    "redaction_required": {"type": "boolean", "const": true},
+    "network_allowed": {"type": "boolean", "const": false},
+    "credentials_allowed": {"type": "boolean", "const": false},
+    "broker_context_allowed": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

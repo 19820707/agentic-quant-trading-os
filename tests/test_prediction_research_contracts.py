@@ -137,6 +137,90 @@ RESEARCH_CONTRACTS = {
         "invalid_enum": "IGNORE",
         "timestamp_field": "reviewed_at",
     },
+    "agent_memory_record": {
+        "fixture": "agent_memory_record.valid.json",
+        "primary_id": "agent_memory_record_id",
+        "enum_field": "memory_scope",
+        "invalid_enum": "REMOTE_STORE",
+        "timestamp_field": "created_at",
+    },
+    "memory_recall_request": {
+        "fixture": "memory_recall_request.valid.json",
+        "primary_id": "memory_recall_request_id",
+        "enum_field": None,
+        "invalid_enum": None,
+        "timestamp_field": "created_at",
+    },
+    "memory_recall_result": {
+        "fixture": "memory_recall_result.valid.json",
+        "primary_id": "memory_recall_result_id",
+        "enum_field": None,
+        "invalid_enum": None,
+        "timestamp_field": "created_at",
+    },
+    "memory_consolidation_record": {
+        "fixture": "memory_consolidation_record.valid.json",
+        "primary_id": "memory_consolidation_record_id",
+        "enum_field": None,
+        "invalid_enum": None,
+        "timestamp_field": "created_at",
+    },
+    "lesson_record": {
+        "fixture": "lesson_record.valid.json",
+        "primary_id": "lesson_record_id",
+        "enum_field": "status",
+        "invalid_enum": "AUTO_APPLY",
+        "timestamp_field": "created_at",
+    },
+    "agent_trait_record": {
+        "fixture": "agent_trait_record.valid.json",
+        "primary_id": "agent_trait_record_id",
+        "enum_field": "approval_status",
+        "invalid_enum": "AUTO_ENABLE",
+        "timestamp_field": "created_at",
+    },
+    "intention_record": {
+        "fixture": "intention_record.valid.json",
+        "primary_id": "intention_record_id",
+        "enum_field": "status",
+        "invalid_enum": "AUTO_RUN",
+        "timestamp_field": "created_at",
+    },
+    "memory_conflict_record": {
+        "fixture": "memory_conflict_record.valid.json",
+        "primary_id": "memory_conflict_record_id",
+        "enum_field": "conflict_type",
+        "invalid_enum": "IGNORE_SAFETY",
+        "timestamp_field": "created_at",
+    },
+    "session_digest_record": {
+        "fixture": "session_digest_record.valid.json",
+        "primary_id": "session_digest_record_id",
+        "enum_field": None,
+        "invalid_enum": None,
+        "timestamp_field": "created_at",
+    },
+    "memory_retention_policy": {
+        "fixture": "memory_retention_policy.valid.json",
+        "primary_id": "memory_retention_policy_id",
+        "enum_field": None,
+        "invalid_enum": None,
+        "timestamp_field": "created_at",
+    },
+    "federated_memory_policy": {
+        "fixture": "federated_memory_policy.valid.json",
+        "primary_id": "federated_memory_policy_id",
+        "enum_field": None,
+        "invalid_enum": None,
+        "timestamp_field": "created_at",
+    },
+    "mcp_memory_tool_policy": {
+        "fixture": "mcp_memory_tool_policy.valid.json",
+        "primary_id": "mcp_memory_tool_policy_id",
+        "enum_field": "tool_profile",
+        "invalid_enum": "ACTIVE_TOOL",
+        "timestamp_field": "created_at",
+    },
 }
 
 FORBIDDEN_SCHEMA_TEXT = (
@@ -253,6 +337,80 @@ class PredictionResearchContractTests(unittest.TestCase):
         self.assertTrue(prompt_review["tool_call_blocked"])
         self.assertFalse(prompt_review["credential_exposure_detected"])
         self.assertFalse(prompt_review["execution_allowed"])
+
+    def test_agent_memory_records_are_redacted_and_local_only(self):
+        memory = self._fixture("agent_memory_record")
+        recall_result = self._fixture("memory_recall_result")
+
+        self.assertEqual(memory["redaction_status"], "redacted")
+        self.assertFalse(memory["secret_storage_allowed"])
+        self.assertFalse(memory["external_memory_allowed"])
+        self.assertFalse(memory["execution_allowed"])
+        self.assertTrue(recall_result["redaction_applied"])
+        self.assertFalse(recall_result["contains_credentials"])
+        self.assertFalse(recall_result["execution_allowed"])
+
+    def test_memory_recall_blocks_network_credentials_and_broker_context(self):
+        recall_request = self._fixture("memory_recall_request")
+
+        self.assertTrue(recall_request["redaction_required"])
+        self.assertFalse(recall_request["network_allowed"])
+        self.assertFalse(recall_request["credentials_allowed"])
+        self.assertFalse(recall_request["broker_context_allowed"])
+        self.assertFalse(recall_request["execution_allowed"])
+
+    def test_memory_consolidation_lessons_traits_and_intentions_require_review(self):
+        consolidation = self._fixture("memory_consolidation_record")
+        lesson = self._fixture("lesson_record")
+        trait = self._fixture("agent_trait_record")
+        intention = self._fixture("intention_record")
+
+        self.assertTrue(consolidation["human_review_required"])
+        self.assertFalse(consolidation["automatic_deletion_allowed"])
+        self.assertFalse(consolidation["execution_allowed"])
+        self.assertTrue(lesson["human_review_required"])
+        self.assertEqual(lesson["status"], "review_required")
+        self.assertFalse(lesson["execution_allowed"])
+        self.assertTrue(trait["human_review_required"])
+        self.assertEqual(trait["approval_status"], "pending_review")
+        self.assertFalse(trait["runtime_identity_allowed"])
+        self.assertFalse(trait["execution_allowed"])
+        self.assertFalse(intention["autonomous_execution_allowed"])
+        self.assertFalse(intention["execution_allowed"])
+
+    def test_memory_conflicts_digests_and_retention_are_manual(self):
+        conflict = self._fixture("memory_conflict_record")
+        digest = self._fixture("session_digest_record")
+        retention = self._fixture("memory_retention_policy")
+
+        self.assertTrue(conflict["human_review_required"])
+        self.assertFalse(conflict["automatic_resolution_allowed"])
+        self.assertFalse(conflict["execution_allowed"])
+        self.assertFalse(digest["auto_digest_allowed"])
+        self.assertFalse(digest["execution_allowed"])
+        self.assertTrue(retention["redaction_required"])
+        self.assertFalse(retention["secret_storage_allowed"])
+        self.assertFalse(retention["automatic_deletion_allowed"])
+        self.assertTrue(retention["human_review_required"])
+        self.assertFalse(retention["execution_allowed"])
+
+    def test_federated_memory_and_mcp_memory_tools_are_disabled(self):
+        federation = self._fixture("federated_memory_policy")
+        mcp_memory = self._fixture("mcp_memory_tool_policy")
+
+        self.assertFalse(federation["federation_allowed"])
+        self.assertFalse(federation["peer_sync_allowed"])
+        self.assertFalse(federation["public_endpoint_allowed"])
+        self.assertFalse(federation["node_identity_allowed"])
+        self.assertFalse(federation["network_allowed"])
+        self.assertFalse(federation["credentials_allowed"])
+        self.assertFalse(federation["execution_allowed"])
+        self.assertFalse(mcp_memory["mcp_runtime_allowed"])
+        self.assertFalse(mcp_memory["tool_registration_allowed"])
+        self.assertFalse(mcp_memory["broker_credentials_allowed"])
+        self.assertFalse(mcp_memory["trading_allowed"])
+        self.assertFalse(mcp_memory["network_allowed"])
+        self.assertFalse(mcp_memory["execution_allowed"])
 
     def test_missing_required_fields_are_rejected(self):
         for name in RESEARCH_CONTRACTS:

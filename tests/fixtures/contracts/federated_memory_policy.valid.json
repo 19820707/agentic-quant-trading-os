@@ -1,0 +1,14 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "federated_memory_policy_id": "fmp_fixture_001",
+  "created_at": "2026-01-01T05:10:00Z",
+  "federation_allowed": false,
+  "peer_sync_allowed": false,
+  "public_endpoint_allowed": false,
+  "node_identity_allowed": false,
+  "network_allowed": false,
+  "credentials_allowed": false,
+  "execution_allowed": false
+}

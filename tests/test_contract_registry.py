@@ -54,6 +54,18 @@ class ContractRegistryTests(unittest.TestCase):
                 "background_worker_policy",
                 "agent_cost_budget_policy",
                 "prompt_injection_review",
+                "agent_memory_record",
+                "memory_recall_request",
+                "memory_recall_result",
+                "memory_consolidation_record",
+                "lesson_record",
+                "agent_trait_record",
+                "intention_record",
+                "memory_conflict_record",
+                "session_digest_record",
+                "memory_retention_policy",
+                "federated_memory_policy",
+                "mcp_memory_tool_policy",
             }.issubset(names)
         )
 

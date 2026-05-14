@@ -28,6 +28,18 @@ The `research` schema domain contains:
 - `BackgroundWorkerPolicy`: disabled background worker policy
 - `AgentCostBudgetPolicy`: fail-closed cost budget policy
 - `PromptInjectionReview`: defensive prompt safety review
+- `AgentMemoryRecord`: redacted local memory metadata
+- `MemoryRecallRequest`: bounded local recall request
+- `MemoryRecallResult`: redacted local recall results
+- `MemoryConsolidationRecord`: manual memory consolidation audit record
+- `LessonRecord`: reviewed lesson derived from evidence
+- `AgentTraitRecord`: non-runtime behavioral guidance record
+- `IntentionRecord`: explicit objective and blocked-action record
+- `MemoryConflictRecord`: manual contradiction review record
+- `SessionDigestRecord`: supervised work-session digest
+- `MemoryRetentionPolicy`: retention and redaction boundary policy
+- `FederatedMemoryPolicy`: disabled federated memory policy
+- `MCPMemoryToolPolicy`: disabled MCP memory tool policy
 
 ## Safety Boundary
 
@@ -45,6 +57,10 @@ These contracts may describe:
 - swarm and federation policy
 - memory and MCP registration policy
 - prompt injection findings
+- redacted local memory records
+- bounded recall requests and results
+- manual consolidation and conflict review
+- memory retention policy
 
 They must not contain:
 
@@ -61,6 +77,10 @@ They must not contain:
 - MCP runtime activation
 - federation
 - background automation
+- external memory stores
+- automatic memory absorption
+- automatic session digest runtime
+- context priming runtime
 
 ## Execution Boundary
 
@@ -71,6 +91,8 @@ They must not contain:
 No research contract can approve risk, approve execution, submit orders, cancel orders, transfer funds or withdraw funds.
 
 Agent orchestration contracts cannot launch swarms, register MCP tools, federate agents, activate memory systems, schedule workers, access credentials, approve risk or approve execution. They only describe governance records and fail-closed policy.
+
+Agent memory governance contracts cannot activate storage, embeddings, MCP memory tools, federated memory, automatic recall, automatic consolidation, automatic deletion, context priming, credentials, network access, risk approval or execution approval. They only define local reviewable payload boundaries.
 
 Any future path from a research contract toward an order must pass through separately approved services and deterministic-risk-gateway.
 

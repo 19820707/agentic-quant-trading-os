@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/federated_memory_policy.schema.json",
+  "$comment": "FederatedMemoryPolicy blocks peer memory federation by default.",
+  "title": "FederatedMemoryPolicy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "trace_id", "correlation_id", "federated_memory_policy_id", "created_at", "federation_allowed", "peer_sync_allowed", "public_endpoint_allowed", "node_identity_allowed", "network_allowed", "credentials_allowed", "execution_allowed"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "federated_memory_policy_id": {"type": "string", "pattern": "^fmp_[A-Za-z0-9_\\-]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "federation_allowed": {"type": "boolean", "const": false},
+    "peer_sync_allowed": {"type": "boolean", "const": false},
+    "public_endpoint_allowed": {"type": "boolean", "const": false},
+    "node_identity_allowed": {"type": "boolean", "const": false},
+    "network_allowed": {"type": "boolean", "const": false},
+    "credentials_allowed": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

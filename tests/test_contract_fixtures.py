@@ -31,6 +31,18 @@ FIXTURES = {
     "background_worker_policy.valid.json": ("research", "background_worker_policy"),
     "agent_cost_budget_policy.valid.json": ("research", "agent_cost_budget_policy"),
     "prompt_injection_review.valid.json": ("research", "prompt_injection_review"),
+    "agent_memory_record.valid.json": ("research", "agent_memory_record"),
+    "memory_recall_request.valid.json": ("research", "memory_recall_request"),
+    "memory_recall_result.valid.json": ("research", "memory_recall_result"),
+    "memory_consolidation_record.valid.json": ("research", "memory_consolidation_record"),
+    "lesson_record.valid.json": ("research", "lesson_record"),
+    "agent_trait_record.valid.json": ("research", "agent_trait_record"),
+    "intention_record.valid.json": ("research", "intention_record"),
+    "memory_conflict_record.valid.json": ("research", "memory_conflict_record"),
+    "session_digest_record.valid.json": ("research", "session_digest_record"),
+    "memory_retention_policy.valid.json": ("research", "memory_retention_policy"),
+    "federated_memory_policy.valid.json": ("research", "federated_memory_policy"),
+    "mcp_memory_tool_policy.valid.json": ("research", "mcp_memory_tool_policy"),
 }
 
 FORBIDDEN_KEYS = {

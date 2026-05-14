@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/memory_consolidation_record.schema.json",
+  "$comment": "MemoryConsolidationRecord records local consolidation audit state.",
+  "title": "MemoryConsolidationRecord",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "trace_id", "correlation_id", "memory_consolidation_record_id", "created_at", "records_reviewed", "duplicates_identified", "records_archived", "lessons_created", "human_review_required", "automatic_deletion_allowed", "execution_allowed"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "memory_consolidation_record_id": {"type": "string", "pattern": "^mcr_[A-Za-z0-9_\\-]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "records_reviewed": {"type": "integer", "minimum": 0},
+    "duplicates_identified": {"type": "integer", "minimum": 0},
+    "records_archived": {"type": "integer", "minimum": 0},
+    "lessons_created": {"type": "integer", "minimum": 0},
+    "human_review_required": {"type": "boolean", "const": true},
+    "automatic_deletion_allowed": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

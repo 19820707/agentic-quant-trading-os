@@ -1,0 +1,18 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "memory_recall_result_id": "mres_fixture_001",
+  "created_at": "2026-01-01T05:02:00Z",
+  "request_id": "mrr_fixture_001",
+  "matches": [
+    {
+      "memory_id": "amr_fixture_001",
+      "score": 0.9,
+      "reason": "Scope and tags match local governance request."
+    }
+  ],
+  "redaction_applied": true,
+  "contains_credentials": false,
+  "execution_allowed": false
+}
