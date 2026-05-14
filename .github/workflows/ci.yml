@@ -57,6 +57,10 @@ jobs:
         run: python -m unittest discover -s tests -p "test_fail_closed_risk_gateway.py"
       - name: Run dataset lineage and leakage contract tests
         run: python -m unittest discover -s tests -p "test_dataset_lineage_leakage_contracts.py"
+      - name: Run data lineage and leakage semantic audit tests
+        run: python -m unittest discover -s tests -p "test_data_lineage_leakage_audit.py"
+      - name: Run data lineage and leakage semantic audit
+        run: python scripts/data_lineage_leakage_audit.py
 
   adapter-interface-tests:
     name: Adapter interface tests
