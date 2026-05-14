@@ -54,6 +54,17 @@ class ContractRegistryTests(unittest.TestCase):
                 "background_worker_policy",
                 "agent_cost_budget_policy",
                 "prompt_injection_review",
+                "research_brief",
+                "product_requirement_record",
+                "technical_design_record",
+                "agent_instruction_pack",
+                "implementation_plan_record",
+                "acceptance_criteria_record",
+                "plan_execute_verify_cycle",
+                "mvp_boundary_record",
+                "agent_handoff_artifact",
+                "build_readiness_checklist",
+                "post_build_verification_record",
             }.issubset(names)
         )
 

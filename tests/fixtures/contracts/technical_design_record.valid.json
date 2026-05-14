@@ -1,0 +1,26 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "technical_design_record_id": "tdr_fixture_001",
+  "created_at": "2026-01-01T03:02:00Z",
+  "design_subject": "Contract-first engineering workflow.",
+  "selected_approach": "Use local JSON schemas and fixtures before implementation.",
+  "alternatives_considered": [
+    "Free-form prompt template",
+    "Runtime agent workflow"
+  ],
+  "risk_controls": [
+    "Human review required",
+    "No runtime activation",
+    "No credentials"
+  ],
+  "validation_plan": [
+    "Contract tests",
+    "Fixture tests",
+    "Static review tests"
+  ],
+  "human_review_required": true,
+  "implementation_allowed": false,
+  "execution_allowed": false
+}

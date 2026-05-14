@@ -1,0 +1,20 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "product_requirement_record_id": "prr_fixture_001",
+  "created_at": "2026-01-01T03:01:00Z",
+  "requirement_title": "Document safe engineering workflow.",
+  "requirement_type": "governance",
+  "user_value": "Changes remain reviewable and auditable.",
+  "acceptance_criteria_ids": [
+    "acr_fixture_001"
+  ],
+  "out_of_scope": [
+    "Runtime automation",
+    "Deployment"
+  ],
+  "human_review_required": true,
+  "implementation_allowed": false,
+  "execution_allowed": false
+}

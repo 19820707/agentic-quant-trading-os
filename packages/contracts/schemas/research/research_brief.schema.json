@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/research_brief.schema.json",
+  "$comment": "ResearchBrief records product or technical discovery before implementation.",
+  "title": "ResearchBrief",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "trace_id", "correlation_id", "research_brief_id", "created_at", "research_subject", "research_questions", "evidence_summary", "open_questions", "human_review_required", "implementation_allowed", "execution_allowed"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "research_brief_id": {"type": "string", "pattern": "^rb_[A-Za-z0-9_\\-]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "research_subject": {"type": "string", "minLength": 1},
+    "research_questions": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "evidence_summary": {"type": "string", "minLength": 1},
+    "open_questions": {"type": "array", "items": {"type": "string"}},
+    "human_review_required": {"type": "boolean", "const": true},
+    "implementation_allowed": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

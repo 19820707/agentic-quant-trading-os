@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/acceptance_criteria_record.schema.json",
+  "$comment": "AcceptanceCriteriaRecord captures testable acceptance criteria.",
+  "title": "AcceptanceCriteriaRecord",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "trace_id", "correlation_id", "acceptance_criteria_record_id", "created_at", "criterion", "verification_method", "evidence_required", "status", "human_review_required", "execution_allowed"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "acceptance_criteria_record_id": {"type": "string", "pattern": "^acr_[A-Za-z0-9_\\-]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "criterion": {"type": "string", "minLength": 1},
+    "verification_method": {"type": "string", "enum": ["unit_test", "contract_test", "static_review", "manual_review", "audit_script"]},
+    "evidence_required": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "status": {"type": "string", "enum": ["draft", "ready_for_review", "verified", "blocked"]},
+    "human_review_required": {"type": "boolean", "const": true},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

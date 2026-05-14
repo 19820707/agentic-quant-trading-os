@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/agent_handoff_artifact.schema.json",
+  "$comment": "AgentHandoffArtifact records safe context handoff between sessions.",
+  "title": "AgentHandoffArtifact",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "trace_id", "correlation_id", "agent_handoff_artifact_id", "created_at", "handoff_subject", "context_summary", "files_referenced", "open_decisions", "redaction_confirmed", "credentials_included", "execution_allowed"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "agent_handoff_artifact_id": {"type": "string", "pattern": "^aha_[A-Za-z0-9_\\-]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "handoff_subject": {"type": "string", "minLength": 1},
+    "context_summary": {"type": "string", "minLength": 1},
+    "files_referenced": {"type": "array", "items": {"type": "string"}},
+    "open_decisions": {"type": "array", "items": {"type": "string"}},
+    "redaction_confirmed": {"type": "boolean", "const": true},
+    "credentials_included": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

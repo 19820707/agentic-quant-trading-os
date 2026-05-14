@@ -1,0 +1,24 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "mvp_boundary_record_id": "mbr_fixture_001",
+  "created_at": "2026-01-01T03:07:00Z",
+  "scope_name": "Governance contract increment.",
+  "in_scope_items": [
+    "Schema",
+    "Fixture",
+    "Contract test"
+  ],
+  "out_of_scope_items": [
+    "Runtime service",
+    "Provider integration",
+    "Deployment"
+  ],
+  "future_work_items": [
+    "Separate approval gate"
+  ],
+  "scope_expansion_allowed": false,
+  "human_review_required": true,
+  "execution_allowed": false
+}

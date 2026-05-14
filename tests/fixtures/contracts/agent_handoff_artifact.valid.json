@@ -1,0 +1,19 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "agent_handoff_artifact_id": "aha_fixture_001",
+  "created_at": "2026-01-01T03:08:00Z",
+  "handoff_subject": "Synthetic contract handoff.",
+  "context_summary": "The next reviewer should inspect schemas, fixtures and local validation output.",
+  "files_referenced": [
+    "AGENTS.md",
+    "docs/architecture/product_engineering_governance.md"
+  ],
+  "open_decisions": [
+    "Whether to approve implementation in a later PR."
+  ],
+  "redaction_confirmed": true,
+  "credentials_included": false,
+  "execution_allowed": false
+}

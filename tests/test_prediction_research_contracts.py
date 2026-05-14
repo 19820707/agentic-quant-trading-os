@@ -137,6 +137,83 @@ RESEARCH_CONTRACTS = {
         "invalid_enum": "IGNORE",
         "timestamp_field": "reviewed_at",
     },
+    "research_brief": {
+        "fixture": "research_brief.valid.json",
+        "primary_id": "research_brief_id",
+        "enum_field": None,
+        "invalid_enum": None,
+        "timestamp_field": "created_at",
+    },
+    "product_requirement_record": {
+        "fixture": "product_requirement_record.valid.json",
+        "primary_id": "product_requirement_record_id",
+        "enum_field": "requirement_type",
+        "invalid_enum": "AUTO_BUILD",
+        "timestamp_field": "created_at",
+    },
+    "technical_design_record": {
+        "fixture": "technical_design_record.valid.json",
+        "primary_id": "technical_design_record_id",
+        "enum_field": None,
+        "invalid_enum": None,
+        "timestamp_field": "created_at",
+    },
+    "agent_instruction_pack": {
+        "fixture": "agent_instruction_pack.valid.json",
+        "primary_id": "agent_instruction_pack_id",
+        "enum_field": None,
+        "invalid_enum": None,
+        "timestamp_field": "created_at",
+    },
+    "implementation_plan_record": {
+        "fixture": "implementation_plan_record.valid.json",
+        "primary_id": "implementation_plan_record_id",
+        "enum_field": None,
+        "invalid_enum": None,
+        "timestamp_field": "created_at",
+    },
+    "acceptance_criteria_record": {
+        "fixture": "acceptance_criteria_record.valid.json",
+        "primary_id": "acceptance_criteria_record_id",
+        "enum_field": "verification_method",
+        "invalid_enum": "PRODUCTION_DEPLOY",
+        "timestamp_field": "created_at",
+    },
+    "plan_execute_verify_cycle": {
+        "fixture": "plan_execute_verify_cycle.valid.json",
+        "primary_id": "plan_execute_verify_cycle_id",
+        "enum_field": "cycle_state",
+        "invalid_enum": "AUTO_CONTINUE",
+        "timestamp_field": "created_at",
+    },
+    "mvp_boundary_record": {
+        "fixture": "mvp_boundary_record.valid.json",
+        "primary_id": "mvp_boundary_record_id",
+        "enum_field": None,
+        "invalid_enum": None,
+        "timestamp_field": "created_at",
+    },
+    "agent_handoff_artifact": {
+        "fixture": "agent_handoff_artifact.valid.json",
+        "primary_id": "agent_handoff_artifact_id",
+        "enum_field": None,
+        "invalid_enum": None,
+        "timestamp_field": "created_at",
+    },
+    "build_readiness_checklist": {
+        "fixture": "build_readiness_checklist.valid.json",
+        "primary_id": "build_readiness_checklist_id",
+        "enum_field": None,
+        "invalid_enum": None,
+        "timestamp_field": "created_at",
+    },
+    "post_build_verification_record": {
+        "fixture": "post_build_verification_record.valid.json",
+        "primary_id": "post_build_verification_record_id",
+        "enum_field": "verification_status",
+        "invalid_enum": "AUTO_APPROVED",
+        "timestamp_field": "created_at",
+    },
 }
 
 FORBIDDEN_SCHEMA_TEXT = (
@@ -253,6 +330,51 @@ class PredictionResearchContractTests(unittest.TestCase):
         self.assertTrue(prompt_review["tool_call_blocked"])
         self.assertFalse(prompt_review["credential_exposure_detected"])
         self.assertFalse(prompt_review["execution_allowed"])
+
+    def test_product_engineering_records_require_review_before_work(self):
+        brief = self._fixture("research_brief")
+        requirement = self._fixture("product_requirement_record")
+        design = self._fixture("technical_design_record")
+        instruction_pack = self._fixture("agent_instruction_pack")
+        plan = self._fixture("implementation_plan_record")
+
+        self.assertTrue(brief["human_review_required"])
+        self.assertFalse(brief["implementation_allowed"])
+        self.assertTrue(requirement["human_review_required"])
+        self.assertFalse(requirement["implementation_allowed"])
+        self.assertTrue(design["human_review_required"])
+        self.assertFalse(design["implementation_allowed"])
+        self.assertTrue(instruction_pack["requires_plan_before_edit"])
+        self.assertTrue(instruction_pack["human_approval_required"])
+        self.assertFalse(instruction_pack["credentials_allowed"])
+        self.assertFalse(plan["approved_to_start"])
+        self.assertFalse(plan["execution_allowed"])
+
+    def test_plan_execute_verify_and_scope_records_fail_closed(self):
+        acceptance = self._fixture("acceptance_criteria_record")
+        cycle = self._fixture("plan_execute_verify_cycle")
+        boundary = self._fixture("mvp_boundary_record")
+        readiness = self._fixture("build_readiness_checklist")
+        verification = self._fixture("post_build_verification_record")
+
+        self.assertTrue(acceptance["human_review_required"])
+        self.assertFalse(acceptance["execution_allowed"])
+        self.assertFalse(cycle["auto_continue_allowed"])
+        self.assertFalse(cycle["execution_allowed"])
+        self.assertFalse(boundary["scope_expansion_allowed"])
+        self.assertTrue(boundary["human_review_required"])
+        self.assertFalse(readiness["ready_to_build"])
+        self.assertFalse(readiness["execution_allowed"])
+        self.assertTrue(verification["human_review_required"])
+        self.assertFalse(verification["promotion_allowed"])
+        self.assertFalse(verification["execution_allowed"])
+
+    def test_agent_handoff_artifacts_are_redacted_and_non_executable(self):
+        handoff = self._fixture("agent_handoff_artifact")
+
+        self.assertTrue(handoff["redaction_confirmed"])
+        self.assertFalse(handoff["credentials_included"])
+        self.assertFalse(handoff["execution_allowed"])
 
     def test_missing_required_fields_are_rejected(self):
         for name in RESEARCH_CONTRACTS:

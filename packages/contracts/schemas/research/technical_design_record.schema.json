@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/technical_design_record.schema.json",
+  "$comment": "TechnicalDesignRecord captures design choices before code changes.",
+  "title": "TechnicalDesignRecord",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "trace_id", "correlation_id", "technical_design_record_id", "created_at", "design_subject", "selected_approach", "alternatives_considered", "risk_controls", "validation_plan", "human_review_required", "implementation_allowed", "execution_allowed"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "technical_design_record_id": {"type": "string", "pattern": "^tdr_[A-Za-z0-9_\\-]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "design_subject": {"type": "string", "minLength": 1},
+    "selected_approach": {"type": "string", "minLength": 1},
+    "alternatives_considered": {"type": "array", "items": {"type": "string"}},
+    "risk_controls": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "validation_plan": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "human_review_required": {"type": "boolean", "const": true},
+    "implementation_allowed": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}
