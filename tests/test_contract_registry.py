@@ -54,6 +54,12 @@ class ContractRegistryTests(unittest.TestCase):
                 "background_worker_policy",
                 "agent_cost_budget_policy",
                 "prompt_injection_review",
+                "investment_scenario_input",
+                "investment_scenario_projection",
+                "investor_profile_allocation",
+                "long_horizon_scenario_set",
+                "assumption_sensitivity_report",
+                "financial_education_disclaimer",
             }.issubset(names)
         )
 

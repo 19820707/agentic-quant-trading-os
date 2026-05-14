@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/financial_education_disclaimer.schema.json",
+  "$comment": "FinancialEducationDisclaimer records non-advisory simulation boundary.",
+  "title": "FinancialEducationDisclaimer",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "trace_id", "correlation_id", "financial_education_disclaimer_id", "created_at", "disclaimer_text", "educational_only", "not_financial_advice", "not_personalized_recommendation", "not_risk_approval", "not_execution_approval", "execution_allowed"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "financial_education_disclaimer_id": {"type": "string", "pattern": "^fed_[A-Za-z0-9_\\-]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "disclaimer_text": {"type": "string", "minLength": 1},
+    "educational_only": {"type": "boolean", "const": true},
+    "not_financial_advice": {"type": "boolean", "const": true},
+    "not_personalized_recommendation": {"type": "boolean", "const": true},
+    "not_risk_approval": {"type": "boolean", "const": true},
+    "not_execution_approval": {"type": "boolean", "const": true},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

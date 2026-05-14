@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/investment_scenario_input.schema.json",
+  "$comment": "InvestmentScenarioInput captures local educational scenario assumptions.",
+  "title": "InvestmentScenarioInput",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "trace_id", "correlation_id", "investment_scenario_input_id", "created_at", "currency", "initial_capital", "monthly_contribution", "annual_return_assumption", "horizon_years", "contribution_frequency", "assumption_source", "market_data_required", "personalized_advice_allowed", "trading_allowed", "execution_allowed"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "investment_scenario_input_id": {"type": "string", "pattern": "^isi_[A-Za-z0-9_\\-]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "currency": {"type": "string", "minLength": 3, "maxLength": 3},
+    "initial_capital": {"type": "number", "minimum": 0},
+    "monthly_contribution": {"type": "number", "minimum": 0},
+    "annual_return_assumption": {"type": "number", "minimum": -1, "maximum": 1},
+    "horizon_years": {"type": "integer", "minimum": 1, "maximum": 60},
+    "contribution_frequency": {"type": "string", "enum": ["monthly"]},
+    "assumption_source": {"type": "string", "enum": ["synthetic", "manual", "documented_static"]},
+    "market_data_required": {"type": "boolean", "const": false},
+    "personalized_advice_allowed": {"type": "boolean", "const": false},
+    "trading_allowed": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

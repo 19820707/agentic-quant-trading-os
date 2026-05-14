@@ -1,0 +1,14 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "financial_education_disclaimer_id": "fed_fixture_001",
+  "created_at": "2026-01-01T04:05:00Z",
+  "disclaimer_text": "This scenario is educational and uses static assumptions only.",
+  "educational_only": true,
+  "not_financial_advice": true,
+  "not_personalized_recommendation": true,
+  "not_risk_approval": true,
+  "not_execution_approval": true,
+  "execution_allowed": false
+}

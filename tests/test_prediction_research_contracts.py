@@ -137,6 +137,48 @@ RESEARCH_CONTRACTS = {
         "invalid_enum": "IGNORE",
         "timestamp_field": "reviewed_at",
     },
+    "investment_scenario_input": {
+        "fixture": "investment_scenario_input.valid.json",
+        "primary_id": "investment_scenario_input_id",
+        "enum_field": "assumption_source",
+        "invalid_enum": "REAL_MARKET_FEED",
+        "timestamp_field": "created_at",
+    },
+    "investment_scenario_projection": {
+        "fixture": "investment_scenario_projection.valid.json",
+        "primary_id": "investment_scenario_projection_id",
+        "enum_field": "calculation_method",
+        "invalid_enum": "BROKER_RETURN_FORECAST",
+        "timestamp_field": "created_at",
+    },
+    "investor_profile_allocation": {
+        "fixture": "investor_profile_allocation.valid.json",
+        "primary_id": "investor_profile_allocation_id",
+        "enum_field": "profile",
+        "invalid_enum": "AUTO_TRADE",
+        "timestamp_field": "created_at",
+    },
+    "long_horizon_scenario_set": {
+        "fixture": "long_horizon_scenario_set.valid.json",
+        "primary_id": "long_horizon_scenario_set_id",
+        "enum_field": "comparison_basis",
+        "invalid_enum": "MARKET_FEED",
+        "timestamp_field": "created_at",
+    },
+    "assumption_sensitivity_report": {
+        "fixture": "assumption_sensitivity_report.valid.json",
+        "primary_id": "assumption_sensitivity_report_id",
+        "enum_field": "sensitivity_axis",
+        "invalid_enum": "BROKER_SIGNAL",
+        "timestamp_field": "created_at",
+    },
+    "financial_education_disclaimer": {
+        "fixture": "financial_education_disclaimer.valid.json",
+        "primary_id": "financial_education_disclaimer_id",
+        "enum_field": None,
+        "invalid_enum": None,
+        "timestamp_field": "created_at",
+    },
 }
 
 FORBIDDEN_SCHEMA_TEXT = (
@@ -253,6 +295,38 @@ class PredictionResearchContractTests(unittest.TestCase):
         self.assertTrue(prompt_review["tool_call_blocked"])
         self.assertFalse(prompt_review["credential_exposure_detected"])
         self.assertFalse(prompt_review["execution_allowed"])
+
+    def test_investment_scenario_contracts_are_educational_only(self):
+        scenario_input = self._fixture("investment_scenario_input")
+        projection = self._fixture("investment_scenario_projection")
+        allocation = self._fixture("investor_profile_allocation")
+        horizons = self._fixture("long_horizon_scenario_set")
+        sensitivity = self._fixture("assumption_sensitivity_report")
+        disclaimer = self._fixture("financial_education_disclaimer")
+
+        self.assertFalse(scenario_input["market_data_required"])
+        self.assertFalse(scenario_input["personalized_advice_allowed"])
+        self.assertFalse(scenario_input["trading_allowed"])
+        self.assertFalse(scenario_input["execution_allowed"])
+        self.assertFalse(projection["recommendation_allowed"])
+        self.assertFalse(projection["risk_approval_allowed"])
+        self.assertFalse(projection["execution_allowed"])
+        self.assertTrue(allocation["educational_only"])
+        self.assertFalse(allocation["personalized_advice_allowed"])
+        self.assertFalse(allocation["trading_allowed"])
+        self.assertFalse(allocation["execution_allowed"])
+        self.assertFalse(horizons["market_data_required"])
+        self.assertFalse(horizons["recommendation_allowed"])
+        self.assertFalse(horizons["execution_allowed"])
+        self.assertFalse(sensitivity["recommendation_allowed"])
+        self.assertFalse(sensitivity["risk_approval_allowed"])
+        self.assertFalse(sensitivity["execution_allowed"])
+        self.assertTrue(disclaimer["educational_only"])
+        self.assertTrue(disclaimer["not_financial_advice"])
+        self.assertTrue(disclaimer["not_personalized_recommendation"])
+        self.assertTrue(disclaimer["not_risk_approval"])
+        self.assertTrue(disclaimer["not_execution_approval"])
+        self.assertFalse(disclaimer["execution_allowed"])
 
     def test_missing_required_fields_are_rejected(self):
         for name in RESEARCH_CONTRACTS:

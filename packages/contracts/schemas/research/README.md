@@ -13,3 +13,8 @@ consensus, topology, federation, memory, MCP registration, workers, budgets and
 prompt-injection review. They must not activate agent runtime, MCP runtime,
 federation, background workers, credentials, trading or execution.
 
+Investment scenario contracts may describe educational assumptions, projections,
+profile buckets, long-horizon comparisons, sensitivity observations and
+disclaimers. They must not provide personalized advice, recommend trades,
+approve risk or approve execution.
+

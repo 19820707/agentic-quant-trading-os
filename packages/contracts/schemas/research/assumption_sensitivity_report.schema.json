@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/assumption_sensitivity_report.schema.json",
+  "$comment": "AssumptionSensitivityReport compares static assumption variants.",
+  "title": "AssumptionSensitivityReport",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "trace_id", "correlation_id", "assumption_sensitivity_report_id", "created_at", "input_id", "sensitivity_axis", "scenarios", "key_observation", "recommendation_allowed", "risk_approval_allowed", "execution_allowed"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "assumption_sensitivity_report_id": {"type": "string", "pattern": "^asr_[A-Za-z0-9_\\-]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "input_id": {"type": "string", "pattern": "^isi_[A-Za-z0-9_\\-]+$"},
+    "sensitivity_axis": {"type": "string", "enum": ["return_assumption", "monthly_contribution", "horizon_years"]},
+    "scenarios": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["label", "assumption_value", "projected_value"],
+        "properties": {
+          "label": {"type": "string", "minLength": 1},
+          "assumption_value": {"type": "number"},
+          "projected_value": {"type": "number", "minimum": 0}
+        }
+      }
+    },
+    "key_observation": {"type": "string", "minLength": 1},
+    "recommendation_allowed": {"type": "boolean", "const": false},
+    "risk_approval_allowed": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

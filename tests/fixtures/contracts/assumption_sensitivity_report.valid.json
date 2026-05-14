@@ -1,0 +1,30 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "assumption_sensitivity_report_id": "asr_fixture_001",
+  "created_at": "2026-01-01T04:04:00Z",
+  "input_id": "isi_fixture_001",
+  "sensitivity_axis": "return_assumption",
+  "scenarios": [
+    {
+      "label": "lower static assumption",
+      "assumption_value": 0.03,
+      "projected_value": 37000.0
+    },
+    {
+      "label": "base static assumption",
+      "assumption_value": 0.06,
+      "projected_value": 43000.0
+    },
+    {
+      "label": "higher static assumption",
+      "assumption_value": 0.09,
+      "projected_value": 51000.0
+    }
+  ],
+  "key_observation": "Projection is sensitive to return assumptions.",
+  "recommendation_allowed": false,
+  "risk_approval_allowed": false,
+  "execution_allowed": false
+}

@@ -1,0 +1,27 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "investor_profile_allocation_id": "ipa_fixture_001",
+  "created_at": "2026-01-01T04:02:00Z",
+  "profile": "moderate",
+  "allocations": [
+    {
+      "asset_bucket": "income oriented bucket",
+      "weight": 0.5
+    },
+    {
+      "asset_bucket": "growth oriented bucket",
+      "weight": 0.3
+    },
+    {
+      "asset_bucket": "cash buffer bucket",
+      "weight": 0.2
+    }
+  ],
+  "total_weight": 1.0,
+  "educational_only": true,
+  "personalized_advice_allowed": false,
+  "trading_allowed": false,
+  "execution_allowed": false
+}

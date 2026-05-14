@@ -1,0 +1,29 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "long_horizon_scenario_set_id": "lhs_fixture_001",
+  "created_at": "2026-01-01T04:03:00Z",
+  "input_id": "isi_fixture_001",
+  "horizons": [
+    {
+      "horizon_years": 2,
+      "projected_value": 7500.0,
+      "estimated_monthly_income": 30.0
+    },
+    {
+      "horizon_years": 5,
+      "projected_value": 18000.0,
+      "estimated_monthly_income": 72.0
+    },
+    {
+      "horizon_years": 10,
+      "projected_value": 43000.0,
+      "estimated_monthly_income": 172.0
+    }
+  ],
+  "comparison_basis": "static_assumption",
+  "market_data_required": false,
+  "recommendation_allowed": false,
+  "execution_allowed": false
+}

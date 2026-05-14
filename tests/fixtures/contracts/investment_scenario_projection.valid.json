@@ -1,0 +1,17 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "investment_scenario_projection_id": "isp_fixture_001",
+  "created_at": "2026-01-01T04:01:00Z",
+  "input_id": "isi_fixture_001",
+  "horizon_years": 10,
+  "total_contributed": 31000.0,
+  "estimated_growth": 12000.0,
+  "projected_value": 43000.0,
+  "estimated_monthly_income": 172.0,
+  "calculation_method": "compound_monthly_static_assumption",
+  "recommendation_allowed": false,
+  "risk_approval_allowed": false,
+  "execution_allowed": false
+}
