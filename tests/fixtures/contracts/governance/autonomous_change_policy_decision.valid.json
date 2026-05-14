@@ -1,0 +1,19 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_github_autonomy_004",
+  "correlation_id": "corr_github_autonomy_001",
+  "autonomous_change_policy_decision_id": "acpd_github_autonomy_001",
+  "created_at": "2026-01-01T15:03:00Z",
+  "finding_id": "mfr_github_autonomy_001",
+  "patch_plan_id": "ppr_github_autonomy_001",
+  "risk_class": "medium",
+  "decision": "REQUIRE_HUMAN_REVIEW",
+  "allowed_next_action": "manual_review",
+  "human_review_required": true,
+  "repository_write_allowed": false,
+  "branch_creation_allowed": false,
+  "pull_request_allowed": false,
+  "auto_merge_allowed": false,
+  "credentials_allowed": false,
+  "production_enabled": false
+}
