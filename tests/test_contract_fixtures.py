@@ -32,6 +32,12 @@ FIXTURES = {
     "agent_cost_budget_policy.valid.json": ("research", "agent_cost_budget_policy"),
     "prompt_injection_review.valid.json": ("research", "prompt_injection_review"),
     "feature_store_approval_gate.valid.json": ("features", "feature_store_approval_gate"),
+    "agent_task_spec.valid.json": ("governance", "agent_task_spec"),
+    "agent_patch_plan.valid.json": ("governance", "agent_patch_plan"),
+    "agent_risk_assessment.valid.json": ("governance", "agent_risk_assessment"),
+    "sandbox_execution_report.valid.json": ("governance", "sandbox_execution_report"),
+    "test_evidence_report.valid.json": ("governance", "test_evidence_report"),
+    "rollback_plan.valid.json": ("governance", "rollback_plan"),
 }
 
 FORBIDDEN_KEYS = {
@@ -85,6 +91,7 @@ class ContractFixtureTests(unittest.TestCase):
                 "corr_fixture_lifecycle_001",
                 "corr_research_contracts_001",
                 "corr_feature_controls_001",
+                "corr_agentic_governance_001",
             },
         )
 

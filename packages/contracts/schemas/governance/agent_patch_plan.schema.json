@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/governance/agent_patch_plan.schema.json",
+  "$comment": "AgentPatchPlan is a proposed patch plan only. It grants no permission to write main, auto-merge, access credentials, use network, trade, approve risk or execute.",
+  "title": "AgentPatchPlan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "agent_patch_plan_id",
+    "agent_task_spec_id",
+    "created_at",
+    "risk_level",
+    "proposed_files",
+    "forbidden_files",
+    "test_commands",
+    "rollback_plan",
+    "apply_to_main_allowed",
+    "auto_merge_allowed",
+    "network_allowed",
+    "credentials_allowed",
+    "trading_changes_allowed",
+    "risk_approval_allowed",
+    "execution_allowed",
+    "requires_human_review"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "agent_patch_plan_id": {
+      "type": "string",
+      "pattern": "^app_[A-Za-z0-9_\\-]+$"
+    },
+    "agent_task_spec_id": {
+      "type": "string",
+      "pattern": "^ats_[A-Za-z0-9_\\-]+$"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "risk_level": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ]
+    },
+    "proposed_files": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "forbidden_files": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "test_commands": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "rollback_plan": {
+      "type": "string",
+      "minLength": 1
+    },
+    "apply_to_main_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "auto_merge_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "network_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "credentials_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "trading_changes_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "risk_approval_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "requires_human_review": {
+      "type": "boolean",
+      "const": true
+    }
+  }
+}

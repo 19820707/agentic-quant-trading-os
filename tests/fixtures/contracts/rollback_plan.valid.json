@@ -1,0 +1,28 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_agentic_governance_001",
+  "correlation_id": "corr_agentic_governance_001",
+  "rollback_plan_id": "rbp_docs_quality_gate_001",
+  "agent_patch_plan_id": "app_docs_quality_gate_001",
+  "created_at": "2026-05-14T00:00:00Z",
+  "rollback_scope": "pull_request_only",
+  "rollback_steps": [
+    "Close or update the pull request before merge.",
+    "Revert the branch commit if review rejects the change.",
+    "Rerun local validation after rollback."
+  ],
+  "verification_commands": [
+    "python -m unittest discover -s tests",
+    "python scripts/scaffold_audit.py",
+    "python scripts/secret_artifact_audit.py"
+  ],
+  "owner_role": "maintainer",
+  "requires_human_approval": true,
+  "automated_rollback_allowed": false,
+  "production_rollback_allowed": false,
+  "auto_merge_allowed": false,
+  "network_allowed": false,
+  "credentials_allowed": false,
+  "risk_approval_allowed": false,
+  "execution_allowed": false
+}

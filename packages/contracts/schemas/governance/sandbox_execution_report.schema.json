@@ -1,0 +1,139 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/governance/sandbox_execution_report.schema.json",
+  "$comment": "SandboxExecutionReport records evidence from an isolated execution environment. It does not grant command execution, network access, credentials, auto-merge, risk approval or execution approval.",
+  "title": "SandboxExecutionReport",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "sandbox_execution_report_id",
+    "agent_patch_plan_id",
+    "agent_risk_assessment_id",
+    "created_at",
+    "sandbox_mode",
+    "commands_declared",
+    "commands_executed",
+    "exit_code",
+    "artifact_paths",
+    "network_observed",
+    "credentials_observed",
+    "filesystem_write_scope",
+    "result",
+    "auto_merge_allowed",
+    "network_allowed",
+    "credentials_allowed",
+    "risk_approval_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sandbox_execution_report_id": {
+      "type": "string",
+      "pattern": "^ser_[A-Za-z0-9_\\-]+$"
+    },
+    "agent_patch_plan_id": {
+      "type": "string",
+      "pattern": "^app_[A-Za-z0-9_\\-]+$"
+    },
+    "agent_risk_assessment_id": {
+      "type": "string",
+      "pattern": "^ara_[A-Za-z0-9_\\-]+$"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "sandbox_mode": {
+      "type": "string",
+      "enum": [
+        "local_dry_run",
+        "isolated_ci",
+        "not_executed"
+      ]
+    },
+    "commands_declared": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "commands_executed": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "exit_code": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "artifact_paths": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "network_observed": {
+      "type": "boolean",
+      "const": false
+    },
+    "credentials_observed": {
+      "type": "boolean",
+      "const": false
+    },
+    "filesystem_write_scope": {
+      "type": "string",
+      "enum": [
+        "none",
+        "workspace_branch_only"
+      ]
+    },
+    "result": {
+      "type": "string",
+      "enum": [
+        "passed",
+        "failed",
+        "blocked",
+        "not_run"
+      ]
+    },
+    "auto_merge_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "network_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "credentials_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "risk_approval_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}

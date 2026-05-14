@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/governance/test_evidence_report.schema.json",
+  "$comment": "TestEvidenceReport records deterministic validation evidence for agent-authored changes. It does not approve auto-merge, risk, execution, network or credential access.",
+  "title": "TestEvidenceReport",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "test_evidence_report_id",
+    "sandbox_execution_report_id",
+    "agent_patch_plan_id",
+    "created_at",
+    "commands",
+    "total_tests",
+    "passed_tests",
+    "failed_tests",
+    "result",
+    "coverage_scope",
+    "requires_human_review",
+    "auto_merge_allowed",
+    "network_allowed",
+    "credentials_allowed",
+    "risk_approval_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "test_evidence_report_id": {
+      "type": "string",
+      "pattern": "^ter_[A-Za-z0-9_\\-]+$"
+    },
+    "sandbox_execution_report_id": {
+      "type": "string",
+      "pattern": "^ser_[A-Za-z0-9_\\-]+$"
+    },
+    "agent_patch_plan_id": {
+      "type": "string",
+      "pattern": "^app_[A-Za-z0-9_\\-]+$"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "commands": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "total_tests": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "passed_tests": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "failed_tests": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "result": {
+      "type": "string",
+      "enum": [
+        "passed",
+        "failed",
+        "blocked"
+      ]
+    },
+    "coverage_scope": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "contract_validation",
+          "fixture_validation",
+          "unit_tests",
+          "syntax_compile",
+          "json_validation",
+          "scaffold_audit",
+          "secret_artifact_audit"
+        ]
+      }
+    },
+    "requires_human_review": {
+      "type": "boolean",
+      "const": true
+    },
+    "auto_merge_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "network_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "credentials_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "risk_approval_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_agentic_governance_001",
+  "correlation_id": "corr_agentic_governance_001",
+  "agent_task_spec_id": "ats_docs_quality_gate_001",
+  "created_at": "2026-05-14T00:00:00Z",
+  "requested_role": "architecture_reviewer",
+  "task_type": "documentation",
+  "summary": "Propose a documentation-only quality gate update for human review.",
+  "target_files": [
+    "docs/architecture/capability_maturity_matrix.md"
+  ],
+  "risk_classification_requested": "low",
+  "requires_patch_plan": true,
+  "requires_risk_assessment": true,
+  "requires_test_evidence": true,
+  "requires_human_review": true,
+  "direct_main_write_allowed": false,
+  "auto_merge_allowed": false,
+  "network_allowed": false,
+  "credentials_allowed": false,
+  "trading_changes_allowed": false,
+  "risk_approval_allowed": false,
+  "execution_allowed": false
+}

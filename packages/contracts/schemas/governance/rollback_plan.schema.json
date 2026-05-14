@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/governance/rollback_plan.schema.json",
+  "$comment": "RollbackPlan records a human-reviewed rollback strategy for agent-authored changes. It does not approve production rollback automation, auto-merge, risk or execution.",
+  "title": "RollbackPlan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "rollback_plan_id",
+    "agent_patch_plan_id",
+    "created_at",
+    "rollback_scope",
+    "rollback_steps",
+    "verification_commands",
+    "owner_role",
+    "requires_human_approval",
+    "automated_rollback_allowed",
+    "production_rollback_allowed",
+    "auto_merge_allowed",
+    "network_allowed",
+    "credentials_allowed",
+    "risk_approval_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "rollback_plan_id": {
+      "type": "string",
+      "pattern": "^rbp_[A-Za-z0-9_\\-]+$"
+    },
+    "agent_patch_plan_id": {
+      "type": "string",
+      "pattern": "^app_[A-Za-z0-9_\\-]+$"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "rollback_scope": {
+      "type": "string",
+      "enum": [
+        "branch_only",
+        "pull_request_only"
+      ]
+    },
+    "rollback_steps": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "verification_commands": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "owner_role": {
+      "type": "string",
+      "enum": [
+        "maintainer",
+        "platform_reliability",
+        "security_reviewer"
+      ]
+    },
+    "requires_human_approval": {
+      "type": "boolean",
+      "const": true
+    },
+    "automated_rollback_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "production_rollback_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "auto_merge_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "network_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "credentials_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "risk_approval_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}
