@@ -1,0 +1,130 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/governance/human_approval_record.schema.json",
+  "$comment": "HumanApprovalRecord records human review state for agent-authored changes. It does not grant auto-merge, direct main write, runtime, risk, execution, network, credential or production authority.",
+  "title": "HumanApprovalRecord",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "human_approval_record_id",
+    "agent_pr_review_evidence_id",
+    "created_at",
+    "approver_role",
+    "approval_status",
+    "approval_scope",
+    "conditions",
+    "expires_at",
+    "manual_merge_review_required",
+    "auto_merge_allowed",
+    "direct_main_write_allowed",
+    "network_allowed",
+    "credentials_allowed",
+    "trading_changes_allowed",
+    "risk_approval_allowed",
+    "execution_allowed",
+    "production_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "human_approval_record_id": {
+      "type": "string",
+      "pattern": "^har_[A-Za-z0-9_\\-]+$"
+    },
+    "agent_pr_review_evidence_id": {
+      "type": "string",
+      "pattern": "^apre_[A-Za-z0-9_\\-]+$"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "approver_role": {
+      "type": "string",
+      "enum": [
+        "maintainer",
+        "security_reviewer",
+        "platform_reliability",
+        "risk_architecture"
+      ]
+    },
+    "approval_status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "approved_for_manual_review_only",
+        "changes_requested",
+        "rejected"
+      ]
+    },
+    "approval_scope": {
+      "type": "string",
+      "enum": [
+        "pull_request_review_only",
+        "documentation_only",
+        "contract_only",
+        "test_only"
+      ]
+    },
+    "conditions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "manual_merge_review_required": {
+      "type": "boolean",
+      "const": true
+    },
+    "auto_merge_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "direct_main_write_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "network_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "credentials_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "trading_changes_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "risk_approval_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "production_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}

@@ -38,6 +38,8 @@ FIXTURES = {
     "sandbox_execution_report.valid.json": ("governance", "sandbox_execution_report"),
     "test_evidence_report.valid.json": ("governance", "test_evidence_report"),
     "rollback_plan.valid.json": ("governance", "rollback_plan"),
+    "agent_pr_review_evidence.valid.json": ("governance", "agent_pr_review_evidence"),
+    "human_approval_record.valid.json": ("governance", "human_approval_record"),
 }
 
 FORBIDDEN_KEYS = {
