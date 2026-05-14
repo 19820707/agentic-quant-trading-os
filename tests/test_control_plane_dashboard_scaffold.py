@@ -7,6 +7,7 @@ DASHBOARD_ROOT = ROOT / "apps" / "control-plane-dashboard"
 INDEX = DASHBOARD_ROOT / "index.html"
 STYLES = DASHBOARD_ROOT / "styles.css"
 README = DASHBOARD_ROOT / "README.md"
+CONTRACT_REGISTRY = DASHBOARD_ROOT / "contract-registry.json"
 CI_WORKFLOW = ROOT / ".github" / "workflows" / "ci.yml"
 
 
@@ -15,6 +16,7 @@ class ControlPlaneDashboardScaffoldTests(unittest.TestCase):
         self.assertTrue(INDEX.is_file())
         self.assertTrue(STYLES.is_file())
         self.assertTrue(README.is_file())
+        self.assertTrue(CONTRACT_REGISTRY.is_file())
 
     def test_dashboard_declares_control_plane_sections(self):
         text = INDEX.read_text(encoding="utf-8")
@@ -23,6 +25,7 @@ class ControlPlaneDashboardScaffoldTests(unittest.TestCase):
             "System Status",
             "Security Gates",
             "Contract Registry",
+            "Static Contract Browser",
             "Risk Gateway Status",
             "Data Lineage Gates",
             "Feature Gates",
@@ -66,6 +69,45 @@ class ControlPlaneDashboardScaffoldTests(unittest.TestCase):
         readme = README.read_text(encoding="utf-8").lower()
 
         self.assertIn("future react/vite/typescript implementation requires a separate approval pr", readme)
+
+    def test_static_contract_browser_lists_core_contracts(self):
+        text = INDEX.read_text(encoding="utf-8")
+
+        for contract_name in (
+            "AuditEvent",
+            "FeatureStoreApprovalGate",
+            "AgentTaskSpec",
+            "AgentPatchPlan",
+            "AgentRiskAssessment",
+            "SandboxExecutionReport",
+            "TestEvidenceReport",
+            "RollbackPlan",
+            "AgentPRReviewEvidence",
+            "HumanApprovalRecord",
+            "ResearchDossier",
+            "ProbabilityEstimate",
+            "SignalCandidate",
+            "OrderIntent",
+            "RiskDecision",
+        ):
+            with self.subTest(contract_name=contract_name):
+                self.assertIn(contract_name, text)
+
+    def test_static_contract_registry_manifest_is_local_only(self):
+        import json
+
+        manifest = json.loads(CONTRACT_REGISTRY.read_text(encoding="utf-8"))
+        manifest_text = CONTRACT_REGISTRY.read_text(encoding="utf-8").lower()
+
+        self.assertEqual(manifest["runtime_mode"], "local_static_only")
+        self.assertFalse(manifest["network_required"])
+        self.assertFalse(manifest["credentials_required"])
+        self.assertNotIn("http://", manifest_text)
+        self.assertNotIn("https://", manifest_text)
+        self.assertNotIn("fetch(", manifest_text)
+
+        domains = {domain["domain"] for domain in manifest["domains"]}
+        self.assertEqual(domains, {"audit", "features", "governance", "research", "trading"})
 
     def test_ci_runs_dashboard_scaffold_tests(self):
         text = CI_WORKFLOW.read_text(encoding="utf-8")

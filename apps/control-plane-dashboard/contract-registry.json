@@ -1,0 +1,65 @@
+{
+  "generated_for": "static_control_plane_preview",
+  "runtime_mode": "local_static_only",
+  "network_required": false,
+  "credentials_required": false,
+  "domains": [
+    {
+      "domain": "audit",
+      "contracts": [
+        "audit_event"
+      ]
+    },
+    {
+      "domain": "features",
+      "contracts": [
+        "feature_store_approval_gate"
+      ]
+    },
+    {
+      "domain": "governance",
+      "contracts": [
+        "agent_patch_plan",
+        "agent_pr_review_evidence",
+        "agent_risk_assessment",
+        "agent_task_spec",
+        "human_approval_record",
+        "rollback_plan",
+        "sandbox_execution_report",
+        "test_evidence_report"
+      ]
+    },
+    {
+      "domain": "research",
+      "contracts": [
+        "agent_consensus_record",
+        "agent_cost_budget_policy",
+        "agent_federation_policy",
+        "agent_handoff_record",
+        "agent_memory_policy",
+        "agent_orchestration_plan",
+        "agent_role_assignment",
+        "analyst_report",
+        "background_worker_policy",
+        "debate_transcript",
+        "hypothesis_record",
+        "mcp_tool_registration_policy",
+        "probability_estimate",
+        "prompt_injection_review",
+        "research_dossier",
+        "risk_review_input",
+        "signal_candidate",
+        "swarm_topology_policy"
+      ]
+    },
+    {
+      "domain": "trading",
+      "contracts": [
+        "approved_order",
+        "execution_report",
+        "order_intent",
+        "risk_decision"
+      ]
+    }
+  ]
+}

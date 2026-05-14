@@ -19,6 +19,7 @@
         <nav>
           <a href="#overview" aria-current="page">Overview</a>
           <a href="#contracts">Contracts</a>
+          <a href="#contract-browser">Contract Browser</a>
           <a href="#risk-gateway">Risk Gateway</a>
           <a href="#data-lineage">Data Lineage</a>
           <a href="#feature-gates">Feature Gates</a>
@@ -93,6 +94,70 @@
               <li><span>HumanApprovalRecord</span><strong>Manual review remains required</strong></li>
             </ol>
           </article>
+        </section>
+
+        <section id="contract-browser" class="section">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Static Contract Browser</p>
+              <h2>Local schema index</h2>
+            </div>
+            <span class="status-pill status-safe">No backend required</span>
+          </div>
+          <div class="contract-table" role="table" aria-label="Static contract registry">
+            <div class="contract-row contract-head" role="row">
+              <span role="columnheader">Domain</span>
+              <span role="columnheader">Contract</span>
+              <span role="columnheader">Status</span>
+              <span role="columnheader">Local schema path</span>
+            </div>
+            <div class="contract-row" role="row">
+              <span>Audit</span><strong>AuditEvent</strong><em>Active</em><code>packages/contracts/schemas/audit/audit_event.schema.json</code>
+            </div>
+            <div class="contract-row" role="row">
+              <span>Features</span><strong>FeatureStoreApprovalGate</strong><em>Fail closed</em><code>packages/contracts/schemas/features/feature_store_approval_gate.schema.json</code>
+            </div>
+            <div class="contract-row" role="row">
+              <span>Governance</span><strong>AgentTaskSpec</strong><em>Review only</em><code>packages/contracts/schemas/governance/agent_task_spec.schema.json</code>
+            </div>
+            <div class="contract-row" role="row">
+              <span>Governance</span><strong>AgentPatchPlan</strong><em>Review only</em><code>packages/contracts/schemas/governance/agent_patch_plan.schema.json</code>
+            </div>
+            <div class="contract-row" role="row">
+              <span>Governance</span><strong>AgentRiskAssessment</strong><em>Policy evidence</em><code>packages/contracts/schemas/governance/agent_risk_assessment.schema.json</code>
+            </div>
+            <div class="contract-row" role="row">
+              <span>Governance</span><strong>SandboxExecutionReport</strong><em>Evidence only</em><code>packages/contracts/schemas/governance/sandbox_execution_report.schema.json</code>
+            </div>
+            <div class="contract-row" role="row">
+              <span>Governance</span><strong>TestEvidenceReport</strong><em>Evidence only</em><code>packages/contracts/schemas/governance/test_evidence_report.schema.json</code>
+            </div>
+            <div class="contract-row" role="row">
+              <span>Governance</span><strong>RollbackPlan</strong><em>Manual review</em><code>packages/contracts/schemas/governance/rollback_plan.schema.json</code>
+            </div>
+            <div class="contract-row" role="row">
+              <span>Governance</span><strong>AgentPRReviewEvidence</strong><em>Review only</em><code>packages/contracts/schemas/governance/agent_pr_review_evidence.schema.json</code>
+            </div>
+            <div class="contract-row" role="row">
+              <span>Governance</span><strong>HumanApprovalRecord</strong><em>Manual only</em><code>packages/contracts/schemas/governance/human_approval_record.schema.json</code>
+            </div>
+            <div class="contract-row" role="row">
+              <span>Research</span><strong>ResearchDossier</strong><em>Research only</em><code>packages/contracts/schemas/research/research_dossier.schema.json</code>
+            </div>
+            <div class="contract-row" role="row">
+              <span>Research</span><strong>ProbabilityEstimate</strong><em>Non-executable</em><code>packages/contracts/schemas/research/probability_estimate.schema.json</code>
+            </div>
+            <div class="contract-row" role="row">
+              <span>Research</span><strong>SignalCandidate</strong><em>Non-executable</em><code>packages/contracts/schemas/research/signal_candidate.schema.json</code>
+            </div>
+            <div class="contract-row" role="row">
+              <span>Trading</span><strong>OrderIntent</strong><em>Non-executable</em><code>packages/contracts/schemas/trading/order_intent.schema.json</code>
+            </div>
+            <div class="contract-row" role="row">
+              <span>Trading</span><strong>RiskDecision</strong><em>Deterministic boundary</em><code>packages/contracts/schemas/trading/risk_decision.schema.json</code>
+            </div>
+          </div>
+          <p class="note">The complete static manifest is stored in <code>apps/control-plane-dashboard/contract-registry.json</code>.</p>
         </section>
 
         <section id="risk-gateway" class="section">
