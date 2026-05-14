@@ -25,6 +25,56 @@
       "reason": "Fixture separates observation window and label horizon."
     },
     {
+      "check_name": "target_leakage",
+      "result": "WARN",
+      "severity": "MEDIUM",
+      "reason": "No real labels are present in this fixture; future runtime datasets require explicit target-column review.",
+      "remediation": "Add target-column provenance before any runtime model training or backtest."
+    },
+    {
+      "check_name": "lookahead_features",
+      "result": "PASS",
+      "severity": "INFO",
+      "reason": "Fixture transformations declare uses_future_information false."
+    },
+    {
+      "check_name": "survivorship_bias",
+      "result": "WARN",
+      "severity": "MEDIUM",
+      "reason": "Fixture has one static paper asset only; real universes require inclusion/exclusion lineage."
+    },
+    {
+      "check_name": "train_test_overlap",
+      "result": "PASS",
+      "severity": "INFO",
+      "reason": "Fixture split policy disallows overlap and preserves temporal order."
+    },
+    {
+      "check_name": "timestamp_alignment",
+      "result": "PASS",
+      "severity": "INFO",
+      "reason": "Fixture timestamps are UTC ISO-8601 and ordered by cutoff, lineage creation and review."
+    },
+    {
+      "check_name": "late_data_arrival",
+      "result": "WARN",
+      "severity": "MEDIUM",
+      "reason": "Fixture declares quarantine policy; runtime ingestion must implement late-arrival quarantine before use.",
+      "remediation": "Implement late-arrival quarantine in a separate approved runtime PR."
+    },
+    {
+      "check_name": "feature_availability",
+      "result": "PASS",
+      "severity": "INFO",
+      "reason": "Fixture declares feature availability tracking as required."
+    },
+    {
+      "check_name": "duplicate_event_contamination",
+      "result": "NOT_APPLICABLE",
+      "severity": "INFO",
+      "reason": "Fixture has no event stream and no duplicated event identifiers."
+    },
+    {
       "check_name": "manual_override_review",
       "result": "WARN",
       "severity": "MEDIUM",
