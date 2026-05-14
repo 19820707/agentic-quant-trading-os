@@ -1,0 +1,19 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_max_safe_autonomy_003",
+  "correlation_id": "corr_max_safe_autonomy_001",
+  "autonomous_policy_decision_id": "apd_block_critical_001",
+  "created_at": "2026-01-01T16:02:00Z",
+  "risk_class": "critical",
+  "confidence": "high",
+  "decision": "BLOCK",
+  "allowed_next_action": "none",
+  "human_approval_required": true,
+  "auto_patch_allowed": false,
+  "auto_pr_allowed": false,
+  "auto_merge_allowed": false,
+  "protected_path_touched": true,
+  "critical_action_detected": true,
+  "rollback_required": true,
+  "audit_required": true
+}
