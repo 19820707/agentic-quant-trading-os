@@ -1,0 +1,28 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_agentic_governance_001",
+  "correlation_id": "corr_agentic_governance_001",
+  "agent_risk_assessment_id": "ara_docs_quality_gate_001",
+  "agent_task_spec_id": "ats_docs_quality_gate_001",
+  "agent_patch_plan_id": "app_docs_quality_gate_001",
+  "created_at": "2026-05-14T00:00:00Z",
+  "risk_level": "low",
+  "policy_decision": "allow_pr_only",
+  "policy_findings": [
+    {
+      "finding_id": "arf_docs_only_001",
+      "severity": "info",
+      "summary": "Documentation-only path may proceed to pull-request-only review."
+    }
+  ],
+  "sandbox_required": true,
+  "test_evidence_required": true,
+  "human_review_required": true,
+  "direct_main_write_allowed": false,
+  "auto_merge_allowed": false,
+  "network_allowed": false,
+  "credentials_allowed": false,
+  "trading_changes_allowed": false,
+  "risk_approval_allowed": false,
+  "execution_allowed": false
+}

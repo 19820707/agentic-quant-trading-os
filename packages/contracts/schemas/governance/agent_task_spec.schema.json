@@ -1,0 +1,139 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/governance/agent_task_spec.schema.json",
+  "$comment": "AgentTaskSpec describes a proposed agent engineering task. It grants no execution, credential, network, trading, risk or merge authority.",
+  "title": "AgentTaskSpec",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "agent_task_spec_id",
+    "created_at",
+    "requested_role",
+    "task_type",
+    "summary",
+    "target_files",
+    "risk_classification_requested",
+    "requires_patch_plan",
+    "requires_risk_assessment",
+    "requires_test_evidence",
+    "requires_human_review",
+    "direct_main_write_allowed",
+    "auto_merge_allowed",
+    "network_allowed",
+    "credentials_allowed",
+    "trading_changes_allowed",
+    "risk_approval_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "agent_task_spec_id": {
+      "type": "string",
+      "pattern": "^ats_[A-Za-z0-9_\\-]+$"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "requested_role": {
+      "type": "string",
+      "enum": [
+        "code_maintainer",
+        "test_runner",
+        "pr_reviewer",
+        "security_reviewer",
+        "architecture_reviewer"
+      ]
+    },
+    "task_type": {
+      "type": "string",
+      "enum": [
+        "documentation",
+        "contract",
+        "test",
+        "ci",
+        "runtime_scaffold"
+      ]
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "target_files": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "risk_classification_requested": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ]
+    },
+    "requires_patch_plan": {
+      "type": "boolean",
+      "const": true
+    },
+    "requires_risk_assessment": {
+      "type": "boolean",
+      "const": true
+    },
+    "requires_test_evidence": {
+      "type": "boolean",
+      "const": true
+    },
+    "requires_human_review": {
+      "type": "boolean",
+      "const": true
+    },
+    "direct_main_write_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "auto_merge_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "network_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "credentials_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "trading_changes_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "risk_approval_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}
