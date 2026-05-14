@@ -1,0 +1,14 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "mcp_memory_tool_policy_id": "mmt_fixture_001",
+  "created_at": "2026-01-01T05:11:00Z",
+  "tool_profile": "disabled",
+  "mcp_runtime_allowed": false,
+  "tool_registration_allowed": false,
+  "broker_credentials_allowed": false,
+  "trading_allowed": false,
+  "network_allowed": false,
+  "execution_allowed": false
+}

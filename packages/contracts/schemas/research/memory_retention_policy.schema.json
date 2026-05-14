@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/memory_retention_policy.schema.json",
+  "$comment": "MemoryRetentionPolicy governs retention without runtime deletion.",
+  "title": "MemoryRetentionPolicy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "trace_id", "correlation_id", "memory_retention_policy_id", "created_at", "retention_days", "pinning_allowed", "redaction_required", "secret_storage_allowed", "automatic_deletion_allowed", "human_review_required", "execution_allowed"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "memory_retention_policy_id": {"type": "string", "pattern": "^mrp_[A-Za-z0-9_\\-]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "retention_days": {"type": "integer", "minimum": 1, "maximum": 3650},
+    "pinning_allowed": {"type": "boolean"},
+    "redaction_required": {"type": "boolean", "const": true},
+    "secret_storage_allowed": {"type": "boolean", "const": false},
+    "automatic_deletion_allowed": {"type": "boolean", "const": false},
+    "human_review_required": {"type": "boolean", "const": true},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

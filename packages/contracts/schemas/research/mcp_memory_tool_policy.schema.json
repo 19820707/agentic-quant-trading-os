@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/mcp_memory_tool_policy.schema.json",
+  "$comment": "MCPMemoryToolPolicy blocks memory tool runtime and trading authority.",
+  "title": "MCPMemoryToolPolicy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "trace_id", "correlation_id", "mcp_memory_tool_policy_id", "created_at", "tool_profile", "mcp_runtime_allowed", "tool_registration_allowed", "broker_credentials_allowed", "trading_allowed", "network_allowed", "execution_allowed"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "mcp_memory_tool_policy_id": {"type": "string", "pattern": "^mmt_[A-Za-z0-9_\\-]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "tool_profile": {"type": "string", "enum": ["disabled", "review_only", "local_fake_only"]},
+    "mcp_runtime_allowed": {"type": "boolean", "const": false},
+    "tool_registration_allowed": {"type": "boolean", "const": false},
+    "broker_credentials_allowed": {"type": "boolean", "const": false},
+    "trading_allowed": {"type": "boolean", "const": false},
+    "network_allowed": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

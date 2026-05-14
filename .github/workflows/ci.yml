@@ -97,6 +97,8 @@ jobs:
         run: python -m unittest discover -s tests -p "test_agent_runtime_approval_gate.py"
       - name: Run Ruflo reference review tests
         run: python -m unittest discover -s tests -p "test_ruflo_reference_review.py"
+      - name: Run Mycelium reference review tests
+        run: python -m unittest discover -s tests -p "test_mycelium_reference_review.py"
 
   secret-artifact-audit:
     name: Secret and artifact hygiene audit

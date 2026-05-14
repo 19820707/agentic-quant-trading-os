@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/session_digest_record.schema.json",
+  "$comment": "SessionDigestRecord summarizes a work session without auto-digest runtime.",
+  "title": "SessionDigestRecord",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "trace_id", "correlation_id", "session_digest_record_id", "created_at", "session_subject", "decisions", "files_changed", "validations_run", "open_questions", "next_recommended_task", "auto_digest_allowed", "execution_allowed"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "session_digest_record_id": {"type": "string", "pattern": "^sdr_[A-Za-z0-9_\\-]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "session_subject": {"type": "string", "minLength": 1},
+    "decisions": {"type": "array", "items": {"type": "string"}},
+    "files_changed": {"type": "array", "items": {"type": "string"}},
+    "validations_run": {"type": "array", "items": {"type": "string"}},
+    "open_questions": {"type": "array", "items": {"type": "string"}},
+    "next_recommended_task": {"type": "string"},
+    "auto_digest_allowed": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

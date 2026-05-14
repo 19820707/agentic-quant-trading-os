@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/memory_conflict_record.schema.json",
+  "$comment": "MemoryConflictRecord captures contradictions requiring human review.",
+  "title": "MemoryConflictRecord",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "trace_id", "correlation_id", "memory_conflict_record_id", "created_at", "conflict_type", "conflicting_record_ids", "resolution_status", "human_review_required", "automatic_resolution_allowed", "execution_allowed"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "memory_conflict_record_id": {"type": "string", "pattern": "^mcfr_[A-Za-z0-9_\\-]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "conflict_type": {"type": "string", "enum": ["stale_rule", "contradictory_lesson", "scope_conflict", "safety_conflict"]},
+    "conflicting_record_ids": {"type": "array", "minItems": 2, "items": {"type": "string"}},
+    "resolution_status": {"type": "string", "enum": ["unresolved", "manual_review_required", "resolved", "superseded"]},
+    "human_review_required": {"type": "boolean", "const": true},
+    "automatic_resolution_allowed": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

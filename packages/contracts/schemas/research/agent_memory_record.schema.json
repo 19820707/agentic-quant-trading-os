@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/agent_memory_record.schema.json",
+  "$comment": "AgentMemoryRecord captures redacted local memory metadata without runtime storage.",
+  "title": "AgentMemoryRecord",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "trace_id", "correlation_id", "agent_memory_record_id", "created_at", "memory_scope", "summary", "tags", "source_ref", "salience", "redaction_status", "secret_storage_allowed", "external_memory_allowed", "execution_allowed"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "agent_memory_record_id": {"type": "string", "pattern": "^amr_[A-Za-z0-9_\\-]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "memory_scope": {"type": "string", "enum": ["project_rule", "decision", "lesson", "handoff", "validation"]},
+    "summary": {"type": "string", "minLength": 1},
+    "tags": {"type": "array", "items": {"type": "string"}},
+    "source_ref": {"type": "string", "minLength": 1},
+    "salience": {"type": "number", "minimum": 0, "maximum": 1},
+    "redaction_status": {"type": "string", "enum": ["redacted", "synthetic", "review_required"]},
+    "secret_storage_allowed": {"type": "boolean", "const": false},
+    "external_memory_allowed": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

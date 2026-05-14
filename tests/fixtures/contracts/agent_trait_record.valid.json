@@ -1,0 +1,14 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "agent_trait_record_id": "atr_fixture_001",
+  "created_at": "2026-01-01T05:05:00Z",
+  "trait_name": "contract_first_memory",
+  "rationale": "Persistent guidance must be reviewed before use.",
+  "applicability": ["research", "governance"],
+  "approval_status": "pending_review",
+  "human_review_required": true,
+  "runtime_identity_allowed": false,
+  "execution_allowed": false
+}

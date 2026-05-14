@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/memory_recall_result.schema.json",
+  "$comment": "MemoryRecallResult records redacted local recall results.",
+  "title": "MemoryRecallResult",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "trace_id", "correlation_id", "memory_recall_result_id", "created_at", "request_id", "matches", "redaction_applied", "contains_credentials", "execution_allowed"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "memory_recall_result_id": {"type": "string", "pattern": "^mres_[A-Za-z0-9_\\-]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "request_id": {"type": "string", "pattern": "^mrr_[A-Za-z0-9_\\-]+$"},
+    "matches": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["memory_id", "score", "reason"],
+        "properties": {
+          "memory_id": {"type": "string", "pattern": "^amr_[A-Za-z0-9_\\-]+$"},
+          "score": {"type": "number", "minimum": 0, "maximum": 1},
+          "reason": {"type": "string"}
+        }
+      }
+    },
+    "redaction_applied": {"type": "boolean", "const": true},
+    "contains_credentials": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

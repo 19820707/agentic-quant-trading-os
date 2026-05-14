@@ -1,0 +1,13 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "memory_conflict_record_id": "mcfr_fixture_001",
+  "created_at": "2026-01-01T05:07:00Z",
+  "conflict_type": "safety_conflict",
+  "conflicting_record_ids": ["amr_fixture_001", "lr_fixture_001"],
+  "resolution_status": "manual_review_required",
+  "human_review_required": true,
+  "automatic_resolution_allowed": false,
+  "execution_allowed": false
+}

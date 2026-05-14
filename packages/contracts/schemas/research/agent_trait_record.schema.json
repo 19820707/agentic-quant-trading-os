@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/research/agent_trait_record.schema.json",
+  "$comment": "AgentTraitRecord captures persistent governance traits without runtime identity.",
+  "title": "AgentTraitRecord",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "trace_id", "correlation_id", "agent_trait_record_id", "created_at", "trait_name", "rationale", "applicability", "approval_status", "human_review_required", "runtime_identity_allowed", "execution_allowed"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "agent_trait_record_id": {"type": "string", "pattern": "^atr_[A-Za-z0-9_\\-]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "trait_name": {"type": "string", "minLength": 1},
+    "rationale": {"type": "string", "minLength": 1},
+    "applicability": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "approval_status": {"type": "string", "enum": ["draft", "pending_review", "approved_as_guidance", "rejected"]},
+    "human_review_required": {"type": "boolean", "const": true},
+    "runtime_identity_allowed": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

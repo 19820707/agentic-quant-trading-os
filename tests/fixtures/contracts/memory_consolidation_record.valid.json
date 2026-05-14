@@ -1,0 +1,14 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_research_contracts_001",
+  "correlation_id": "corr_research_contracts_001",
+  "memory_consolidation_record_id": "mcr_fixture_001",
+  "created_at": "2026-01-01T05:03:00Z",
+  "records_reviewed": 3,
+  "duplicates_identified": 1,
+  "records_archived": 1,
+  "lessons_created": 1,
+  "human_review_required": true,
+  "automatic_deletion_allowed": false,
+  "execution_allowed": false
+}
