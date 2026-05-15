@@ -1,0 +1,215 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/trading/trading_runtime_activation_gate.schema.json",
+  "$comment": "TradingRuntimeActivationGate is a fail-closed control-plane contract. It does not approve backtesting, paper trading, live trading, network access, credentials, broker SDKs, exchange SDKs or execution.",
+  "title": "TradingRuntimeActivationGate",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "runtime_activation_gate_id",
+    "created_at",
+    "requested_runtime_mode",
+    "decision",
+    "final_reason",
+    "required_evidence",
+    "risk_gateway_required",
+    "approved_order_required_for_execution",
+    "execution_engine_only_for_broker_access",
+    "direct_signal_to_order_forbidden",
+    "direct_ai_to_broker_forbidden",
+    "direct_dashboard_to_broker_forbidden",
+    "backtest_runtime_allowed",
+    "paper_runtime_allowed",
+    "live_trading_allowed",
+    "production_allowed",
+    "market_data_ingestion_allowed",
+    "webhook_ingestion_allowed",
+    "signal_ingestion_allowed",
+    "broker_sdk_allowed",
+    "exchange_sdk_allowed",
+    "network_allowed",
+    "credentials_allowed",
+    "order_submission_allowed",
+    "order_cancellation_allowed",
+    "withdrawal_allowed",
+    "transfer_allowed",
+    "model_training_allowed",
+    "feature_store_runtime_allowed",
+    "reviewed_by"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "runtime_activation_gate_id": {
+      "type": "string",
+      "pattern": "^trag_[A-Za-z0-9_\\-]+$"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "requested_runtime_mode": {
+      "type": "string",
+      "enum": [
+        "RESEARCH_ONLY",
+        "BACKTEST",
+        "PAPER",
+        "CONTROLLED_LIVE",
+        "PRODUCTION"
+      ]
+    },
+    "decision": {
+      "type": "string",
+      "enum": [
+        "REJECTED",
+        "REQUIRES_SEPARATE_APPROVAL"
+      ]
+    },
+    "final_reason": {
+      "type": "string",
+      "minLength": 1
+    },
+    "required_evidence": {
+      "type": "array",
+      "minItems": 10,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "dataset_lineage_record",
+          "leakage_review_report",
+          "feature_store_approval_gate",
+          "fake_offline_materialization_review",
+          "backtest_review_contract",
+          "paper_trading_review_contract",
+          "broker_adapter_safety_policy",
+          "execution_venue_capability",
+          "credential_vault_policy",
+          "kill_switch_policy",
+          "audit_event_policy",
+          "human_approval_record"
+        ]
+      }
+    },
+    "risk_gateway_required": {
+      "type": "boolean",
+      "const": true
+    },
+    "approved_order_required_for_execution": {
+      "type": "boolean",
+      "const": true
+    },
+    "execution_engine_only_for_broker_access": {
+      "type": "boolean",
+      "const": true
+    },
+    "direct_signal_to_order_forbidden": {
+      "type": "boolean",
+      "const": true
+    },
+    "direct_ai_to_broker_forbidden": {
+      "type": "boolean",
+      "const": true
+    },
+    "direct_dashboard_to_broker_forbidden": {
+      "type": "boolean",
+      "const": true
+    },
+    "backtest_runtime_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "paper_runtime_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "live_trading_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "production_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "market_data_ingestion_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "webhook_ingestion_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "signal_ingestion_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "broker_sdk_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "exchange_sdk_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "network_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "credentials_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "order_submission_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "order_cancellation_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "withdrawal_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "transfer_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "model_training_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "feature_store_runtime_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "reviewed_by": {
+      "type": "string",
+      "minLength": 1
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": {
+        "type": [
+          "string",
+          "number",
+          "boolean",
+          "null"
+        ]
+      }
+    }
+  }
+}

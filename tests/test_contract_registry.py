@@ -25,6 +25,7 @@ class ContractRegistryTests(unittest.TestCase):
                 "risk_decision",
                 "approved_order",
                 "execution_report",
+                "trading_runtime_activation_gate",
             }.issubset(names)
         )
 
