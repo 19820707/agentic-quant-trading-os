@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/trading/strategy_runtime_approval_gate.schema.json",
+  "$comment": "StrategyRuntimeApprovalGate records whether a strategy may progress beyond research. Defaults are fail-closed for execution and production.",
+  "title": "StrategyRuntimeApprovalGate",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "strategy_runtime_gate_id",
+    "strategy_id",
+    "runtime_status",
+    "research_only",
+    "paper_trading_allowed",
+    "live_trading_allowed",
+    "production_allowed",
+    "risk_gateway_required",
+    "human_approval_required",
+    "lineage_review_required",
+    "leakage_review_required",
+    "backtest_evidence_required",
+    "paper_evidence_required",
+    "broker_credentials_allowed",
+    "reviewed_at",
+    "reviewed_by"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "strategy_runtime_gate_id": {
+      "type": "string",
+      "pattern": "^strategy_gate_[A-Za-z0-9_\\-]+$"
+    },
+    "strategy_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "runtime_status": {
+      "type": "string",
+      "enum": [
+        "RESEARCH_ONLY",
+        "PAPER_REVIEW",
+        "BLOCKED"
+      ]
+    },
+    "research_only": {
+      "type": "boolean"
+    },
+    "paper_trading_allowed": {
+      "type": "boolean"
+    },
+    "live_trading_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "production_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "risk_gateway_required": {
+      "type": "boolean",
+      "const": true
+    },
+    "human_approval_required": {
+      "type": "boolean",
+      "const": true
+    },
+    "lineage_review_required": {
+      "type": "boolean",
+      "const": true
+    },
+    "leakage_review_required": {
+      "type": "boolean",
+      "const": true
+    },
+    "backtest_evidence_required": {
+      "type": "boolean",
+      "const": true
+    },
+    "paper_evidence_required": {
+      "type": "boolean",
+      "const": true
+    },
+    "broker_credentials_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "reviewed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "reviewed_by": {
+      "type": "string",
+      "minLength": 1
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": {
+        "type": [
+          "string",
+          "number",
+          "boolean",
+          "null"
+        ]
+      }
+    }
+  }
+}

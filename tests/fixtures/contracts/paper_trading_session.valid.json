@@ -1,0 +1,40 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_execution_safety_001",
+  "correlation_id": "corr_execution_safety_001",
+  "paper_session_id": "paper_session_strategy_001",
+  "strategy_id": "research_strategy_001",
+  "session_status": "READY_FOR_FAKE_RUN",
+  "initial_cash": 100000,
+  "base_currency": "USD",
+  "allowed_venues": [
+    "paper"
+  ],
+  "allowed_symbols": [
+    "BTC/USDT",
+    "ETH/USDT"
+  ],
+  "fee_model": {
+    "model_type": "FIXED_BPS",
+    "bps": 2
+  },
+  "slippage_model": {
+    "model_type": "FIXED_BPS",
+    "bps": 5
+  },
+  "latency_model": {
+    "model_type": "FIXED_LATENCY",
+    "milliseconds": 250
+  },
+  "risk_gateway_required": true,
+  "approved_order_required": true,
+  "real_broker_allowed": false,
+  "credentials_allowed": false,
+  "production_allowed": false,
+  "started_at": "2026-01-01T00:00:00Z",
+  "created_by": "paper-trading-governance",
+  "metadata": {
+    "network_allowed": false,
+    "local_only": true
+  }
+}

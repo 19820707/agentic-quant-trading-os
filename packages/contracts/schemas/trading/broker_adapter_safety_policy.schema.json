@@ -1,0 +1,152 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/trading/broker_adapter_safety_policy.schema.json",
+  "$comment": "BrokerAdapterSafetyPolicy blocks unsafe adapter behavior before any broker or exchange adapter can be implemented.",
+  "title": "BrokerAdapterSafetyPolicy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "policy_id",
+    "adapter_name",
+    "adapter_status",
+    "risk_gateway_required",
+    "approved_order_only",
+    "order_intent_rejected",
+    "direct_model_path_forbidden",
+    "direct_dashboard_path_forbidden",
+    "direct_agent_path_forbidden",
+    "credentials_allowed",
+    "private_endpoint_allowed",
+    "withdrawal_allowed",
+    "transfer_allowed",
+    "live_order_submission_allowed",
+    "kill_switch_required",
+    "idempotency_key_required",
+    "execution_report_required",
+    "audit_event_required",
+    "prohibited_methods",
+    "reviewed_at",
+    "reviewed_by"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "policy_id": {
+      "type": "string",
+      "pattern": "^broker_policy_[A-Za-z0-9_\\-]+$"
+    },
+    "adapter_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "adapter_status": {
+      "type": "string",
+      "enum": [
+        "NOT_IMPLEMENTED",
+        "SCAFFOLD_ONLY",
+        "READ_ONLY_ONLY",
+        "PAPER_ONLY",
+        "BLOCKED"
+      ]
+    },
+    "risk_gateway_required": {
+      "type": "boolean",
+      "const": true
+    },
+    "approved_order_only": {
+      "type": "boolean",
+      "const": true
+    },
+    "order_intent_rejected": {
+      "type": "boolean",
+      "const": true
+    },
+    "direct_model_path_forbidden": {
+      "type": "boolean",
+      "const": true
+    },
+    "direct_dashboard_path_forbidden": {
+      "type": "boolean",
+      "const": true
+    },
+    "direct_agent_path_forbidden": {
+      "type": "boolean",
+      "const": true
+    },
+    "credentials_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "private_endpoint_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "withdrawal_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "transfer_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "live_order_submission_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "kill_switch_required": {
+      "type": "boolean",
+      "const": true
+    },
+    "idempotency_key_required": {
+      "type": "boolean",
+      "const": true
+    },
+    "execution_report_required": {
+      "type": "boolean",
+      "const": true
+    },
+    "audit_event_required": {
+      "type": "boolean",
+      "const": true
+    },
+    "prohibited_methods": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      }
+    },
+    "reviewed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "reviewed_by": {
+      "type": "string",
+      "minLength": 1
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": {
+        "type": [
+          "string",
+          "number",
+          "boolean",
+          "null"
+        ]
+      }
+    }
+  }
+}

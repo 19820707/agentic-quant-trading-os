@@ -1,0 +1,25 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_execution_safety_001",
+  "correlation_id": "corr_execution_safety_001",
+  "strategy_runtime_gate_id": "strategy_gate_research_001",
+  "strategy_id": "research_strategy_001",
+  "runtime_status": "RESEARCH_ONLY",
+  "research_only": true,
+  "paper_trading_allowed": false,
+  "live_trading_allowed": false,
+  "production_allowed": false,
+  "risk_gateway_required": true,
+  "human_approval_required": true,
+  "lineage_review_required": true,
+  "leakage_review_required": true,
+  "backtest_evidence_required": true,
+  "paper_evidence_required": true,
+  "broker_credentials_allowed": false,
+  "reviewed_at": "2026-01-01T00:00:00Z",
+  "reviewed_by": "architecture-governance",
+  "metadata": {
+    "promotion_blocked_by_default": true,
+    "agentic_execution_allowed": false
+  }
+}

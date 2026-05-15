@@ -1,0 +1,47 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_execution_safety_001",
+  "correlation_id": "corr_execution_safety_001",
+  "venue_capability_id": "venue_cap_paper_default_001",
+  "venue_id": "paper",
+  "venue_type": "PAPER",
+  "capability_status": "PAPER_ONLY",
+  "read_only_market_data_allowed": true,
+  "paper_trading_allowed": true,
+  "order_submission_allowed": false,
+  "order_cancellation_allowed": false,
+  "position_mutation_allowed": false,
+  "withdrawal_allowed": false,
+  "transfer_allowed": false,
+  "private_endpoint_allowed": false,
+  "credentials_allowed": false,
+  "risk_gateway_required": true,
+  "approved_order_required": true,
+  "direct_ai_to_venue_forbidden": true,
+  "allowed_order_types": [
+    "MARKET",
+    "LIMIT"
+  ],
+  "allowed_data_modes": [
+    "STATIC_FIXTURE",
+    "FAKE_IN_MEMORY"
+  ],
+  "prohibited_methods": [
+    "create_order",
+    "cancel_order",
+    "edit_order",
+    "withdraw",
+    "transfer",
+    "set_leverage",
+    "buy",
+    "sell",
+    "execute",
+    "submit_order"
+  ],
+  "reviewed_at": "2026-01-01T00:00:00Z",
+  "reviewed_by": "architecture-governance",
+  "metadata": {
+    "runtime_mode": "local_only",
+    "external_dependency_required": false
+  }
+}
