@@ -1,0 +1,41 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_execution_safety_001",
+  "correlation_id": "corr_execution_safety_001",
+  "policy_id": "broker_policy_fail_closed_001",
+  "adapter_name": "future-broker-adapter",
+  "adapter_status": "NOT_IMPLEMENTED",
+  "risk_gateway_required": true,
+  "approved_order_only": true,
+  "order_intent_rejected": true,
+  "direct_model_path_forbidden": true,
+  "direct_dashboard_path_forbidden": true,
+  "direct_agent_path_forbidden": true,
+  "credentials_allowed": false,
+  "private_endpoint_allowed": false,
+  "withdrawal_allowed": false,
+  "transfer_allowed": false,
+  "live_order_submission_allowed": false,
+  "kill_switch_required": true,
+  "idempotency_key_required": true,
+  "execution_report_required": true,
+  "audit_event_required": true,
+  "prohibited_methods": [
+    "create_order",
+    "cancel_order",
+    "edit_order",
+    "withdraw",
+    "transfer",
+    "set_leverage",
+    "buy",
+    "sell",
+    "execute",
+    "submit_order"
+  ],
+  "reviewed_at": "2026-01-01T00:00:00Z",
+  "reviewed_by": "architecture-governance",
+  "metadata": {
+    "risk_gateway": "deterministic-risk-gateway",
+    "execution_engine_only": true
+  }
+}

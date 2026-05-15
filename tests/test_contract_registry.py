@@ -25,6 +25,10 @@ class ContractRegistryTests(unittest.TestCase):
                 "risk_decision",
                 "approved_order",
                 "execution_report",
+                "execution_venue_capability",
+                "broker_adapter_safety_policy",
+                "paper_trading_session",
+                "strategy_runtime_approval_gate",
             }.issubset(names)
         )
 
