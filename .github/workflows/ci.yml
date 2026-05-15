@@ -107,6 +107,8 @@ jobs:
         run: python -m unittest discover -s tests -p "test_ruflo_reference_review.py"
       - name: Run control plane dashboard scaffold tests
         run: python -m unittest discover -s tests -p "test_control_plane_dashboard_scaffold.py"
+      - name: Run execution and research platform landscape tests
+        run: python -m unittest discover -s tests -p "test_execution_and_research_platform_landscape.py"
 
   secret-artifact-audit:
     name: Secret and artifact hygiene audit
