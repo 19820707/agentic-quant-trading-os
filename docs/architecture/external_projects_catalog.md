@@ -10,6 +10,7 @@ This catalog is a placeholder for documenting external projects, tools and libra
 - FIX engines belong only inside execution-engine adapters.
 - Backtesting tools cannot promote strategies directly to live trading.
 - MCP tools must never receive broker credentials.
+- See `docs/architecture/external_platform_landscape.md` for platform-family classification and current reference-only decisions.
 
 ## Candidate Record Template
 
