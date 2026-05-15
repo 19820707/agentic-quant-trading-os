@@ -63,6 +63,7 @@ class ContractRegistryTests(unittest.TestCase):
         names = {entry.name for entry in self.registry.list_schemas("features")}
 
         self.assertIn("feature_store_approval_gate", names)
+        self.assertIn("fake_offline_materialization_review", names)
 
     def test_lists_governance_contracts_under_governance(self):
         names = {entry.name for entry in self.registry.list_schemas("governance")}

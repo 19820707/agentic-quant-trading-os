@@ -1,0 +1,48 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_fake_offline_materialization_review_001",
+  "correlation_id": "corr_feature_controls_001",
+  "fake_offline_materialization_review_id": "fomr_prediction_feature_store_001",
+  "created_at": "2026-05-14T00:00:00Z",
+  "review_status": "reviewed_for_future_fake_harness",
+  "feature_store_approval_gate_id": "fsag_prediction_feature_store_001",
+  "feature_view_contract_id": "fvc_prediction_market_research_001",
+  "dataset_lineage_record_id": "dlr_prediction_market_dataset_001",
+  "leakage_review_report_id": "lrr_prediction_market_dataset_001",
+  "point_in_time_join_plan_id": "pitjp_prediction_market_features_001",
+  "rollback_plan_id": "rbp_fake_feature_harness_001",
+  "human_review_record_id": "hrr_fake_feature_harness_001",
+  "required_checks": [
+    "local_only",
+    "deterministic_inputs",
+    "point_in_time_join_verified",
+    "leakage_review_linked",
+    "rollback_plan_linked",
+    "training_blocked",
+    "execution_blocked"
+  ],
+  "review_findings": [
+    {
+      "finding_id": "fomrf_scope_boundary_001",
+      "severity": "info",
+      "summary": "Review remains limited to a future fake local harness and does not approve runtime materialization.",
+      "resolved": true
+    }
+  ],
+  "allowed_next_stage": "fake_local_materialization_harness_review",
+  "fake_materialization_harness_allowed": false,
+  "real_materialization_allowed": false,
+  "real_feature_store_allowed": false,
+  "online_serving_allowed": false,
+  "database_write_allowed": false,
+  "external_data_fetch_allowed": false,
+  "network_allowed": false,
+  "credentials_allowed": false,
+  "model_training_allowed": false,
+  "backtest_allowed": false,
+  "signal_candidate_allowed": false,
+  "order_intent_allowed": false,
+  "risk_approval_allowed": false,
+  "execution_allowed": false,
+  "production_allowed": false
+}
