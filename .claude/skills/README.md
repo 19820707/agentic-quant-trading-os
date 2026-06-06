@@ -20,13 +20,12 @@ then `OrderIntent → RiskDecision → ApprovedOrder → ExecutionReport → Aud
 **Research contracts are non-executable. `SignalCandidate` is not `OrderIntent`;
 `RiskReviewInput` is not `RiskDecision`.**
 
-## Skills
+## Implementation / QA / Operations skills
 
 | Skill | Use it when you need to… |
 |-------|---------------------------|
 | [`add-governed-service`](add-governed-service/SKILL.md) | add/change a service within its boundary |
 | [`contract-first`](contract-first/SKILL.md) | define/change a payload (`ContractValidator`/`SchemaRegistry`) |
-| [`research-and-debate`](research-and-debate/SKILL.md) | multi-agent research → probability → signal candidate → risk-review input |
 | [`feature-pipeline`](feature-pipeline/SKILL.md) | point-in-time features, leakage audit, feature-store approval gate |
 | [`model-predictions`](model-predictions/SKILL.md) | predictions/probability estimates only (no orders) |
 | [`model-monitoring`](model-monitoring/SKILL.md) | drift → risk-reducing alerts |
@@ -35,15 +34,23 @@ then `OrderIntent → RiskDecision → ApprovedOrder → ExecutionReport → Aud
 | [`execution-control-plane`](execution-control-plane/SKILL.md) | fail-closed execution (ApprovedOrder-only, no live connector) |
 | [`backtest-and-paper`](backtest-and-paper/SKILL.md) | backtest/paper with risk replay (paper-only) |
 | [`portfolio-and-reporting`](portfolio-and-reporting/SKILL.md) | positions/P&L + read-only reports |
-| [`agentic-self-programming-governance`](agentic-self-programming-governance/SKILL.md) | govern agents that write code (task spec → patch → sandbox → tests → PR → human approval → rollback) |
-| [`agent-orchestration-and-swarm`](agent-orchestration-and-swarm/SKILL.md) | orchestration/role/consensus/handoff/federation/cost/memory/swarm policies |
-| [`mcp-tool-governance`](mcp-tool-governance/SKILL.md) | register MCP tools + prompt-injection review (never broker creds) |
 | [`audit-and-trace`](audit-and-trace/SKILL.md) | audit events + identity-chain reconstruction |
 | [`security-and-secret-audit`](security-and-secret-audit/SKILL.md) | secret-artifact audit + redaction; fail-closed |
 | [`incident-response`](incident-response/SKILL.md) | tripped guard / red check — stabilise first |
 | [`dependency-review`](dependency-review/SKILL.md) | review before adding any dep / external project / MCP / FIX |
 | [`release-readiness`](release-readiness/SKILL.md) | readiness review (never a live approval) |
 | [`run-checks`](run-checks/SKILL.md) | verify a change with the real tooling |
+
+## Governance skills (separate category)
+
+The **agent-governing** skills — `research-and-debate`,
+`agentic-self-programming-governance`, `agent-orchestration-and-swarm`,
+`mcp-tool-governance` — live in their own category so the governance/assurance
+layers (SC-01 Architect Prime, SC-02 Safety Oracle, Failure Intelligence Layer,
+Runtime Assurance Layer) can apply policy to them without mixing with
+implementation/QA/ops. They are delivered on the **`governance-skills`** branch
+(formalised: pipelines, 9-stage self-programming flow, fail-closed swarm modes,
+MCP untrusted-by-default), to be integrated as a separate, reviewed step.
 
 **Golden rule:** if a step would touch secrets, place a live order, bypass the Risk
 Gateway, or weaken a check — STOP. Those are human-only or forbidden. Skills describe
