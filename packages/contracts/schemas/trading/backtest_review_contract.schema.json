@@ -1,0 +1,259 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/trading/backtest_review_contract.schema.json",
+  "$comment": "BacktestReviewContract is a fail-closed review contract. It documents evidence required before future local backtest runtime work and does not approve strategy execution, market data ingestion, paper mode, broker access, credentials, risk approval or execution.",
+  "title": "BacktestReviewContract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "backtest_review_contract_id",
+    "created_at",
+    "review_scope",
+    "dataset_lineage_record_id",
+    "leakage_review_report_id",
+    "feature_store_approval_gate_id",
+    "fake_offline_materialization_review_id",
+    "required_evidence",
+    "data_replay_boundary",
+    "modeling_assumptions",
+    "required_result_checks",
+    "readiness_decision",
+    "backtest_runtime_allowed",
+    "strategy_execution_allowed",
+    "market_data_ingestion_allowed",
+    "paper_mode_allowed",
+    "portfolio_mutation_allowed",
+    "order_intent_creation_allowed",
+    "risk_approval_allowed",
+    "execution_allowed",
+    "broker_or_exchange_access_allowed",
+    "network_allowed",
+    "credentials_allowed",
+    "production_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "backtest_review_contract_id": {
+      "type": "string",
+      "pattern": "^btr_[A-Za-z0-9_\\-]+$"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "review_scope": {
+      "type": "string",
+      "enum": [
+        "metadata_only",
+        "local_replay_candidate",
+        "blocked"
+      ]
+    },
+    "dataset_lineage_record_id": {
+      "type": "string",
+      "pattern": "^dlr_[A-Za-z0-9_\\-]+$"
+    },
+    "leakage_review_report_id": {
+      "type": "string",
+      "pattern": "^lrr_[A-Za-z0-9_\\-]+$"
+    },
+    "feature_store_approval_gate_id": {
+      "type": "string",
+      "pattern": "^fsag_[A-Za-z0-9_\\-]+$"
+    },
+    "fake_offline_materialization_review_id": {
+      "type": "string",
+      "pattern": "^fomr_[A-Za-z0-9_\\-]+$"
+    },
+    "required_evidence": {
+      "type": "array",
+      "minItems": 8,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "dataset_lineage_record",
+          "leakage_review_report",
+          "feature_store_approval_gate",
+          "fake_offline_materialization_review",
+          "point_in_time_replay_plan",
+          "fee_model_plan",
+          "slippage_model_plan",
+          "overfitting_review_plan",
+          "rollback_plan",
+          "human_review_record"
+        ]
+      }
+    },
+    "data_replay_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_mode",
+        "replay_mode",
+        "point_in_time_required",
+        "future_data_blocked",
+        "external_reads_allowed"
+      ],
+      "properties": {
+        "source_mode": {
+          "type": "string",
+          "enum": [
+            "static_fixture",
+            "local_synthetic",
+            "blocked"
+          ]
+        },
+        "replay_mode": {
+          "type": "string",
+          "enum": [
+            "metadata_only",
+            "deterministic_local_replay_candidate",
+            "blocked"
+          ]
+        },
+        "point_in_time_required": {
+          "type": "boolean",
+          "const": true
+        },
+        "future_data_blocked": {
+          "type": "boolean",
+          "const": true
+        },
+        "external_reads_allowed": {
+          "type": "boolean",
+          "const": false
+        }
+      }
+    },
+    "modeling_assumptions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fee_model_required",
+        "slippage_model_required",
+        "latency_model_required",
+        "spread_model_required",
+        "fill_model_required",
+        "survivorship_bias_review_required",
+        "lookahead_bias_review_required"
+      ],
+      "properties": {
+        "fee_model_required": {
+          "type": "boolean",
+          "const": true
+        },
+        "slippage_model_required": {
+          "type": "boolean",
+          "const": true
+        },
+        "latency_model_required": {
+          "type": "boolean",
+          "const": true
+        },
+        "spread_model_required": {
+          "type": "boolean",
+          "const": true
+        },
+        "fill_model_required": {
+          "type": "boolean",
+          "const": true
+        },
+        "survivorship_bias_review_required": {
+          "type": "boolean",
+          "const": true
+        },
+        "lookahead_bias_review_required": {
+          "type": "boolean",
+          "const": true
+        }
+      }
+    },
+    "required_result_checks": {
+      "type": "array",
+      "minItems": 8,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "determinism",
+          "sample_size",
+          "out_of_sample_split",
+          "walk_forward_plan",
+          "fee_sensitivity",
+          "slippage_sensitivity",
+          "drawdown_review",
+          "tail_risk_review",
+          "turnover_review",
+          "benchmark_comparison"
+        ]
+      }
+    },
+    "readiness_decision": {
+      "type": "string",
+      "const": "rejected"
+    },
+    "backtest_runtime_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "strategy_execution_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "market_data_ingestion_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "paper_mode_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "portfolio_mutation_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "order_intent_creation_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "risk_approval_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "broker_or_exchange_access_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "network_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "credentials_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "production_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}

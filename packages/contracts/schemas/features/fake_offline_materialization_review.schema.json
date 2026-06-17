@@ -1,0 +1,294 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/features/fake_offline_materialization_review.schema.json",
+  "$comment": "FakeOfflineMaterializationReview is a local-only review contract. It does not approve real materialization, feature store runtime, training, backtesting, risk approval or execution.",
+  "title": "FakeOfflineMaterializationReview",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "fake_offline_materialization_review_id",
+    "created_at",
+    "review_scope",
+    "feature_store_approval_gate_id",
+    "feature_view_contract_id",
+    "dataset_lineage_record_id",
+    "leakage_review_report_id",
+    "required_evidence",
+    "point_in_time_join_plan",
+    "data_boundary",
+    "validation_findings",
+    "readiness_decision",
+    "approved_for_fake_offline_materialization",
+    "fake_materialization_allowed",
+    "real_materialization_allowed",
+    "real_feature_store_allowed",
+    "online_serving_allowed",
+    "model_training_allowed",
+    "backtest_allowed",
+    "market_data_ingestion_allowed",
+    "signal_creation_allowed",
+    "order_intent_creation_allowed",
+    "risk_approval_allowed",
+    "execution_allowed",
+    "network_allowed",
+    "credentials_allowed",
+    "production_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "fake_offline_materialization_review_id": {
+      "type": "string",
+      "pattern": "^fomr_[A-Za-z0-9_\\-]+$"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "review_scope": {
+      "type": "string",
+      "enum": [
+        "metadata_only",
+        "fake_offline_candidate",
+        "blocked"
+      ]
+    },
+    "feature_store_approval_gate_id": {
+      "type": "string",
+      "pattern": "^fsag_[A-Za-z0-9_\\-]+$"
+    },
+    "feature_view_contract_id": {
+      "type": "string",
+      "pattern": "^fvc_[A-Za-z0-9_\\-]+$"
+    },
+    "dataset_lineage_record_id": {
+      "type": "string",
+      "pattern": "^dlr_[A-Za-z0-9_\\-]+$"
+    },
+    "leakage_review_report_id": {
+      "type": "string",
+      "pattern": "^lrr_[A-Za-z0-9_\\-]+$"
+    },
+    "required_evidence": {
+      "type": "array",
+      "minItems": 7,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "feature_store_approval_gate",
+          "dataset_lineage_record",
+          "leakage_review_report",
+          "feature_view_contract",
+          "point_in_time_join_plan",
+          "rollback_plan",
+          "human_review_record"
+        ]
+      }
+    },
+    "point_in_time_join_plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "as_of_timestamp_field",
+        "event_timestamp_field",
+        "join_keys",
+        "future_data_blocked",
+        "late_arrival_policy",
+        "clock_skew_policy"
+      ],
+      "properties": {
+        "as_of_timestamp_field": {
+          "type": "string",
+          "minLength": 1
+        },
+        "event_timestamp_field": {
+          "type": "string",
+          "minLength": 1
+        },
+        "join_keys": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "future_data_blocked": {
+          "type": "boolean",
+          "const": true
+        },
+        "late_arrival_policy": {
+          "type": "string",
+          "enum": [
+            "reject",
+            "quarantine",
+            "review_required"
+          ]
+        },
+        "clock_skew_policy": {
+          "type": "string",
+          "enum": [
+            "reject",
+            "bounded_tolerance",
+            "review_required"
+          ]
+        }
+      }
+    },
+    "data_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_mode",
+        "storage_mode",
+        "external_reads_allowed",
+        "mutable_source_allowed"
+      ],
+      "properties": {
+        "source_mode": {
+          "type": "string",
+          "enum": [
+            "static_fixture",
+            "local_synthetic",
+            "blocked"
+          ]
+        },
+        "storage_mode": {
+          "type": "string",
+          "enum": [
+            "in_memory_only",
+            "local_fixture_only",
+            "blocked"
+          ]
+        },
+        "external_reads_allowed": {
+          "type": "boolean",
+          "const": false
+        },
+        "mutable_source_allowed": {
+          "type": "boolean",
+          "const": false
+        }
+      }
+    },
+    "validation_findings": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "check_name",
+          "status",
+          "severity",
+          "notes"
+        ],
+        "properties": {
+          "check_name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pass",
+              "fail",
+              "not_run"
+            ]
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "info",
+              "warning",
+              "blocking"
+            ]
+          },
+          "notes": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "readiness_decision": {
+      "type": "string",
+      "const": "rejected"
+    },
+    "approved_for_fake_offline_materialization": {
+      "type": "boolean",
+      "const": false
+    },
+    "fake_materialization_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "real_materialization_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "real_feature_store_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "online_serving_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "model_training_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "backtest_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "market_data_ingestion_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "signal_creation_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "order_intent_creation_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "risk_approval_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "execution_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "network_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "credentials_allowed": {
+      "type": "boolean",
+      "const": false
+    },
+    "production_allowed": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}

@@ -32,6 +32,12 @@ class SecretArtifactAuditTests(unittest.TestCase):
         path = Path("scripts") / "__pycache__" / "secret_artifact_audit.cpython-311.pyc"
         self.assertFalse(secret_artifact_audit.is_text_candidate(path))
 
+    def test_local_virtual_environment_is_skipped(self) -> None:
+        path = secret_artifact_audit.ROOT / ".venv" / "Lib" / "site-packages" / "pip" / "_internal"
+        self.assertTrue(
+            any(part in secret_artifact_audit.SKIPPED_DIRECTORY_NAMES for part in path.relative_to(secret_artifact_audit.ROOT).parts)
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

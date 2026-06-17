@@ -62,9 +62,13 @@ PROHIBITED_MARKERS = [
 
 SKIPPED_DIRECTORY_NAMES = {
     ".git",
+    ".tox",
+    ".venv",
     ".pytest_cache",
+    ".ruff_cache",
     "__pycache__",
     "agentic_quant_trading_os.egg-info",
+    "venv",
 }
 
 SKIPPED_FILE_SUFFIXES = {
