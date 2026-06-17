@@ -6,7 +6,10 @@ from enum import Enum
 from pathlib import Path
 from typing import Any
 
-from fastapi import FastAPI
+try:
+    from fastapi import FastAPI
+except ModuleNotFoundError:  # pragma: no cover - exercised in GitHub Actions without runtime deps.
+    FastAPI = None  # type: ignore[assignment]
 
 from adapters import ExecutionAdapterConfig, FailClosedExecutionAdapter
 from observability import (
@@ -29,6 +32,35 @@ class ControlPlaneRole(str, Enum):
     TRADER = "trader"
     OBSERVER = "observer"
     SERVICE = "service"
+
+
+@dataclass(frozen=True)
+class LocalRoute:
+    path: str
+    method: str
+    endpoint_name: str
+
+
+class LocalControlPlaneApp:
+    """Tiny route registry used when FastAPI is not installed in minimal CI."""
+
+    def __init__(self, *, title: str, version: str) -> None:
+        self.title = title
+        self.version = version
+        self.routes: list[LocalRoute] = []
+
+    def get(self, path: str):
+        return self._register("GET", path)
+
+    def post(self, path: str):
+        return self._register("POST", path)
+
+    def _register(self, method: str, path: str):
+        def decorator(endpoint):
+            self.routes.append(LocalRoute(path=path, method=method, endpoint_name=endpoint.__name__))
+            return endpoint
+
+        return decorator
 
 
 @dataclass
@@ -249,9 +281,12 @@ def evidence_quality_gate_payload(
     return payload
 
 
-def create_control_plane_app(state: ControlPlaneState | None = None) -> FastAPI:
+def create_control_plane_app(state: ControlPlaneState | None = None) -> Any:
     control_state = state or default_control_plane_state()
-    app = FastAPI(title="Agentic Quant Trading OS Control Plane", version="0.0.0")
+    if FastAPI is None:
+        app = LocalControlPlaneApp(title="Agentic Quant Trading OS Control Plane", version="0.0.0")
+    else:
+        app = FastAPI(title="Agentic Quant Trading OS Control Plane", version="0.0.0")
 
     @app.get("/health")
     def health() -> dict[str, Any]:
