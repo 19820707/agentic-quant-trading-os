@@ -18,9 +18,12 @@ SKIPPED_DIRECTORY_NAMES = {
     ".mypy_cache",
     ".pytest_cache",
     ".ruff_cache",
+    ".tox",
+    ".venv",
     "__pycache__",
     "agentic_quant_trading_os.egg-info",
     "node_modules",
+    "venv",
 }
 
 SKIPPED_FILE_SUFFIXES = {

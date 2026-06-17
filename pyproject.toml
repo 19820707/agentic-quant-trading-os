@@ -1,3 +1,7 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "agentic-quant-trading-os"
 version = "0.0.0"
@@ -12,4 +16,31 @@ dependencies = [
 
 [tool.pytest.ini_options]
 testpaths = ["tests", "services"]
+
+[tool.setuptools.packages.find]
+include = [
+    "adapters*",
+    "api*",
+    "backtesting*",
+    "config*",
+    "market_data*",
+    "observability*",
+    "oms*",
+    "packages*",
+    "paper_trading*",
+    "portfolio*",
+    "risk*",
+    "strategies*",
+]
+exclude = [
+    "apps*",
+    "data*",
+    "docs*",
+    "infra*",
+    "integrations*",
+    "scripts*",
+    "security*",
+    "services*",
+    "tests*",
+]
 

@@ -1,0 +1,68 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_fake_offline_materialization_001",
+  "correlation_id": "corr_feature_controls_001",
+  "fake_offline_materialization_review_id": "fomr_prediction_features_001",
+  "created_at": "2026-05-15T00:00:00Z",
+  "review_scope": "fake_offline_candidate",
+  "feature_store_approval_gate_id": "fsag_prediction_feature_store_001",
+  "feature_view_contract_id": "fvc_prediction_market_research_001",
+  "dataset_lineage_record_id": "dlr_prediction_market_dataset_001",
+  "leakage_review_report_id": "lrr_prediction_market_dataset_001",
+  "required_evidence": [
+    "feature_store_approval_gate",
+    "dataset_lineage_record",
+    "leakage_review_report",
+    "feature_view_contract",
+    "point_in_time_join_plan",
+    "rollback_plan",
+    "human_review_record"
+  ],
+  "point_in_time_join_plan": {
+    "as_of_timestamp_field": "as_of_timestamp",
+    "event_timestamp_field": "event_timestamp",
+    "join_keys": [
+      "market_id",
+      "feature_view_version"
+    ],
+    "future_data_blocked": true,
+    "late_arrival_policy": "quarantine",
+    "clock_skew_policy": "bounded_tolerance"
+  },
+  "data_boundary": {
+    "source_mode": "static_fixture",
+    "storage_mode": "local_fixture_only",
+    "external_reads_allowed": false,
+    "mutable_source_allowed": false
+  },
+  "validation_findings": [
+    {
+      "check_name": "point_in_time_join_plan_present",
+      "status": "pass",
+      "severity": "info",
+      "notes": "Join plan is documented for review, but no materialization job is enabled."
+    },
+    {
+      "check_name": "external_io_blocked",
+      "status": "pass",
+      "severity": "info",
+      "notes": "Review fixture is restricted to local static inputs."
+    }
+  ],
+  "readiness_decision": "rejected",
+  "approved_for_fake_offline_materialization": false,
+  "fake_materialization_allowed": false,
+  "real_materialization_allowed": false,
+  "real_feature_store_allowed": false,
+  "online_serving_allowed": false,
+  "model_training_allowed": false,
+  "backtest_allowed": false,
+  "market_data_ingestion_allowed": false,
+  "signal_creation_allowed": false,
+  "order_intent_creation_allowed": false,
+  "risk_approval_allowed": false,
+  "execution_allowed": false,
+  "network_allowed": false,
+  "credentials_allowed": false,
+  "production_allowed": false
+}

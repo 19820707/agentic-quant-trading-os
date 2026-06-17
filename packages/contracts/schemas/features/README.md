@@ -7,4 +7,5 @@ Future schemas must preserve feature view versions, point-in-time availability a
 Current schemas:
 
 - `feature_store_approval_gate.schema.json`: fail-closed approval-gate contract for future feature store work. It does not approve real feature store runtime, materialization, online serving, model training, backtesting, risk approval or execution.
+- `fake_offline_materialization_review.schema.json`: local-only review contract for future fake offline feature materialization evidence. It does not approve materialization jobs, real feature store runtime, training, backtesting, risk approval or execution.
 

@@ -55,14 +55,30 @@ jobs:
         run: python -m unittest discover -s tests -p "test_prediction_research_fake_graph.py"
       - name: Run feature store approval gate tests
         run: python -m unittest discover -s tests -p "test_feature_store_approval_gate.py"
+      - name: Run fake offline materialization review tests
+        run: python -m unittest discover -s tests -p "test_fake_offline_materialization_review.py"
       - name: Run agentic self-programming governance tests
         run: python -m unittest discover -s tests -p "test_agentic_self_programming_governance.py"
+      - name: Run autonomous sprint manager tests
+        run: python -m unittest discover -s tests -p "test_autonomous_sprint_manager.py"
+      - name: Run deep learning loop planner tests
+        run: python -m unittest discover -s tests -p "test_deep_learning_loop_planner.py"
+      - name: Run cognitive autonomy tests
+        run: python -m unittest discover -s tests -p "test_cognitive_autonomy.py"
+      - name: Run advanced cognitive autonomy tests
+        run: python -m unittest discover -s tests -p "test_cognitive_autonomy_advanced.py"
+      - name: Run persistence discipline tests
+        run: python -m unittest discover -s tests -p "test_persistence_discipline.py"
+      - name: Run loop engineering tests
+        run: python -m unittest discover -s tests -p "test_loop_engineering.py"
       - name: Run agentic evidence contract tests
         run: python -m unittest discover -s tests -p "test_agentic_evidence_contracts.py"
       - name: Run agent PR review and human approval contract tests
         run: python -m unittest discover -s tests -p "test_agent_pr_review_human_approval_contracts.py"
       - name: Run trading runtime activation gate tests
         run: python -m unittest discover -s tests -p "test_trading_runtime_activation_gate.py"
+      - name: Run backtest review contract tests
+        run: python -m unittest discover -s tests -p "test_backtest_review_contract.py"
 
   adapter-interface-tests:
     name: Adapter interface tests
@@ -77,6 +93,8 @@ jobs:
           python-version: "3.11"
       - name: Run market data adapter interface tests
         run: python -m unittest discover -s tests -p "test_market_data_adapter_interfaces.py"
+      - name: Run market data layer tests
+        run: python -m unittest discover -s tests -p "test_market_data_layer.py"
       - name: Run market data adapter registry tests
         run: python -m unittest discover -s tests -p "test_market_data_adapter_registry.py"
       - name: Run in-memory market data adapter tests
@@ -109,6 +127,36 @@ jobs:
         run: python -m unittest discover -s tests -p "test_ruflo_reference_review.py"
       - name: Run control plane dashboard scaffold tests
         run: python -m unittest discover -s tests -p "test_control_plane_dashboard_scaffold.py"
+      - name: Run configuration safety tests
+        run: python -m unittest discover -s tests -p "test_config_settings.py"
+      - name: Run domain model tests
+        run: python -m unittest discover -s tests -p "test_domain_models.py"
+      - name: Run OMS state machine tests
+        run: python -m unittest discover -s tests -p "test_oms_state_machine.py"
+      - name: Run portfolio accounting tests
+        run: python -m unittest discover -s tests -p "test_portfolio_accounting.py"
+      - name: Run risk evaluator tests
+        run: python -m unittest discover -s tests -p "test_risk_evaluator.py"
+      - name: Run strategy engine tests
+        run: python -m unittest discover -s tests -p "test_strategy_engine.py"
+      - name: Run paper trading simulator tests
+        run: python -m unittest discover -s tests -p "test_paper_trading_simulator.py"
+      - name: Run paper account state tests
+        run: python -m unittest discover -s tests -p "test_paper_account_state.py"
+      - name: Run backtesting engine tests
+        run: python -m unittest discover -s tests -p "test_backtesting_engine.py"
+      - name: Run local observability tests
+        run: python -m unittest discover -s tests -p "test_observability_local.py"
+      - name: Run local evidence journal tests
+        run: python -m unittest discover -s tests -p "test_observability_evidence_journal.py"
+      - name: Run local evidence summary tests
+        run: python -m unittest discover -s tests -p "test_observability_evidence_summary.py"
+      - name: Run local evidence quality gate tests
+        run: python -m unittest discover -s tests -p "test_observability_evidence_quality_gate.py"
+      - name: Run fail-closed execution adapter tests
+        run: python -m unittest discover -s tests -p "test_execution_adapter_fail_closed.py"
+      - name: Run control-plane API tests
+        run: python -m unittest discover -s tests -p "test_control_plane_api.py"
 
   secret-artifact-audit:
     name: Secret and artifact hygiene audit
