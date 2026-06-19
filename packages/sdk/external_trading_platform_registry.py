@@ -17,6 +17,9 @@ class PlatformCategory(str, Enum):
     CRYPTO_STRATEGY_RUNTIME = "crypto_strategy_runtime"
     SIGNAL_SOURCE = "signal_source"
     FOREX_CFD_PLATFORM = "forex_cfd_platform"
+    COMMERCIAL_BOT_SAAS = "commercial_bot_saas"
+    EXCHANGE_NATIVE_BOT = "exchange_native_bot"
+    TECHNICAL_ANALYSIS_AUTOMATION = "technical_analysis_automation"
 
 
 class IntegrationBoundary(str, Enum):
@@ -25,6 +28,8 @@ class IntegrationBoundary(str, Enum):
     ISOLATED_STRATEGY_SANDBOX = "isolated_strategy_sandbox"
     SIGNAL_INTAKE_ONLY = "signal_intake_only"
     TERMINAL_ADAPTER_BOUNDARY = "terminal_adapter_boundary"
+    EXTERNAL_SAAS_REFERENCE = "external_saas_reference"
+    EXCHANGE_NATIVE_AUTOMATION = "exchange_native_automation"
 
 
 class IntegrationStage(IntEnum):
@@ -49,6 +54,22 @@ class PlatformCapability(str, Enum):
     MARKET_MAKING = "market_making"
     ARBITRAGE = "arbitrage"
     MODEL_INFERENCE = "model_inference"
+    GRID_TRADING = "grid_trading"
+    DCA_TRADING = "dca_trading"
+    COPY_TRADING = "copy_trading"
+    SMART_TRADING = "smart_trading"
+    NO_CODE_RULES = "no_code_rules"
+    TRADINGVIEW_BRIDGE = "tradingview_bridge"
+    TRAILING_CONTROLS = "trailing_controls"
+    DEMO_TRADING = "demo_trading"
+
+
+class CredentialBoundary(str, Enum):
+    NONE = "none"
+    EXTERNAL_SAAS = "external_saas"
+    EXCHANGE_NATIVE = "exchange_native"
+    LOCAL_TERMINAL = "local_terminal"
+    EXECUTION_ENGINE = "execution_engine"
 
 
 class AssetClass(str, Enum):
@@ -84,6 +105,10 @@ class ExternalPlatformProfile:
     direct_execution_capable: bool
     external_runtime: bool
     requires_terminal_or_gateway: bool
+    credential_boundary: CredentialBoundary
+    supports_no_withdrawal_permissions: bool
+    supports_ip_allowlisting: bool
+    supports_demo_or_paper: bool
     official_documentation: str
     operational_notes: tuple[str, ...] = ()
 
@@ -96,6 +121,15 @@ class ExternalPlatformProfile:
             raise PlatformRegistryError("platform must declare at least one capability")
         if self.direct_execution_capable and PlatformCapability.ORDER_EXECUTION not in self.capabilities:
             raise PlatformRegistryError("direct execution platforms must declare order_execution")
+        if self.requires_credentials and self.credential_boundary is CredentialBoundary.NONE:
+            raise PlatformRegistryError("credential-requiring platforms must declare credential boundary")
+        if not self.requires_credentials and self.credential_boundary is not CredentialBoundary.NONE:
+            raise PlatformRegistryError("credential-free profile has incompatible credential boundary")
+        if (
+            PlatformCapability.PAPER_TRADING in self.capabilities
+            or PlatformCapability.DEMO_TRADING in self.capabilities
+        ) and not self.supports_demo_or_paper:
+            raise PlatformRegistryError("paper/demo capability requires declared support")
         if not self.official_documentation.startswith("https://"):
             raise PlatformRegistryError("official documentation must use HTTPS")
 
@@ -289,6 +323,10 @@ def build_default_external_trading_platform_registry() -> ExternalTradingPlatfor
                 direct_execution_capable=True,
                 external_runtime=True,
                 requires_terminal_or_gateway=False,
+                credential_boundary=CredentialBoundary.EXTERNAL_SAAS,
+                supports_no_withdrawal_permissions=False,
+                supports_ip_allowlisting=False,
+                supports_demo_or_paper=True,
                 official_documentation="https://www.quantconnect.com/docs/v2/",
                 operational_notes=(
                     "Use as a research/backtest reference before any runtime integration.",
@@ -326,6 +364,10 @@ def build_default_external_trading_platform_registry() -> ExternalTradingPlatfor
                 direct_execution_capable=True,
                 external_runtime=False,
                 requires_terminal_or_gateway=True,
+                credential_boundary=CredentialBoundary.EXECUTION_ENGINE,
+                supports_no_withdrawal_permissions=True,
+                supports_ip_allowlisting=False,
+                supports_demo_or_paper=True,
                 official_documentation="https://ibkrcampus.com/campus/ibkr-api-page/twsapi-doc/",
                 operational_notes=(
                     "TWS API requires a running TWS or IB Gateway instance.",
@@ -354,6 +396,10 @@ def build_default_external_trading_platform_registry() -> ExternalTradingPlatfor
                 direct_execution_capable=True,
                 external_runtime=True,
                 requires_terminal_or_gateway=False,
+                credential_boundary=CredentialBoundary.LOCAL_TERMINAL,
+                supports_no_withdrawal_permissions=True,
+                supports_ip_allowlisting=True,
+                supports_demo_or_paper=True,
                 official_documentation="https://hummingbot.org/",
                 operational_notes=(
                     "Strategies create and refresh orders and therefore require process isolation.",
@@ -382,6 +428,10 @@ def build_default_external_trading_platform_registry() -> ExternalTradingPlatfor
                 direct_execution_capable=False,
                 external_runtime=False,
                 requires_terminal_or_gateway=False,
+                credential_boundary=CredentialBoundary.NONE,
+                supports_no_withdrawal_permissions=False,
+                supports_ip_allowlisting=False,
+                supports_demo_or_paper=False,
                 official_documentation="https://www.tradingview.com/support/solutions/43000529348-how-to-configure-webhook-alerts/",
                 operational_notes=(
                     "Alerts become SignalCandidate only.",
@@ -417,6 +467,10 @@ def build_default_external_trading_platform_registry() -> ExternalTradingPlatfor
                 direct_execution_capable=True,
                 external_runtime=True,
                 requires_terminal_or_gateway=True,
+                credential_boundary=CredentialBoundary.LOCAL_TERMINAL,
+                supports_no_withdrawal_permissions=True,
+                supports_ip_allowlisting=False,
+                supports_demo_or_paper=True,
                 official_documentation="https://www.mql5.com/en/docs",
                 operational_notes=(
                     "Expert Advisors and ONNX models execute inside the terminal boundary.",
@@ -453,10 +507,206 @@ def build_default_external_trading_platform_registry() -> ExternalTradingPlatfor
                 direct_execution_capable=True,
                 external_runtime=True,
                 requires_terminal_or_gateway=False,
+                credential_boundary=CredentialBoundary.LOCAL_TERMINAL,
+                supports_no_withdrawal_permissions=True,
+                supports_ip_allowlisting=False,
+                supports_demo_or_paper=True,
                 official_documentation="https://help.ctrader.com/open-api/",
                 operational_notes=(
                     "Open API uses OAuth 2.0 and supports JSON or Protobuf messages.",
                     "cBots support Python/C# and platform backtesting.",
+                ),
+            ),
+            _commercial_crypto_profile(
+                platform_id="3commas",
+                display_name="3Commas",
+                capabilities={
+                    PlatformCapability.GRID_TRADING,
+                    PlatformCapability.DCA_TRADING,
+                    PlatformCapability.SMART_TRADING,
+                    PlatformCapability.COPY_TRADING,
+                    PlatformCapability.BACKTEST,
+                    PlatformCapability.ORDER_EXECUTION,
+                    PlatformCapability.ACCOUNT_STATE,
+                    PlatformCapability.TRAILING_CONTROLS,
+                },
+                supports_ip_allowlisting=True,
+                supports_demo_or_paper=True,
+                official_documentation="https://help.3commas.io/en/articles/4430555-all-about-3commas-features-tools-history-and-benefits",
+                notes=(
+                    "Grid and DCA automation can create many exchange orders and hit rate limits.",
+                    "Treat all strategy templates and AI-labelled settings as untrusted configuration.",
+                ),
+            ),
+            _commercial_crypto_profile(
+                platform_id="cryptohopper",
+                display_name="Cryptohopper",
+                capabilities={
+                    PlatformCapability.DCA_TRADING,
+                    PlatformCapability.COPY_TRADING,
+                    PlatformCapability.MARKET_MAKING,
+                    PlatformCapability.ARBITRAGE,
+                    PlatformCapability.PAPER_TRADING,
+                    PlatformCapability.ORDER_EXECUTION,
+                    PlatformCapability.ACCOUNT_STATE,
+                    PlatformCapability.TRADINGVIEW_BRIDGE,
+                },
+                supports_ip_allowlisting=True,
+                supports_demo_or_paper=True,
+                official_documentation="https://docs.cryptohopper.com/docs/how-to-connect",
+                notes=(
+                    "Marketplace strategies, copy bots and signals require provenance review.",
+                    "Exchange keys must exclude withdrawal and transfer permissions.",
+                ),
+            ),
+            ExternalPlatformProfile(
+                platform_id="pionex",
+                display_name="Pionex",
+                category=PlatformCategory.EXCHANGE_NATIVE_BOT,
+                boundary=IntegrationBoundary.EXCHANGE_NATIVE_AUTOMATION,
+                asset_classes=frozenset({AssetClass.CRYPTO}),
+                capabilities=frozenset(
+                    {
+                        PlatformCapability.GRID_TRADING,
+                        PlatformCapability.DCA_TRADING,
+                        PlatformCapability.ORDER_EXECUTION,
+                        PlatformCapability.ACCOUNT_STATE,
+                        PlatformCapability.TRAILING_CONTROLS,
+                    }
+                ),
+                current_stage=IntegrationStage.REFERENCE,
+                requires_network=True,
+                requires_credentials=True,
+                direct_execution_capable=True,
+                external_runtime=True,
+                requires_terminal_or_gateway=False,
+                credential_boundary=CredentialBoundary.EXCHANGE_NATIVE,
+                supports_no_withdrawal_permissions=False,
+                supports_ip_allowlisting=False,
+                supports_demo_or_paper=False,
+                official_documentation="https://www.pionex.com/blog/category/trading-bots/",
+                operational_notes=(
+                    "Bots execute inside an exchange-native environment.",
+                    "Use only as strategy/UX reference until an exchange-specific approval exists.",
+                ),
+            ),
+            _commercial_crypto_profile(
+                platform_id="coinrule",
+                display_name="Coinrule",
+                capabilities={
+                    PlatformCapability.NO_CODE_RULES,
+                    PlatformCapability.ORDER_EXECUTION,
+                    PlatformCapability.ACCOUNT_STATE,
+                    PlatformCapability.TRADINGVIEW_BRIDGE,
+                },
+                supports_ip_allowlisting=True,
+                supports_demo_or_paper=True,
+                official_documentation="https://help.coinrule.com/articles/711711-what-is-coinrule",
+                notes=(
+                    "Rule templates are external execution policies and require deterministic translation review.",
+                    "API keys are documented as trade-only and without withdrawal rights.",
+                ),
+            ),
+            _commercial_crypto_profile(
+                platform_id="bitsgap",
+                display_name="Bitsgap",
+                capabilities={
+                    PlatformCapability.GRID_TRADING,
+                    PlatformCapability.DCA_TRADING,
+                    PlatformCapability.BACKTEST,
+                    PlatformCapability.DEMO_TRADING,
+                    PlatformCapability.ORDER_EXECUTION,
+                    PlatformCapability.ACCOUNT_STATE,
+                    PlatformCapability.TRAILING_CONTROLS,
+                },
+                supports_ip_allowlisting=False,
+                supports_demo_or_paper=True,
+                official_documentation="https://bitsgap.com/crypto-trading-bot/dca-bot",
+                notes=(
+                    "Grid, DCA and leveraged futures variants have materially different risk profiles.",
+                    "Demo results must not be treated as live execution evidence.",
+                ),
+            ),
+            _commercial_crypto_profile(
+                platform_id="tradesanta",
+                display_name="TradeSanta",
+                capabilities={
+                    PlatformCapability.GRID_TRADING,
+                    PlatformCapability.DCA_TRADING,
+                    PlatformCapability.SMART_TRADING,
+                    PlatformCapability.TRADINGVIEW_BRIDGE,
+                    PlatformCapability.ORDER_EXECUTION,
+                    PlatformCapability.ACCOUNT_STATE,
+                    PlatformCapability.TRAILING_CONTROLS,
+                },
+                supports_ip_allowlisting=False,
+                supports_demo_or_paper=True,
+                official_documentation="https://tradesanta.com/setting-up-bots",
+                notes=(
+                    "Grid/DCA strategies and TradingView signals become external order flows.",
+                    "Safety orders and futures access require explicit capital and leverage limits.",
+                ),
+            ),
+            _commercial_crypto_profile(
+                platform_id="wundertrading",
+                display_name="WunderTrading",
+                capabilities={
+                    PlatformCapability.GRID_TRADING,
+                    PlatformCapability.DCA_TRADING,
+                    PlatformCapability.COPY_TRADING,
+                    PlatformCapability.TRADINGVIEW_BRIDGE,
+                    PlatformCapability.ARBITRAGE,
+                    PlatformCapability.DEMO_TRADING,
+                    PlatformCapability.ORDER_EXECUTION,
+                    PlatformCapability.ACCOUNT_STATE,
+                    PlatformCapability.TRAILING_CONTROLS,
+                },
+                supports_ip_allowlisting=False,
+                supports_demo_or_paper=True,
+                official_documentation="https://wundertrading.com/en",
+                notes=(
+                    "TradingView bridges and copy trading require source authentication and provenance.",
+                    "MCP or AI integrations must never receive exchange credentials.",
+                ),
+            ),
+            ExternalPlatformProfile(
+                platform_id="trendspider",
+                display_name="TrendSpider",
+                category=PlatformCategory.TECHNICAL_ANALYSIS_AUTOMATION,
+                boundary=IntegrationBoundary.SIGNAL_INTAKE_ONLY,
+                asset_classes=frozenset(
+                    {
+                        AssetClass.CRYPTO,
+                        AssetClass.EQUITY,
+                        AssetClass.ETF,
+                        AssetClass.FUTURE,
+                        AssetClass.FOREX,
+                        AssetClass.CFD,
+                    }
+                ),
+                capabilities=frozenset(
+                    {
+                        PlatformCapability.RESEARCH,
+                        PlatformCapability.BACKTEST,
+                        PlatformCapability.NO_CODE_RULES,
+                        PlatformCapability.SIGNAL_INGESTION,
+                        PlatformCapability.TRADINGVIEW_BRIDGE,
+                    }
+                ),
+                current_stage=IntegrationStage.CONTRACT,
+                requires_network=True,
+                requires_credentials=False,
+                direct_execution_capable=False,
+                external_runtime=False,
+                requires_terminal_or_gateway=False,
+                credential_boundary=CredentialBoundary.NONE,
+                supports_no_withdrawal_permissions=False,
+                supports_ip_allowlisting=True,
+                supports_demo_or_paper=False,
+                official_documentation="https://help.trendspider.com/kb/alerts/webhooks",
+                operational_notes=(
+                    "Strategy bot webhooks are signal intake only in this platform.",
+                    "Third-party bridges that convert webhooks into orders are explicitly outside the trust boundary.",
                 ),
             ),
         )
@@ -512,6 +762,40 @@ def _required_gates(
         gates.update({"process_isolation", "resource_limits", "runtime_kill_switch"})
     if profile.requires_terminal_or_gateway:
         gates.update({"terminal_gateway_health", "session_recovery"})
+    if profile.category in {
+        PlatformCategory.COMMERCIAL_BOT_SAAS,
+        PlatformCategory.EXCHANGE_NATIVE_BOT,
+    }:
+        gates.update(
+            {
+                "vendor_due_diligence",
+                "vendor_incident_response",
+                "vendor_data_retention_review",
+                "capital_subaccount_isolation",
+                "bot_stop_procedure",
+                "strategy_parameter_limits",
+            }
+        )
+    if profile.requires_credentials:
+        gates.update({"credential_scope_review", "key_rotation"})
+    if profile.supports_no_withdrawal_permissions:
+        gates.add("withdrawal_permission_forbidden")
+    if profile.credential_boundary is CredentialBoundary.EXTERNAL_SAAS:
+        gates.add("trade_only_api_key")
+    if profile.supports_ip_allowlisting:
+        gates.add("ip_allowlist")
+    if PlatformCapability.COPY_TRADING in capabilities:
+        gates.update({"copy_source_provenance", "copy_risk_limits", "copy_latency_review"})
+    if PlatformCapability.GRID_TRADING in capabilities:
+        gates.update({"grid_range_guard", "max_active_orders", "range_breakout_policy"})
+    if PlatformCapability.DCA_TRADING in capabilities:
+        gates.update({"max_safety_orders", "max_position_notional", "dca_drawdown_policy"})
+    if PlatformCapability.NO_CODE_RULES in capabilities:
+        gates.update({"rule_translation_review", "rule_conflict_detection"})
+    if PlatformCapability.TRADINGVIEW_BRIDGE in capabilities:
+        gates.update({"webhook_authentication", "replay_protection", "payload_allowlist"})
+    if PlatformCapability.TRAILING_CONTROLS in capabilities:
+        gates.add("trailing_order_semantics_review")
     return gates
 
 
@@ -535,4 +819,43 @@ def _allowed_actions(
         actions.add("signal_candidate_mapping")
     if profile.category is PlatformCategory.CRYPTO_STRATEGY_RUNTIME:
         actions.add("strategy_logic_reference")
+    if profile.category in {
+        PlatformCategory.COMMERCIAL_BOT_SAAS,
+        PlatformCategory.EXCHANGE_NATIVE_BOT,
+    }:
+        actions.update({"ux_workflow_review", "strategy_semantics_review", "security_posture_review"})
+    if profile.category is PlatformCategory.TECHNICAL_ANALYSIS_AUTOMATION:
+        actions.update({"alert_semantics_review", "strategy_tester_comparison"})
     return tuple(sorted(actions))
+
+
+def _commercial_crypto_profile(
+    *,
+    platform_id: str,
+    display_name: str,
+    capabilities: set[PlatformCapability],
+    supports_ip_allowlisting: bool,
+    supports_demo_or_paper: bool,
+    official_documentation: str,
+    notes: tuple[str, ...],
+) -> ExternalPlatformProfile:
+    return ExternalPlatformProfile(
+        platform_id=platform_id,
+        display_name=display_name,
+        category=PlatformCategory.COMMERCIAL_BOT_SAAS,
+        boundary=IntegrationBoundary.EXTERNAL_SAAS_REFERENCE,
+        asset_classes=frozenset({AssetClass.CRYPTO}),
+        capabilities=frozenset(capabilities),
+        current_stage=IntegrationStage.REFERENCE,
+        requires_network=True,
+        requires_credentials=True,
+        direct_execution_capable=True,
+        external_runtime=True,
+        requires_terminal_or_gateway=False,
+        credential_boundary=CredentialBoundary.EXTERNAL_SAAS,
+        supports_no_withdrawal_permissions=True,
+        supports_ip_allowlisting=supports_ip_allowlisting,
+        supports_demo_or_paper=supports_demo_or_paper,
+        official_documentation=official_documentation,
+        operational_notes=notes,
+    )

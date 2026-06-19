@@ -6,6 +6,7 @@ import unittest
 from packages.contracts import ContractValidator
 from packages.sdk import (
     AssessmentDecision,
+    CredentialBoundary,
     IntegrationBoundary,
     IntegrationStage,
     PlatformCapability,
@@ -33,11 +34,24 @@ class ExternalTradingPlatformRegistryTests(unittest.TestCase):
                 "tradingview",
                 "metatrader-5",
                 "ctrader",
+                "3commas",
+                "cryptohopper",
+                "pionex",
+                "coinrule",
+                "bitsgap",
+                "tradesanta",
+                "wundertrading",
+                "trendspider",
             },
         )
         self.assertEqual(profiles["interactive-brokers"].boundary, IntegrationBoundary.EXECUTION_ENGINE_ONLY)
         self.assertEqual(profiles["tradingview"].boundary, IntegrationBoundary.SIGNAL_INTAKE_ONLY)
         self.assertEqual(profiles["hummingbot"].boundary, IntegrationBoundary.ISOLATED_STRATEGY_SANDBOX)
+        self.assertEqual(profiles["3commas"].boundary, IntegrationBoundary.EXTERNAL_SAAS_REFERENCE)
+        self.assertEqual(profiles["pionex"].boundary, IntegrationBoundary.EXCHANGE_NATIVE_AUTOMATION)
+        self.assertEqual(profiles["trendspider"].boundary, IntegrationBoundary.SIGNAL_INTAKE_ONLY)
+        self.assertEqual(profiles["cryptohopper"].credential_boundary, CredentialBoundary.EXTERNAL_SAAS)
+        self.assertEqual(profiles["pionex"].credential_boundary, CredentialBoundary.EXCHANGE_NATIVE)
 
     def test_contract_stage_is_available_without_runtime_authority(self) -> None:
         request = PlatformIntegrationRequest(
@@ -54,6 +68,9 @@ class ExternalTradingPlatformRegistryTests(unittest.TestCase):
                     "owner_assigned",
                     "terminal_gateway_health",
                     "session_recovery",
+                    "credential_scope_review",
+                    "key_rotation",
+                    "withdrawal_permission_forbidden",
                 }
             ),
         )
@@ -141,6 +158,82 @@ class ExternalTradingPlatformRegistryTests(unittest.TestCase):
         self.assertIn("process_isolation", assessment.required_gates)
         self.assertIn("runtime_kill_switch", assessment.required_gates)
         self.assertIn("strategy_logic_reference", assessment.allowed_actions)
+
+    def test_commercial_grid_and_dca_request_derives_operational_risk_gates(self) -> None:
+        assessment = self.registry.assess(
+            PlatformIntegrationRequest(
+                platform_id="3commas",
+                requested_stage=IntegrationStage.PAPER,
+                requested_capabilities=frozenset(
+                    {
+                        PlatformCapability.GRID_TRADING,
+                        PlatformCapability.DCA_TRADING,
+                        PlatformCapability.ORDER_EXECUTION,
+                    }
+                ),
+                target_boundary=IntegrationBoundary.EXTERNAL_SAAS_REFERENCE,
+            )
+        )
+
+        self.assertEqual(assessment.decision, AssessmentDecision.REQUIRES_GATES)
+        for gate in (
+            "vendor_due_diligence",
+            "vendor_incident_response",
+            "capital_subaccount_isolation",
+            "trade_only_api_key",
+            "withdrawal_permission_forbidden",
+            "ip_allowlist",
+            "grid_range_guard",
+            "max_active_orders",
+            "range_breakout_policy",
+            "max_safety_orders",
+            "max_position_notional",
+            "dca_drawdown_policy",
+            "deterministic_risk_gateway",
+            "approved_order_only",
+        ):
+            self.assertIn(gate, assessment.required_gates)
+        self.assertTrue(assessment.risk_gateway_required)
+        self.assertTrue(assessment.approved_order_required)
+        self.assertFalse(assessment.credentials_allowed)
+        self.assertFalse(assessment.network_runtime_allowed)
+        self.assertFalse(assessment.live_execution_allowed)
+
+    def test_copy_trading_requires_provenance_and_independent_risk_limits(self) -> None:
+        assessment = self.registry.assess(
+            PlatformIntegrationRequest(
+                platform_id="cryptohopper",
+                requested_stage=IntegrationStage.FAKE,
+                requested_capabilities=frozenset({PlatformCapability.COPY_TRADING}),
+                target_boundary=IntegrationBoundary.EXTERNAL_SAAS_REFERENCE,
+            )
+        )
+
+        for gate in ("copy_source_provenance", "copy_risk_limits", "copy_latency_review"):
+            self.assertIn(gate, assessment.required_gates)
+        self.assertIn("strategy_semantics_review", assessment.allowed_actions)
+        self.assertFalse(assessment.live_execution_allowed)
+
+    def test_trendspider_alerts_remain_signal_intake_only(self) -> None:
+        assessment = self.registry.assess(
+            PlatformIntegrationRequest(
+                platform_id="trendspider",
+                requested_stage=IntegrationStage.FAKE,
+                requested_capabilities=frozenset(
+                    {
+                        PlatformCapability.SIGNAL_INGESTION,
+                        PlatformCapability.TRADINGVIEW_BRIDGE,
+                    }
+                ),
+                target_boundary=IntegrationBoundary.SIGNAL_INTAKE_ONLY,
+            )
+        )
+
+        for gate in ("webhook_authentication", "replay_protection", "payload_allowlist"):
+            self.assertIn(gate, assessment.required_gates)
+        self.assertIn("alert_semantics_review", assessment.allowed_actions)
+        self.assertFalse(assessment.risk_gateway_required)
+        self.assertFalse(assessment.live_execution_allowed)
 
     def test_unsupported_capability_is_rejected(self) -> None:
         assessment = self.registry.assess(

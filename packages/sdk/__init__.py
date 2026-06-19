@@ -52,6 +52,7 @@ from .deep_learning_loop_planner import (
 from .external_trading_platform_registry import (
     AssessmentDecision,
     AssetClass,
+    CredentialBoundary,
     ExternalPlatformProfile,
     ExternalTradingPlatformRegistry,
     IntegrationBoundary,
@@ -72,6 +73,7 @@ __all__ = [
     "DeepLearningLoopRequest",
     "AssessmentDecision",
     "AssetClass",
+    "CredentialBoundary",
     "DuplicateMarketDataAdapterError",
     "ExternalPlatformProfile",
     "ExternalTradingPlatformRegistry",
