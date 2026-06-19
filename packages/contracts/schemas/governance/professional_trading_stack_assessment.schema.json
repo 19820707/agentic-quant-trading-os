@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/governance/professional_trading_stack_assessment.schema.json",
+  "$comment": "Control-plane architecture assessment only. It cannot grant credentials, network runtime or live execution.",
+  "title": "ProfessionalTradingStackAssessment",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "assessment_id",
+    "requested_stage",
+    "decision",
+    "missing_layers",
+    "missing_capabilities",
+    "missing_connections",
+    "invalid_connections",
+    "required_gates",
+    "missing_gates",
+    "reasons",
+    "canonical_flow_enforced",
+    "deterministic_risk_gateway_required",
+    "approved_order_only",
+    "no_withdrawal_enforced",
+    "credentials_allowed",
+    "network_runtime_allowed",
+    "live_execution_allowed",
+    "assessed_at"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "assessment_id": {"type": "string", "pattern": "^ptsa_[A-Za-z0-9_\\-]+$"},
+    "requested_stage": {
+      "type": "string",
+      "enum": ["DESIGN", "CONTRACT", "FAKE", "PAPER", "CONTROLLED_LIVE"]
+    },
+    "decision": {
+      "type": "string",
+      "enum": [
+        "allowed_for_local_stage",
+        "requires_gates",
+        "rejected_incomplete_stack",
+        "rejected_forbidden_path"
+      ]
+    },
+    "missing_layers": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+    "missing_capabilities": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+    "missing_connections": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+    "invalid_connections": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+    "required_gates": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+    "missing_gates": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+    "reasons": {"type": "array", "items": {"type": "string"}},
+    "canonical_flow_enforced": {"type": "boolean", "const": true},
+    "deterministic_risk_gateway_required": {"type": "boolean", "const": true},
+    "approved_order_only": {"type": "boolean", "const": true},
+    "no_withdrawal_enforced": {"type": "boolean", "const": true},
+    "credentials_allowed": {"type": "boolean", "const": false},
+    "network_runtime_allowed": {"type": "boolean", "const": false},
+    "live_execution_allowed": {"type": "boolean", "const": false},
+    "assessed_at": {"type": "string", "format": "date-time"}
+  }
+}

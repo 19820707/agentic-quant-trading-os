@@ -80,6 +80,7 @@ class ContractRegistryTests(unittest.TestCase):
                 "rollback_plan",
                 "agent_pr_review_evidence",
                 "human_approval_record",
+                "professional_trading_stack_assessment",
             }.issubset(names)
         )
 

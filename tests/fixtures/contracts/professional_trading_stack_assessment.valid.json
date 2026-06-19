@@ -1,0 +1,32 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_professional_stack_001",
+  "correlation_id": "corr_professional_stack_001",
+  "assessment_id": "ptsa_contract_professional_stack_001",
+  "requested_stage": "CONTRACT",
+  "decision": "allowed_for_local_stage",
+  "missing_layers": [],
+  "missing_capabilities": [],
+  "missing_connections": [],
+  "invalid_connections": [],
+  "required_gates": [
+    "architecture_boundary_review",
+    "contract_defined",
+    "data_classification",
+    "failure_mode_catalog",
+    "owner_assigned",
+    "traceability_plan"
+  ],
+  "missing_gates": [],
+  "reasons": [
+    "complete contract-stage architecture with no runtime authority"
+  ],
+  "canonical_flow_enforced": true,
+  "deterministic_risk_gateway_required": true,
+  "approved_order_only": true,
+  "no_withdrawal_enforced": true,
+  "credentials_allowed": false,
+  "network_runtime_allowed": false,
+  "live_execution_allowed": false,
+  "assessed_at": "2026-06-19T12:00:00Z"
+}
