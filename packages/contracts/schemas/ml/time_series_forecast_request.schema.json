@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/ml/time_series_forecast_request.schema.json",
+  "$comment": "Point-in-time numeric forecast request. It is not a signal, risk approval or executable order.",
+  "title": "TimeSeriesForecastRequest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "forecast_request_id",
+    "series_id",
+    "model_id",
+    "created_at",
+    "observed_at",
+    "context_start",
+    "context_end",
+    "frequency_seconds",
+    "context_values",
+    "horizon",
+    "point_in_time_enforced",
+    "network_allowed",
+    "credentials_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "forecast_request_id": {"type": "string", "pattern": "^tsfreq_[A-Za-z0-9_\\-]+$"},
+    "series_id": {"type": "string", "minLength": 1},
+    "model_id": {"type": "string", "minLength": 1},
+    "created_at": {"type": "string", "format": "date-time"},
+    "observed_at": {"type": "string", "format": "date-time"},
+    "context_start": {"type": "string", "format": "date-time"},
+    "context_end": {"type": "string", "format": "date-time"},
+    "frequency_seconds": {"type": "integer", "minimum": 1},
+    "context_values": {
+      "type": "array",
+      "minItems": 2,
+      "items": {"type": "number"}
+    },
+    "horizon": {"type": "integer", "minimum": 1, "maximum": 1000},
+    "point_in_time_enforced": {"type": "boolean", "const": true},
+    "network_allowed": {"type": "boolean", "const": false},
+    "credentials_allowed": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

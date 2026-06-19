@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/ml/time_series_forecast_result.schema.json",
+  "$comment": "Numeric forecast output only. It cannot create signals, orders, risk approvals or execution.",
+  "title": "TimeSeriesForecastResult",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "forecast_result_id",
+    "forecast_request_id",
+    "series_id",
+    "model_id",
+    "model_package_version",
+    "generated_at",
+    "horizon",
+    "point_forecast",
+    "quantile_forecasts",
+    "backend",
+    "local_only",
+    "network_used",
+    "credentials_used",
+    "signal_created",
+    "order_intent_allowed",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "forecast_result_id": {"type": "string", "pattern": "^tsfr_[A-Za-z0-9_\\-]+$"},
+    "forecast_request_id": {"type": "string", "pattern": "^tsfreq_[A-Za-z0-9_\\-]+$"},
+    "series_id": {"type": "string", "minLength": 1},
+    "model_id": {"type": "string", "minLength": 1},
+    "model_package_version": {"type": "string", "minLength": 1},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "horizon": {"type": "integer", "minimum": 1, "maximum": 1000},
+    "point_forecast": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "number"}
+    },
+    "quantile_forecasts": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": {"type": "number"}
+      }
+    },
+    "backend": {"type": "string", "minLength": 1},
+    "local_only": {"type": "boolean", "const": true},
+    "network_used": {"type": "boolean", "const": false},
+    "credentials_used": {"type": "boolean", "const": false},
+    "signal_created": {"type": "boolean", "const": false},
+    "order_intent_allowed": {"type": "boolean", "const": false},
+    "execution_allowed": {"type": "boolean", "const": false}
+  }
+}

@@ -79,6 +79,8 @@ jobs:
         run: python -m unittest discover -s tests -p "test_trading_runtime_activation_gate.py"
       - name: Run backtest review contract tests
         run: python -m unittest discover -s tests -p "test_backtest_review_contract.py"
+      - name: Run TimesFM forecast integration tests
+        run: python -m unittest discover -s tests -p "test_timesfm_forecast_engine.py"
 
   adapter-interface-tests:
     name: Adapter interface tests
