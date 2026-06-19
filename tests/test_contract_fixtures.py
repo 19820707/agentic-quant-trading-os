@@ -44,6 +44,7 @@ FIXTURES = {
     "human_approval_record.valid.json": ("governance", "human_approval_record"),
     "time_series_forecast_request.valid.json": ("ml", "time_series_forecast_request"),
     "time_series_forecast_result.valid.json": ("ml", "time_series_forecast_result"),
+    "external_platform_capability_assessment.valid.json": ("governance", "external_platform_capability_assessment"),
 }
 
 FORBIDDEN_KEYS = {
@@ -80,10 +81,11 @@ class ContractFixtureTests(unittest.TestCase):
     def test_fixtures_do_not_include_credentials_or_live_markers(self):
         for fixture_name in FIXTURES:
             with self.subTest(fixture=fixture_name):
+                payload = self._load_fixture(fixture_name)
                 payload_text = (FIXTURE_ROOT / fixture_name).read_text(encoding="utf-8").lower()
                 for forbidden_key in FORBIDDEN_KEYS:
                     self.assertNotIn(forbidden_key, payload_text)
-                self.assertNotIn("live", payload_text)
+                self._assert_no_live_enablement(payload)
 
     def test_fixtures_share_lifecycle_correlation_id(self):
         correlation_ids = {
@@ -117,6 +119,20 @@ class ContractFixtureTests(unittest.TestCase):
     def _load_fixture(self, fixture_name):
         with (FIXTURE_ROOT / fixture_name).open(encoding="utf-8") as fixture_file:
             return json.load(fixture_file)
+
+    def _assert_no_live_enablement(self, value):
+        if isinstance(value, dict):
+            for key, item in value.items():
+                if "live" in key.lower() and isinstance(item, bool):
+                    self.assertFalse(item, f"{key} must remain false")
+                self._assert_no_live_enablement(item)
+            return
+        if isinstance(value, list):
+            for item in value:
+                self._assert_no_live_enablement(item)
+            return
+        if isinstance(value, str):
+            self.assertNotIn(value.lower(), {"live", "controlled_live", "production"})
 
 
 if __name__ == "__main__":

@@ -14,4 +14,5 @@ Current schemas:
 - `rollback_plan.schema.json`: rollback strategy contract with automated and production rollback disabled.
 - `agent_pr_review_evidence.schema.json`: pull-request review evidence with auto-merge and direct main writes disabled.
 - `human_approval_record.schema.json`: human review record scoped to review only, without runtime or production authority.
+- `external_platform_capability_assessment.schema.json`: deterministic external-platform boundary and promotion-gate assessment without runtime authority.
 
