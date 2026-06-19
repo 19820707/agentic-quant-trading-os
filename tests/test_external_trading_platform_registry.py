@@ -30,6 +30,9 @@ class ExternalTradingPlatformRegistryTests(unittest.TestCase):
             {
                 "quantconnect-lean",
                 "interactive-brokers",
+                "alpaca",
+                "ninjatrader",
+                "tradestation",
                 "hummingbot",
                 "tradingview",
                 "metatrader-5",
@@ -45,6 +48,9 @@ class ExternalTradingPlatformRegistryTests(unittest.TestCase):
             },
         )
         self.assertEqual(profiles["interactive-brokers"].boundary, IntegrationBoundary.EXECUTION_ENGINE_ONLY)
+        self.assertEqual(profiles["alpaca"].boundary, IntegrationBoundary.EXECUTION_ENGINE_ONLY)
+        self.assertEqual(profiles["ninjatrader"].boundary, IntegrationBoundary.TERMINAL_ADAPTER_BOUNDARY)
+        self.assertEqual(profiles["tradestation"].boundary, IntegrationBoundary.EXECUTION_ENGINE_ONLY)
         self.assertEqual(profiles["tradingview"].boundary, IntegrationBoundary.SIGNAL_INTAKE_ONLY)
         self.assertEqual(profiles["hummingbot"].boundary, IntegrationBoundary.ISOLATED_STRATEGY_SANDBOX)
         self.assertEqual(profiles["3commas"].boundary, IntegrationBoundary.EXTERNAL_SAAS_REFERENCE)

@@ -1,0 +1,31 @@
+{
+  "schema_version": "0.1.0",
+  "platform_id": "alpaca",
+  "role": "developer_broker_api",
+  "deployment_model": "cloud_api",
+  "authentication_model": "api_key",
+  "simulation_model": "vendor_sim_api",
+  "integration_priority": "paper_adapter_candidate",
+  "official_hosts": [
+    "docs.alpaca.markets"
+  ],
+  "evidence": [
+    {
+      "claim": "Paper trading follows the API workflow but uses simulated fills.",
+      "url": "https://docs.alpaca.markets/us/docs/paper-trading"
+    }
+  ],
+  "operational_caveats": [
+    "Paper does not fully model market impact, queue position or all liquidity effects."
+  ],
+  "required_controls": [
+    "approved_order_only",
+    "deterministic_risk_gateway",
+    "paper_live_endpoint_separation"
+  ],
+  "reference_only": true,
+  "approved_order_only": true,
+  "credentials_allowed": false,
+  "network_runtime_allowed": false,
+  "live_execution_allowed": false
+}

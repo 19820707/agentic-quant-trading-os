@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/governance/external_platform_due_diligence.schema.json",
+  "$comment": "Official-source due diligence record. It is reference-only and cannot grant credentials, network runtime or live execution.",
+  "title": "ExternalPlatformDueDiligence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "platform_id",
+    "role",
+    "deployment_model",
+    "authentication_model",
+    "simulation_model",
+    "integration_priority",
+    "official_hosts",
+    "evidence",
+    "operational_caveats",
+    "required_controls",
+    "reference_only",
+    "approved_order_only",
+    "credentials_allowed",
+    "network_runtime_allowed",
+    "live_execution_allowed"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "platform_id": {"type": "string", "minLength": 1},
+    "role": {
+      "type": "string",
+      "enum": [
+        "research_backtest",
+        "institutional_broker_api",
+        "developer_broker_api",
+        "futures_strategy_terminal",
+        "traditional_multi_asset_api",
+        "forex_cfd_terminal",
+        "crypto_strategy_runtime",
+        "signal_source"
+      ]
+    },
+    "deployment_model": {
+      "type": "string",
+      "enum": ["local_engine", "cloud_api", "local_gateway", "desktop_terminal", "external_runtime"]
+    },
+    "authentication_model": {
+      "type": "string",
+      "enum": ["broker_session", "api_key", "oauth2", "exchange_api_keys", "none_for_signal_payload"]
+    },
+    "simulation_model": {
+      "type": "string",
+      "enum": [
+        "local_backtest",
+        "broker_paper_account",
+        "vendor_sim_api",
+        "terminal_simulation",
+        "connector_paper_runtime",
+        "none"
+      ]
+    },
+    "integration_priority": {
+      "type": "string",
+      "enum": [
+        "research_reference",
+        "paper_adapter_candidate",
+        "deferred_execution_adapter",
+        "isolated_runtime_review",
+        "signal_contract_only"
+      ]
+    },
+    "official_hosts": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9.-]+$"
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["claim", "url"],
+        "properties": {
+          "claim": {"type": "string", "minLength": 1},
+          "url": {"type": "string", "pattern": "^https://"}
+        }
+      }
+    },
+    "operational_caveats": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "required_controls": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "reference_only": {"type": "boolean", "const": true},
+    "approved_order_only": {"type": "boolean", "const": true},
+    "credentials_allowed": {"type": "boolean", "const": false},
+    "network_runtime_allowed": {"type": "boolean", "const": false},
+    "live_execution_allowed": {"type": "boolean", "const": false}
+  }
+}

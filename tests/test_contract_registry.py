@@ -81,6 +81,7 @@ class ContractRegistryTests(unittest.TestCase):
                 "agent_pr_review_evidence",
                 "human_approval_record",
                 "professional_trading_stack_assessment",
+                "external_platform_due_diligence",
             }.issubset(names)
         )
 

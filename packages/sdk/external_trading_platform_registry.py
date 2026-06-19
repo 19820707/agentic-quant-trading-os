@@ -14,6 +14,9 @@ class PlatformRegistryError(ValueError):
 class PlatformCategory(str, Enum):
     RESEARCH_BACKTEST_ENGINE = "research_backtesting_engine"
     EXECUTION_BROKER_API = "execution_broker_api"
+    DEVELOPER_BROKER_API = "developer_broker_api"
+    FUTURES_TRADING_PLATFORM = "futures_trading_platform"
+    TRADITIONAL_TRADING_PLATFORM = "traditional_trading_platform"
     CRYPTO_STRATEGY_RUNTIME = "crypto_strategy_runtime"
     SIGNAL_SOURCE = "signal_source"
     FOREX_CFD_PLATFORM = "forex_cfd_platform"
@@ -372,6 +375,117 @@ def build_default_external_trading_platform_registry() -> ExternalTradingPlatfor
                 operational_notes=(
                     "TWS API requires a running TWS or IB Gateway instance.",
                     "Only execution-engine may own future connectivity.",
+                ),
+            ),
+            ExternalPlatformProfile(
+                platform_id="alpaca",
+                display_name="Alpaca Trading API",
+                category=PlatformCategory.DEVELOPER_BROKER_API,
+                boundary=IntegrationBoundary.EXECUTION_ENGINE_ONLY,
+                asset_classes=frozenset(
+                    {
+                        AssetClass.CRYPTO,
+                        AssetClass.EQUITY,
+                        AssetClass.ETF,
+                        AssetClass.OPTION,
+                    }
+                ),
+                capabilities=frozenset(
+                    {
+                        PlatformCapability.PAPER_TRADING,
+                        PlatformCapability.LIVE_MARKET_DATA,
+                        PlatformCapability.HISTORICAL_MARKET_DATA,
+                        PlatformCapability.ORDER_EXECUTION,
+                        PlatformCapability.ACCOUNT_STATE,
+                        PlatformCapability.RECONCILIATION,
+                    }
+                ),
+                current_stage=IntegrationStage.REFERENCE,
+                requires_network=True,
+                requires_credentials=True,
+                direct_execution_capable=True,
+                external_runtime=False,
+                requires_terminal_or_gateway=False,
+                credential_boundary=CredentialBoundary.EXECUTION_ENGINE,
+                supports_no_withdrawal_permissions=True,
+                supports_ip_allowlisting=False,
+                supports_demo_or_paper=True,
+                official_documentation="https://docs.alpaca.markets/us/docs/trading-api",
+                operational_notes=(
+                    "Paper uses the API workflow but simulated fills do not reproduce every live constraint.",
+                    "A future adapter must keep paper and live endpoints in separate configuration domains.",
+                ),
+            ),
+            ExternalPlatformProfile(
+                platform_id="ninjatrader",
+                display_name="NinjaTrader",
+                category=PlatformCategory.FUTURES_TRADING_PLATFORM,
+                boundary=IntegrationBoundary.TERMINAL_ADAPTER_BOUNDARY,
+                asset_classes=frozenset({AssetClass.FUTURE, AssetClass.OPTION}),
+                capabilities=frozenset(
+                    {
+                        PlatformCapability.BACKTEST,
+                        PlatformCapability.OPTIMIZATION,
+                        PlatformCapability.PAPER_TRADING,
+                        PlatformCapability.LIVE_MARKET_DATA,
+                        PlatformCapability.HISTORICAL_MARKET_DATA,
+                        PlatformCapability.ORDER_EXECUTION,
+                        PlatformCapability.ACCOUNT_STATE,
+                    }
+                ),
+                current_stage=IntegrationStage.REFERENCE,
+                requires_network=True,
+                requires_credentials=True,
+                direct_execution_capable=True,
+                external_runtime=True,
+                requires_terminal_or_gateway=True,
+                credential_boundary=CredentialBoundary.LOCAL_TERMINAL,
+                supports_no_withdrawal_permissions=False,
+                supports_ip_allowlisting=False,
+                supports_demo_or_paper=True,
+                official_documentation="https://ninjatrader.com/support/helpguides/nt8/",
+                operational_notes=(
+                    "NinjaScript strategies, ATM strategies and ATI have distinct semantics.",
+                    "ATI is signal processing, not a general brokerage or market-data API.",
+                ),
+            ),
+            ExternalPlatformProfile(
+                platform_id="tradestation",
+                display_name="TradeStation API",
+                category=PlatformCategory.TRADITIONAL_TRADING_PLATFORM,
+                boundary=IntegrationBoundary.EXECUTION_ENGINE_ONLY,
+                asset_classes=frozenset(
+                    {
+                        AssetClass.EQUITY,
+                        AssetClass.ETF,
+                        AssetClass.OPTION,
+                        AssetClass.FUTURE,
+                    }
+                ),
+                capabilities=frozenset(
+                    {
+                        PlatformCapability.PAPER_TRADING,
+                        PlatformCapability.LIVE_MARKET_DATA,
+                        PlatformCapability.HISTORICAL_MARKET_DATA,
+                        PlatformCapability.ORDER_EXECUTION,
+                        PlatformCapability.ACCOUNT_STATE,
+                        PlatformCapability.RECONCILIATION,
+                    }
+                ),
+                current_stage=IntegrationStage.REFERENCE,
+                requires_network=True,
+                requires_credentials=True,
+                direct_execution_capable=True,
+                external_runtime=False,
+                requires_terminal_or_gateway=False,
+                credential_boundary=CredentialBoundary.EXECUTION_ENGINE,
+                supports_no_withdrawal_permissions=True,
+                supports_ip_allowlisting=False,
+                supports_demo_or_paper=True,
+                official_documentation="https://api.tradestation.com/docs/",
+                operational_notes=(
+                    "SIM and LIVE use distinct base URLs and must be impossible to confuse at runtime.",
+                    "OAuth scopes include trade authority and require least-privilege review.",
                 ),
             ),
             ExternalPlatformProfile(
