@@ -1,0 +1,24 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_timesfm_fixture_001",
+  "correlation_id": "corr_feature_controls_001",
+  "forecast_result_id": "tsfr_fixture_001",
+  "forecast_request_id": "tsfreq_fixture_001",
+  "series_id": "paper_btc_usdt_close_1m",
+  "model_id": "google/timesfm-2.5-200m-pytorch",
+  "model_package_version": "2.0.1",
+  "generated_at": "2026-06-19T12:03:01Z",
+  "horizon": 3,
+  "point_forecast": [104.0, 105.0, 106.0],
+  "quantile_forecasts": {
+    "p10": [102.96, 103.95, 104.94],
+    "p90": [105.04, 106.05, 107.06]
+  },
+  "backend": "deterministic_local_drift",
+  "local_only": true,
+  "network_used": false,
+  "credentials_used": false,
+  "signal_created": false,
+  "order_intent_allowed": false,
+  "execution_allowed": false
+}

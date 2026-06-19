@@ -1,0 +1,19 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_timesfm_fixture_001",
+  "correlation_id": "corr_feature_controls_001",
+  "forecast_request_id": "tsfreq_fixture_001",
+  "series_id": "paper_btc_usdt_close_1m",
+  "model_id": "google/timesfm-2.5-200m-pytorch",
+  "created_at": "2026-06-19T12:03:00Z",
+  "observed_at": "2026-06-19T12:03:00Z",
+  "context_start": "2026-06-19T12:00:00Z",
+  "context_end": "2026-06-19T12:03:00Z",
+  "frequency_seconds": 60,
+  "context_values": [100.0, 101.0, 102.0, 103.0],
+  "horizon": 3,
+  "point_in_time_enforced": true,
+  "network_allowed": false,
+  "credentials_allowed": false,
+  "execution_allowed": false
+}
