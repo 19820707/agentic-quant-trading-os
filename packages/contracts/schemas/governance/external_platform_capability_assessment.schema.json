@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-quant-trading-os.local/schemas/governance/external_platform_capability_assessment.schema.json",
+  "$comment": "Control-plane assessment only. It never grants credentials, network runtime or live execution.",
+  "title": "ExternalPlatformCapabilityAssessment",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "correlation_id",
+    "assessment_id",
+    "platform_id",
+    "requested_stage",
+    "decision",
+    "required_gates",
+    "missing_gates",
+    "reasons",
+    "allowed_actions",
+    "risk_gateway_required",
+    "approved_order_required",
+    "execution_engine_only",
+    "credentials_allowed",
+    "network_runtime_allowed",
+    "live_execution_allowed",
+    "assessed_at"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1.0"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "assessment_id": {"type": "string", "pattern": "^epca_[A-Za-z0-9_\\-]+$"},
+    "platform_id": {"type": "string", "minLength": 1},
+    "requested_stage": {
+      "type": "string",
+      "enum": ["REFERENCE", "CONTRACT", "FAKE", "PAPER", "CONTROLLED_LIVE"]
+    },
+    "decision": {
+      "type": "string",
+      "enum": [
+        "allowed_for_current_stage",
+        "requires_gates",
+        "rejected_boundary_mismatch",
+        "rejected_unsupported_capability"
+      ]
+    },
+    "required_gates": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+    "missing_gates": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+    "reasons": {"type": "array", "items": {"type": "string"}},
+    "allowed_actions": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+    "risk_gateway_required": {"type": "boolean"},
+    "approved_order_required": {"type": "boolean"},
+    "execution_engine_only": {"type": "boolean"},
+    "credentials_allowed": {"type": "boolean", "const": false},
+    "network_runtime_allowed": {"type": "boolean", "const": false},
+    "live_execution_allowed": {"type": "boolean", "const": false},
+    "assessed_at": {"type": "string", "format": "date-time"}
+  }
+}

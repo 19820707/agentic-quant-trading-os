@@ -1,0 +1,35 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_external_platform_001",
+  "correlation_id": "corr_agentic_governance_001",
+  "assessment_id": "epca_interactive_brokers_contract_001",
+  "platform_id": "interactive-brokers",
+  "requested_stage": "CONTRACT",
+  "decision": "allowed_for_current_stage",
+  "required_gates": [
+    "architecture_boundary_review",
+    "contract_defined",
+    "license_review",
+    "owner_assigned",
+    "security_review",
+    "terminal_gateway_health",
+    "session_recovery"
+  ],
+  "missing_gates": [],
+  "reasons": [
+    "request fits the currently approved local integration stage"
+  ],
+  "allowed_actions": [
+    "contract_design",
+    "failure_mode_design",
+    "local_fixture_tests",
+    "reference_review"
+  ],
+  "risk_gateway_required": false,
+  "approved_order_required": false,
+  "execution_engine_only": true,
+  "credentials_allowed": false,
+  "network_runtime_allowed": false,
+  "live_execution_allowed": false,
+  "assessed_at": "2026-06-19T12:00:00Z"
+}
