@@ -91,6 +91,15 @@ from .external_platform_due_diligence import (
     SimulationModel,
     build_default_external_platform_due_diligence_catalog,
 )
+from .governed_autonomy import (
+    AutonomyActionState,
+    AutonomyPermission,
+    AutonomyWorkOrder,
+    GovernedAutonomyError,
+    GovernedAutonomyPlan,
+    GovernedAutonomyPlanner,
+    build_default_governed_autonomy_planner,
+)
 
 __all__ = [
     "DeepLearningCapability",
@@ -100,12 +109,18 @@ __all__ = [
     "DeepLearningLoopRequest",
     "AssessmentDecision",
     "AuthenticationModel",
+    "AutonomyActionState",
+    "AutonomyPermission",
+    "AutonomyWorkOrder",
     "AssetClass",
     "CredentialBoundary",
     "DuplicateMarketDataAdapterError",
     "ExternalPlatformProfile",
     "ExternalPlatformDueDiligenceCatalog",
     "ExternalTradingPlatformRegistry",
+    "GovernedAutonomyError",
+    "GovernedAutonomyPlan",
+    "GovernedAutonomyPlanner",
     "AdvancedCognitiveAutonomyEngine",
     "AdvancedCognitiveAutonomyReport",
     "AdvancedSelfHealingPlan",
@@ -167,6 +182,7 @@ __all__ = [
     "build_default_external_trading_platform_registry",
     "build_default_external_platform_due_diligence_catalog",
     "build_default_professional_trading_stack_governance",
+    "build_default_governed_autonomy_planner",
     "build_default_loop_engineering_engine",
     "build_default_persistence_discipline_engine",
     "run_loop_iteration_with_evidence",

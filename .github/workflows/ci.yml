@@ -61,6 +61,8 @@ jobs:
         run: python -m unittest discover -s tests -p "test_agentic_self_programming_governance.py"
       - name: Run autonomous sprint manager tests
         run: python -m unittest discover -s tests -p "test_autonomous_sprint_manager.py"
+      - name: Run governed autonomy tests
+        run: python -m unittest discover -s tests -p "test_governed_autonomy.py"
       - name: Run deep learning loop planner tests
         run: python -m unittest discover -s tests -p "test_deep_learning_loop_planner.py"
       - name: Run cognitive autonomy tests

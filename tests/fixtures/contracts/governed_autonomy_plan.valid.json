@@ -1,0 +1,41 @@
+{
+  "schema_version": "0.1.0",
+  "trace_id": "trace_governed_autonomy_001",
+  "correlation_id": "corr_governed_autonomy_001",
+  "plan_id": "gap_governed_autonomy_fixture_001",
+  "sprint_id": "sprint_governed_autonomy_fixture_001",
+  "created_at": "2026-07-17T12:00:00Z",
+  "work_orders": [
+    {
+      "mission_id": "mission_docs_001",
+      "title": "Governance documentation refinement",
+      "state": "ready_for_pr_preparation",
+      "risk_level": "low",
+      "policy_decision": "allow_pr_only",
+      "target_files": ["docs/architecture/governed_autonomy.md"],
+      "test_commands": ["python scripts/scaffold_audit.py"],
+      "required_evidence": ["documentation_review", "local_diff_review", "rollback_plan", "test_evidence"],
+      "permitted_actions": ["plan", "modify_files_in_branch", "run_local_tests", "prepare_draft_pr", "record_evidence"],
+      "rationale": ["documentation-only or low-impact path may proceed to pull-request-only review"],
+      "human_review_required": false,
+      "branch_only": true,
+      "direct_main_write_allowed": false,
+      "auto_merge_allowed": false,
+      "network_allowed": false,
+      "credentials_allowed": false,
+      "risk_approval_allowed": false,
+      "execution_allowed": false
+    }
+  ],
+  "required_evidence": ["documentation_review", "local_diff_review", "py_compile", "rollback_plan", "scaffold_audit", "secret_artifact_audit", "test_evidence", "unit_tests"],
+  "ready_count": 1,
+  "human_review_count": 0,
+  "blocked_count": 0,
+  "deferred_count": 0,
+  "direct_main_write_allowed": false,
+  "auto_merge_allowed": false,
+  "network_allowed": false,
+  "credentials_allowed": false,
+  "risk_approval_allowed": false,
+  "execution_allowed": false
+}
