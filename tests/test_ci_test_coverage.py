@@ -11,9 +11,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 CI_WORKFLOW = ROOT / ".github" / "workflows" / "ci.yml"
 
-# Test modules that CI cannot run yet, with the reason. Keep this list short.
+# Test modules that are not listed one by one, with the reason. Keep this short.
 EXCLUDED_FROM_CI = {
-    "test_service_placeholders.py": "imports FastAPI; CI installs no third-party dependencies",
+    "test_service_placeholders.py": "imports FastAPI; it runs in the full-suite job, which installs it",
 }
 
 
@@ -44,12 +44,22 @@ class CiTestCoverageTests(unittest.TestCase):
         referenced = {
             token.strip('"')
             for token in workflow_text.split()
-            if token.startswith('"test_') and token.endswith('.py"')
+            if token.startswith('"test_') and token.endswith('.py"') and "*" not in token
         }
 
         for name in sorted(referenced):
             with self.subTest(name=name):
                 self.assertTrue((ROOT / "tests" / name).is_file())
+
+    def test_full_suite_job_runs_every_test_module_with_declared_dependencies(self):
+        workflow_text = CI_WORKFLOW.read_text(encoding="utf-8")
+
+        self.assertIn("full-suite:", workflow_text)
+        self.assertIn("tomllib", workflow_text)
+        self.assertIn("['project']['dependencies']", workflow_text)
+        self.assertIn('python -m unittest discover -s tests -p "test_*.py"', workflow_text)
+        # Dependencies come only from pyproject.toml; no package is named in CI.
+        self.assertNotRegex(workflow_text, r"pip install [A-Za-z]")
 
 
 if __name__ == "__main__":
