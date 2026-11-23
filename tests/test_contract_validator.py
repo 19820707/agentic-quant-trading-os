@@ -22,6 +22,7 @@ ORDER_INTENT_PAYLOAD = {
     "side": "BUY",
     "order_type": "LIMIT",
     "quantity": 0.5,
+    "limit_price": 30000.0,
     "time_in_force": "GTC",
     "created_at": "2026-01-01T00:00:00Z",
     "status": "PENDING_RISK",

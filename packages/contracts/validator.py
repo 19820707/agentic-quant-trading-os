@@ -8,6 +8,8 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
+from .invariants import check_invariants
+
 
 class ContractValidationError(Exception):
     """Raised when a payload does not satisfy a local contract schema."""
@@ -115,6 +117,10 @@ class ContractValidator:
             errors = self._minimal_validate(schema, payload_copy)
         else:
             errors = self._jsonschema_validate(jsonschema, schema, payload_copy)
+
+        # Cross-field rules a schema cannot express (for example: a rejected
+        # risk decision must not be approved for execution).
+        errors = errors + check_invariants(domain, name, payload_copy)
 
         return ValidationResult(valid=not errors, errors=errors, schema_id=schema_id)
 

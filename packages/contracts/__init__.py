@@ -1,3 +1,4 @@
+from .invariants import check_invariants
 from .validator import (
     ContractValidationError,
     ContractValidator,
@@ -12,4 +13,5 @@ __all__ = [
     "InvalidSchemaError",
     "SchemaNotFoundError",
     "ValidationResult",
+    "check_invariants",
 ]

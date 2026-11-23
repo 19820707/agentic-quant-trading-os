@@ -95,3 +95,11 @@ The registry does not validate payloads; use `ContractValidator` for validation.
 ## Contract Fixtures
 
 Safe JSON fixtures live under `tests/fixtures/contracts/`. They are paper-only examples for contract validation tests and must not contain credentials, live trading configuration, or real broker/exchange identifiers.
+
+## Cross-Field Invariants
+
+`packages.contracts.invariants` holds rules that a JSON Schema cannot express because they relate several fields of one payload. `ContractValidator.validate()` applies them after schema validation and reports each breach as an `invariant violated: ...` error.
+
+Examples: a risk decision that is not `APPROVE` or `RESIZE` cannot be approved for execution; a triggered kill switch, a pending manual approval, a triggered hard limit or a failed high-severity check blocks approval; approved amounts cannot exceed the original or the allowed maximum; limit and stop orders must carry their prices; execution report quantities must add up.
+
+The rules only reject self-contradictory payloads. They do not decide trades or replace the Deterministic Risk Gateway.
