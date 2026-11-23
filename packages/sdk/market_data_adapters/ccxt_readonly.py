@@ -37,6 +37,13 @@ PROHIBITED_CLIENT_METHODS = frozenset(
 _PROHIBITED_COMPACT_METHODS = frozenset(name.replace("_", "") for name in PROHIBITED_CLIENT_METHODS)
 
 _PROHIBITED_COMPACT_PREFIXES = (
+    # Listed as prohibited in integrations/market-data/ccxt/README.md.
+    "buy",
+    "sell",
+    "submit",
+    "place",
+    "modify",
+    "execute",
     "cancel",
     "edit",
     "withdraw",

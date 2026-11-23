@@ -127,6 +127,13 @@ class CcxtReadOnlyAdapterTests(unittest.TestCase):
             "privatePostOrder",
             "close_position",
             "Withdraw",
+            "buy",
+            "sell",
+            "submit_order",
+            "place_order",
+            "placeOrder",
+            "modify_order",
+            "execute",
         ]
 
         for method_name in variants:
@@ -138,6 +145,29 @@ class CcxtReadOnlyAdapterTests(unittest.TestCase):
                 )
                 with self.assertRaises(UnsafeCcxtClientError):
                     CcxtReadOnlyMarketDataAdapter(client_type())
+
+    def test_guard_covers_every_operation_the_integration_readme_prohibits(self):
+        from pathlib import Path
+
+        from packages.sdk.market_data_adapters.ccxt_readonly import is_prohibited_client_method
+
+        readme = Path(__file__).resolve().parents[1] / "integrations" / "market-data" / "ccxt" / "README.md"
+        section = readme.read_text(encoding="utf-8").split("## Prohibited Operations", 1)[1].split("##", 1)[0]
+        documented = [line[2:].strip() for line in section.splitlines() if line.startswith("- ")]
+
+        self.assertIn("create_order", documented)
+        for operation in documented:
+            with self.subTest(operation=operation):
+                # "order" is a noun in the README list, not a method name.
+                if operation != "order":
+                    self.assertTrue(is_prohibited_client_method(operation))
+
+    def test_guard_does_not_reject_read_only_methods(self):
+        from packages.sdk.market_data_adapters.ccxt_readonly import is_prohibited_client_method
+
+        for name in ("fetch_ohlcv", "fetch_trades", "fetch_order_book", "fetchTicker", "load_markets", "describe"):
+            with self.subTest(name=name):
+                self.assertFalse(is_prohibited_client_method(name))
 
     def test_adapter_exposes_no_dangerous_execution_methods(self):
         adapter = CcxtReadOnlyMarketDataAdapter(FakeCcxtPublicClient())
