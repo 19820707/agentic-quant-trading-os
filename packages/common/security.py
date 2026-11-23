@@ -7,6 +7,7 @@ interpret trading semantics.
 
 from __future__ import annotations
 
+import re
 from collections.abc import Mapping, Sequence
 from typing import Any
 
@@ -35,8 +36,35 @@ DEFAULT_SENSITIVE_KEYS = frozenset(
         "withdrawal_key",
         "seed",
         "mnemonic",
+        "passphrase",
+        "access_key",
+        "signing_key",
+        "encryption_key",
+        "cookie",
+        "set_cookie",
+        "jwt",
     }
 )
+
+# Names that only count as sensitive on an exact match. As a suffix they are
+# common in harmless metadata (for example ``random_seed``).
+_EXACT_ONLY_SENSITIVE_KEYS = frozenset({"seed"})
+
+_CAMEL_CASE_BOUNDARY = re.compile(r"(?<=[a-z0-9])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])")
+_NON_ALPHANUMERIC = re.compile(r"[^a-z0-9]+")
+
+
+def _tokenize_key(key: str) -> tuple[str, ...]:
+    """Split a key into lowercase words across separators and camelCase."""
+
+    spaced = _CAMEL_CASE_BOUNDARY.sub("_", key.strip())
+    return tuple(token for token in _NON_ALPHANUMERIC.split(spaced.lower()) if token)
+
+
+_SENSITIVE_TOKEN_SUFFIXES = frozenset(
+    _tokenize_key(key) for key in DEFAULT_SENSITIVE_KEYS - _EXACT_ONLY_SENSITIVE_KEYS
+)
+_MAX_SENSITIVE_SUFFIX_LENGTH = max(len(suffix) for suffix in _SENSITIVE_TOKEN_SUFFIXES)
 
 _COMPACT_SENSITIVE_KEYS = frozenset(key.replace("_", "") for key in DEFAULT_SENSITIVE_KEYS)
 
@@ -46,11 +74,24 @@ def _normalize_key(key: str) -> str:
 
 
 def is_sensitive_key(key: str) -> bool:
-    """Return true when a mapping key is known to carry sensitive material."""
+    """Return true when a mapping key is known to carry sensitive material.
+
+    A key is sensitive when it equals a known sensitive name, or when its words
+    end with one (``client_secret``, ``X-Api-Key``, ``dbPassword``,
+    ``session_token``). Matching on whole trailing words keeps policy flags such
+    as ``contains_secrets`` or ``token_id`` readable.
+    """
 
     normalized = _normalize_key(key)
     compact = normalized.replace("_", "")
-    return normalized in DEFAULT_SENSITIVE_KEYS or compact in _COMPACT_SENSITIVE_KEYS
+    if normalized in DEFAULT_SENSITIVE_KEYS or compact in _COMPACT_SENSITIVE_KEYS:
+        return True
+
+    tokens = _tokenize_key(key)
+    for length in range(1, min(len(tokens), _MAX_SENSITIVE_SUFFIX_LENGTH) + 1):
+        if tokens[-length:] in _SENSITIVE_TOKEN_SUFFIXES:
+            return True
+    return False
 
 
 def redact_value(value: object) -> object:

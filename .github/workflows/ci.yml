@@ -29,6 +29,8 @@ jobs:
         run: python scripts/scaffold_audit.py
       - name: Run scaffold audit unit tests
         run: python -m unittest discover -s tests -p "test_scaffold_audit.py"
+      - name: Run CI test coverage guard tests
+        run: python -m unittest discover -s tests -p "test_ci_test_coverage.py"
 
   contract-tests:
     name: Contract tests
@@ -79,6 +81,18 @@ jobs:
         run: python -m unittest discover -s tests -p "test_market_data_adapter_registry.py"
       - name: Run in-memory market data adapter tests
         run: python -m unittest discover -s tests -p "test_in_memory_market_data_adapter.py"
+      - name: Run CCXT import guard tests
+        run: python -m unittest discover -s tests -p "test_ccxt_import_guard.py"
+      - name: Run CCXT read-only adapter tests
+        run: python -m unittest discover -s tests -p "test_ccxt_readonly_adapter.py"
+      - name: Run CCXT read-only adapter safety harness tests
+        run: python -m unittest discover -s tests -p "test_ccxt_readonly_adapter_safety_harness.py"
+      - name: Run CCXT read-only mocked integration tests
+        run: python -m unittest discover -s tests -p "test_ccxt_readonly_mocked_integration.py"
+      - name: Run external adapter review checklist tests
+        run: python -m unittest discover -s tests -p "test_external_adapter_review_checklist.py"
+      - name: Run external adapter safety policy tests
+        run: python -m unittest discover -s tests -p "test_external_adapter_safety_policy.py"
 
   security-policy-tests:
     name: Security policy tests
@@ -107,6 +121,12 @@ jobs:
         run: python -m unittest discover -s tests -p "test_ruflo_reference_review.py"
       - name: Run control plane dashboard scaffold tests
         run: python -m unittest discover -s tests -p "test_control_plane_dashboard_scaffold.py"
+      - name: Run security redaction tests
+        run: python -m unittest discover -s tests -p "test_security_redaction.py"
+      - name: Run audit payload redaction tests
+        run: python -m unittest discover -s tests -p "test_redaction_audit_payloads.py"
+      - name: Run audit event emitter interface tests
+        run: python -m unittest discover -s tests -p "test_audit_event_emitter_interface.py"
 
   secret-artifact-audit:
     name: Secret and artifact hygiene audit

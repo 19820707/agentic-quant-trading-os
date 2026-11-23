@@ -99,6 +99,50 @@ class SecurityRedactionTests(unittest.TestCase):
         self.assertEqual(redact_value(text), text)
         self.assertEqual(redact_secrets(text), text)
 
+    def test_compound_and_camel_case_secret_names_are_redacted(self):
+        sensitive = [
+            "client_secret",
+            "api_secret",
+            "apiSecret",
+            "X-Api-Key",
+            "x_api_key",
+            "APIKey",
+            "db_password",
+            "dbPassword",
+            "session_token",
+            "sessionToken",
+            "id_token",
+            "aws_secret_access_key",
+            "wallet_private_key",
+            "key_passphrase",
+            "Set-Cookie",
+            "exchange.api.key",
+        ]
+
+        for key in sensitive:
+            with self.subTest(key=key):
+                self.assertTrue(is_sensitive_key(key))
+                self.assertEqual(redact_secrets({key: "example"})[key], REDACTED_VALUE)
+
+    def test_policy_flags_and_identifiers_are_not_redacted(self):
+        readable = [
+            "contains_secrets",
+            "secret_storage_allowed",
+            "max_tokens_per_task",
+            "key_findings",
+            "token_id",
+            "random_seed",
+            "author",
+            "monkey",
+            "tokenizer",
+            "symbol",
+        ]
+
+        for key in readable:
+            with self.subTest(key=key):
+                self.assertFalse(is_sensitive_key(key))
+                self.assertEqual(redact_secrets({key: "visible"})[key], "visible")
+
     def test_no_network_or_credentials_required(self):
         payload = {"message": "local-only redaction", "adapter": "in-memory"}
 

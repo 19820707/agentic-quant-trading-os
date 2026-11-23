@@ -113,6 +113,32 @@ class CcxtReadOnlyAdapterTests(unittest.TestCase):
         with self.assertRaises(UnsafeCcxtClientError):
             CcxtReadOnlyMarketDataAdapter(UnsafeFakeClient())
 
+    def test_rejects_camel_case_and_variant_execution_like_methods(self):
+        variants = [
+            "createOrder",
+            "create_market_buy_order",
+            "createLimitOrder",
+            "create_orders",
+            "cancelOrder",
+            "cancel_all_orders",
+            "editOrder",
+            "setLeverage",
+            "set_margin_mode",
+            "privatePostOrder",
+            "close_position",
+            "Withdraw",
+        ]
+
+        for method_name in variants:
+            with self.subTest(method_name=method_name):
+                client_type = type(
+                    "VariantUnsafeClient",
+                    (FakeCcxtPublicClient,),
+                    {method_name: lambda self, *args, **kwargs: None},
+                )
+                with self.assertRaises(UnsafeCcxtClientError):
+                    CcxtReadOnlyMarketDataAdapter(client_type())
+
     def test_adapter_exposes_no_dangerous_execution_methods(self):
         adapter = CcxtReadOnlyMarketDataAdapter(FakeCcxtPublicClient())
         prohibited = {

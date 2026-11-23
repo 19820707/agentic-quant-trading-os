@@ -30,6 +30,44 @@ PROHIBITED_CLIENT_METHODS = frozenset(
 )
 
 
+# Execution-like names are matched after removing underscores and case, so
+# camelCase aliases (``createOrder``) and variants (``create_market_buy_order``,
+# ``cancel_all_orders``) are rejected as well as the exact names above.
+_PROHIBITED_COMPACT_METHODS = frozenset(name.replace("_", "") for name in PROHIBITED_CLIENT_METHODS)
+
+_PROHIBITED_COMPACT_PREFIXES = (
+    "cancel",
+    "edit",
+    "withdraw",
+    "transfer",
+    "borrow",
+    "repay",
+    "setleverage",
+    "setmargin",
+    "setpositionmode",
+    "addmargin",
+    "reducemargin",
+    "closeposition",
+    "closeallpositions",
+    "privatepost",
+    "privateput",
+    "privatedelete",
+)
+
+
+def is_prohibited_client_method(name: str) -> bool:
+    """Return true when an attribute name looks like an execution-like method."""
+
+    compact = name.replace("_", "").lower()
+    if not compact:
+        return False
+    if compact in _PROHIBITED_COMPACT_METHODS:
+        return True
+    if compact.startswith("create") and "order" in compact:
+        return True
+    return compact.startswith(_PROHIBITED_COMPACT_PREFIXES)
+
+
 class UnsafeCcxtClientError(ValueError):
     """Raised when an injected client exposes execution-like methods."""
 
@@ -42,8 +80,7 @@ class CcxtReadOnlyMarketDataAdapter:
     """
 
     def __init__(self, client: object, name: str = "ccxt-readonly"):
-        exposed = set(dir(client))
-        prohibited = sorted(exposed & PROHIBITED_CLIENT_METHODS)
+        prohibited = sorted(name for name in dir(client) if is_prohibited_client_method(name))
         if prohibited:
             raise UnsafeCcxtClientError(
                 "injected client exposes prohibited execution-like methods: "

@@ -12,4 +12,7 @@ dependencies = [
 
 [tool.pytest.ini_options]
 testpaths = ["tests", "services"]
+# Every service ships a tests/test_placeholder.py; importlib mode lets pytest
+# collect same-named test modules from different directories.
+addopts = ["--import-mode=importlib"]
 

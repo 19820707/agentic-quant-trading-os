@@ -21,6 +21,41 @@ class InvalidSchemaError(ValueError):
     """Raised when a local schema file cannot be parsed as JSON."""
 
 
+# Keywords the standard-library fallback validator cannot evaluate. A schema
+# that uses one must not be reported as satisfied by the fallback.
+UNSUPPORTED_FALLBACK_KEYWORDS = frozenset(
+    {
+        "$ref",
+        "allOf",
+        "anyOf",
+        "oneOf",
+        "not",
+        "if",
+        "then",
+        "else",
+        "dependentRequired",
+        "dependentSchemas",
+        "patternProperties",
+        "propertyNames",
+        "contains",
+        "prefixItems",
+        "multipleOf",
+        "minProperties",
+        "maxProperties",
+    }
+)
+
+
+def _is_valid_date_time(value: object) -> bool:
+    if not isinstance(value, str):
+        return True
+    try:
+        datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError:
+        return False
+    return True
+
+
 @dataclass(frozen=True)
 class ValidationResult:
     valid: bool
@@ -92,7 +127,11 @@ class ContractValidator:
     def _jsonschema_validate(self, jsonschema_module: Any, schema: dict[str, Any], payload: Any) -> list[str]:
         validator_cls = jsonschema_module.validators.validator_for(schema)
         validator_cls.check_schema(schema)
-        validator = validator_cls(schema)
+        # jsonschema ignores "format" unless a checker is supplied. Enforce
+        # date-time with the same rule as the fallback so both paths agree.
+        format_checker = jsonschema_module.FormatChecker(formats=())
+        format_checker.checks("date-time")(_is_valid_date_time)
+        validator = validator_cls(schema, format_checker=format_checker)
         return sorted(error.message for error in validator.iter_errors(payload))
 
     def _minimal_validate(self, schema: dict[str, Any], payload: Any) -> list[str]:
@@ -101,6 +140,13 @@ class ContractValidator:
         return errors
 
     def _minimal_validate_value(self, schema: dict[str, Any], value: Any, path: str, errors: list[str]) -> None:
+        unsupported = sorted(UNSUPPORTED_FALLBACK_KEYWORDS & schema.keys())
+        if unsupported:
+            errors.append(
+                f"{path}: schema keyword(s) {', '.join(unsupported)} need the jsonschema package; "
+                "fallback validator cannot confirm this payload"
+            )
+
         if "const" in schema and value != schema["const"]:
             errors.append(f"{path}: expected const {schema['const']!r}")
 
@@ -138,6 +184,12 @@ class ContractValidator:
                 if field not in properties:
                     errors.append(f"{path}.{field}: additional property is not allowed")
 
+        additional = schema.get("additionalProperties")
+        if isinstance(additional, dict):
+            for field, field_value in payload.items():
+                if field not in properties:
+                    self._minimal_validate_value(additional, field_value, f"{path}.{field}", errors)
+
         for field, field_schema in properties.items():
             if field in payload and isinstance(field_schema, dict):
                 self._minimal_validate_value(field_schema, payload[field], f"{path}.{field}", errors)
@@ -152,6 +204,18 @@ class ContractValidator:
         min_items = schema.get("minItems")
         if isinstance(min_items, int) and len(value) < min_items:
             errors.append(f"{path}: expected at least {min_items} items")
+
+        max_items = schema.get("maxItems")
+        if isinstance(max_items, int) and len(value) > max_items:
+            errors.append(f"{path}: expected at most {max_items} items")
+
+        if schema.get("uniqueItems") is True:
+            seen: list[Any] = []
+            for item in value:
+                if any(type(item) is type(other) and item == other for other in seen):
+                    errors.append(f"{path}: items are not unique")
+                    break
+                seen.append(item)
 
         item_schema = schema.get("items")
         if isinstance(item_schema, dict):
@@ -169,15 +233,16 @@ class ContractValidator:
         if isinstance(min_length, int) and len(value) < min_length:
             errors.append(f"{path}: shorter than minLength {min_length}")
 
+        max_length = schema.get("maxLength")
+        if isinstance(max_length, int) and len(value) > max_length:
+            errors.append(f"{path}: longer than maxLength {max_length}")
+
         pattern = schema.get("pattern")
-        if isinstance(pattern, str) and not re.match(pattern, value):
+        if isinstance(pattern, str) and not re.search(pattern, value):
             errors.append(f"{path}: value does not match required pattern")
 
-        if schema.get("format") == "date-time":
-            try:
-                datetime.fromisoformat(value.replace("Z", "+00:00"))
-            except ValueError:
-                errors.append(f"{path}: invalid date-time")
+        if schema.get("format") == "date-time" and not _is_valid_date_time(value):
+            errors.append(f"{path}: invalid date-time")
 
     def _minimal_validate_number(
         self,
@@ -193,6 +258,10 @@ class ContractValidator:
         maximum = schema.get("maximum")
         if isinstance(maximum, (int, float)) and value > maximum:
             errors.append(f"{path}: above maximum {maximum}")
+
+        exclusive_maximum = schema.get("exclusiveMaximum")
+        if isinstance(exclusive_maximum, (int, float)) and value >= exclusive_maximum:
+            errors.append(f"{path}: not below exclusiveMaximum {exclusive_maximum}")
 
         exclusive_minimum = schema.get("exclusiveMinimum")
         if isinstance(exclusive_minimum, (int, float)) and value <= exclusive_minimum:
