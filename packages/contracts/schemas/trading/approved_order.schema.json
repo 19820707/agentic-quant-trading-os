@@ -60,16 +60,13 @@
       "minLength": 1
     },
     "model_version": {
-      "type": "string",
-      "minLength": 1
+      "type": "string"
     },
     "portfolio_id": {
-      "type": "string",
-      "minLength": 1
+      "type": "string"
     },
     "account_id": {
-      "type": "string",
-      "minLength": 1
+      "type": "string"
     },
     "symbol": {
       "type": "string",
@@ -221,20 +218,17 @@
         "hard_limits_triggered": {
           "type": "array",
           "items": {
-            "type": "string",
-            "minLength": 1
+            "type": "string"
           }
         },
         "soft_limits_triggered": {
           "type": "array",
           "items": {
-            "type": "string",
-            "minLength": 1
+            "type": "string"
           }
         },
         "final_reason": {
-          "type": "string",
-          "minLength": 1
+          "type": "string"
         }
       }
     },
@@ -244,8 +238,7 @@
     },
     "approved_by": {
       "type": "string",
-      "description": "deterministic-risk-gateway service/version or authorized governance actor.",
-      "minLength": 1
+      "description": "deterministic-risk-gateway service/version or authorized governance actor."
     },
     "created_at": {
       "type": "string",

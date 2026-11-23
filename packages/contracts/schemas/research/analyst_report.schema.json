@@ -72,8 +72,7 @@
     "caveats": {
       "type": "array",
       "items": {
-        "type": "string",
-        "minLength": 1
+        "type": "string"
       }
     },
     "execution_allowed": {

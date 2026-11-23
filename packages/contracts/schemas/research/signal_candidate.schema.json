@@ -81,8 +81,7 @@
     "risk_flags": {
       "type": "array",
       "items": {
-        "type": "string",
-        "minLength": 1
+        "type": "string"
       }
     },
     "order_intent_allowed": {

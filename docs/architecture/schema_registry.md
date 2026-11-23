@@ -21,6 +21,7 @@ Each schema is grouped by domain:
 | `ml` | Prediction, model, and monitoring payload contracts. |
 | `trading` | Trading lifecycle contracts before and after deterministic risk review. |
 | `paper` | Paper trading contracts. |
+| `research` | Prediction research and agent governance record contracts. |
 | `audit` | Append-only audit and observability event contracts. |
 | `security` | Security, secret handling, and access policy contracts. |
 | `governance` | Human approval, promotion gate, and policy decision contracts. |
@@ -105,7 +106,9 @@ The validator:
 
 - loads schemas only from `packages/contracts/schemas/`
 - rejects path traversal and absolute schema paths
+- refuses oversized payloads (very long strings, excessive nesting or too many values) before validating them
 - validates payload shape
+- rejects trading lifecycle payloads that contradict themselves, using the cross-field invariants in `packages/contracts/invariants.py` (for example a rejected risk decision marked as approved for execution)
 - returns structured validation results
 - can raise validation exceptions when requested
 
@@ -113,7 +116,7 @@ The validator does not:
 
 - decide risk
 - approve execution
-- interpret trading semantics
+- interpret trading semantics beyond checking that one payload is internally consistent
 - submit orders
 - call services
 - call the network

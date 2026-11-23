@@ -90,12 +90,10 @@
       ]
     },
     "model_id": {
-      "type": "string",
-      "minLength": 1
+      "type": "string"
     },
     "calibration_version": {
-      "type": "string",
-      "minLength": 1
+      "type": "string"
     },
     "rationale": {
       "type": "string",

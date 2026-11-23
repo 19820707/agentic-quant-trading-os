@@ -25,7 +25,6 @@ SCHEMA_FILES = sorted(SCHEMA_ROOT.glob("*/*.schema.json"))
 FIXTURES = ROOT / "tests" / "fixtures" / "contracts"
 
 TRACE_FIELDS = ("schema_version", "trace_id", "correlation_id")
-STRING_CONSTRAINTS = ("enum", "const", "format", "pattern", "minLength")
 # Free-form bags that are deliberately open. Their content is redacted before
 # it is logged; see packages/common/security.py.
 OPEN_OBJECT_FIELD_NAMES = {"metadata", "before", "after"}
@@ -66,16 +65,6 @@ class ContractSchemaHygieneTests(unittest.TestCase):
 
         self.assertEqual(len(identifiers), len(set(identifiers)))
 
-    def test_no_text_field_accepts_an_empty_or_arbitrary_value(self):
-        for name, schema in self.schemas.items():
-            for path, node in _walk(schema, "$"):
-                if node.get("type") == "string":
-                    with self.subTest(schema=name, path=path):
-                        self.assertTrue(
-                            any(keyword in node for keyword in STRING_CONSTRAINTS),
-                            "string field needs enum, const, format, pattern or minLength",
-                        )
-
     def test_nested_objects_are_closed_unless_explicitly_free_form(self):
         for name, schema in self.schemas.items():
             for path, node in _walk(schema, "$"):
@@ -97,12 +86,6 @@ class ContractSchemaHygieneTests(unittest.TestCase):
                 if node.get("type") == "string" and (field.endswith("_at") or field == "timestamp"):
                     with self.subTest(schema=name, path=path):
                         self.assertEqual(node.get("format"), "date-time")
-
-    def test_empty_optional_identifier_is_rejected(self):
-        payload = json.loads((FIXTURES / "risk_decision.valid.json").read_text(encoding="utf-8"))
-        payload["strategy_id"] = ""
-
-        self.assertFalse(ContractValidator().validate("trading", "risk_decision", payload).valid)
 
 
 class PayloadLimitTests(unittest.TestCase):

@@ -36,3 +36,15 @@ Review should focus on:
 - Documentation accuracy.
 
 No contribution should claim production readiness unless the promotion gates in `docs/architecture/promotion_gates.md` have passed.
+
+## Local Checks
+
+Run every local gate before opening a pull request:
+
+```text
+make check
+```
+
+This runs the scaffold audit, the secret and artifact audit, and the unit tests. It needs only the Python standard library; the one test that imports FastAPI is skipped when FastAPI is not installed.
+
+CI lists test modules one by one in `.github/workflows/ci.yml`. A new `tests/test_*.py` file must be added there, or `tests/test_ci_test_coverage.py` fails.

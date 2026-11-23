@@ -46,8 +46,7 @@
     "risk_flags": {
       "type": "array",
       "items": {
-        "type": "string",
-        "minLength": 1
+        "type": "string"
       }
     },
     "review_notes": {

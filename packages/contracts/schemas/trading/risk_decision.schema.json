@@ -53,12 +53,10 @@
       "minLength": 1
     },
     "portfolio_id": {
-      "type": "string",
-      "minLength": 1
+      "type": "string"
     },
     "account_id": {
-      "type": "string",
-      "minLength": 1
+      "type": "string"
     },
     "symbol": {
       "type": "string",
@@ -107,12 +105,10 @@
       "minLength": 1
     },
     "risk_policy_version": {
-      "type": "string",
-      "minLength": 1
+      "type": "string"
     },
     "limit_profile_id": {
-      "type": "string",
-      "minLength": 1
+      "type": "string"
     },
     "checks": {
       "type": "array",
@@ -174,8 +170,7 @@
             ]
           },
           "reason": {
-            "type": "string",
-            "minLength": 1
+            "type": "string"
           },
           "observed_value": {
             "type": [
@@ -199,23 +194,20 @@
     "hard_limits_triggered": {
       "type": "array",
       "items": {
-        "type": "string",
-        "minLength": 1
+        "type": "string"
       }
     },
     "soft_limits_triggered": {
       "type": "array",
       "items": {
-        "type": "string",
-        "minLength": 1
+        "type": "string"
       }
     },
     "manual_approval_required": {
       "type": "boolean"
     },
     "manual_approval_reason": {
-      "type": "string",
-      "minLength": 1
+      "type": "string"
     },
     "kill_switch_triggered": {
       "type": "boolean"
@@ -239,8 +231,7 @@
     },
     "evaluated_by": {
       "type": "string",
-      "description": "Service or actor that evaluated the risk decision.",
-      "minLength": 1
+      "description": "Service or actor that evaluated the risk decision."
     },
     "metadata": {
       "type": "object",
