@@ -8,6 +8,8 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
+from .invariants import check_invariants
+
 
 class ContractValidationError(Exception):
     """Raised when a payload does not satisfy a local contract schema."""
@@ -19,6 +21,75 @@ class SchemaNotFoundError(FileNotFoundError):
 
 class InvalidSchemaError(ValueError):
     """Raised when a local schema file cannot be parsed as JSON."""
+
+
+# Keywords the standard-library fallback validator cannot evaluate. A schema
+# that uses one must not be reported as satisfied by the fallback.
+UNSUPPORTED_FALLBACK_KEYWORDS = frozenset(
+    {
+        "$ref",
+        "allOf",
+        "anyOf",
+        "oneOf",
+        "not",
+        "if",
+        "then",
+        "else",
+        "dependentRequired",
+        "dependentSchemas",
+        "patternProperties",
+        "propertyNames",
+        "contains",
+        "prefixItems",
+        "multipleOf",
+        "minProperties",
+        "maxProperties",
+    }
+)
+
+
+# Defensive size limits applied to every payload before schema validation, so
+# an oversized or deeply nested message is refused cheaply instead of being
+# walked, logged or stored.
+MAX_PAYLOAD_STRING_LENGTH = 16_384
+MAX_PAYLOAD_DEPTH = 32
+MAX_PAYLOAD_NODES = 50_000
+
+
+def check_payload_limits(payload: object) -> list[str]:
+    """Return size-limit problems for a JSON-compatible payload, or an empty list."""
+
+    nodes = 0
+    stack: list[tuple[object, int, str]] = [(payload, 0, "$")]
+    while stack:
+        value, depth, path = stack.pop()
+        nodes += 1
+        if nodes > MAX_PAYLOAD_NODES:
+            return [f"payload has more than {MAX_PAYLOAD_NODES} values"]
+        if depth > MAX_PAYLOAD_DEPTH:
+            return [f"{path}: nesting is deeper than {MAX_PAYLOAD_DEPTH} levels"]
+        if isinstance(value, str):
+            if len(value) > MAX_PAYLOAD_STRING_LENGTH:
+                return [f"{path}: string is longer than {MAX_PAYLOAD_STRING_LENGTH} characters"]
+        elif isinstance(value, dict):
+            for key, item in value.items():
+                if isinstance(key, str) and len(key) > MAX_PAYLOAD_STRING_LENGTH:
+                    return [f"{path}: property name is longer than {MAX_PAYLOAD_STRING_LENGTH} characters"]
+                stack.append((item, depth + 1, f"{path}.{key}"[:200]))
+        elif isinstance(value, (list, tuple)):
+            for index, item in enumerate(value):
+                stack.append((item, depth + 1, f"{path}[{index}]"))
+    return []
+
+
+def _is_valid_date_time(value: object) -> bool:
+    if not isinstance(value, str):
+        return True
+    try:
+        datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError:
+        return False
+    return True
 
 
 @dataclass(frozen=True)
@@ -72,6 +143,13 @@ class ContractValidator:
     def validate(self, domain: str, name: str, payload: dict[str, Any]) -> ValidationResult:
         schema = self.load_schema(domain, name)
         schema_id = schema.get("$id")
+
+        # Checked before the deep copy: the limits exist to avoid doing work on
+        # oversized input. The walk is iterative, so it cannot overflow the stack.
+        limit_errors = check_payload_limits(payload)
+        if limit_errors:
+            return ValidationResult(valid=False, errors=limit_errors, schema_id=schema_id)
+
         payload_copy = copy.deepcopy(payload)
 
         try:
@@ -80,6 +158,10 @@ class ContractValidator:
             errors = self._minimal_validate(schema, payload_copy)
         else:
             errors = self._jsonschema_validate(jsonschema, schema, payload_copy)
+
+        # Cross-field rules a schema cannot express (for example: a rejected
+        # risk decision must not be approved for execution).
+        errors = errors + check_invariants(domain, name, payload_copy)
 
         return ValidationResult(valid=not errors, errors=errors, schema_id=schema_id)
 
@@ -92,7 +174,11 @@ class ContractValidator:
     def _jsonschema_validate(self, jsonschema_module: Any, schema: dict[str, Any], payload: Any) -> list[str]:
         validator_cls = jsonschema_module.validators.validator_for(schema)
         validator_cls.check_schema(schema)
-        validator = validator_cls(schema)
+        # jsonschema ignores "format" unless a checker is supplied. Enforce
+        # date-time with the same rule as the fallback so both paths agree.
+        format_checker = jsonschema_module.FormatChecker(formats=())
+        format_checker.checks("date-time")(_is_valid_date_time)
+        validator = validator_cls(schema, format_checker=format_checker)
         return sorted(error.message for error in validator.iter_errors(payload))
 
     def _minimal_validate(self, schema: dict[str, Any], payload: Any) -> list[str]:
@@ -101,6 +187,13 @@ class ContractValidator:
         return errors
 
     def _minimal_validate_value(self, schema: dict[str, Any], value: Any, path: str, errors: list[str]) -> None:
+        unsupported = sorted(UNSUPPORTED_FALLBACK_KEYWORDS & schema.keys())
+        if unsupported:
+            errors.append(
+                f"{path}: schema keyword(s) {', '.join(unsupported)} need the jsonschema package; "
+                "fallback validator cannot confirm this payload"
+            )
+
         if "const" in schema and value != schema["const"]:
             errors.append(f"{path}: expected const {schema['const']!r}")
 
@@ -138,6 +231,12 @@ class ContractValidator:
                 if field not in properties:
                     errors.append(f"{path}.{field}: additional property is not allowed")
 
+        additional = schema.get("additionalProperties")
+        if isinstance(additional, dict):
+            for field, field_value in payload.items():
+                if field not in properties:
+                    self._minimal_validate_value(additional, field_value, f"{path}.{field}", errors)
+
         for field, field_schema in properties.items():
             if field in payload and isinstance(field_schema, dict):
                 self._minimal_validate_value(field_schema, payload[field], f"{path}.{field}", errors)
@@ -152,6 +251,18 @@ class ContractValidator:
         min_items = schema.get("minItems")
         if isinstance(min_items, int) and len(value) < min_items:
             errors.append(f"{path}: expected at least {min_items} items")
+
+        max_items = schema.get("maxItems")
+        if isinstance(max_items, int) and len(value) > max_items:
+            errors.append(f"{path}: expected at most {max_items} items")
+
+        if schema.get("uniqueItems") is True:
+            seen: list[Any] = []
+            for item in value:
+                if any(type(item) is type(other) and item == other for other in seen):
+                    errors.append(f"{path}: items are not unique")
+                    break
+                seen.append(item)
 
         item_schema = schema.get("items")
         if isinstance(item_schema, dict):
@@ -169,15 +280,16 @@ class ContractValidator:
         if isinstance(min_length, int) and len(value) < min_length:
             errors.append(f"{path}: shorter than minLength {min_length}")
 
+        max_length = schema.get("maxLength")
+        if isinstance(max_length, int) and len(value) > max_length:
+            errors.append(f"{path}: longer than maxLength {max_length}")
+
         pattern = schema.get("pattern")
-        if isinstance(pattern, str) and not re.match(pattern, value):
+        if isinstance(pattern, str) and not re.search(pattern, value):
             errors.append(f"{path}: value does not match required pattern")
 
-        if schema.get("format") == "date-time":
-            try:
-                datetime.fromisoformat(value.replace("Z", "+00:00"))
-            except ValueError:
-                errors.append(f"{path}: invalid date-time")
+        if schema.get("format") == "date-time" and not _is_valid_date_time(value):
+            errors.append(f"{path}: invalid date-time")
 
     def _minimal_validate_number(
         self,
@@ -193,6 +305,10 @@ class ContractValidator:
         maximum = schema.get("maximum")
         if isinstance(maximum, (int, float)) and value > maximum:
             errors.append(f"{path}: above maximum {maximum}")
+
+        exclusive_maximum = schema.get("exclusiveMaximum")
+        if isinstance(exclusive_maximum, (int, float)) and value >= exclusive_maximum:
+            errors.append(f"{path}: not below exclusiveMaximum {exclusive_maximum}")
 
         exclusive_minimum = schema.get("exclusiveMinimum")
         if isinstance(exclusive_minimum, (int, float)) and value <= exclusive_minimum:

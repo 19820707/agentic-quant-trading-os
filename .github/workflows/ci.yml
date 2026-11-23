@@ -20,15 +20,19 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: "3.11"
       - name: Run scaffold audit
         run: python scripts/scaffold_audit.py
       - name: Run scaffold audit unit tests
         run: python -m unittest discover -s tests -p "test_scaffold_audit.py"
+      - name: Run service placeholder static tests
+        run: python -m unittest discover -s tests -p "test_service_placeholder_static.py"
+      - name: Run CI test coverage guard tests
+        run: python -m unittest discover -s tests -p "test_ci_test_coverage.py"
 
   contract-tests:
     name: Contract tests
@@ -36,15 +40,19 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: "3.11"
       - name: Run core contract schema tests
         run: python -m unittest discover -s tests -p "test_core_contract_schemas.py"
       - name: Run contract validator tests
         run: python -m unittest discover -s tests -p "test_contract_validator.py"
+      - name: Run contract cross-field invariant tests
+        run: python -m unittest discover -s tests -p "test_contract_invariants.py"
+      - name: Run contract schema hygiene and payload limit tests
+        run: python -m unittest discover -s tests -p "test_contract_schema_hygiene.py"
       - name: Run contract registry tests
         run: python -m unittest discover -s tests -p "test_contract_registry.py"
       - name: Run contract fixture tests
@@ -68,9 +76,9 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: "3.11"
       - name: Run market data adapter interface tests
@@ -79,6 +87,22 @@ jobs:
         run: python -m unittest discover -s tests -p "test_market_data_adapter_registry.py"
       - name: Run in-memory market data adapter tests
         run: python -m unittest discover -s tests -p "test_in_memory_market_data_adapter.py"
+      - name: Run CCXT import guard tests
+        run: python -m unittest discover -s tests -p "test_ccxt_import_guard.py"
+      - name: Run CCXT read-only adapter tests
+        run: python -m unittest discover -s tests -p "test_ccxt_readonly_adapter.py"
+      - name: Run CCXT read-only adapter safety harness tests
+        run: python -m unittest discover -s tests -p "test_ccxt_readonly_adapter_safety_harness.py"
+      - name: Run CCXT read-only mocked integration tests
+        run: python -m unittest discover -s tests -p "test_ccxt_readonly_mocked_integration.py"
+      - name: Run external adapter review checklist tests
+        run: python -m unittest discover -s tests -p "test_external_adapter_review_checklist.py"
+      - name: Run external adapter safety policy tests
+        run: python -m unittest discover -s tests -p "test_external_adapter_safety_policy.py"
+      - name: Run market data point-in-time and leakage tests
+        run: python -m unittest discover -s tests -p "test_market_data_point_in_time.py"
+      - name: Run market data record validation tests
+        run: python -m unittest discover -s tests -p "test_market_data_validation.py"
 
   security-policy-tests:
     name: Security policy tests
@@ -86,9 +110,9 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: "3.11"
       - name: Run security tooling policy tests
@@ -107,6 +131,16 @@ jobs:
         run: python -m unittest discover -s tests -p "test_ruflo_reference_review.py"
       - name: Run control plane dashboard scaffold tests
         run: python -m unittest discover -s tests -p "test_control_plane_dashboard_scaffold.py"
+      - name: Run security redaction tests
+        run: python -m unittest discover -s tests -p "test_security_redaction.py"
+      - name: Run audit payload redaction tests
+        run: python -m unittest discover -s tests -p "test_redaction_audit_payloads.py"
+      - name: Run audit event emitter interface tests
+        run: python -m unittest discover -s tests -p "test_audit_event_emitter_interface.py"
+      - name: Run architecture import boundary tests
+        run: python -m unittest discover -s tests -p "test_architecture_import_boundaries.py"
+      - name: Run workflow supply-chain tests
+        run: python -m unittest discover -s tests -p "test_workflow_supply_chain.py"
 
   secret-artifact-audit:
     name: Secret and artifact hygiene audit
@@ -114,9 +148,9 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: "3.11"
       - name: Run secret and artifact hygiene tests

@@ -57,6 +57,8 @@ These roles may propose work. They cannot execute work, approve risk, approve ex
 
 Low-risk changes may be eligible for pull-request-only flow.
 
+Only paths under `docs/` (excluding security documentation) are classified as low risk. The classification fails closed: a plan with no proposed files, with absolute or traversal paths, or with files outside the task's declared targets is blocked, and any path the policy engine does not recognise requires human review.
+
 Medium-risk changes require human review.
 
 High-risk changes require human review and sandbox/test evidence.

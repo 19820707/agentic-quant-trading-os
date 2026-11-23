@@ -61,8 +61,9 @@ class SecurityToolingPolicyTests(unittest.TestCase):
     def test_codeql_workflow_is_present_without_project_secrets(self) -> None:
         text = CODEQL_WORKFLOW.read_text(encoding="utf-8")
 
-        self.assertIn("github/codeql-action/init@v4", text)
-        self.assertIn("github/codeql-action/analyze@v4", text)
+        # Pinned to a full commit hash; the trailing comment names the v4 release.
+        self.assertRegex(text, r"github/codeql-action/init@[0-9a-f]{40} # v4\.")
+        self.assertRegex(text, r"github/codeql-action/analyze@[0-9a-f]{40} # v4\.")
         self.assertIn("languages: python", text)
         self.assertIn("queries: security-extended", text)
         self.assertNotIn("security-and-quality", text)

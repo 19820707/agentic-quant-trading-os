@@ -7,7 +7,13 @@ ROOT = Path(__file__).resolve().parents[1]
 SERVICE_MAIN_FILES = sorted((ROOT / "services").glob("*/app/main.py"))
 
 
+FASTAPI_AVAILABLE = importlib.util.find_spec("fastapi") is not None
+
+
 class ServicePlaceholderTests(unittest.TestCase):
+    # Without FastAPI the same properties are still checked from source by
+    # test_service_placeholder_static.py, which needs no dependencies.
+    @unittest.skipUnless(FASTAPI_AVAILABLE, "FastAPI is not installed; covered statically")
     def test_service_placeholders_import_and_expose_safe_routes(self):
         self.assertTrue(SERVICE_MAIN_FILES, "expected service placeholder modules")
 

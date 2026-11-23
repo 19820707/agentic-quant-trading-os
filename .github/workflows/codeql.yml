@@ -31,10 +31,10 @@ jobs:
       # Baseline defensive SAST only. Additional external/security tools require
       # separate approval per docs/security/security_tooling_integration_policy.md.
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v4
+        uses: github/codeql-action/init@1bd86f2fdb4b86187fa4059f16f31a3202acc9ea # v4.39.4
         with:
           languages: python
           queries: security-extended
@@ -44,4 +44,4 @@ jobs:
         # Remove continue-on-error in a separate approval PR once upload support
         # is available and CodeQL is promoted to a hard merge gate.
         continue-on-error: true
-        uses: github/codeql-action/analyze@v4
+        uses: github/codeql-action/analyze@1bd86f2fdb4b86187fa4059f16f31a3202acc9ea # v4.39.4

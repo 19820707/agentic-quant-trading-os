@@ -12,6 +12,7 @@ from packages.common import (
     OrderBookSnapshot,
     TradeTick,
 )
+from packages.common.market_data import is_within_request_window
 
 
 PROHIBITED_CLIENT_METHODS = frozenset(
@@ -30,8 +31,61 @@ PROHIBITED_CLIENT_METHODS = frozenset(
 )
 
 
+# Execution-like names are matched after removing underscores and case, so
+# camelCase aliases (``createOrder``) and variants (``create_market_buy_order``,
+# ``cancel_all_orders``) are rejected as well as the exact names above.
+_PROHIBITED_COMPACT_METHODS = frozenset(name.replace("_", "") for name in PROHIBITED_CLIENT_METHODS)
+
+_PROHIBITED_COMPACT_PREFIXES = (
+    # Listed as prohibited in integrations/market-data/ccxt/README.md.
+    "buy",
+    "sell",
+    "submit",
+    "place",
+    "modify",
+    "execute",
+    "cancel",
+    "edit",
+    "withdraw",
+    "transfer",
+    "borrow",
+    "repay",
+    "setleverage",
+    "setmargin",
+    "setpositionmode",
+    "addmargin",
+    "reducemargin",
+    "closeposition",
+    "closeallpositions",
+    "privatepost",
+    "privateput",
+    "privatedelete",
+)
+
+
+def is_prohibited_client_method(name: str) -> bool:
+    """Return true when an attribute name looks like an execution-like method."""
+
+    compact = name.replace("_", "").lower()
+    if not compact:
+        return False
+    if compact in _PROHIBITED_COMPACT_METHODS:
+        return True
+    if compact.startswith("create") and "order" in compact:
+        return True
+    return compact.startswith(_PROHIBITED_COMPACT_PREFIXES)
+
+
 class UnsafeCcxtClientError(ValueError):
     """Raised when an injected client exposes execution-like methods."""
+
+
+class MissingMarketDataTimestampError(ValueError):
+    """Raised when a venue record has no timestamp.
+
+    Substituting the wall clock would make historical data look current and
+    break point-in-time guarantees, so the adapter fails closed instead.
+    """
 
 
 class CcxtReadOnlyMarketDataAdapter:
@@ -42,8 +96,7 @@ class CcxtReadOnlyMarketDataAdapter:
     """
 
     def __init__(self, client: object, name: str = "ccxt-readonly"):
-        exposed = set(dir(client))
-        prohibited = sorted(exposed & PROHIBITED_CLIENT_METHODS)
+        prohibited = sorted(name for name in dir(client) if is_prohibited_client_method(name))
         if prohibited:
             raise UnsafeCcxtClientError(
                 "injected client exposes prohibited execution-like methods: "
@@ -66,11 +119,13 @@ class CcxtReadOnlyMarketDataAdapter:
 
     def fetch_ohlcv(self, request: MarketDataRequest) -> tuple[OHLCVBar, ...]:
         rows = self._client.fetch_ohlcv(request.symbol, limit=request.limit)
-        return tuple(self._ohlcv_row_to_bar(request, row) for row in rows)
+        bars = (self._ohlcv_row_to_bar(request, row) for row in rows)
+        return tuple(bar for bar in bars if is_within_request_window(bar.timestamp, request))
 
     def fetch_trades(self, request: MarketDataRequest) -> tuple[TradeTick, ...]:
         rows = self._client.fetch_trades(request.symbol, limit=request.limit)
-        return tuple(self._trade_to_tick(request, row) for row in rows)
+        ticks = (self._trade_to_tick(request, row) for row in rows)
+        return tuple(tick for tick in ticks if is_within_request_window(tick.timestamp, request))
 
     def fetch_order_book(self, request: MarketDataRequest) -> OrderBookSnapshot:
         data = self._client.fetch_order_book(request.symbol, limit=request.limit)
@@ -124,7 +179,7 @@ class CcxtReadOnlyMarketDataAdapter:
 
     def _timestamp(self, value: Any) -> datetime:
         if value is None:
-            return datetime.now(timezone.utc)
+            raise MissingMarketDataTimestampError("market data record has no timestamp")
         if isinstance(value, datetime):
             return value if value.tzinfo is not None else value.replace(tzinfo=timezone.utc)
         seconds = float(Decimal(str(value)) / Decimal("1000"))

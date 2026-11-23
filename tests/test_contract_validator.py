@@ -1,5 +1,8 @@
 import copy
+import json
+import tempfile
 import unittest
+from pathlib import Path
 
 from packages.contracts import ContractValidator, SchemaNotFoundError
 
@@ -19,6 +22,7 @@ ORDER_INTENT_PAYLOAD = {
     "side": "BUY",
     "order_type": "LIMIT",
     "quantity": 0.5,
+    "limit_price": 30000.0,
     "time_in_force": "GTC",
     "created_at": "2026-01-01T00:00:00Z",
     "status": "PENDING_RISK",
@@ -45,6 +49,14 @@ AUDIT_EVENT_PAYLOAD = {
     "order_intent_id": "intent_example_001",
     "risk_decision_id": "risk_example_001",
 }
+
+
+try:
+    import jsonschema  # noqa: F401
+except ImportError:
+    JSONSCHEMA_AVAILABLE = False
+else:
+    JSONSCHEMA_AVAILABLE = True
 
 
 class ContractValidatorTests(unittest.TestCase):
@@ -128,6 +140,91 @@ class ContractValidatorTests(unittest.TestCase):
         self.assertTrue(result.valid)
         self.assertNotIn("api_key", payload)
         self.assertNotIn("broker_secret", payload)
+
+    def test_invalid_date_time_is_rejected(self):
+        payload = copy.deepcopy(ORDER_INTENT_PAYLOAD)
+        payload["created_at"] = "not-a-timestamp"
+
+        result = self.validator.validate("trading", "order_intent", payload)
+
+        self.assertFalse(result.valid)
+
+    def test_fallback_validator_rejects_invalid_date_time(self):
+        schema = self.validator.load_schema("trading", "order_intent")
+        payload = copy.deepcopy(ORDER_INTENT_PAYLOAD)
+        payload["created_at"] = "not-a-timestamp"
+
+        self.assertEqual(self.validator._minimal_validate(schema, copy.deepcopy(ORDER_INTENT_PAYLOAD)), [])
+        self.assertTrue(self.validator._minimal_validate(schema, payload))
+
+    @unittest.skipUnless(JSONSCHEMA_AVAILABLE, "jsonschema is not installed")
+    def test_fallback_and_jsonschema_agree_on_representative_payloads(self):
+        import jsonschema
+
+        cases = []
+        for name, base in (("order_intent", ORDER_INTENT_PAYLOAD), ("audit_event", AUDIT_EVENT_PAYLOAD)):
+            domain = "trading" if name == "order_intent" else "audit"
+            schema = self.validator.load_schema(domain, name)
+            timestamp_field = "created_at" if name == "order_intent" else "occurred_at"
+            missing = copy.deepcopy(base)
+            missing.pop("trace_id")
+            extra = copy.deepcopy(base)
+            extra["unexpected_field"] = True
+            bad_time = copy.deepcopy(base)
+            bad_time[timestamp_field] = "yesterday"
+            wrong_type = copy.deepcopy(base)
+            wrong_type["trace_id"] = 123
+            for label, payload in (
+                ("valid", base),
+                ("missing", missing),
+                ("extra", extra),
+                ("bad_time", bad_time),
+                ("wrong_type", wrong_type),
+            ):
+                cases.append((f"{name}:{label}", schema, payload))
+
+        for label, schema, payload in cases:
+            with self.subTest(case=label):
+                fallback_valid = not self.validator._minimal_validate(schema, copy.deepcopy(payload))
+                library_valid = not self.validator._jsonschema_validate(jsonschema, schema, copy.deepcopy(payload))
+                self.assertEqual(fallback_valid, library_valid)
+
+    def test_fallback_validator_fails_closed_on_unsupported_keywords(self):
+        with tempfile.TemporaryDirectory() as directory:
+            domain = Path(directory) / "demo"
+            domain.mkdir()
+            (domain / "conditional.schema.json").write_text(
+                json.dumps(
+                    {
+                        "type": "object",
+                        "properties": {"mode": {"type": "string"}},
+                        "allOf": [{"required": ["mode"]}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            validator = ContractValidator(directory)
+            schema = validator.load_schema("demo", "conditional")
+
+            errors = validator._minimal_validate(schema, {})
+
+        self.assertTrue(errors)
+        self.assertIn("allOf", errors[0])
+
+    def test_fallback_validator_enforces_unique_and_maximum_constraints(self):
+        schema = {
+            "type": "object",
+            "properties": {
+                "tags": {"type": "array", "uniqueItems": True, "maxItems": 3, "items": {"type": "string", "maxLength": 4}},
+                "ratio": {"type": "number", "exclusiveMaximum": 1},
+            },
+        }
+
+        self.assertEqual(self.validator._minimal_validate(schema, {"tags": ["a", "b"], "ratio": 0.5}), [])
+        self.assertTrue(self.validator._minimal_validate(schema, {"tags": ["a", "a"]}))
+        self.assertTrue(self.validator._minimal_validate(schema, {"tags": ["a", "b", "c", "d"]}))
+        self.assertTrue(self.validator._minimal_validate(schema, {"tags": ["toolong"]}))
+        self.assertTrue(self.validator._minimal_validate(schema, {"ratio": 1}))
 
 
 if __name__ == "__main__":

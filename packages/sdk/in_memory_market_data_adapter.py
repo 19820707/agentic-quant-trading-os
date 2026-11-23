@@ -15,6 +15,7 @@ from packages.common import (
     OrderBookSnapshot,
     TradeTick,
 )
+from packages.common.market_data import is_within_request_window
 
 
 @dataclass(frozen=True)
@@ -30,7 +31,11 @@ class InMemoryMarketDataSnapshot:
 
 @dataclass
 class InMemoryMarketDataAdapter:
-    """Read-only adapter backed by static in-memory market data."""
+    """Read-only adapter backed by static in-memory market data.
+
+    Every fetch honours the request time window, so a point-in-time request
+    (``end_time`` set) never returns records dated after it.
+    """
 
     name: str = "in-memory-market-data"
     snapshot: InMemoryMarketDataSnapshot = field(default_factory=InMemoryMarketDataSnapshot)
@@ -54,33 +59,56 @@ class InMemoryMarketDataAdapter:
         return self._filter_symbol_venue(self.snapshot.trades, request)
 
     def fetch_order_book(self, request: MarketDataRequest) -> OrderBookSnapshot:
-        matches = self._filter_symbol_venue(self.snapshot.order_books, request)
+        matches = tuple(
+            book
+            for book in self.snapshot.order_books
+            if book.symbol == request.symbol
+            and book.venue == request.venue
+            and is_within_request_window(book.timestamp, request)
+        )
         if not matches:
             return OrderBookSnapshot(
                 symbol=request.symbol,
                 venue=request.venue,
-                timestamp=datetime.now(timezone.utc),
+                timestamp=request.end_time or datetime.now(timezone.utc),
                 bids=[],
                 asks=[],
             )
-        return matches[-1]
+        # Latest book as of the request window, regardless of snapshot order.
+        return max(matches, key=lambda book: book.timestamp)
 
     def fetch_funding_rates(self, request: MarketDataRequest) -> tuple[FundingRate, ...]:
         return self._filter_symbol_venue(self.snapshot.funding_rates, request)
 
     def fetch_market_calendar(self, request: MarketDataRequest) -> tuple[MarketCalendarEvent, ...]:
-        return tuple(event for event in self.snapshot.market_calendar if event.venue == request.venue)
+        return tuple(
+            event
+            for event in self.snapshot.market_calendar
+            if event.venue == request.venue and is_within_request_window(event.starts_at, request)
+        )
 
     def fetch_economic_calendar(self, request: MarketDataRequest) -> tuple[EconomicCalendarEvent, ...]:
-        return self._limit(self.snapshot.economic_calendar, request)
+        return self._limit(
+            (
+                event
+                for event in self.snapshot.economic_calendar
+                if is_within_request_window(event.scheduled_at, request)
+            ),
+            request,
+        )
 
     def fetch_news(self, request: MarketDataRequest) -> tuple[NewsEvent, ...]:
-        return self._limit(self.snapshot.news, request)
+        return self._limit(
+            (item for item in self.snapshot.news if is_within_request_window(item.published_at, request)),
+            request,
+        )
 
     def _filter_symbol_venue(self, items: Iterable, request: MarketDataRequest) -> tuple:
         matches = tuple(
             item for item in items
-            if item.symbol == request.symbol and item.venue == request.venue
+            if item.symbol == request.symbol
+            and item.venue == request.venue
+            and is_within_request_window(item.timestamp, request)
         )
         return self._limit(matches, request)
 

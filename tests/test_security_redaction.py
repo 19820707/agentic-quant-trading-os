@@ -1,7 +1,14 @@
 import copy
 import unittest
 
-from packages.common.security import REDACTED_VALUE, is_sensitive_key, redact_secrets, redact_value
+from packages.common.security import (
+    MAX_REDACTION_DEPTH,
+    REDACTED_VALUE,
+    is_sensitive_key,
+    redact_secrets,
+    redact_text,
+    redact_value,
+)
 
 
 class SecurityRedactionTests(unittest.TestCase):
@@ -98,6 +105,103 @@ class SecurityRedactionTests(unittest.TestCase):
 
         self.assertEqual(redact_value(text), text)
         self.assertEqual(redact_secrets(text), text)
+
+    def test_compound_and_camel_case_secret_names_are_redacted(self):
+        sensitive = [
+            "client_secret",
+            "api_secret",
+            "apiSecret",
+            "X-Api-Key",
+            "x_api_key",
+            "APIKey",
+            "db_password",
+            "dbPassword",
+            "session_token",
+            "sessionToken",
+            "id_token",
+            "aws_secret_access_key",
+            "wallet_private_key",
+            "key_passphrase",
+            "Set-Cookie",
+            "exchange.api.key",
+        ]
+
+        for key in sensitive:
+            with self.subTest(key=key):
+                self.assertTrue(is_sensitive_key(key))
+                self.assertEqual(redact_secrets({key: "example"})[key], REDACTED_VALUE)
+
+    def test_policy_flags_and_identifiers_are_not_redacted(self):
+        readable = [
+            "contains_secrets",
+            "secret_storage_allowed",
+            "max_tokens_per_task",
+            "key_findings",
+            "token_id",
+            "random_seed",
+            "author",
+            "monkey",
+            "tokenizer",
+            "symbol",
+        ]
+
+        for key in readable:
+            with self.subTest(key=key):
+                self.assertFalse(is_sensitive_key(key))
+                self.assertEqual(redact_secrets({key: "visible"})[key], "visible")
+
+    def test_secret_shaped_text_is_redacted_inside_free_text(self):
+        samples = {
+            "upstream said Authorization: Bearer abc123.def456-ghi789": "abc123.def456-ghi789",
+            "connect to postgres://trader:hunter2secret@db.internal:5432/app": "hunter2secret",
+            "leaked AKIA" + "ABCDEFGHIJKLMNOP in a log line": "AKIA" + "ABCDEFGHIJKLMNOP",
+            "key sk" + "-ant-api03-abcdefghijklmnopqrstuvwxyz was pasted": "abcdefghijklmnopqrstuvwxyz",
+            "jwt ey" + "JhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.abcdefghijklmnop": "abcdefghijklmnop",
+        }
+
+        for text, secret in samples.items():
+            with self.subTest(text=text[:24]):
+                redacted = redact_text(text)
+                self.assertNotIn(secret, redacted)
+                self.assertIn(REDACTED_VALUE, redacted)
+
+    def test_free_text_keeps_context_around_the_secret(self):
+        redacted = redact_text("connect to postgres://trader:hunter2secret@db.internal:5432/app")
+
+        self.assertEqual(redacted, f"connect to postgres://trader:{REDACTED_VALUE}@db.internal:5432/app")
+
+    def test_ordinary_prose_is_not_redacted(self):
+        for text in (
+            "the bearer of this responsibility is the risk gateway",
+            "token budget exceeded for task 42",
+            "see https://example.com/docs:8080/path for details",
+            "BTC/USDT order skipped: paper mode only",
+        ):
+            with self.subTest(text=text):
+                self.assertEqual(redact_text(text), text)
+
+    def test_secret_shaped_values_under_safe_keys_are_redacted(self):
+        payload = {"note": "retry with Bearer abc123.def456-ghi789", "items": ["plain", "AKIA" + "ABCDEFGHIJKLMNOP"]}
+
+        redacted = redact_secrets(payload)
+
+        self.assertNotIn("abc123.def456-ghi789", redacted["note"])
+        self.assertEqual(redacted["items"], ["plain", REDACTED_VALUE])
+
+    def test_cyclic_payload_is_cut_off_instead_of_recursing_forever(self):
+        payload: dict[str, object] = {"name": "loop"}
+        payload["self"] = payload
+
+        redacted = redact_secrets(payload)
+
+        self.assertEqual(redacted["name"], "loop")
+        node: object = redacted
+        steps = 0
+        while isinstance(node, dict):
+            node = node["self"]
+            steps += 1
+        self.assertEqual(node, REDACTED_VALUE)
+        self.assertLessEqual(steps, MAX_REDACTION_DEPTH + 1)
 
     def test_no_network_or_credentials_required(self):
         payload = {"message": "local-only redaction", "adapter": "in-memory"}
