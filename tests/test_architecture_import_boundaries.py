@@ -42,6 +42,13 @@ BROKER_EXCHANGE_MODULES = frozenset(
 # controlled-live implementation behind the Deterministic Risk Gateway.
 BROKER_IMPORT_ALLOWED_PREFIXES = ("services/execution-engine/",)
 
+# docs/integrations/ccxt_import_guard_design.md names one further location: a
+# future, separately approved, public read-only client factory may import ccxt
+# inside this single module, and nowhere else.
+READ_ONLY_IMPORT_EXCEPTIONS = {
+    "packages/sdk/market_data_adapters/ccxt_factory.py": frozenset({"ccxt"}),
+}
+
 # Shared packages are pure: no network, no subprocesses.
 NETWORK_AND_PROCESS_MODULES = frozenset(
     {
@@ -129,11 +136,24 @@ class ImportBoundaryTests(unittest.TestCase):
             f"{path}: {sorted(found)}"
             for path, tree in self.trees.items()
             if not path.startswith(BROKER_IMPORT_ALLOWED_PREFIXES)
-            for found in [imported_top_level_modules(tree) & BROKER_EXCHANGE_MODULES]
+            for found in [
+                (imported_top_level_modules(tree) & BROKER_EXCHANGE_MODULES)
+                - READ_ONLY_IMPORT_EXCEPTIONS.get(path, frozenset())
+            ]
             if found
         ]
 
         self.assertEqual(violations, [])
+
+    def test_read_only_import_exceptions_match_the_documented_location(self):
+        design = (ROOT / "docs" / "integrations" / "ccxt_import_guard_design.md").read_text(encoding="utf-8")
+
+        for path, modules in READ_ONLY_IMPORT_EXCEPTIONS.items():
+            with self.subTest(path=path):
+                self.assertIn(path, design)
+                self.assertTrue((ROOT / path).is_file())
+                self.assertEqual(modules, frozenset({"ccxt"}))
+        self.assertIn("no import in services", design)
 
     def test_scaffold_phase_has_no_broker_or_exchange_imports_at_all(self):
         # Research-only phase: not even the execution engine imports one yet.
