@@ -29,6 +29,8 @@ jobs:
         run: python scripts/scaffold_audit.py
       - name: Run scaffold audit unit tests
         run: python -m unittest discover -s tests -p "test_scaffold_audit.py"
+      - name: Run service placeholder static tests
+        run: python -m unittest discover -s tests -p "test_service_placeholder_static.py"
       - name: Run CI test coverage guard tests
         run: python -m unittest discover -s tests -p "test_ci_test_coverage.py"
 
