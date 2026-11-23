@@ -16,6 +16,10 @@ CodeQL is advisory until GitHub Code Scanning is enabled for the repository. The
 
 Local secret and artifact hygiene auditing is approved as a standard-library CI gate. It blocks real `.env` files, private-key material, token-like values, local databases, model checkpoints and generated data artifacts without calling external services.
 
+Dependabot version updates are approved for the `github-actions` ecosystem only. Workflow actions are pinned to full commit hashes, and Dependabot proposes updates to those pins as ordinary pull requests on a weekly schedule. It requires no project secrets, has no auto-merge, and every proposal goes through normal review and CI. Extending Dependabot to other ecosystems, or enabling auto-merge, requires a separate approval PR.
+
+CI may install the runtime dependencies already declared in `pyproject.toml`, and only those, in a dedicated full-suite job. Adding a dependency still requires its own review.
+
 ## Tool Classes
 
 | Tool category | Default state | Approval required | Secrets required | Runtime environment |

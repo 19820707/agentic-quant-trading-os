@@ -1,0 +1,12 @@
+# Version updates for the GitHub Actions pinned by commit hash in the workflows.
+# Scope is deliberately narrow: actions only, weekly, no auto-merge. Every
+# update arrives as a pull request and goes through normal review and CI.
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 3
+    commit-message:
+      prefix: "ci"
