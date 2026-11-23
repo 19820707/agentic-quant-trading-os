@@ -12,6 +12,7 @@ from packages.common import (
     OrderBookSnapshot,
     TradeTick,
 )
+from packages.common.market_data import is_within_request_window
 
 
 PROHIBITED_CLIENT_METHODS = frozenset(
@@ -72,6 +73,14 @@ class UnsafeCcxtClientError(ValueError):
     """Raised when an injected client exposes execution-like methods."""
 
 
+class MissingMarketDataTimestampError(ValueError):
+    """Raised when a venue record has no timestamp.
+
+    Substituting the wall clock would make historical data look current and
+    break point-in-time guarantees, so the adapter fails closed instead.
+    """
+
+
 class CcxtReadOnlyMarketDataAdapter:
     """Read-only CCXT-shaped market data adapter skeleton.
 
@@ -103,11 +112,13 @@ class CcxtReadOnlyMarketDataAdapter:
 
     def fetch_ohlcv(self, request: MarketDataRequest) -> tuple[OHLCVBar, ...]:
         rows = self._client.fetch_ohlcv(request.symbol, limit=request.limit)
-        return tuple(self._ohlcv_row_to_bar(request, row) for row in rows)
+        bars = (self._ohlcv_row_to_bar(request, row) for row in rows)
+        return tuple(bar for bar in bars if is_within_request_window(bar.timestamp, request))
 
     def fetch_trades(self, request: MarketDataRequest) -> tuple[TradeTick, ...]:
         rows = self._client.fetch_trades(request.symbol, limit=request.limit)
-        return tuple(self._trade_to_tick(request, row) for row in rows)
+        ticks = (self._trade_to_tick(request, row) for row in rows)
+        return tuple(tick for tick in ticks if is_within_request_window(tick.timestamp, request))
 
     def fetch_order_book(self, request: MarketDataRequest) -> OrderBookSnapshot:
         data = self._client.fetch_order_book(request.symbol, limit=request.limit)
@@ -161,7 +172,7 @@ class CcxtReadOnlyMarketDataAdapter:
 
     def _timestamp(self, value: Any) -> datetime:
         if value is None:
-            return datetime.now(timezone.utc)
+            raise MissingMarketDataTimestampError("market data record has no timestamp")
         if isinstance(value, datetime):
             return value if value.tzinfo is not None else value.replace(tzinfo=timezone.utc)
         seconds = float(Decimal(str(value)) / Decimal("1000"))

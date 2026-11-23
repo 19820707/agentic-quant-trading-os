@@ -195,6 +195,85 @@ class AgenticSelfProgrammingGovernanceTests(unittest.TestCase):
         )
         self.assertEqual(missing_tests.policy_decision, AgentPolicyDecision.BLOCK)
 
+    def _assess_paths(self, proposed, targets=None):
+        return self.policy_engine.assess(
+            AgentTask(
+                task_id="task_paths",
+                requested_role="engineer",
+                task_type="change",
+                summary="Routine update.",
+                target_files=tuple(proposed if targets is None else targets),
+            ),
+            AgentPatchPlan(
+                task_id="task_paths",
+                proposed_files=tuple(proposed),
+                test_commands=("python scripts/scaffold_audit.py",),
+                rollback_plan="Revert branch before merge.",
+            ),
+        )
+
+    def test_policy_engine_blocks_plan_without_proposed_files(self):
+        assessment = self._assess_paths((), targets=("docs/architecture/example.md",))
+
+        self.assertEqual(assessment.policy_decision, AgentPolicyDecision.BLOCK)
+
+    def test_policy_engine_blocks_absolute_and_traversal_paths(self):
+        for path in ("/etc/passwd", "docs/../services/execution-engine/app/main.py", "~/notes.md", "C:/repo/docs/a.md"):
+            with self.subTest(path=path):
+                self.assertEqual(self._assess_paths((path,)).policy_decision, AgentPolicyDecision.BLOCK)
+
+    def test_policy_engine_blocks_files_outside_declared_targets(self):
+        assessment = self._assess_paths(
+            ("docs/architecture/example.md", "docs/runbooks/extra.md"),
+            targets=("docs/architecture/example.md",),
+        )
+
+        self.assertEqual(assessment.policy_decision, AgentPolicyDecision.BLOCK)
+
+    def test_policy_engine_blocks_hyphenated_critical_service_paths(self):
+        for path in (
+            "services/order-intent-service/app/main.py",
+            "services/deterministic-risk-gateway/app/main.py",
+            "services/execution-engine/tests/test_placeholder.py",
+        ):
+            with self.subTest(path=path):
+                self.assertEqual(self._assess_paths((path,)).policy_decision, AgentPolicyDecision.BLOCK)
+
+    def test_policy_engine_requires_human_review_for_governance_and_build_paths(self):
+        for path in (
+            "AGENTS.md",
+            "CODEOWNERS",
+            "SECURITY.md",
+            "security/threat_model.md",
+            "docs/security/security_tooling_integration_policy.md",
+            ".github/CODEOWNERS",
+            "pyproject.toml",
+            "docker-compose.yml",
+            "Makefile",
+            "packages/common/security.py",
+        ):
+            with self.subTest(path=path):
+                assessment = self._assess_paths((path,))
+                self.assertEqual(assessment.policy_decision, AgentPolicyDecision.REQUIRE_HUMAN_REVIEW)
+                self.assertEqual(assessment.risk_level, AgentRiskLevel.HIGH)
+
+    def test_policy_engine_requires_human_review_for_unclassified_paths(self):
+        for path in (
+            "services/signal-engine/app/main.py",
+            "packages/contracts/validator.py",
+            "apps/control-plane-dashboard/index.html",
+            "README.md",
+            "new_top_level_module.py",
+        ):
+            with self.subTest(path=path):
+                assessment = self._assess_paths((path,))
+                self.assertEqual(assessment.policy_decision, AgentPolicyDecision.REQUIRE_HUMAN_REVIEW)
+
+    def test_policy_engine_does_not_allow_pr_only_when_one_path_is_not_low_impact(self):
+        assessment = self._assess_paths(("docs/architecture/example.md", "README.md"))
+
+        self.assertEqual(assessment.policy_decision, AgentPolicyDecision.REQUIRE_HUMAN_REVIEW)
+
     def test_pr_only_guard_rejects_human_review_or_blocked_assessments(self):
         assessment = self.policy_engine.assess(
             AgentTask(

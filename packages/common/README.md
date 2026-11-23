@@ -32,7 +32,7 @@ Withdrawal keys must never be used. If a withdrawal-related key appears in diagn
 
 Use `redact_secrets()` on structured audit-like, execution-report-like, error and report payloads before they reach logs, audit sinks, reports or debugging output.
 
-Current redaction is key-based. Sensitive values must be carried in structured fields such as `api_key`, `token`, `authorization`, `broker_key`, `exchange_key`, `credentials` or `withdrawal_key` so they can be redacted deterministically. Free-form strings are not parsed for secret patterns in this scaffold phase.
+Redaction is primarily key-based. Sensitive values should be carried in structured fields such as `api_key`, `token`, `authorization`, `broker_key`, `exchange_key`, `credentials` or `withdrawal_key`; compound and camelCase names that end in a sensitive name (`client_secret`, `X-Api-Key`, `dbPassword`) are redacted too. As a second line of defence, `redact_text()` replaces secret-shaped substrings inside free-form strings (bearer credentials, passwords in URLs, private key blocks, JSON Web Tokens and common provider key formats). It is pattern-based and cannot recognise every secret, so free text must still not be used to carry credentials.
 
 ## Structured Audit Event Builder
 

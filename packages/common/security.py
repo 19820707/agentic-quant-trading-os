@@ -94,24 +94,71 @@ def is_sensitive_key(key: str) -> bool:
     return False
 
 
-def redact_value(value: object) -> object:
-    """Redact nested containers while leaving scalar values unchanged."""
+# Nesting deeper than this is replaced rather than walked, so a cyclic or
+# hostile payload cannot exhaust the stack while being redacted.
+MAX_REDACTION_DEPTH = 64
 
+# Secret-shaped substrings inside free text. Each match is replaced as a whole,
+# except where a named ``keep`` group marks a prefix that stays readable.
+_SECRET_TEXT_PATTERNS = (
+    re.compile(r"-----BEGIN [A-Z ]*PRIVATE KEY-----.*?(?:-----END [A-Z ]*PRIVATE KEY-----|\Z)", re.DOTALL),
+    re.compile(r"(?i)(?P<keep>\bbearer\s+)(?=[A-Za-z0-9._~+/=\-]*[0-9._=\-])[A-Za-z0-9._~+/=\-]{8,}"),
+    re.compile(r"(?P<keep>[a-zA-Z][a-zA-Z0-9+.\-]*://[^/\s:@]+:)[^@\s/]+(?=@)"),
+    re.compile(r"\beyJ[A-Za-z0-9_\-]{10,}\.eyJ[A-Za-z0-9_\-]{10,}\.[A-Za-z0-9_\-]{10,}"),
+    re.compile(r"\bAKIA[0-9A-Z]{16}\b"),
+    re.compile(r"\bgh[pousr]_[A-Za-z0-9_]{20,}\b"),
+    re.compile(r"\bsk-(?:[a-z0-9]+-)*[A-Za-z0-9_\-]{20,}"),
+    re.compile(r"\bAIza[0-9A-Za-z_\-]{35}\b"),
+    re.compile(r"\bxox[abprs]-[A-Za-z0-9\-]{10,}"),
+)
+
+
+def _replace_secret_match(match: re.Match[str]) -> str:
+    kept = match.groupdict().get("keep") or ""
+    return kept + REDACTED_VALUE
+
+
+def redact_text(text: str) -> str:
+    """Replace secret-shaped substrings in free text and keep the rest readable.
+
+    Covers bearer credentials, passwords embedded in URLs, private key blocks,
+    JSON Web Tokens and common provider key formats. Ordinary prose that only
+    mentions words such as "token" is returned unchanged.
+    """
+
+    for pattern in _SECRET_TEXT_PATTERNS:
+        text = pattern.sub(_replace_secret_match, text)
+    return text
+
+
+def _redact(value: object, depth: int) -> object:
+    if depth > MAX_REDACTION_DEPTH:
+        return REDACTED_VALUE
     if isinstance(value, Mapping):
-        return redact_mapping(value)
-    if isinstance(value, (str, bytes, bytearray)):
+        return {
+            key: REDACTED_VALUE if is_sensitive_key(str(key)) else _redact(item, depth + 1)
+            for key, item in value.items()
+        }
+    if isinstance(value, str):
+        return redact_text(value)
+    if isinstance(value, (bytes, bytearray)):
         return value
     if isinstance(value, Sequence):
-        return redact_sequence(value)
+        return [_redact(item, depth + 1) for item in value]
     return value
+
+
+def redact_value(value: object) -> object:
+    """Redact nested containers and secret-shaped text; other scalars are unchanged."""
+
+    return _redact(value, 0)
 
 
 def redact_mapping(data: Mapping[str, object]) -> dict[str, object]:
     """Return a redacted copy of a mapping without mutating the input."""
 
-    redacted: dict[str, object] = {}
-    for key, value in data.items():
-        redacted[key] = REDACTED_VALUE if is_sensitive_key(str(key)) else redact_value(value)
+    redacted = _redact(data, 0)
+    assert isinstance(redacted, dict)
     return redacted
 
 
@@ -119,8 +166,10 @@ def redact_sequence(data: Sequence[object]) -> list[object]:
     """Return a redacted list copy of a sequence without mutating the input."""
 
     if isinstance(data, (str, bytes, bytearray)):
-        return [data]
-    return [redact_value(item) for item in data]
+        return [redact_value(data)]
+    redacted = _redact(data, 0)
+    assert isinstance(redacted, list)
+    return redacted
 
 
 def redact_secrets(data: object) -> object:

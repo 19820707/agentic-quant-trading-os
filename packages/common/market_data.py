@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from decimal import Decimal
 
 
@@ -14,6 +14,26 @@ class MarketDataRequest:
     start_time: datetime | None = None
     end_time: datetime | None = None
     limit: int | None = None
+
+
+def _as_utc(value: datetime) -> datetime:
+    return value if value.tzinfo is not None else value.replace(tzinfo=timezone.utc)
+
+
+def is_within_request_window(timestamp: datetime, request: MarketDataRequest) -> bool:
+    """Return true when a record timestamp is inside the request time window.
+
+    Both bounds are inclusive and optional. Honouring ``end_time`` is what keeps
+    a point-in-time request from seeing records published after it (lookahead).
+    Naive datetimes are read as UTC.
+    """
+
+    moment = _as_utc(timestamp)
+    if request.start_time is not None and moment < _as_utc(request.start_time):
+        return False
+    if request.end_time is not None and moment > _as_utc(request.end_time):
+        return False
+    return True
 
 
 @dataclass(frozen=True)

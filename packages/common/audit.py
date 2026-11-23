@@ -13,7 +13,7 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from uuid import uuid4
 
-from packages.common.security import redact_secrets
+from packages.common.security import redact_secrets, redact_text
 
 
 class AuditEventBuildError(ValueError):
@@ -119,7 +119,7 @@ class AuditEventEmitter:
         }
 
         if reason is not None:
-            payload["reason"] = reason
+            payload["reason"] = redact_text(reason) if isinstance(reason, str) else reason
 
         redacted_metadata = _redact_optional_mapping(metadata)
         redacted_before = _redact_optional_mapping(before)

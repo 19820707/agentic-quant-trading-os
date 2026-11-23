@@ -62,6 +62,24 @@ class ControlPlaneDashboardScaffoldTests(unittest.TestCase):
         self.assertIn("no credentials", readme)
         self.assertIn("no trading actions", readme)
 
+    def test_dashboard_enforces_a_restrictive_content_security_policy(self):
+        text = INDEX.read_text(encoding="utf-8")
+
+        self.assertIn('http-equiv="Content-Security-Policy"', text)
+        for directive in (
+            "default-src 'none'",
+            "style-src 'self'",
+            "base-uri 'none'",
+            "form-action 'none'",
+        ):
+            with self.subTest(directive=directive):
+                self.assertIn(directive, text)
+        for unsafe in ("'unsafe-inline'", "'unsafe-eval'", "script-src", "connect-src", "<script"):
+            with self.subTest(unsafe=unsafe):
+                self.assertNotIn(unsafe, text)
+        self.assertNotIn("style=", text)
+        self.assertIn('name="referrer" content="no-referrer"', text)
+
     def test_dashboard_documents_future_frontend_dependency_gate(self):
         readme = README.read_text(encoding="utf-8").lower()
 
