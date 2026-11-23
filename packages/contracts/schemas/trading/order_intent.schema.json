@@ -55,10 +55,12 @@
       "minLength": 1
     },
     "portfolio_id": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "account_id": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "symbol": {
       "type": "string",
@@ -171,20 +173,25 @@
       "type": "boolean"
     },
     "client_tag": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "rationale": {
       "type": "string",
-      "description": "Human-readable reason or model/strategy rationale. Must not contain secrets."
+      "description": "Human-readable reason or model/strategy rationale. Must not contain secrets.",
+      "minLength": 1
     },
     "features_snapshot_id": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "dataset_snapshot_id": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "regime_id": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "confidence": {
       "type": "number",
@@ -213,7 +220,8 @@
     },
     "created_by": {
       "type": "string",
-      "description": "Service or actor that created the intent."
+      "description": "Service or actor that created the intent.",
+      "minLength": 1
     },
     "metadata": {
       "type": "object",

@@ -152,13 +152,16 @@
       "minLength": 1
     },
     "dataset_snapshot_id": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "model_version": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "prediction_id": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "signal_id": {
       "type": "string",
@@ -185,20 +188,25 @@
       "pattern": "^exec_report_[A-Za-z0-9_\\-]+$"
     },
     "fill_id": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "portfolio_update_id": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "policy_decision_id": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "incident_id": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "reason": {
       "type": "string",
-      "description": "Human-readable reason. Must not contain secrets or credentials."
+      "description": "Human-readable reason. Must not contain secrets or credentials.",
+      "minLength": 1
     },
     "before": {
       "type": "object",
@@ -237,11 +245,13 @@
     },
     "hash": {
       "type": "string",
-      "description": "Optional hash of this event for append-only audit chaining."
+      "description": "Optional hash of this event for append-only audit chaining.",
+      "minLength": 1
     },
     "previous_hash": {
       "type": "string",
-      "description": "Optional previous event hash for hash chaining."
+      "description": "Optional previous event hash for hash chaining.",
+      "minLength": 1
     },
     "occurred_at": {
       "type": "string",
@@ -252,7 +262,8 @@
       "format": "date-time"
     },
     "source_service": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "metadata": {
       "type": "object",

@@ -48,6 +48,40 @@ UNSUPPORTED_FALLBACK_KEYWORDS = frozenset(
 )
 
 
+# Defensive size limits applied to every payload before schema validation, so
+# an oversized or deeply nested message is refused cheaply instead of being
+# walked, logged or stored.
+MAX_PAYLOAD_STRING_LENGTH = 16_384
+MAX_PAYLOAD_DEPTH = 32
+MAX_PAYLOAD_NODES = 50_000
+
+
+def check_payload_limits(payload: object) -> list[str]:
+    """Return size-limit problems for a JSON-compatible payload, or an empty list."""
+
+    nodes = 0
+    stack: list[tuple[object, int, str]] = [(payload, 0, "$")]
+    while stack:
+        value, depth, path = stack.pop()
+        nodes += 1
+        if nodes > MAX_PAYLOAD_NODES:
+            return [f"payload has more than {MAX_PAYLOAD_NODES} values"]
+        if depth > MAX_PAYLOAD_DEPTH:
+            return [f"{path}: nesting is deeper than {MAX_PAYLOAD_DEPTH} levels"]
+        if isinstance(value, str):
+            if len(value) > MAX_PAYLOAD_STRING_LENGTH:
+                return [f"{path}: string is longer than {MAX_PAYLOAD_STRING_LENGTH} characters"]
+        elif isinstance(value, dict):
+            for key, item in value.items():
+                if isinstance(key, str) and len(key) > MAX_PAYLOAD_STRING_LENGTH:
+                    return [f"{path}: property name is longer than {MAX_PAYLOAD_STRING_LENGTH} characters"]
+                stack.append((item, depth + 1, f"{path}.{key}"[:200]))
+        elif isinstance(value, (list, tuple)):
+            for index, item in enumerate(value):
+                stack.append((item, depth + 1, f"{path}[{index}]"))
+    return []
+
+
 def _is_valid_date_time(value: object) -> bool:
     if not isinstance(value, str):
         return True
@@ -109,6 +143,13 @@ class ContractValidator:
     def validate(self, domain: str, name: str, payload: dict[str, Any]) -> ValidationResult:
         schema = self.load_schema(domain, name)
         schema_id = schema.get("$id")
+
+        # Checked before the deep copy: the limits exist to avoid doing work on
+        # oversized input. The walk is iterative, so it cannot overflow the stack.
+        limit_errors = check_payload_limits(payload)
+        if limit_errors:
+            return ValidationResult(valid=False, errors=limit_errors, schema_id=schema_id)
+
         payload_copy = copy.deepcopy(payload)
 
         try:

@@ -71,10 +71,12 @@
       }
     },
     "test_plan": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "decay_policy": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "next_review_at": {
       "type": "string",

@@ -53,7 +53,8 @@
     },
     "broker_order_id": {
       "type": "string",
-      "description": "Optional external broker/exchange order identifier. Must not contain credentials."
+      "description": "Optional external broker/exchange order identifier. Must not contain credentials.",
+      "minLength": 1
     },
     "order_intent_id": {
       "type": "string",
@@ -64,16 +65,20 @@
       "pattern": "^risk_[A-Za-z0-9_\\-]+$"
     },
     "strategy_id": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "model_version": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "portfolio_id": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "account_id": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "execution_mode": {
       "type": "string",
@@ -176,7 +181,8 @@
           "minimum": 0
         },
         "currency": {
-          "type": "string"
+          "type": "string",
+          "minLength": 1
         }
       }
     },
@@ -188,14 +194,17 @@
       "minimum": 0
     },
     "reject_reason": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "error_code": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "error_message": {
       "type": "string",
-      "description": "Must not contain secrets or credentials."
+      "description": "Must not contain secrets or credentials.",
+      "minLength": 1
     },
     "reconciliation_required": {
       "type": "boolean"
@@ -216,7 +225,8 @@
     },
     "reported_by": {
       "type": "string",
-      "description": "execution-engine or paper-trading-engine service/version."
+      "description": "execution-engine or paper-trading-engine service/version.",
+      "minLength": 1
     },
     "metadata": {
       "type": "object",

@@ -43,7 +43,8 @@
       "minLength": 1
     },
     "market_id": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "market_category": {
       "type": "string",
